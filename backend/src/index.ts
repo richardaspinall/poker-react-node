@@ -1,5 +1,6 @@
 import { createServer } from 'http';
 import express, { Request, Response } from 'express';
+import router from './routes';
 
 const app = express();
 
@@ -7,16 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.use('/api', router);
+
 const httpServer = createServer(app);
-
-// routing
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
-});
-
-app.post('/', (req: Request, res: Response) => {
-  res.send('Hello Client!');
-  console.log(req.body);
-});
 
 httpServer.listen(3000);
