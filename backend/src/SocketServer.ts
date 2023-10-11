@@ -1,14 +1,7 @@
 import { Server as HttpServer } from 'http';
 import { Server as IOServer, Socket } from 'socket.io';
 
-// These are all the event types that can be passed between the client and the server
-export interface ClientToServerEvents {
-  hello_from_client: (value: string, callback: (statusCode: number) => void) => void;
-}
-
-export interface ServerToClientEvents {
-  hello_from_server: () => void;
-}
+import { ClientToServerEvents, ServerToClientEvents } from './Types';
 
 export default class SocketServer {
   private static io: IOServer;
