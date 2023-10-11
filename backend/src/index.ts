@@ -2,7 +2,7 @@ import { createServer } from 'http';
 import express from 'express';
 import cors from 'cors';
 import router from './routes';
-import SocketServer from './SocketServer';
+import SocketServer from './sockets/SocketServer';
 
 const app = express();
 
