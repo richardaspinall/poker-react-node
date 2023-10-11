@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest $npm_config_file",
-    "start:dev": "nodemon"
+    "dev": "nodemon"
   },
   "author": "",
   "license": "ISC",
