@@ -2,6 +2,10 @@
 
 poker game in react and node
 
+## Run
+
+`npm run start:dev` (runs the frontend and backend at the same time)
+
 ## Skipping husky (when commiting work):
 
 `git commit --no-verify -m "message"`

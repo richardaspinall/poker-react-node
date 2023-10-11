@@ -6,7 +6,7 @@
 
 ## Run
 
-`npm run start:dev`
+`npm run dev`
 
 ## Run tests:
 
