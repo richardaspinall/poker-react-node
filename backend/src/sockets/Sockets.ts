@@ -8,10 +8,8 @@ export type ClientId = string;
 export default class Sockets {
   // For now the socket map is just a map of client id to socket id but we will change this later
   //
-  // TODO: This should be `socket.id socket` (<string, Socket>)so we can send messages to specific clients
-  //
-  // We would then save a reference of the socket.id in the player object to look it up. And then when we
-  // sessions, we might change this to a new id that we generate
+  // We would save a reference of the socket.id in the player object to look it up. And then when we get to
+  // sessions, we will change this to a new id that we generate
   private static socketMap = new Map<ClientId, Socket>();
 
   public static setUpSocket(socket: Socket) {
