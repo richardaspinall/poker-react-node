@@ -10,7 +10,7 @@ export function MyForm() {
     setIsLoading(true);
 
     // This is how you emit an event and get a response back via the server callback "response".
-    socket.timeout(5000).emit('hello_from_client', value, (err, statusCode) => {
+    socket.timeout(5000).emit('hello_from_client', value, (err: string, statusCode: number) => {
       if (err) {
         console.log(err);
       } else {

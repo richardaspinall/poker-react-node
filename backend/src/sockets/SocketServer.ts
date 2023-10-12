@@ -1,7 +1,8 @@
 import { Server as HttpServer } from 'http';
 import { Server as IOServer, Socket } from 'socket.io';
 
-import GameSockets, { ClientToServerEvents, ServerToClientEvents } from './GameSockets';
+import GameSockets from './Sockets';
+import { ClientToServerEvents, ServerToClientEvents } from './SocketEvents';
 
 export default class SocketServer {
   private static io: IOServer;
@@ -23,16 +24,18 @@ export default class SocketServer {
     }
   }
 
+  public static sendEventToClient(socket: Socket, event: string, payload: any) {
+    socket.emit(event, payload);
+  }
+
+  public static sendEventToRoom(roomId: string, event: string, payload: any) {
+    this.io.to(roomId).emit(event, payload);
+  }
+
   private static onConnection(socket: Socket) {
     console.log('connected');
 
-    // response is a callback function that can be used to send data back to the client
-    socket.on('hello_from_client', (value: string, response) => {
-      console.log(value);
-      response(200);
-    });
-
-    socket.emit('hello_from_server');
-    GameSockets.setupSocket(socket);
+    SocketServer.sendEventToClient(socket, 'hello_from_server', null);
+    GameSockets.setUpSocket(socket);
   }
 }
