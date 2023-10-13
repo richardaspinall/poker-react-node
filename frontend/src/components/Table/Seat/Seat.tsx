@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react';
 import { Socket } from 'socket.io-client';
-import FetchFasade from '../../fetch/FetchFasade';
+import FetchFasade from '../../../fetch/FetchFasade';
 
-type Props = {
+type SeatProps = {
   seatNumber: string;
+  chipCount: number;
   socket: Socket;
 };
 
-export default function Seat({ seatNumber, socket }: Props) {
+export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
   const playerSit = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
     const result = await FetchFasade.post('/api/actions/playerSit', payload);
@@ -20,7 +21,7 @@ export default function Seat({ seatNumber, socket }: Props) {
   }, []);
 
   return (
-    <div className="seat" id={seatNumber} data-chip-count="0" onClick={playerSit}>
+    <div className="seat" id={seatNumber} data-chip-count={chipCount} onClick={playerSit}>
       Empty
     </div>
   );
