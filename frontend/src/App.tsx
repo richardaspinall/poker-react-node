@@ -3,6 +3,7 @@ import { socket } from './Socket';
 import { ConnectionState } from './components/ConnectionState';
 import { ConnectionManager } from './components/ConnectionManager';
 import { MyForm } from './components/MyForm';
+import { Table } from './components/Table/Table';
 
 // https://socket.io/how-to/use-with-react
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
       <ConnectionState isConnected={isConnected} />
       <ConnectionManager />
       <MyForm />
+      <Table />
     </div>
   );
 }
