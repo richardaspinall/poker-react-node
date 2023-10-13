@@ -3,10 +3,11 @@ import { socket } from '../../Socket';
 import FetchFasade from '../../fetch/FetchFasade';
 import './Table.css';
 
+import Seat from './Seat';
+
 export function Table() {
-  const [value, setValue] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [seatNumber, setSeatNumber] = useState('1');
+  // const [value, setValue] = useState('');
+  // const [isLoading, setIsLoading] = useState(false);
 
   const playerReady = useCallback(async () => {
     const payload = { table: 'table-1', socketId: socket.id };
@@ -16,19 +17,6 @@ export function Table() {
     } else {
       console.log('error', result.errorMessage);
     }
-  }, []);
-
-  const playerSit = useCallback(async (event: React.MouseEvent) => {
-    const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
-    const result = await FetchFasade.post('/api/playerSit', payload);
-
-    if (result.ok) {
-      // console.log(result.getPayload());
-    } else {
-      console.log('error', result.errorMessage);
-    }
-
-    setSeatNumber(event.currentTarget.id);
   }, []);
 
   return (
@@ -46,13 +34,8 @@ export function Table() {
           <div id="river-area"></div>
         </div>
 
-        <div className="seat" id="seat-1" data-chip-count="0" onClick={playerSit}>
-          Empty
-          <div id="dealer-indicator">B</div>
-        </div>
-        <div className="seat" id="seat-2" data-chip-count="0" onClick={playerSit}>
-          Empty
-        </div>
+        <Seat seatNumber="seat-1" socket={socket} />
+        <Seat seatNumber="seat-2" socket={socket} />
       </div>
       <div id="player-actions">
         <div className="slidecontainer">
