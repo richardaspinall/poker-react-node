@@ -1,7 +1,7 @@
 {
   "scripts": {
     "start:dev": "concurrently \"npm run start:dev-frontend\" \"npm run start:dev-backend\"",
-    "install:all": "npm install && cd ./backend && npm install",
+    "install:all": "npm install && cd ./backend && npm install && cd ../frontend && npm install",
     "test": "cd backend && npm run test",
     "start:dev-frontend": "cd frontend && npm run dev",
     "start:dev-backend": "cd backend && npm run dev"

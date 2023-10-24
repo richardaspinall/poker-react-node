@@ -2,6 +2,10 @@
 
 poker game in react and node
 
+# Install
+
+`npm run install:all` (installs all requirements for app)
+
 ## Run
 
 `npm run start:dev` (runs the frontend and backend at the same time)
