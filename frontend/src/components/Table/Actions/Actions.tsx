@@ -1,21 +1,6 @@
-import React, { useCallback } from 'react';
-import FetchFasade from '../../../fetch/FetchFasade';
-
 type ActionsProps = {};
 
 function Actions({}: ActionsProps) {
-  // This should be where we call FetchFasade generically based on the action
-  const playerReady = useCallback(async () => {
-    const payload = { table: 'table-1', socketId: socket.id };
-    const result = await FetchFasade.post('/api/playerReady', payload);
-
-    if (result.ok) {
-      console.log(result.getValue());
-    } else {
-      console.log('error', result.errorMessage);
-    }
-  }, []);
-
   return (
     <div id="player-actions">
       <div className="slidecontainer">
@@ -38,7 +23,7 @@ function Actions({}: ActionsProps) {
         <button className="action-buttons" id="leave-table-button">
           Leave
         </button>
-        <button className="action-buttons" id="im-ready-button" onClick={playerReady}>
+        <button className="action-buttons" id="im-ready-button">
           I'm ready
         </button>
       </div>

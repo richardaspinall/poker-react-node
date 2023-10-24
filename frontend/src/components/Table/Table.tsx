@@ -8,9 +8,6 @@ import Actions from './Actions/Actions';
 
 type TableProps = {};
 export function Table({}: TableProps) {
-  // const [value, setValue] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
-
   return (
     <>
       <div id="table">
