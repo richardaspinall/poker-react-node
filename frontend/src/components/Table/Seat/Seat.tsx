@@ -6,9 +6,11 @@ type SeatProps = {
   seatNumber: string;
   chipCount: number;
   socket: Socket;
+  userId: number | null;
 };
 
-export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
+export default function Seat({ seatNumber, chipCount, socket, userId }: SeatProps) {
+  console.log('userId', userId);
   const playerSit = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
     const result = await FetchFasade.post('/api/actions/playerSit', payload);

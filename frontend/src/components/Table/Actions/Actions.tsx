@@ -1,5 +1,6 @@
 type ActionsProps = {};
 
+// TODO: providing values in the input fields is what is causing errors
 function Actions({}: ActionsProps) {
   return (
     <div id="player-actions">
