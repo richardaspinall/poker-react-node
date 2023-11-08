@@ -9,6 +9,12 @@ router.get('/', (req: Request, res: Response) => {
 router.post('/', (req: Request, res: Response) => {
   res.send('Hello World!');
   console.log(req.body);
+  if (req.session.authenticated === true) {
+    console.log('authenticated');
+  } else {
+    console.log('not authenticated');
+  }
+  console.log(req.session.userId);
 });
 
 export default router;

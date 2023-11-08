@@ -4,6 +4,7 @@ import { ConnectionState } from './components/ConnectionState';
 import { ConnectionManager } from './components/ConnectionManager';
 import { MyForm } from './components/MyForm';
 import { Table } from './components/Table/Table';
+import LoginComponent from './components/LoginComponent';
 
 // https://socket.io/how-to/use-with-react
 export default function App() {
@@ -38,6 +39,7 @@ export default function App() {
       <ConnectionManager />
       <MyForm />
       <Table />
+      <LoginComponent />
     </div>
   );
 }

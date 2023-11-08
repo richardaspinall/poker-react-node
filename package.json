@@ -7,9 +7,13 @@
     "start:dev-backend": "cd backend && npm run dev"
   },
   "devDependencies": {
+    "@types/express-session": "^1.17.9",
     "@types/jest": "^29.5.5",
     "@types/node": "^20.8.4",
     "concurrently": "^8.2.1",
     "husky": "^8.0.3"
+  },
+  "dependencies": {
+    "express-session": "^1.17.3"
   }
 }
