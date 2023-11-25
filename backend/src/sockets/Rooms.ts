@@ -1,5 +1,5 @@
 import SocketServer from './SocketServer';
-import Result, { ResultSuccess, ResultError } from '../Result';
+import Result, { ResultSuccess, ResultError } from '../shared/Result';
 import Sockets, { ClientId } from './Sockets';
 
 export type RoomId = string;
