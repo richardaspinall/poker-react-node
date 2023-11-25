@@ -1,8 +1,13 @@
+// external modules
 import { Socket } from 'socket.io';
+
+// internal modules
 import SocketServer from './SocketServer';
-import Result, { ResultSuccess, ResultError } from '../shared/Result';
+import Rooms from './Rooms';
 import SocketHandlers from './SocketEventHandlers';
 
+// types
+import Result, { ResultSuccess, ResultError } from '../shared/Result';
 export type ClientId = string;
 
 export default class Sockets {
@@ -32,7 +37,7 @@ export default class Sockets {
   }
 
   public static getSocket(clientId: ClientId): Result<Socket> {
-    const socket = this.socketMap.get(clientId);
+    const socket = Sockets.socketMap.get(clientId);
 
     if (socket) {
       return new ResultSuccess(socket);
@@ -42,10 +47,31 @@ export default class Sockets {
   }
 
   private static addSocket(clientId: ClientId, clientSocket: Socket) {
-    this.socketMap.set(clientId, clientSocket);
+    Sockets.socketMap.set(clientId, clientSocket);
+
+    // hardcoding joinging room 1 for now this will be the same as the
+    // table name
+    const createRoomRes = Rooms.createRoom('room-1');
+
+    if (createRoomRes.isError) {
+      console.log(createRoomRes.errorMessage);
+      return;
+    }
+
+    const joinRoomRes = Rooms.joinRoom('room-1', clientSocket);
+    if (joinRoomRes.isError) {
+      console.log(joinRoomRes.errorMessage);
+      return;
+    }
+
+    const sendEventRes = Rooms.sendEventToRoom('room-1', 'hello_from_server', { clientId: clientId });
+    if (sendEventRes.isError) {
+      console.log(sendEventRes.errorMessage);
+      return;
+    }
   }
 
   private static removeSocket(clientId: ClientId) {
-    this.socketMap.delete(clientId);
+    Sockets.socketMap.delete(clientId);
   }
 }
