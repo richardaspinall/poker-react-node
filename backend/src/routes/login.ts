@@ -4,7 +4,11 @@ export const router = express.Router();
 
 router.post('/', async (req: Request, res: Response) => {
   const { username, password } = req.body;
-  console.log('test');
+  // Log the session ID
+  console.log('Session ID:', req.sessionID);
+
+  // Log the session cookie details
+  console.log('Session Cookie:', req.session.cookie);
   try {
     // const user = await authenticateUser(username, password);
     const user = { id: 1, username: 'admin' };
@@ -12,7 +16,8 @@ router.post('/', async (req: Request, res: Response) => {
       // User is authenticated, start the session
       req.session.userId = user.id;
       req.session.authenticated = true; // Save user id or other data in session
-      console.log(req.session.userId);
+      // console.log(req.session);
+      // console.log(req.session.authenticated);
       res.status(200).send('Logged in successfully.');
     } else {
       // Authentication failed

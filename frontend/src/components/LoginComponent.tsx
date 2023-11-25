@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import FetchFasade from '../fetch/FetchFasade';
 
-const LoginComponent: React.FC = () => {
+const LoginComponent = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

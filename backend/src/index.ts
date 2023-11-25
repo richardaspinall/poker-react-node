@@ -21,15 +21,20 @@ app.use(
   session({
     secret: 'your-secret-key',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }, // Use secure: true only if you're on HTTPS
+    saveUninitialized: false,
   })
 );
+
+// For development only (CORS)
+const corsOptions = {
+  origin: 'http://127.0.0.1:5173', // Replace with your front-end domain
+  credentials: true, // This allows the browser to send the cookie
+};
 
 // middleware to parse json and urlencoded request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/api', router);
 

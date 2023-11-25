@@ -8,7 +8,8 @@ router.get('/', (req: Request, res: Response) => {
 
 router.post('/', (req: Request, res: Response) => {
   res.send('Hello World!');
-  console.log(req.body);
+  // console.log(req.session);
+  // console.log(req.body);
   if (req.session.authenticated === true) {
     console.log('authenticated');
   } else {
