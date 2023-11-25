@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 import SocketServer from './SocketServer';
-import Result, { ResultSuccess, ResultError } from '../Result';
+import Result, { ResultSuccess, ResultError } from '../shared/Result';
 import SocketHandlers from './SocketEventHandlers';
 
 export type ClientId = string;
