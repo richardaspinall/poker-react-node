@@ -1,8 +1,15 @@
+// External modules
 import { Server as HttpServer } from 'http';
 import { Server as IOServer, Socket } from 'socket.io';
 
+// Internal modules
 import GameSockets from './Sockets';
+import Logger from '../utils/Logger';
+
+// Types
 import { ClientToServerEvents, ServerToClientEvents } from './SocketEvents';
+
+const debug = Logger.newDebugger('APP:SocketServer');
 
 export default class SocketServer {
   private static io: IOServer;
@@ -17,7 +24,7 @@ export default class SocketServer {
       this.io = new IOServer<ClientToServerEvents, ServerToClientEvents>(httpServer, {
         cors: { origin: '*' },
       });
-
+      Logger.info('Socket server initialized');
       this.io.on('connection', SocketServer.onConnection);
     } else {
       throw Error('Server already initialized');
@@ -33,7 +40,7 @@ export default class SocketServer {
   }
 
   private static onConnection(socket: Socket) {
-    console.log('connected');
+    Logger.info(`${socket.id} connected`);
 
     SocketServer.sendEventToClient(socket, 'hello_from_server', null);
     GameSockets.setUpSocket(socket);
