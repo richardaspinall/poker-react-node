@@ -5,10 +5,14 @@ import { Socket } from 'socket.io';
 import SocketServer from './SocketServer';
 import Rooms from './Rooms';
 import SocketHandlers from './SocketEventHandlers';
+import Logger from '../utils/Logger';
 
 // types
 import Result, { ResultSuccess, ResultError } from '../shared/Result';
+
 export type ClientId = string;
+
+const debug = Logger.newDebugger('APP:Sockets');
 
 export default class Sockets {
   // For now the socket map is just a map of client id to socket id but we will change this later
@@ -49,24 +53,24 @@ export default class Sockets {
   private static addSocket(clientId: ClientId, clientSocket: Socket) {
     Sockets.socketMap.set(clientId, clientSocket);
 
-    // hardcoding joinging room 1 for now this will be the same as the
+    // hardcoding joining room 1 for now this will be the same as the
     // table name
     const createRoomRes = Rooms.createRoom('room-1');
 
     if (createRoomRes.isError) {
-      console.log(createRoomRes.errorMessage);
+      Logger.error(createRoomRes.errorMessage);
       return;
     }
 
     const joinRoomRes = Rooms.joinRoom('room-1', clientSocket);
     if (joinRoomRes.isError) {
-      console.log(joinRoomRes.errorMessage);
+      Logger.error(joinRoomRes.errorMessage);
       return;
     }
 
     const sendEventRes = Rooms.sendEventToRoom('room-1', 'hello_from_server', { clientId: clientId });
     if (sendEventRes.isError) {
-      console.log(sendEventRes.errorMessage);
+      Logger.error(sendEventRes.errorMessage);
       return;
     }
   }

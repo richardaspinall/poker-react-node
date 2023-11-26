@@ -48,9 +48,10 @@ export default class SocketServer {
 
   public static async logSocketIdsInRoom(roomId: string): Promise<void> {
     const sockets = await this.io.in(roomId).fetchSockets();
+    debug(`---SOCKETS IN ${roomId}---`);
 
     sockets.forEach((socket) => {
-      console.log(socket.id);
+      debug(socket.id);
     });
   }
 }
