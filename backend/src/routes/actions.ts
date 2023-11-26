@@ -1,5 +1,10 @@
+// External modules
 import express, { Request, Response } from 'express';
 
+// Iternal modules
+import Logger from '../utils/Logger';
+
+const debug = Logger.newDebugger('APP:Routes:actions');
 export const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => {
@@ -8,7 +13,7 @@ router.get('/', (req: Request, res: Response) => {
 
 router.post('/', (req: Request, res: Response) => {
   res.send('Hello World!');
-  console.log(req.body);
+  debug(req.body);
 });
 
 export default router;

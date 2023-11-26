@@ -18,8 +18,9 @@
 
 <!--- X off relevant items for this change --->
 
-- [ ] Unit tests added
-- [ ] Learning objectives added to PR
+- [ ] Added unit tests
+- [ ] Added learning objectives to clickup task
+- [ ] Added new package information to appropriate README
 
 <!---
 - Don't forget to add learning objectives to the PR: https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels#applying-a-label
