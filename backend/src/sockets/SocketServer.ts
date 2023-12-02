@@ -31,6 +31,13 @@ export default class SocketServer {
     }
   }
 
+  private static async onConnection(socket: Socket) {
+    Logger.info(`${socket.id} connected`);
+
+    SocketServer.sendEventToClient(socket, 'hello_from_server', null);
+    GameSockets.setUpSocket(socket);
+  }
+
   public static sendEventToClient(socket: Socket, event: string, payload: any) {
     socket.emit(event, payload);
   }
@@ -39,10 +46,12 @@ export default class SocketServer {
     this.io.to(roomId).emit(event, payload);
   }
 
-  private static onConnection(socket: Socket) {
-    Logger.info(`${socket.id} connected`);
+  public static async logSocketIdsInRoom(roomId: string): Promise<void> {
+    const sockets = await this.io.in(roomId).fetchSockets();
+    debug(`---SOCKETS IN ${roomId}---`);
 
-    SocketServer.sendEventToClient(socket, 'hello_from_server', null);
-    GameSockets.setUpSocket(socket);
+    sockets.forEach((socket) => {
+      debug(socket.id);
+    });
   }
 }
