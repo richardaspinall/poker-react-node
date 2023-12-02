@@ -48,7 +48,7 @@ export default class Rooms {
     return Result.success();
   }
 
-  private static getRoom(roomId: RoomId): Result<RoomId> {
+  public static getRoom(roomId: RoomId): Result<RoomId> {
     if (this.roomMap.has(roomId)) {
       return new ResultSuccess(roomId);
     }
