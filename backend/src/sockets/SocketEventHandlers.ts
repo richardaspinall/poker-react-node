@@ -1,5 +1,7 @@
 // External modules
 import { Socket } from 'socket.io';
+// add events to socjet sent from client - this is mostly done from APIs instead
+// original implementation had fold hand etc actions here
 
 // Iternal modules
 import Logger from '../utils/Logger';

@@ -24,6 +24,10 @@ export default function App() {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('hello_from_server', onHelloFromServer);
+    socket.on('player_joined', (payload) => {
+      console.log('logging app tsx');
+      console.log(payload)
+    });
 
     return () => {
       socket.off('connect', onConnect);
