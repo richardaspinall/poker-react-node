@@ -29,23 +29,20 @@ router.post('/playerSit', (req: Request, res: Response) => {
   let join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
   console.log('try to sit ',join_room);
   console.log('try to sit ok check ',join_room.ok);
-  return res.json({'ok':false})
-  return new ResultError(join_room.errorMessage);
-  // return res.send({'ok':false})
-  // if (join_room.ok == false){
-  //   return res.send({'ok':false})
-  // }
-  // // emit event to all clients connected that a player has sat down
-  // let event = 'player_joined';
-  // let payload = {
-  //   "playerId": clientId,
-  //   "seatId": seatNumber
-  // };
-  // let send_events = Rooms.sendEventToRoom('table_1', event, payload);
-  // if (!send_events.ok){
-  //   return res.send({'ok':false})
-  // }
-  // return res.send({'ok':true})
+  if (join_room.ok == false){
+    return res.send({'text':'bad'})
+  }
+  // emit event to all clients connected that a player has sat down
+  let event = 'player_joined';
+  let payload = {
+    "playerId": clientId,
+    "seatId": seatNumber
+  };
+  let send_events = Rooms.sendEventToRoom('table_1', event, payload);
+  if (!send_events.ok){
+    return res.send({'ok':false})
+  }
+  return res.send({'ok':true})
 });
 
 export default router;
