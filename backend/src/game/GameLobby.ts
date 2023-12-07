@@ -4,26 +4,19 @@ Description:
 This class will be the main class for the game lobby. It will be responsible for creating and managing poker tables
 */
 
-import GameState from './GameState';
+// internal modules
 import PokerTable from './PokerTable';
 
 export default class GameLobby {
+  // TODO: This would be a database eventually
   private tables: PokerTable[] = [];
-  constructor() {}
 
-  public generateId() {
-    return Math.random().toString(36).substr(2, 9);
+  public addPokerTable(pokerTable: PokerTable) {
+    this.tables.push(pokerTable);
   }
 
-  public createTable(numSeats: number) {
-    const gameState = new GameState();
-
-    // TODO: add name for table
-    const table = new PokerTable(this.generateId(), gameState, numSeats);
-
-    // TODO: eventually save to a database
-    this.tables.push(table);
-    return table;
+  public isNameTaken(name: string): boolean {
+    return this.tables.some((table) => table.getName() === name);
   }
-  // Methods to create tables, remove tables, join/leave tables.
+  // Methods remove tables, join/leave tables.
 }

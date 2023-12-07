@@ -14,7 +14,9 @@ export default class GameState {
     private pot = 0,
     private currentBet = 0,
     private currentPlayerIndex = 0,
-    private roundState = 'pre-flop' // ... other properties like blinds, player actions, etc.
+    private roundState = 'pre-flop',
+    private smallBlind = 1,
+    private bigBlind = 2
   ) {}
 
   // Methods to update the game state

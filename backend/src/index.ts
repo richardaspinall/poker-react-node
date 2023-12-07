@@ -3,7 +3,6 @@ import express from 'express';
 import cors from 'cors';
 import router from './routes';
 import SocketServer from './sockets/SocketServer';
-import GameLobby from './game/GameLobby';
 
 const app = express();
 

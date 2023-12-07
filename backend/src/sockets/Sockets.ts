@@ -53,25 +53,17 @@ export default class Sockets {
   private static addSocket(clientId: ClientId, clientSocket: Socket) {
     Sockets.socketMap.set(clientId, clientSocket);
 
-    // hardcoding joining room 1 for now this will be the same as the
-    // table name
-    const createRoomRes = Rooms.createRoom('room-1');
-
-    if (createRoomRes.isError) {
-      Logger.error(createRoomRes.errorMessage);
-      return;
-    }
-
-    const joinRoomRes = Rooms.joinRoom('room-1', clientSocket);
+    // This should really happen somewhere else like when they view the table
+    const joinRoomRes = Rooms.joinRoom('table-1', clientSocket);
     if (joinRoomRes.isError) {
       Logger.error(joinRoomRes.errorMessage);
       return;
     }
 
+    // We shouldn't have any references to Rooms in this class
     const sendEventRes = Rooms.sendEventToRoom('room-1', 'hello_from_server', { clientId: clientId });
     if (sendEventRes.isError) {
       Logger.error(sendEventRes.errorMessage);
-      return;
     }
   }
 

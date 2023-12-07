@@ -3,77 +3,73 @@ import { Socket } from 'socket.io';
 
 // internal modules
 import SocketServer from './SocketServer';
-import Sockets, { ClientId } from './Sockets';
 
 // types
 import Result, { ResultSuccess, ResultError } from '../shared/Result';
 export type RoomId = string;
 
 export default class Rooms {
-  // The second string might be removed later (and a set used instead)
-  private static roomMap = new Map<RoomId, string>();
+  private static roomSet = new Set<RoomId>();
 
-  public static createRoom(roomId: RoomId): Result<RoomId> {
-    if (!this.roomMap.has(roomId)) {
-      this.roomMap.set(roomId, roomId);
-      return new ResultSuccess(roomId);
+  public static createRoom(roomId: RoomId): Result<void> {
+    if (!Rooms.roomSet.has(roomId)) {
+      Rooms.roomSet.add(roomId);
+      return Result.success();
     }
-    return new ResultError('Room already exists');
+    return Result.error('Room already exists');
   }
 
   public static joinRoom(roomId: RoomId, socket: Socket): Result<void> {
-    const roomRes = this.getRoom(roomId);
+    const res = Rooms.getRoom(roomId);
 
-    if (roomRes.isError) {
-      return Result.error(roomRes.errorMessage);
+    if (res.isError) {
+      return Result.error(res.errorMessage);
     }
 
-    const room = roomRes.getValue();
-
+    const room = res.getValue();
     socket.join(room);
 
     return Result.success();
   }
 
   public static sendEventToRoom(roomId: RoomId, event: string, payload: any): Result<void> {
-    const roomRes = this.getRoom(roomId);
+    const res = Rooms.getRoom(roomId);
 
-    if (roomRes.isError) {
-      return Result.error(roomRes.errorMessage);
+    if (res.isError) {
+      return Result.error(res.errorMessage);
     }
 
-    const room = roomRes.getValue();
-
+    const room = res.getValue();
     SocketServer.sendEventToRoom(room, event, payload);
+
     return Result.success();
   }
 
   private static getRoom(roomId: RoomId): Result<RoomId> {
-    if (this.roomMap.has(roomId)) {
-      return new ResultSuccess(roomId);
+    if (!Rooms.roomSet.has(roomId)) {
+      return new ResultError('Room not found');
     }
-    return new ResultError('Room not found');
+    return new ResultSuccess(roomId);
   }
 
   private static leaveRoom(roomId: RoomId, socket: Socket): Result<void> {
-    const roomRes = this.getRoom(roomId);
-
-    if (roomRes.isError) {
-      return Result.error(roomRes.errorMessage);
+    const res = this.getRoom(roomId);
+    if (res.isError) {
+      return Result.error(res.errorMessage);
     }
 
-    const room = roomRes.getValue();
-
+    const room = res.getValue();
     socket.leave(room);
+
     return Result.success();
   }
 
   private static deleteRoom(roomId: RoomId): Result<void> {
-    const res = this.roomMap.delete(roomId);
+    const res = Rooms.roomSet.delete(roomId);
 
-    if (res) {
-      return Result.success();
+    if (!res) {
+      return Result.error('Room not found');
     }
-    return Result.error('Room not found');
+    return Result.success();
   }
 }
