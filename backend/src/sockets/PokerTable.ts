@@ -1,6 +1,6 @@
 
-import { ResultError, ResultSuccess } from '../Result';
-import Result from '../Result';
+import { ResultError, ResultSuccess } from '../shared/Result';
+import Result from '../shared/Result';
 import Rooms from './Rooms';
 import Seat from './Seat';
 
@@ -92,8 +92,14 @@ export default class PokerTable {
         let table = this.getTable(tableName);
         // Loop through seats
         for (const seat of table.seats) {
+            // Check if player is already seated at the table
+            console.log('client id',clientId);
+            console.log('player id',seat.playerId);
+            if (seat.playerId == clientId ){
+                return Result.error('Player is already sitting at the table');
+            }
+            // Check if the seat is already taken by someone else
             if (seat.seatNumber == seatNumber) {
-                // console.log(seat.isTaken);
                 if (seat.isTaken){
                     return Result.error('Seat is already taken');
                 } else {
@@ -116,14 +122,7 @@ export default class PokerTable {
         return Object.values(PokerTable.tables);
     }
 
-    // public static joinSeat(seatNumber: number, clientId: string): Result<void> {
-    //     seat.playerId = clientId;
-    //     seat.isTaken = true;
-    // }
-
     // public static leaveSeat(){
 
     // }
-    
-
 }
