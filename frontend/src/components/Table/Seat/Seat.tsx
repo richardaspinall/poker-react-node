@@ -14,14 +14,13 @@ type SeatProps = {
 export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
   const playerSit = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
-
     const result = await FetchFasade.post<PlayerSitPayload, PlayerSitResult>('/api/actions/playerSit', payload);
-
-    if (result.ok) {
-      console.log(result.getValue());
-    } else {
-      console.log('error', result.errorMessage);
-    }
+    console.log('result ok check',result);
+    // if (result.ok == true) {
+    //   console.log('Success!');
+    // } else {
+    //   console.log('error', result.errorMessage);
+    // }
   }, []);
 
   return (

@@ -5,6 +5,8 @@ import { Socket } from 'socket.io';
 import SocketServer from './SocketServer';
 import Sockets, { ClientId } from './Sockets';
 
+import Logger from '../utils/Logger';
+
 // types
 import Result, { ResultSuccess, ResultError } from '../shared/Result';
 export type RoomId = string;
@@ -23,27 +25,20 @@ export default class Rooms {
 
   public static joinRoom(roomId: RoomId, socket: Socket): Result<void> {
     const roomRes = this.getRoom(roomId);
-
     if (roomRes.isError) {
       return Result.error(roomRes.errorMessage);
     }
-
     const room = roomRes.getValue();
-
     socket.join(room);
-
     return Result.success();
   }
 
   public static sendEventToRoom(roomId: RoomId, event: string, payload: any): Result<void> {
     const roomRes = this.getRoom(roomId);
-
     if (roomRes.isError) {
       return Result.error(roomRes.errorMessage);
     }
-
     const room = roomRes.getValue();
-
     SocketServer.sendEventToRoom(room, event, payload);
     return Result.success();
   }

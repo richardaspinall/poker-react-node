@@ -1,6 +1,6 @@
 
-import { ResultError, ResultSuccess } from '../Result';
-import Result from '../Result';
+import { ResultError, ResultSuccess } from '../shared/Result';
+import Result from '../shared/Result';
 
 
 export default class Seat {

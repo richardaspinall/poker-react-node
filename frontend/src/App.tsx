@@ -21,18 +21,20 @@ export default function App() {
       console.log('Hello from server');
     }
 
+    function onPlayerJoined(payload) {
+        console.log(payload)
+    }
+
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('hello_from_server', onHelloFromServer);
-    socket.on('player_joined', (payload) => {
-      console.log('logging app tsx');
-      console.log(payload)
-    });
+    socket.on('player_joined', onPlayerJoined);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('hello_from_server', onHelloFromServer);
+      socket.off('player_joined', onPlayerJoined);
     };
   }, []);
 

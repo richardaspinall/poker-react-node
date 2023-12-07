@@ -42,14 +42,13 @@ export default class SocketServer {
     socket.emit(event, payload);
   }
 
-  public static sendEventToRoom(roomId: string, event: string, payload: any) {
+  public static async sendEventToRoom(roomId: string, event: string, payload: any) {
     this.io.to(roomId).emit(event, payload);
   }
 
   public static async logSocketIdsInRoom(roomId: string): Promise<void> {
     const sockets = await this.io.in(roomId).fetchSockets();
     debug(`---SOCKETS IN ${roomId}---`);
-
     sockets.forEach((socket) => {
       debug(socket.id);
     });

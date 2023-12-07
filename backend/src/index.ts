@@ -19,6 +19,4 @@ const httpServer = createServer(app);
 httpServer.listen(3000);
 
 SocketServer.initialize(httpServer);
-// class table manager initialised here which creates poker table
 const newPokerTable = PokerTable.createPokerTable('table_1', 2);
-console.log(newPokerTable.value);
