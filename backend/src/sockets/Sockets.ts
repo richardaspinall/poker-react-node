@@ -54,7 +54,7 @@ export default class Sockets {
     Sockets.socketMap.set(clientId, clientSocket);
 
     // This should really happen somewhere else like when they view the table
-    const joinRoomRes = Rooms.joinRoom('table-1', clientSocket);
+    const joinRoomRes = Rooms.joinRoom('table_1', clientSocket);
     if (joinRoomRes.isError) {
       Logger.error(joinRoomRes.errorMessage);
       return;

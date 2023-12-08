@@ -29,6 +29,6 @@ export class ResultError<T> extends Result<T> {
 
 export class ResultSuccess<T> extends Result<T> {
   constructor(public value: T) {
-    super(true, false, '', value);
+    super(true, false, '', {}, value);
   }
 }

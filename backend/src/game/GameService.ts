@@ -4,6 +4,8 @@ import GameState from './GameState';
 import PokerTable from './PokerTable';
 import Result from '../shared/Result';
 
+const testDatabase = process.env.DATABASE;
+
 export default class GameService {
   private gameLobby: GameLobby;
 
@@ -11,7 +13,9 @@ export default class GameService {
     this.gameLobby = new GameLobby();
 
     // seed a table until we have a database
-    this.createPokerTable('table-1', 2);
+    if (!testDatabase) {
+      this.createPokerTable('table_1', 2);
+    }
   }
 
   private generateId() {
@@ -22,7 +26,7 @@ export default class GameService {
     const gameState = new GameState();
     // do some checking on name through the GameLobby
     if (this.gameLobby.isNameTaken(name)) {
-      return Result.error('Name is taken');
+      return Result.error('name_is_taken');
     }
     const pokerTable = new PokerTable(name, this.generateId(), gameState, numSeats);
     this.gameLobby.addPokerTable(pokerTable);

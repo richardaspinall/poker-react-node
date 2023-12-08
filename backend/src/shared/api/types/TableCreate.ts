@@ -10,12 +10,13 @@ export type TableCreatePayload = {
 export type TableCreateResult = {
   ok: boolean;
   error?: string;
+  error_details?: string;
 };
 
 // Joi schema
 export const tableCreateSchema = Joi.object({
   name: Joi.string().required(),
-  numSeats: Joi.number().integer().min(2).required(),
+  numSeats: Joi.number().integer().min(2).max(10).required(),
 });
 
 export function validateTableCreatePayload(payload: any): Result<TableCreatePayload> {
@@ -24,7 +25,7 @@ export function validateTableCreatePayload(payload: any): Result<TableCreatePayl
 
   if (error) {
     console.log(error.details);
-    return new ResultError('Invalid request payload', error.details);
+    return new ResultError('invalid_request_payload', error.details);
   }
   // Here, 'value' is validated by Joi, but TypeScript doesn't know its type.
   // You can use type assertion to inform TypeScript about the type.
@@ -38,8 +39,7 @@ export function validatePayload<T>(validationSchema: Joi.ObjectSchema<any>, payl
   const { error, value } = validationSchema.validate(payload, { abortEarly: false });
 
   if (error) {
-    console.log(error.details);
-    return new ResultError('Invalid request payload', error.details);
+    return new ResultError('invalid_request_payload', error.details);
   }
   // Here, 'value' is validated by Joi, but TypeScript doesn't know its type.
   // You can use type assertion to inform TypeScript about the type.
