@@ -4,7 +4,7 @@ poker game in react and node
 
 # Install
 
-`npm run install:all` (installs all requirements for app)
+`npm run install:all` (installs all requirements for apps)
 
 ## Run
 
