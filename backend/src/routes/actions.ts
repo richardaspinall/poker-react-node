@@ -4,8 +4,8 @@ import express, { Request, Response } from 'express';
 // Iternal modules
 import Logger from '../utils/Logger';
 
-const debug = Logger.newDebugger('APP:Routes:actions');
-export const router = express.Router();
+const debug = Logger.newDebugger('APP:routes:actions');
+const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
@@ -16,4 +16,4 @@ router.post('/', (req: Request, res: Response) => {
   debug(req.body);
 });
 
-export default router;
+export { router };

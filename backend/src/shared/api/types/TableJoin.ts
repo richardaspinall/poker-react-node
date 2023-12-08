@@ -1,9 +1,10 @@
-export type PlayerSitPayload = {
+export type TableJoinPayload = {
   selectedSeatNumber: string;
   socketId: string;
 };
 
-export type PlayerSitResult = {
+export type TableJoinResult = {
   seatNumber: string;
   socketId: string;
+  error?: string;
 };
