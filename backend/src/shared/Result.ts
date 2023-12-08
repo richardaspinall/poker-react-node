@@ -3,6 +3,7 @@ export default class Result<T> {
     public ok: boolean,
     public isError: boolean,
     public errorMessage: string = '',
+    public errorDetails: any = {},
     public value: T | undefined = undefined
   ) {}
 
@@ -21,8 +22,8 @@ export default class Result<T> {
 }
 
 export class ResultError<T> extends Result<T> {
-  constructor(public errorMessage: string) {
-    super(false, true, errorMessage);
+  constructor(public errorMessage: string, public errorDetails: any = {}) {
+    super(false, true, errorMessage, errorDetails);
   }
 }
 

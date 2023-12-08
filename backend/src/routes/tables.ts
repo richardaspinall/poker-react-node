@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express';
 // Iternal modules
 import Logger from '../utils/Logger';
 import GameService from '../game/GameService';
-import { TableCreatePayload } from '../shared/api/types/TableCreate';
+import { tableCreateSchema, validatePayload, TableCreatePayload } from '../shared/api/types/TableCreate';
 
 const debug = Logger.newDebugger('APP:routes:tables');
 const router = express.Router();
@@ -14,7 +14,16 @@ const gameService = new GameService();
 // TODO: need to think about how to handle the table creation and what
 // we return
 router.post('/tables.create', (req: Request, res: Response) => {
-  const { name, numSeats } = req.body as TableCreatePayload;
+  const payload = validatePayload<TableCreatePayload>(tableCreateSchema, req.body);
+
+  if (payload.isError) {
+    res.status(400).send({ error: payload.errorMessage, error_details: payload.errorDetails });
+    return;
+  }
+
+  const name = payload.getValue().name;
+  const numSeats = payload.getValue().numSeats;
+
   const createPokerTableRes = gameService.createPokerTable(name, numSeats);
 
   if (createPokerTableRes.isError) {

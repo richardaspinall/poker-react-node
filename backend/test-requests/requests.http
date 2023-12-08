@@ -17,10 +17,10 @@ content-type: application/json
 
 ###
 
-POST http://localhost:3000/api/pokertables/pokertables.create
+POST http://localhost:3000/api/tables/tables.create
 content-type: application/json
 
 {
-    "test": "Hello world",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "name": "Hello world",
+    "numSeats": 2
 }
