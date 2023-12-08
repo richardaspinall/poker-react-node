@@ -14,6 +14,7 @@
     "@types/supertest": "^2.0.16",
     "concurrently": "^8.2.1",
     "husky": "^8.0.3",
+    "socket.io-client": "^4.7.2",
     "supertest": "^6.3.3"
   }
 }

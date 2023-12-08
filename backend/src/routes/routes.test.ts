@@ -2,7 +2,7 @@
 import request from 'supertest';
 
 // internal modules
-import httpServer, { shutDown } from '../index';
+import { httpServer, shutDown } from '../index';
 import Logger from '../utils/Logger';
 
 const debug = Logger.newDebugger('test:tables');
@@ -47,8 +47,24 @@ describe('tables.create', () => {
     expect(res.body.error).toEqual('name_is_taken');
   });
 
-  // Shut down the server after all tests
-  afterAll(async () => {
-    await shutDown();
+  /**
+   *  Cleanup WS & HTTP servers
+   */
+  afterAll((done) => {
+    (async () => {
+      try {
+        // Execute async operations
+        await shutDown();
+
+        // If there are other asynchronous operations, perform them here
+        // For example: await SocketServer.close();
+
+        // Once all async operations are complete, call done()
+        done();
+      } catch (error) {
+        // In case of any errors, you can pass them to done
+        done(error);
+      }
+    })();
   });
 });

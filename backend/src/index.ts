@@ -19,8 +19,6 @@ httpServer.listen(3000);
 
 SocketServer.initialize(httpServer);
 
-export default httpServer;
-
 // Function to shut down the server (used in tests)
 async function shutDown(): Promise<void> {
   // Close socket connections here (if applicable)
@@ -39,4 +37,4 @@ async function shutDown(): Promise<void> {
   });
 }
 
-export { shutDown };
+export { httpServer, SocketServer, shutDown };

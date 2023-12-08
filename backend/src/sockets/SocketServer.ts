@@ -25,6 +25,7 @@ export default class SocketServer {
         cors: { origin: '*' },
       });
       Logger.info('Socket server initialized');
+
       this.io.on('connection', SocketServer.onConnection);
     } else {
       throw Error('Server already initialized');
@@ -33,7 +34,7 @@ export default class SocketServer {
 
   private static async onConnection(socket: Socket) {
     Logger.info(`${socket.id} connected`);
-
+    // console.log(socket.id);
     SocketServer.sendEventToClient(socket, 'hello_from_server', null);
     GameSockets.setUpSocket(socket);
   }

@@ -4,7 +4,7 @@
   "description": "backend for poker game",
   "main": "src/index.ts",
   "scripts": {
-    "test": "DEBUG=test:* DATABASE=test jest $npm_config_file",
+    "test": "DEBUG=test:* DATABASE=test jest $npm_config_file --runInBand",
     "dev": "nodemon"
   },
   "author": "",
