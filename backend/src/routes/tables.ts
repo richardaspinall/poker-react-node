@@ -14,20 +14,21 @@ const gameService = new GameService();
 // TODO: need to think about how to handle the table creation and what
 // we return
 router.post('/tables.create', (req: Request, res: Response) => {
-  const payload = validatePayload<TableCreatePayload>(tableCreateSchema, req.body);
+  const payloadOrError = validatePayload<TableCreatePayload>(tableCreateSchema, req.body);
 
-  if (payload.isError) {
-    res.status(400).send({ error: payload.errorMessage, error_details: payload.errorDetails });
+  if (payloadOrError.isError) {
+    res.status(400).send({ error: payloadOrError.errorMessage, error_details: payloadOrError.errorDetails });
     return;
   }
 
+  const payload = payloadOrError;
   const name = payload.getValue().name;
   const numSeats = payload.getValue().numSeats;
 
-  const createPokerTableRes = gameService.createPokerTable(name, numSeats);
+  const createPokerTable = gameService.createPokerTable(name, numSeats);
 
-  if (createPokerTableRes.isError) {
-    res.status(409).json({ error: createPokerTableRes.errorMessage });
+  if (createPokerTable.isError) {
+    res.status(409).json({ error: createPokerTable.errorMessage });
     return;
   }
   res.sendStatus(200);
