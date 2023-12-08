@@ -2,6 +2,6 @@ import HelloWorld from './HelloWorld';
 
 describe('HelloWorld', () => {
   it('should return "Hello World"', () => {
-    expect(HelloWorld()).toBe('Hello WorldS');
+    expect(HelloWorld()).toBe('Hello World');
   });
 });
