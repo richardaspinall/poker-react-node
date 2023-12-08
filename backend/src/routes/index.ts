@@ -1,10 +1,10 @@
 import express from 'express';
-import { router as pokerActionsRouter } from './pokerActions';
-import { router as pokerTablesRouter } from './pokerTables';
+import { router as actionsRouter } from './actions';
+import { router as tablesRouter } from './tables';
 
 const router = express.Router();
 
-router.use('/actions', pokerActionsRouter);
-router.use('/pokertables', pokerTablesRouter);
+router.use('/actions', actionsRouter);
+router.use('/tables', tablesRouter);
 
 export default router;

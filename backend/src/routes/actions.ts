@@ -4,7 +4,7 @@ import express, { Request, Response } from 'express';
 // Iternal modules
 import Logger from '../utils/Logger';
 
-const debug = Logger.newDebugger('APP:routes:PokerActions');
+const debug = Logger.newDebugger('APP:routes:actions');
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => {

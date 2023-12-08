@@ -3,12 +3,11 @@ import Result, { ResultSuccess, ResultError } from '../../../backend/src/shared/
 class FetchFasade {
   private static async processRequest<TResult>(request: RequestInfo): Promise<Result<TResult>> {
     const response = await fetch(request);
+    const body = await response.json();
 
     if (!response.ok) {
-      return new ResultError(response.statusText);
+      return new ResultError(body.error);
     }
-
-    const body: TResult = await response.json();
 
     return new ResultSuccess(body);
   }
