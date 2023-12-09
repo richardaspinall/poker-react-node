@@ -52,3 +52,35 @@ Logeger.debugStack('Debugging with stack strace');
 
 Husky which is used to run commands when commiting (like run test suites)
 https://www.npmjs.com/package/husky
+
+## Installing MySQL and creating DB
+
+1. `brew install mysql`
+2. `brew services start mysql` (to stop: `brew services stop mysql`)
+3. `mysql_secure_installation` (set a password)
+4. `mysql -uroot -p<your-password>` (enter CLI)
+5. `show databases;` (see all the databases)
+6. do stuff: create, insert, query
+
+- Ref: https://digestize.medium.com/how-to-install-mysql-in-your-macbook-m1-3d7753c26a26
+
+### GUI
+
+Optional: use a GUI – I had a lot of trouble finding a good one! but this worked great: https://dbeaver.io/download/
+
+### Then create an env file
+
+- Create a `.env` file with the following
+
+```
+DB_HOST="localhost"
+DB_USER="root"
+DB_PASSWORD="<your-password>"
+DB_DATABASE="dev_poker"
+```
+
+### Then create the DB
+
+`npm run create-dev-db`
+
+---
