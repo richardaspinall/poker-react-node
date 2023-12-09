@@ -35,7 +35,9 @@ Extension: humao.rest-client
 
 ```json
  "dependencies": {
+    "dotenv": "^16.3.1", // allow for environment variables in .env file
     "express": "^4.18.2", // server framework
+    "mysql2": "^3.6.5", // for working with mysql
     "socket.io": "^4.7.2" // socket library
   },
   "devDependencies": {
@@ -52,6 +54,5 @@ Extension: humao.rest-client
     "nodemon": "^3.0.1", // automatic reloading
     "ts-jest": "^29.1.1", // enable testing in typescript
     "ts-node": "^10.9.1", // turns typescript into javascript
-    "winston": "^3.11.0" // logging library
   }
 ```
