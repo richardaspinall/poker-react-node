@@ -7,8 +7,6 @@ import Sockets, { ClientId } from '../sockets/Sockets';
 
 import Logger from '../utils/Logger';
 
-import Logger from '../utils/Logger';
-
 // types
 import Result, { ResultSuccess, ResultError } from '../shared/Result';
 export type RoomId = string;
