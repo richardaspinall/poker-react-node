@@ -3,6 +3,6 @@ export type PlayerSitPayload = {
   socketId: string;
 };
 
-export type PlayerSitResult = {
+export type PlayerSitOutput = {
   ok: boolean;
 };

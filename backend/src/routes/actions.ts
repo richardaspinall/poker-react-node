@@ -5,7 +5,7 @@ import PokerTable from '../game/PokerTable';
 
 // Iternal modules
 import Logger from '../utils/Logger';
-import { PlayerSitPayload, PlayerSitResult } from '../shared/api/types/PlayerSit';
+import { PlayerSitPayload, PlayerSitOutput } from '../shared/api/types/PlayerSit';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 export const router = express.Router();

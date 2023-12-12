@@ -3,7 +3,7 @@ import { Socket } from 'socket.io-client';
 
 import FetchFasade from '../../../fetch/FetchFasade';
 
-import { PlayerSitPayload, PlayerSitResult } from '../../../../../backend/src/shared/api/types/PlayerSit';
+import { PlayerSitPayload, PlayerSitOutput } from '../../../../../backend/src/shared/api/types/PlayerSit';
 
 type SeatProps = {
   seatNumber: string;
