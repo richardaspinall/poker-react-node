@@ -4,6 +4,5 @@ export type PlayerSitPayload = {
 };
 
 export type PlayerSitResult = {
-  seatNumber: string;
-  socketId: string;
+  ok: boolean;
 };
