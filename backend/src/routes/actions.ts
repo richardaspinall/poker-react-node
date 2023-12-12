@@ -2,12 +2,10 @@
 import express, { Request, Response } from 'express';
 import Rooms from '../sockets/Rooms';
 import PokerTable from '../sockets/PokerTable';
-import { join } from 'path';
 
 // Iternal modules
 import Logger from '../utils/Logger';
 import { PlayerSitPayload, PlayerSitResult } from '../shared/api/types/PlayerSit';
-import { ResultError } from '../shared/Result';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 export const router = express.Router();
