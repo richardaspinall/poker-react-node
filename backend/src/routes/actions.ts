@@ -21,10 +21,10 @@ router.post('/', (req: Request, res: Response) => {
 
 router.post('/tables.join', (req: Request, res: Response<PlayerSitOutput>) => {
   const body = req.body as PlayerSitPayload;
-  let seatNumber = body.selectedSeatNumber;
-  let clientId = body.socketId
+  const seatNumber = body.selectedSeatNumber;
+  const clientId = body.socketId
   // Try to sit at table
-  let join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
+  const join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
   if (!join_room.ok){
     return res.send({'ok':false})
   }
