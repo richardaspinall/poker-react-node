@@ -25,14 +25,12 @@ router.post('/playerSit', (req: Request, res: Response<PlayerSitResult>) => {
   const body = req.body as PlayerSitPayload;
   let seatNumber = body.selectedSeatNumber;
   let clientId = body.socketId
-  // then sit at PokerTable
+  // Try to sit at table
   let join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
-  console.log('try to sit ',join_room);
-  console.log('try to sit ok check ',join_room.ok);
-  if (join_room.ok == false){
-    return res.send({'text':'bad'})
+  if (!join_room.ok){
+    return res.send({'ok':false})
   }
-  // emit event to all clients connected that a player has sat down
+  // Emit event to all clients connected that a player has sat down
   let event = 'player_joined';
   let payload = {
     "playerId": clientId,

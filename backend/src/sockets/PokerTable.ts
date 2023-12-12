@@ -93,8 +93,6 @@ export default class PokerTable {
         // Loop through seats
         for (const seat of table.seats) {
             // Check if player is already seated at the table
-            console.log('client id',clientId);
-            console.log('player id',seat.playerId);
             if (seat.playerId == clientId ){
                 return Result.error('Player is already sitting at the table');
             }
@@ -121,8 +119,4 @@ export default class PokerTable {
     public static getAllTables(): PokerTable[] {
         return Object.values(PokerTable.tables);
     }
-
-    // public static leaveSeat(){
-
-    // }
 }
