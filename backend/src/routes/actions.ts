@@ -1,7 +1,7 @@
 // External modules
 import express, { Request, Response } from 'express';
-import Rooms from '../sockets/Rooms';
-import PokerTable from '../sockets/PokerTable';
+import Rooms from '../game/Rooms';
+import PokerTable from '../game/PokerTable';
 
 // Iternal modules
 import Logger from '../utils/Logger';

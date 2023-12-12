@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import router from './routes';
 import SocketServer from './sockets/SocketServer';
-import PokerTable from './sockets/PokerTable';
+import PokerTable from './game/PokerTable';
 
 const app = express();
 
