@@ -26,7 +26,12 @@ router.post('/tables.join', (req: Request, res: Response<PlayerSitOutput>) => {
   // Try to sit at table
   const join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
   if (!join_room.ok){
-    return res.send({'ok':false})
+    return res.send(
+      {
+        'ok':false,
+        'error': join_room.errorMessage
+      }
+    )
   }
   // Emit event to all clients connected that a player has sat down
   let event = 'player_joined';
@@ -36,9 +41,19 @@ router.post('/tables.join', (req: Request, res: Response<PlayerSitOutput>) => {
   };
   let send_events = Rooms.sendEventToRoom('table_1', event, payload);
   if (!send_events.ok){
-    return res.send({'ok':false})
+    return res.send(
+      {
+        'ok':false,
+        'error': send_events.errorMessage
+      }
+    )
   }
-  return res.send({'ok':true})
+  return res.send(
+    {
+      'ok': true,
+      'error': ''
+    }
+  )
 });
 
 export default router;
