@@ -19,7 +19,7 @@ router.post('/', (req: Request, res: Response) => {
   debug(req.body);
 });
 
-router.post('/playerSit', (req: Request, res: Response<PlayerSitResult>) => {
+router.post('/tables.join', (req: Request, res: Response<PlayerSitOutput>) => {
   const body = req.body as PlayerSitPayload;
   let seatNumber = body.selectedSeatNumber;
   let clientId = body.socketId
