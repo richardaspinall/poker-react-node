@@ -21,7 +21,7 @@ router.post('/', (req: Request, res: Response) => {
   debug(req.body);
 });
 
-router.post('/playerSit', (req: Request, res: Response) => {
+router.post('/playerSit', (req: Request, res: Response<PlayerSitResult>) => {
   const body = req.body as PlayerSitPayload;
   let seatNumber = body.selectedSeatNumber;
   let clientId = body.socketId
