@@ -2,8 +2,8 @@
 import { Socket } from 'socket.io';
 
 // internal modules
-import SocketServer from './SocketServer';
-import Sockets, { ClientId } from './Sockets';
+import SocketServer from '../sockets/SocketServer';
+import Sockets, { ClientId } from '../sockets/Sockets';
 
 import Logger from '../utils/Logger';
 

@@ -4,51 +4,6 @@ import Result from '../shared/Result';
 import Rooms from './Rooms';
 import Seat from './Seat';
 
-/* 
-when player opens table pokertable calls join room
- when player sits, add to seat in pokertable class
-Pokertable manages sockets currently on table
-rooms kept clean from anythign related to poker
-
-maybe match player id with sokcer in rooms to keep sockets handling out of pokertable
-
-possible implementation
-server creates pokertable
-inside pokertbale class we create room as well as specifics of poker table table
-*/
-
-
-/* 
-next steps
-create seat class
-    seat number, player_id, is_taken
-
-for loop in constructor taking in number of seats and creating array of seats
-
-then check seat taken on a pokertable then send events out to other socket sessions tied to pokertable
-
-send event to room via pokertable class
-
-mvp for holding code for when a seat is taken
-
-create player class as well
-
-user vs player (maybe player extends from user)
-
-
-
-
-
-pokertable class might store game data, cards etc
-
-need to figure out what objects classes do what eg dealer class
-
-does dealer class send event out to players when their cards are dealt vs pokertable?
-
-dealer class potentially static class that controls game while pokertable holds references
-
-
-*/
 export default class PokerTable {
 
     private static tables: Record<string, PokerTable> = {};
