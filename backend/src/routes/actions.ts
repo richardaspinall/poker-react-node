@@ -6,7 +6,7 @@ import { join } from 'path';
 
 // Iternal modules
 import Logger from '../utils/Logger';
-import { PlayerSitPayload } from '../shared/api/types/PlayerSit';
+import { PlayerSitPayload, PlayerSitResult } from '../shared/api/types/PlayerSit';
 import { ResultError } from '../shared/Result';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
@@ -21,7 +21,7 @@ router.post('/', (req: Request, res: Response) => {
   debug(req.body);
 });
 
-router.post('/playerSit', (req: Request, res: Response) => {
+router.post('/playerSit', (req: Request, res: Response<PlayerSitResult>) => {
   const body = req.body as PlayerSitPayload;
   let seatNumber = body.selectedSeatNumber;
   let clientId = body.socketId
