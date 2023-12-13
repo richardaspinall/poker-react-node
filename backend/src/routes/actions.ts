@@ -48,12 +48,7 @@ router.post('/tables.join', (req: Request, res: Response<PlayerSitOutput>) => {
       }
     )
   }
-  return res.send(
-    {
-      'ok': true,
-      'error': ''
-    }
-  )
+  return res.send({'ok': true})
 });
 
 export default router;
