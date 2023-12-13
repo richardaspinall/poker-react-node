@@ -3,7 +3,7 @@ import { Socket } from 'socket.io';
 
 // internal modules
 import SocketServer from './SocketServer';
-import Rooms from '../game/Rooms';
+import Rooms from './Rooms';
 import SocketHandlers from './SocketEventHandlers';
 import Logger from '../utils/Logger';
 

@@ -1,7 +1,7 @@
 
 import { ResultError, ResultSuccess } from '../shared/Result';
 import Result from '../shared/Result';
-import Rooms from './Rooms';
+import Rooms from '../sockets/Rooms';
 import Seat from './Seat';
 
 export default class PokerTable {
