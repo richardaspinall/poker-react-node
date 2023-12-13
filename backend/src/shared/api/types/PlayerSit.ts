@@ -3,7 +3,7 @@ export type PlayerSitPayload = {
   socketId: string;
 };
 
-export type PlayerSitResult = {
-  seatNumber: string;
-  socketId: string;
+export type PlayerSitOutput = {
+  ok: boolean,
+  error?: string
 };
