@@ -2,8 +2,8 @@
 import request from 'supertest';
 
 // internal modules
-import httpServer, { shutDown } from '../index';
-import Logger from '../utils/Logger';
+import httpServer, { shutDown } from '../../index';
+import Logger from '../../utils/Logger';
 
 // mocks (not all used here, but leaving cos it could be in future)
 import {
@@ -13,8 +13,8 @@ import {
   mockSendEventToRoomError,
 } from './roomMocks';
 
-import Rooms from '../sockets/Rooms';
-import Result, { ResultSuccess, ResultError } from '../shared/Result';
+import Rooms from '../../sockets/Rooms';
+import Result, { ResultSuccess, ResultError } from '../../shared/Result';
 
 const debug = Logger.newDebugger('test:tables');
 
