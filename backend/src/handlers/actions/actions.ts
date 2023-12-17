@@ -44,4 +44,4 @@ class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
   }
 }
 
-export default new TablesJoinHandler();
+export default TablesJoinHandler;
