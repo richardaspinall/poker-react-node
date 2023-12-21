@@ -1,8 +1,23 @@
 import express from 'express';
-import { router as actionsRouter } from './actions';
+
+import routes from './routeConfig';
 
 const router = express.Router();
 
-router.use('/actions', actionsRouter);
+// Automatically set up routes based on the route configuration
+routes.forEach((route) => {
+  import(route.handler)
+    .then((module) => {
+      const HandlerClass = module.default;
+      const handlerInstance = new HandlerClass();
+
+      router[route.httpMethod](route.path, (req, res) => {
+        handlerInstance['runHandler'](req, res);
+      });
+    })
+    .catch((error) => {
+      console.error(`Failed to load route '${route.path}':`, error);
+    });
+});
 
 export default router;
