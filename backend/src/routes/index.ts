@@ -8,7 +8,7 @@ const router = express.Router();
 routes.forEach((route) => {
   import(route.handler)
     .then((module) => {
-      const HandlerClass = module.default;
+      const HandlerClass = module[route.handlerClass];
       const handlerInstance = new HandlerClass();
 
       router[route.httpMethod](route.path, (req, res) => {
