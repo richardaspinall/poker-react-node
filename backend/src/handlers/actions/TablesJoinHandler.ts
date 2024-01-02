@@ -13,7 +13,8 @@ import GameLobbyService from '../../game-lobby-service';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
+// join table
+export class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
   constructor() {
     super();
   }
