@@ -23,9 +23,6 @@ function Actions({}: ActionsProps) {
         <button className="action-buttons" id="leave-table-button">
           Leave
         </button>
-        <button className="action-buttons" id="im-ready-button">
-          I'm ready
-        </button>
       </div>
     </div>
   );
