@@ -20,9 +20,8 @@ export default function App() {
     function onHelloFromServer() {
       console.log('Hello from server');
     }
-
-    function onPlayerJoined(payload) {
-        console.log(payload);
+    function onPlayerJoined() {
+      console.log('Player sat down');
     }
     function onGameReady() {
       console.log('Starting Game')
