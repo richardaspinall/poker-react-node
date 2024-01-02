@@ -97,7 +97,7 @@ export default class PokerTable {
                 return Result.error('Seats still empty');
             }
         }
-        // Start game here
+        // StartGame logic to go here [separate task]
         // startGame(tableName)
         return Result.success();
     }
