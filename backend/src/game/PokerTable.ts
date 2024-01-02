@@ -61,7 +61,6 @@ export default class PokerTable {
                     seat.isTaken = true;
                     // check if table is fully/ready
                     const tableReady = this.checkTableReady(tableName)
-                    console.log('tableready',tableReady)
                     // Emit event to all clients connected that game is starting
                     if (tableReady.ok) {
                         let event = 'start_game';
