@@ -24,17 +24,22 @@ export default function App() {
     function onPlayerJoined(payload) {
         console.log(payload);
     }
+    function onGameReady() {
+      console.log('Starting Game')
+  }
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('hello_from_server', onHelloFromServer);
     socket.on('player_joined', onPlayerJoined);
+    socket.on('start_game', onGameReady);
 
     return () => {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('hello_from_server', onHelloFromServer);
       socket.off('player_joined', onPlayerJoined);
+      socket.off('start_game', onGameReady);
     };
   }, []);
 
