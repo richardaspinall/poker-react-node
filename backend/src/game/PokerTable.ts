@@ -60,7 +60,7 @@ export default class PokerTable {
                     seat.playerId = clientId;
                     seat.isTaken = true;
                     // check if table is fully/ready
-                    const tableReady = this.checkTableReady(tableName)
+                    const tableReady = this.checkTableReady(table)
                     // Emit event to all clients connected that game is starting
                     if (tableReady.ok) {
                         let event = 'start_game';
@@ -88,8 +88,7 @@ export default class PokerTable {
         return Object.values(PokerTable.tables);
     }
 
-    private static checkTableReady(tableName: string): Result<void>{
-        let table = this.getTable(tableName);
+    private static checkTableReady(table: PokerTable): Result<void>{
         // update state or user to ready
         for (const seat of table.seats) {
             // If any seat has an empty id it's not ready to start
