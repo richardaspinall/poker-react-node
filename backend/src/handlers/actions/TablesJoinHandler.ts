@@ -10,7 +10,7 @@ import BaseHandler from '../../shared/BaseHandler';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-export class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
+class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
   constructor() {
     super();
   }
@@ -43,3 +43,4 @@ export class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
   }
 }
 
+export default TablesJoinHandler;
