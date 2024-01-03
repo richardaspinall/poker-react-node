@@ -88,7 +88,7 @@ export default class PokerTable {
         return Object.values(PokerTable.tables);
     }
 
-    private static checkTableReady(table: PokerTable): Result<void>{
+    public static checkTableReady(table: PokerTable): Result<void>{
         // update state or user to ready
         for (const seat of table.seats) {
             // If any seat has an empty id it's not ready to start
