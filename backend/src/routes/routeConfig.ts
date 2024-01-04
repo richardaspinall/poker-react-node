@@ -13,7 +13,11 @@ const routes: RouteConfig[] = [
     path: '/actions/tables.join',
     handler: '../handlers/actions/TablesJoinHandler.ts',
   },
-  // Add more routes here
+  {
+    httpMethod: 'post',
+    path: '/actions/tables.leave',
+    handler: '../handlers/actions/TablesLeaveHandler.ts'
+  }
 ];
 
 export default routes;

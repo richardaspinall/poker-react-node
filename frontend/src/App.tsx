@@ -23,6 +23,9 @@ export default function App() {
     function onPlayerJoined() {
       console.log('Player sat down');
     }
+    function onPlayerLeft() {
+      console.log('Player left');
+    }
     function onGameReady() {
       console.log('Starting Game')
   }
@@ -31,6 +34,7 @@ export default function App() {
     socket.on('disconnect', onDisconnect);
     socket.on('hello_from_server', onHelloFromServer);
     socket.on('player_joined', onPlayerJoined);
+    socket.on('player_left', onPlayerLeft);
     socket.on('start_game', onGameReady);
 
     return () => {
@@ -38,7 +42,9 @@ export default function App() {
       socket.off('disconnect', onDisconnect);
       socket.off('hello_from_server', onHelloFromServer);
       socket.off('player_joined', onPlayerJoined);
+      socket.off('player_left', onPlayerLeft);
       socket.off('start_game', onGameReady);
+
     };
   }, []);
 
