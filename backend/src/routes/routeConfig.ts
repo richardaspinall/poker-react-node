@@ -10,7 +10,7 @@ const routes: RouteConfig[] = [
   {
     httpMethod: 'post',
     path: '/actions/tables.join',
-    handler: '../handlers/actions/actions.ts',
+    handler: '../handlers/actions/TablesJoinHandler.ts',
   },
   // Add more routes here
 ];
