@@ -43,9 +43,7 @@ export default class PokerTable {
     }
 
     public static sitAtTable(tableName: string, seatNumber: string, clientId: string): Result<void> {
-        // Retrieve the table
         let table = this.getTable(tableName);
-        // Loop through seats
         for (const seat of table.seats) {
             // Check if player is already seated at the table
             if (seat.playerId == clientId ){
