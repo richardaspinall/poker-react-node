@@ -49,8 +49,6 @@ export default class PokerTable {
             if (seat.playerId == clientId ){
                 return Result.error('Player is already sitting at the table');
             }
-        }
-        for (const seat of table.seats) {
             // Check if the seat is already taken by someone else
             if (seat.seatNumber == seatNumber) {
                 if (seat.isTaken){
