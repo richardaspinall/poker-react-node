@@ -12,11 +12,14 @@
 
 ### Task
 
-<!--- Task link from ClickUp (found on the right through Copy link)--->
+<!---
+- Task link from ClickUp (found on the right through Copy link)
+- Task ID from ClickUp (find the id and add CU- as a prefix like CU-123456 )
+--->
 
 ### Checklist
 
-<!--- X off relevant items for this change --->
+<!--- X off relevant items for this change, delete anything not relevant --->
 
 - [ ] Added unit tests
 - [ ] Added learning objectives to clickup task
