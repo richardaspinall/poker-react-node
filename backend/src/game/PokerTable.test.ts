@@ -11,6 +11,7 @@ describe('PokerTable.sitAtTable', () => {
 
     expect(res.ok).toEqual(true);
     expect(res.isError).toEqual(false);
+    expect(res.errorMessage).toEqual('');
   });
 
   it('should error when seat is already taken', () => {
