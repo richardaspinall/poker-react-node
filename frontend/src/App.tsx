@@ -22,7 +22,7 @@ export default function App() {
     }
 
     function onPlayerJoined(payload) {
-        console.log(payload)
+        console.log(payload);
     }
 
     socket.on('connect', onConnect);
