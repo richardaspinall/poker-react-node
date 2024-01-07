@@ -1,12 +1,12 @@
 // internal modules
 import GameLobby from './GameLobby';
-import GameState from './GameState';
+import GameState from '../game/GameState';
 import PokerTable from './PokerTable';
 import Result from '../shared/Result';
 
 const testDatabase = process.env.DATABASE;
 
-export default class GameService {
+class GameLobbyService {
   private gameLobby: GameLobby;
 
   constructor() {
@@ -29,7 +29,9 @@ export default class GameService {
       return Result.error('name_is_taken');
     }
     const pokerTable = new PokerTable(name, this.generateId(), gameState, numSeats);
-    this.gameLobby.addPokerTable(pokerTable);
+    this.gameLobby.addTable(pokerTable);
     return Result.success();
   }
 }
+
+export default new GameLobbyService();

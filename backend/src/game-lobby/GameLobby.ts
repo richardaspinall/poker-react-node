@@ -11,12 +11,12 @@ export default class GameLobby {
   // TODO: This would be a database eventually
   private tables: PokerTable[] = [];
 
-  public addPokerTable(pokerTable: PokerTable) {
+  public addTable(pokerTable: PokerTable) {
     this.tables.push(pokerTable);
   }
 
   public isNameTaken(name: string): boolean {
-    return this.tables.some((table) => table.getName() === name);
+    return !!this.tables.find((table) => table.getName() === name);
   }
   // Methods remove tables, join/leave tables.
 }

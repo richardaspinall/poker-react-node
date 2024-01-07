@@ -3,7 +3,7 @@ import express, { Request, Response } from 'express';
 
 // Iternal modules
 import Logger from '../utils/Logger';
-import GameService from '../game/GameService';
+import GameLobbyService from '../game-lobby/GameLobbyService';
 import {
   tableCreateSchema,
   validatePayload,
@@ -13,8 +13,6 @@ import {
 
 const debug = Logger.newDebugger('APP:routes:tables');
 const router = express.Router();
-
-const gameService = new GameService();
 
 // TODO: need to think about how to handle the table creation and what
 // we return
@@ -30,7 +28,7 @@ router.post('/tables.create', (req: Request, res: Response<TableCreateResult>) =
   const name = payload.getValue().name;
   const numSeats = payload.getValue().numSeats;
 
-  const createPokerTable = gameService.createPokerTable(name, numSeats);
+  const createPokerTable = GameLobbyService.createPokerTable(name, numSeats);
 
   if (createPokerTable.isError) {
     res.status(409).json({ ok: false, error: createPokerTable.errorMessage });
