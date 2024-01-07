@@ -5,6 +5,9 @@ import FetchFasade from '../../../fetch/FetchFasade';
 
 import { PlayerSitPayload, PlayerSitOutput } from '../../../../../backend/src/shared/api/types/PlayerSit';
 
+// Harcoding but these would be dynamic in the future
+import Facedown from '../../../assets/images/cards/Facedown.svg';
+
 type SeatProps = {
   seatNumber: string;
   chipCount: number;
@@ -24,7 +27,7 @@ export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
 
   return (
     <div className="seat" id={seatNumber} data-chip-count={chipCount} onClick={playerSit}>
-      Empty
+      <img src={Facedown} className="" alt="Facedown cards" />
     </div>
   );
 }
