@@ -6,7 +6,7 @@ import FetchFasade from '../../../fetch/FetchFasade';
 import { PlayerSitPayload, PlayerSitOutput } from '../../../../../backend/src/shared/api/types/PlayerSit';
 
 // Harcoding but these would be dynamic in the future
-import Facedown from '../../../assets/images/cards/Facedown.svg';
+import { Facedown } from './CardImages';
 
 type SeatProps = {
   seatNumber: string;
