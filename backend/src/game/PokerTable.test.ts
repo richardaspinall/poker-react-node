@@ -2,7 +2,7 @@ import PokerTable from './PokerTable';
 import Result from '../shared/Result';
 import Rooms from '../sockets/Rooms';
 
-describe('PokerTable.sitAtTable', () => {
+describe('sitAtTable', () => {
   it('should confirm a player has sat down', () => {
     const tableName = 'table_1';
     PokerTable.createPokerTable(tableName, 2);
@@ -40,7 +40,7 @@ describe('PokerTable.sitAtTable', () => {
     expect(res.errorMessage).toEqual('Player is already sitting at the table');
   });
 
-  it('should error when seat number doesn\'t exist', () => {
+  it('should error when seat number does not exist', () => {
     const tableName = 'table_4';
     PokerTable.createPokerTable(tableName, 2);
     jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => Result.success());
