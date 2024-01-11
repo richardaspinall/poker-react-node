@@ -6,7 +6,8 @@
     "install:all": "npm install && cd ./backend && npm install && cd ../frontend && npm install",
     "test": "cd backend && npm run test",
     "start:dev-frontend": "cd frontend && npm run dev",
-    "start:dev-backend": "cd backend && npm run dev"
+    "start:dev-backend": "cd backend && npm run dev",
+    "create-dev-db": "cd backend && node db/create_dev_db.js"
   },
   "devDependencies": {
     "@types/jest": "^29.5.5",
