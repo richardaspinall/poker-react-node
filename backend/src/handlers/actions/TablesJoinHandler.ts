@@ -20,6 +20,10 @@ class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
     const body = req.body as PlayerSitPayload;
     const seatNumber = body.selectedSeatNumber;
     const clientId = body.socketId;
+
+    // TODO:
+    // 1. Get the table from the GameLobbyService
+    // 2. Call the sitAtTable method on the table
     const join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
     if (!join_room.ok) {
       return res.send({
