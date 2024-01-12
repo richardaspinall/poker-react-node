@@ -19,7 +19,8 @@ const httpServer = createServer(app);
 httpServer.listen(3000);
 
 SocketServer.initialize(httpServer);
-const newPokerTable = PokerTable.createPokerTable('table_1', 2);
+
+const newPokerTable = PokerTable.createPokerTable('table_1', 2); // TODO: remove
 
 export default httpServer;
 

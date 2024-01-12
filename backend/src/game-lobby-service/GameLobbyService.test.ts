@@ -1,5 +1,4 @@
-import { GameLobbyService } from './GameLobbyService';
-import PokerTable from './PokerTable';
+import GameLobbyService from './GameLobbyService';
 
 describe('GameLobbyService', () => {
   let gameLobbyService: GameLobbyService;

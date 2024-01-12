@@ -1,9 +1,9 @@
 // internal modules
-import GameLobby from './GameLobby';
-import PokerTable from './PokerTable';
+import GameLobby from './game-lobby/GameLobby';
+import PokerTable from './poker-table/PokerTable';
 import Result from '../shared/Result';
 
-export class GameLobbyService {
+export default class GameLobbyService {
   private gameLobby: GameLobby;
 
   constructor() {
@@ -29,5 +29,3 @@ export class GameLobbyService {
     return this.gameLobby.getTables().find((table) => table.getName() === name);
   }
 }
-
-export default new GameLobbyService();

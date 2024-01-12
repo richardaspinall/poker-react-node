@@ -5,8 +5,8 @@ This class is responsible for managing a single poker table. It will be responsi
 */
 
 // internal modules
-import Rooms from '../sockets/Rooms';
-import Logger from '../utils/Logger';
+import Rooms from '../../sockets/Rooms';
+import Logger from '../../utils/Logger';
 
 export default class PokerTable {
   constructor(private name: string, private numSeats: number) {

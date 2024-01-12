@@ -1,12 +1,13 @@
 // External modules
 import { Request, Response } from 'express';
-import Rooms from '../../sockets/Rooms';
-import PokerTable from '../../game/PokerTable';
 
 // Internal modules
-import Logger from '../../utils/Logger';
-import { PlayerSitPayload, PlayerSitOutput } from '../../shared/api/types/PlayerSit';
 import BaseHandler from '../../shared/BaseHandler';
+import Logger from '../../utils/Logger';
+
+import { PlayerSitPayload, PlayerSitOutput } from '../../shared/api/types/PlayerSit';
+import Rooms from '../../sockets/Rooms';
+import PokerTable from '../../game/PokerTable';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 

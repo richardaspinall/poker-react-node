@@ -1,5 +1,5 @@
 import GameLobby from './GameLobby';
-import PokerTable from './PokerTable';
+import PokerTable from '../poker-table/PokerTable';
 
 describe('GameLobby', () => {
   let gameLobby: GameLobby;
