@@ -9,6 +9,8 @@ import { PlayerSitPayload, PlayerSitOutput } from '../../shared/api/types/Player
 import Rooms from '../../sockets/Rooms';
 import PokerTable from '../../game/PokerTable';
 
+import GameLobbyService from '../../game-lobby-service';
+
 const debug = Logger.newDebugger('APP:Routes:actions');
 
 class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
@@ -24,7 +26,16 @@ class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
     // TODO:
     // 1. Get the table from the GameLobbyService
     // 2. Call the sitAtTable method on the table
-    const join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
+
+    const pokerTable = GameLobbyService.getTable('table_1');
+
+    if (!pokerTable) {
+      return res.send({
+        ok: false,
+        error: 'Table does not exist',
+      });
+    }
+    const join_room = pokerTable.sitAtTable('table_1', seatNumber, clientId);
     if (!join_room.ok) {
       return res.send({
         ok: false,
