@@ -23,10 +23,6 @@ class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
     const seatNumber = body.selectedSeatNumber;
     const clientId = body.socketId;
 
-    // TODO:
-    // 1. Get the table from the GameLobbyService
-    // 2. Call the sitAtTable method on the table
-
     const pokerTable = GameLobbyService.getTable('table_1');
 
     if (!pokerTable) {
