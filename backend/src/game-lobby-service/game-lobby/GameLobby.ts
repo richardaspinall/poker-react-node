@@ -5,7 +5,7 @@ This class will be the main class for the game lobby. It will be responsible for
 */
 
 // internal modules
-import PokerTable from '../poker-table/PokerTable';
+import PokerTable from '../../game/PokerTable';
 
 export default class GameLobby {
   // TODO: This would be a database eventually
