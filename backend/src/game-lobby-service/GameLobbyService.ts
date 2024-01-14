@@ -24,7 +24,7 @@ export default class GameLobbyService {
 
     const res = PokerTable.createPokerTable(name, numSeats);
     if (res.isError) {
-      Logger.error(res.errorMessage);
+      debug(res.errorMessage);
       return Result.error(res.errorMessage);
     }
     const pokerTable = res.getValue();
