@@ -93,3 +93,32 @@ describe('PokerTable', () => {
     });
   });
 });
+
+describe('leaveTable', () => {
+  it('should confirm a player has left the table', () => {
+    const tableName = 'table_1';
+    PokerTable.createPokerTable(tableName, 2);
+    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => Result.success());
+    PokerTable.sitAtTable(tableName, 'seat-1', 'a1')
+    const res = PokerTable.leaveTable(tableName, 'seat-1', 'a1')
+
+    expect(res.ok).toEqual(true);
+    expect(res.isError).toEqual(false);
+    expect(res.errorMessage).toEqual('');
+  });
+
+  it('should error when the player is not already sitting at the table', () => {
+    const tableName = 'table_2';
+    PokerTable.createPokerTable(tableName, 2);
+    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => Result.success());
+    const res = PokerTable.leaveTable(tableName, 'seat-1', 'b2')
+    
+    expect(res.ok).toEqual(false);
+    expect(res.isError).toEqual(true);
+    expect(res.errorMessage).toEqual('Player not found on table');
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+});
