@@ -20,8 +20,6 @@ httpServer.listen(3000);
 
 SocketServer.initialize(httpServer);
 
-const newPokerTable = PokerTable.createPokerTable('table_1', 2); // TODO: remove
-
 export default httpServer;
 
 // Function to shut down the server (used in tests)
