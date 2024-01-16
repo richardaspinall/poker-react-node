@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "jest $npm_config_file",
-    "dev": "nodemon"
+    "test_db": "DB=test_poker jest --config jest.config.db.js",
+    "dev": "nodemon",
+    "create-test-db": "DB=test_poker node db/create_dev_db.js"
   },
   "author": "",
   "license": "ISC",
