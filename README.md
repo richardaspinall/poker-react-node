@@ -70,7 +70,7 @@ Optional: use a GUI – I had a lot of trouble finding a good one! but this work
 
 ### Then create an env file
 
-- Create a `.env` file with the following
+- Create a `.env` file in the `backend` directory with the following
 
 ```
 DB_HOST="localhost"
