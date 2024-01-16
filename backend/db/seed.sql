@@ -1,11 +1,18 @@
-INSERT INTO user
+INSERT INTO players
 (username, password)
 VALUES 
 ('raspinall', 'testpassword'),
 ('thomas', 'testpassword');
 
-INSERT INTO pokertable
-(name, data)
+INSERT INTO poker_tables
+(poker_table_name)
 VALUES
-('table_1', '{"key1": "value1", "key2": "value2"}'),
-('table_2','{"key1": "value1", "key2": "value2"}');
+('table_1'),
+('table_2');
+
+INSERT INTO poker_table_players
+(poker_table_id, player_id)
+VALUES
+(1, 1000),
+(1, 1001),
+(2, 1000);
