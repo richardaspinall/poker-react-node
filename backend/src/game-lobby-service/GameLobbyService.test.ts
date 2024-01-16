@@ -1,5 +1,6 @@
-import { GameLobbyService } from './GameLobbyService';
-import PokerTable from './PokerTable';
+import GameLobbyService from './GameLobbyService';
+import Rooms from '../sockets/Rooms';
+import { ResultSuccess } from '../shared/Result';
 
 describe('GameLobbyService', () => {
   let gameLobbyService: GameLobbyService;
@@ -22,8 +23,10 @@ describe('GameLobbyService', () => {
     });
   });
 
+  // TODO: room already exists so need to reset that by mocking the Rooms.createRoom method
   describe('createPokerTable', () => {
     it('should create a poker table', () => {
+      jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table_2'));
       gameLobbyService.createPokerTable('table_2', 2);
 
       const table = gameLobbyService.getTable('table_2');

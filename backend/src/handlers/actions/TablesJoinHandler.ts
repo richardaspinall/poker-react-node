@@ -1,12 +1,15 @@
 // External modules
 import { Request, Response } from 'express';
+
+// Internal modules
+import BaseHandler from '../../shared/BaseHandler';
+import Logger from '../../utils/Logger';
+
+import { PlayerSitPayload, PlayerSitOutput } from '../../shared/api/types/PlayerSit';
 import Rooms from '../../sockets/Rooms';
 import PokerTable from '../../game/PokerTable';
 
-// Internal modules
-import Logger from '../../utils/Logger';
-import { PlayerSitPayload, PlayerSitOutput } from '../../shared/api/types/PlayerSit';
-import BaseHandler from '../../shared/BaseHandler';
+import GameLobbyService from '../../game-lobby-service';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
@@ -19,7 +22,16 @@ class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
     const body = req.body as PlayerSitPayload;
     const seatNumber = body.selectedSeatNumber;
     const clientId = body.socketId;
-    const join_room = PokerTable.sitAtTable('table_1', seatNumber, clientId);
+
+    const pokerTable = GameLobbyService.getTable('table_1');
+
+    if (!pokerTable) {
+      return res.send({
+        ok: false,
+        error: 'Table does not exist',
+      });
+    }
+    const join_room = pokerTable.sitAtTable('table_1', seatNumber, clientId);
     if (!join_room.ok) {
       return res.send({
         ok: false,

@@ -1,9 +1,12 @@
 // internal modules
-import GameLobby from './GameLobby';
-import PokerTable from './PokerTable';
+import GameLobby from './game-lobby/GameLobby';
+import PokerTable from '../game/PokerTable';
 import Result from '../shared/Result';
+import Logger from '../utils/Logger';
 
-export class GameLobbyService {
+const debug = Logger.newDebugger('APP:GameLobbyService');
+
+export default class GameLobbyService {
   private gameLobby: GameLobby;
 
   constructor() {
@@ -19,7 +22,13 @@ export class GameLobbyService {
       return Result.error('name_taken');
     }
 
-    const pokerTable = new PokerTable(name, numSeats);
+    const res = PokerTable.createPokerTable(name, numSeats);
+    if (res.isError) {
+      debug(res.errorMessage);
+      return Result.error(res.errorMessage);
+    }
+    const pokerTable = res.getValue();
+
     this.gameLobby.addTable(pokerTable);
 
     return Result.success();
@@ -29,5 +38,3 @@ export class GameLobbyService {
     return this.gameLobby.getTables().find((table) => table.getName() === name);
   }
 }
-
-export default new GameLobbyService();
