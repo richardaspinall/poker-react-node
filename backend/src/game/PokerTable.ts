@@ -73,7 +73,7 @@ export default class PokerTable {
     return Result.error('Seat not found');
   }
 
-  public leaveTable(tableName: string, seatNumber: string, clientId: string): Result<void> {
+  public leaveTable(seatNumber: string, clientId: string): Result<void> {
     // Loop through seats
     for (const seat of this.seats) {
         if (seat.playerId == clientId ){

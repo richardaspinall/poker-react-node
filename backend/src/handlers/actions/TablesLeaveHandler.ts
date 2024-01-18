@@ -1,7 +1,7 @@
 // External modules
 import { Request, Response } from 'express';
 import Rooms from '../../sockets/Rooms';
-import PokerTable from '../../game/PokerTable';
+import GameLobbyService from '../../game-lobby-service/';
 
 // Internal modules
 import Logger from '../../utils/Logger';
@@ -20,7 +20,14 @@ class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
     const body = req.body as PlayerLeavePayload;
     const seatNumber = body.selectedSeatNumber;
     const clientId = body.socketId;
-    const leave_room = PokerTable.leaveTable('table_1', seatNumber, clientId);
+    const pokerTable = GameLobbyService.getTable('table_1');
+    if (!pokerTable) {
+      return res.send({
+        ok: false,
+        error: 'Table does not exist',
+      });
+    }
+    const leave_room = pokerTable.leaveTable(seatNumber, clientId);
     if (!leave_room.ok) {
       return res.send({
         ok: false,
