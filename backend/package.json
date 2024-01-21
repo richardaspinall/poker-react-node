@@ -4,8 +4,9 @@
   "description": "backend for poker game",
   "main": "src/index.ts",
   "scripts": {
-    "test": "jest $npm_config_file",
-    "test_db": "DB=test_poker jest --config jest.config.db.js",
+    "unit_tests": "jest $npm_config_file",
+    "db_tests": "DB=test_poker jest --config jest.config.db.js",
+    "api_tests": "jest --config jest.config.api.js --runInBand",
     "dev": "nodemon",
     "create-test-db": "DB=test_poker node db/create_dev_db.js"
   },
