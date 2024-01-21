@@ -77,20 +77,10 @@ export default class PokerTable {
     // Loop through seats
     for (const seat of this.seats) {
         if (seat.playerId == clientId ){
-            // Update the seat properties
-            seat.playerId = '';
-            seat.isTaken = false;
-            // Emit event to all clients connected that the player has left
-            let event = 'player_left';
-            let payload = {
-                playerId: clientId,
-                seatId: seatNumber
-            };
-            let send_events = Rooms.sendEventToRoom('table_1', event, payload);
-            if (!send_events.ok) {
-                return Result.error(send_events.errorMessage);
-            }
-            return Result.success();
+          // Update the seat properties
+          seat.playerId = '';
+          seat.isTaken = false;
+          return Result.success();
         }
     }
     // Handle the case where the player is not found
