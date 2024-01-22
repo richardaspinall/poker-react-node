@@ -13,7 +13,6 @@ type SeatProps = {
 };
 
 export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
-
   const playerSit = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
     const result = await FetchFasade.post<PlayerSitPayload, PlayerSitOutput>('/api/actions/tables.join', payload);

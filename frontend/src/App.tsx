@@ -44,7 +44,6 @@ export default function App() {
       socket.off('player_joined', onPlayerJoined);
       socket.off('player_left', onPlayerLeft);
       socket.off('start_game', onGameReady);
-
     };
   }, []);
 
