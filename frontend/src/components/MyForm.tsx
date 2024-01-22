@@ -19,7 +19,6 @@ export function MyForm() {
       setIsLoading(false);
     });
   }
-
   return (
     <form onSubmit={onSubmit}>
       <input onChange={(e) => setValue(e.target.value)} />

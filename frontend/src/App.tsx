@@ -24,8 +24,8 @@ export default function App() {
       console.log('Player sat down');
     }
     function onGameReady() {
-      console.log('Starting Game')
-  }
+      console.log('Starting Game');
+    }
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);

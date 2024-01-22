@@ -4,16 +4,17 @@ export type PokerTableGetStatePayload = {
 
 export type PokerTableState = {
   tableName: string;
-  seats: {
-    [key: string]: {
+  seats?: [
+    {
+      seatName: string;
       player: {
         name: string;
         stack: number;
         seatNumber: number;
       };
-    };
-  };
-  board?: String[] | null;
+    }
+  ];
+  board?: string[] | null;
   pot?: number;
   dealer?: string;
   smallBlind?: number;

@@ -17,22 +17,25 @@ app.use('/api', router);
 app.use('/pokerTables.getState', (req, res) => {
   console.log('getState');
 
-  const seats = {
-    seat1: {
+  const seats = [
+    {
+      seatName: 'seat-1',
       player: {
         name: 'Alice',
         stack: 1500,
         seatNumber: 1,
       },
     },
-    seat2: {
+    {
+      seatName: 'seat-2',
       player: {
         name: 'Bob',
-        stack: 2000,
+        stack: 2001,
         seatNumber: 2,
       },
     },
-  };
+  ];
+
   const tableName = 'REDUXTEST';
 
   res

@@ -4,7 +4,7 @@ import fetchPokerTableState from './fetchPokerTableState.ts';
 import { PokerTableState } from '../../../backend/src/shared/api/types/TableState.ts';
 
 interface PokerTableSlice {
-  table: PokerTableState;
+  value: PokerTableState;
   loading: boolean;
   error: SerializedError | null;
 }
@@ -12,9 +12,8 @@ interface PokerTableSlice {
 // this is our state for the table
 // a slice of the state pie
 const initialState: PokerTableSlice = {
-  table: {
+  value: {
     tableName: '',
-    seats: {},
   },
   loading: false,
   error: null,
@@ -25,7 +24,7 @@ const initialState: PokerTableSlice = {
 //
 // the reducers are the actions that can be dispatched to change the state
 export const pokerTableSlice = createSlice({
-  name: 'pokerTables',
+  name: 'pokerTable',
   initialState,
   reducers: {
     setTable: (state, action: PayloadAction<PokerTableSlice>) => {
@@ -39,8 +38,7 @@ export const pokerTableSlice = createSlice({
       })
       .addCase(fetchPokerTableState.fulfilled, (pokerTableSlice, action: PayloadAction<PokerTableState>) => {
         pokerTableSlice.loading = false;
-        pokerTableSlice.table = action.payload;
-        return pokerTableSlice;
+        pokerTableSlice.value = action.payload;
       })
       .addCase(fetchPokerTableState.rejected, (pokerTableSlice, action) => {
         pokerTableSlice.loading = false;

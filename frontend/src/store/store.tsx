@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import tableReducer from './tableSlice';
+import tableReducer from './pokerTableSlice';
 
 const store = configureStore({
   reducer: {
-    table: tableReducer,
+    pokerTable: tableReducer,
   },
 });
 

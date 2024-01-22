@@ -13,6 +13,7 @@ import { RootState, AppDispatch } from '../../store/store.tsx';
 import { useEffect } from 'react';
 
 import fetchPokerTableState from '../../store/fetchPokerTableState.ts';
+import { selectPokerTable } from '../../store/selectors.ts';
 
 type TableProps = {};
 export function Table({}: TableProps) {
@@ -20,18 +21,18 @@ export function Table({}: TableProps) {
 
   useEffect(() => {
     dispatch(fetchPokerTableState({ tableName: 'table-1' })); // getTable state from server
-  }, [dispatch]);
+  }, []);
 
-  const table = useSelector((state: RootState) => state.table);
-
-  console.log(table);
+  const table = useSelector(selectPokerTable);
   return (
     <>
       <div id="table">
         <Pot />
         <Board />
-        <Seat seatNumber="seat-1" chipCount={1000} socket={socket} />
-        <Seat seatNumber="seat-2" chipCount={1000} socket={socket} />
+
+        {table.value.seats?.map((seat) => (
+          <Seat key={seat.seatName} seatNumber={seat.seatName} chipCount={seat.player.stack} socket={socket} />
+        ))}
       </div>
       <Actions />
     </>
