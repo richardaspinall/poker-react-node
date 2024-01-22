@@ -4,7 +4,8 @@
     "start:debug": "DEBUG=APP:* DEBUG_HIDE_DATE=true DEBUG_COLORS=true concurrently \"npm run start:dev-frontend\" \"npm run start:dev-backend\"",
     "start:debug-only": "DEBUG=$NAMESPACE DEBUG_HIDE_DATE=true DEBUG_COLORS=true concurrently \"npm run start:dev-frontend\" \"npm run start:dev-backend\"",
     "install:all": "npm install && cd ./backend && npm install && cd ../frontend && npm install",
-    "tests": "cd backend && npm run test",
+    "unit_tests": "cd backend && npm run unit_tests",
+    "api_tests": "cd backend && npm run api_tests",
     "start:dev-frontend": "cd frontend && npm run dev",
     "start:dev-backend": "cd backend && npm run dev",
     "create-dev-db": "cd backend && DB=dev_poker node db/create_dev_db.js"

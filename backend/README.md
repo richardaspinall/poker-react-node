@@ -10,7 +10,9 @@
 
 ## Run tests:
 
-`npm run test`
+`npm run unit_tests`
+`npm run db_tests`
+`npm run api_tests`
 
 `npm run test --file={path_to_file}`
 
