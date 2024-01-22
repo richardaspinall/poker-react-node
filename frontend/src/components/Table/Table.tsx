@@ -8,33 +8,23 @@ import Board from './Board/Board';
 import Seat from './Seat/Seat';
 import Actions from './Actions/Actions';
 
-import { RootState } from '../../store/store.tsx';
-
-import { setTable } from '../../store/tableSlice.tsx';
+import { RootState, AppDispatch } from '../../store/store.tsx';
 
 import { useEffect } from 'react';
 
+import fetchPokerTableState from '../../store/fetchPokerTableState.ts';
+
 type TableProps = {};
 export function Table({}: TableProps) {
-  const dispatch = useDispatch();
-  const table = useSelector((state: RootState) => state);
+  const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(
-      setTable({
-        seats: [
-          {
-            seat: 'seat-1',
-            player: 'player-1',
-          },
-          { seat: 'seat-2', player: 'player-3' },
-        ],
-        loading: false,
-        error: null,
-      })
-    );
+    dispatch(fetchPokerTableState({ tableName: 'table-1' })); // getTable state from server
   }, [dispatch]);
-  console.log(table.table);
+
+  const table = useSelector((state: RootState) => state.table);
+
+  console.log(table);
   return (
     <>
       <div id="table">

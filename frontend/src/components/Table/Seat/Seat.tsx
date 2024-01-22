@@ -6,8 +6,6 @@ import FetchFasade from '../../../fetch/FetchFasade';
 
 import { PlayerSitPayload, PlayerSitOutput } from '../../../../../backend/src/shared/api/types/PlayerSit';
 
-import addPlayerToTable from '../../../store/exampleCreateAsyncThunk';
-
 type SeatProps = {
   seatNumber: string;
   chipCount: number;
@@ -16,16 +14,6 @@ type SeatProps = {
 
 export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
   const onPlayerSit = useCallback(async (event: React.MouseEvent) => {
-    const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
-    const result = await addPlayerToTable(payload);
-    if (result.ok) {
-      console.log(result.getValue());
-    } else {
-      console.log('error', result.errorMessage);
-    }
-  }, []);
-
-  const playerSit = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
     const result = await FetchFasade.post<PlayerSitPayload, PlayerSitOutput>('/api/actions/tables.join', payload);
     if (result.ok) {
@@ -36,7 +24,7 @@ export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
   }, []);
 
   return (
-    <div className="seat" id={seatNumber} data-chip-count={chipCount} onClick={playerSit}>
+    <div className="seat" id={seatNumber} data-chip-count={chipCount} onClick={onPlayerSit}>
       Empty
     </div>
   );
