@@ -35,12 +35,12 @@ class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
       });
     }
     // Emit event to all clients connected that a player has sat down
-    let event = 'player_left';
-    let payload = {
+    const event = 'player_left';
+    const payload = {
       playerId: clientId,
       seatId: seatNumber,
     };
-    let send_events = Rooms.sendEventToRoom('table_1', event, payload);
+    const send_events = Rooms.sendEventToRoom('table_1', event, payload);
     if (!send_events.ok) {
       return res.send({
         ok: false,
