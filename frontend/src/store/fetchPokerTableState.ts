@@ -1,23 +1,20 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import FetchFasade from '../fetch/FetchFasade';
-import { PokerTableGetStatePayload, PokerTableGetStateOutput } from '../../../backend/src/shared/api/types/TableState';
+import { PokerTableGetStatePayload } from '../../../backend/src/shared/api/types/TableState';
+
+import apiCall from '../fetch/apiCall';
 
 const fetchPokerTableState = createAsyncThunk(
   'pokerTables/getState',
   // if you type your function argument here
   async (payload: PokerTableGetStatePayload, thunkApi) => {
     try {
-      const result = await FetchFasade.post<PokerTableGetStatePayload, PokerTableGetStateOutput>(
-        '/pokerTables.getState',
-        payload
-      );
-
-      if (result.ok) {
-        console.log(result.getValue().state);
+      const result = await apiCall.post('/pokerTables.getState', payload);
+      if (result?.ok) {
+        console.log(result.state);
       } else {
-        console.log('error', result.errorMessage);
+        console.log('error', result?.error);
       }
-      return result.getValue().state;
+      return result?.state;
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }

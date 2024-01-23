@@ -2,30 +2,28 @@ import React, { useCallback } from 'react';
 
 import { Socket } from 'socket.io-client';
 
-import FetchFasade from '../../../fetch/FetchFasade';
-
-import { PlayerSitPayload, PlayerSitOutput } from '../../../../../backend/src/shared/api/types/PlayerSit';
+import apiCall from '../../../fetch/apiCall';
 
 type SeatProps = {
   seatNumber: string;
-  chipCount: number;
+  stack: number;
   socket: Socket;
 };
 
-export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
+const Seat = ({ seatNumber, stack, socket }: SeatProps) => {
   const onPlayerSit = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
-    const result = await FetchFasade.post<PlayerSitPayload, PlayerSitOutput>('/api/actions/tables.join', payload);
-    if (result.ok) {
-      console.log(result.getValue());
-    } else {
-      console.log('error', result.errorMessage);
+    const result = await apiCall.post('/api/actions/tables.join', payload);
+    if (!result?.ok) {
+      console.log(result?.error);
     }
   }, []);
 
   return (
-    <div className="seat" id={seatNumber} data-chip-count={chipCount} onClick={onPlayerSit}>
+    <div className="seat" id={seatNumber} data-stack={stack} onClick={onPlayerSit}>
       Empty
     </div>
   );
-}
+};
+
+export default Seat;
