@@ -4,6 +4,6 @@ export type PlayerSitPayload = {
 };
 
 export type PlayerSitOutput = {
-  ok: boolean,
-  error?: string
+  ok: boolean;
+  error?: string;
 };

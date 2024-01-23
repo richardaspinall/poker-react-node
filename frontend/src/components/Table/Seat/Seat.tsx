@@ -5,6 +5,7 @@ import FetchFacade from '../../../fetch/FetchFacade';
 
 import { PlayerSitPayload, PlayerSitOutput } from '../../../../../backend/src/shared/api/types/PlayerSit';
 import { PlayerLeavePayload, PlayerLeaveOutput } from '../../../../../backend/src/shared/api/types/PlayerLeave';
+import apiCall from '../../../fetch/apiCall';
 
 type SeatProps = {
   seatNumber: string;
@@ -13,13 +14,13 @@ type SeatProps = {
 };
 
 export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
-  const playerSit = useCallback(async (event: React.MouseEvent) => {
+  const onPlayerSit = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
-    const result = await FetchFacade.post<PlayerSitPayload, PlayerSitOutput>('/api/actions/tables.join', payload);
-    if (result.ok) {
-      console.log(result.getValue());
-    } else {
-      console.log('error', result.errorMessage);
+
+    const result = await apiCall.post('tables.join', payload);
+    if (!result?.ok) {
+      // Do something with the error
+      console.log(result?.error);
     }
   }, []);
 
@@ -39,6 +40,8 @@ export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
         Empty
       </div>
       <div onClick={playerLeave}> Leave Seat {seatNumber} </div>
+    <div className="seat" id={seatNumber} data-chip-count={chipCount} onClick={onPlayerSit}>
+      Empty
     </div>
   );
 }

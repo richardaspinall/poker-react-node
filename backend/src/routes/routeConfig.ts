@@ -15,8 +15,18 @@ const routes: RouteConfig[] = [
   {
     httpMethod: 'post',
     path: '/actions/tables.leave',
-    handler: '../handlers/actions/TablesLeaveHandler.ts'
-  }
+    handler: '../handlers/actions/TablesLeaveHandler.ts',
+  },
 ];
+import { ApiMethodShape, ApiMethods } from './apiMethods';
+
+const routes: ApiMethodShape[] = Object.keys(ApiMethods).map((key) => {
+  const apiMethod = ApiMethods[key as keyof typeof ApiMethods];
+  return {
+    httpMethod: apiMethod.httpMethod,
+    path: `/actions/${apiMethod.path}`,
+    handler: apiMethod.handler,
+  };
+});
 
 export default routes;
