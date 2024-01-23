@@ -20,9 +20,6 @@ function Actions({}: ActionsProps) {
         <button className="action-buttons" id="raise-action-button">
           Bet
         </button>
-        <button className="action-buttons" id="leave-table-button">
-          Leave
-        </button>
       </div>
     </div>
   );
