@@ -78,6 +78,20 @@ export default class PokerTable {
     return Result.error('Player not found on table');
   }
 
+  public getAvailableSeats(): Result<Seat[]> {
+    const availableSeats = [];
+    for (const seat of this.seats) {
+      if (seat.isTaken == false) {
+        availableSeats.push(seat);
+      }
+    }
+    if (availableSeats.length > 0) {
+      return new ResultSuccess(availableSeats);
+    } else {
+      return new ResultError('No seats available');
+    }
+  }
+
   getName() {
     return this.tableName;
   }

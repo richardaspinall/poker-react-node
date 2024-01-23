@@ -109,6 +109,10 @@ describe('PokerTable', () => {
       expect(res.ok).toEqual(true);
       expect(res.isError).toEqual(false);
       expect(res.errorMessage).toEqual('');
+
+      const availableSeats = pokerTable.getAvailableSeats();
+      const seatExists: boolean = (availableSeats.value || []).some(seat => seat.seatNumber === 'seat-1');
+      expect(seatExists).toBe(true);
     });
   
     it('should error when the player is not already sitting at the table', () => {
