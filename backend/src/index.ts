@@ -14,6 +14,52 @@ app.use(cors());
 
 app.use('/api', router);
 
+app.use('/pokerTables.getState', (req, res) => {
+  console.log('getState');
+
+  const seats = [
+    {
+      seatName: 'seat-1',
+      player: {
+        name: 'Alice',
+        stack: 1500,
+        seatNumber: 1,
+      },
+    },
+    {
+      seatName: 'seat-2',
+      player: {
+        name: 'Bob',
+        stack: 2001,
+        seatNumber: 2,
+      },
+    },
+  ];
+
+  const tableName = 'REDUXTEST';
+
+  res
+    .json({
+      ok: true,
+      state: {
+        tableName,
+        seats,
+        board: [],
+        pot: 0,
+        dealer: 'seat1',
+        smallBlind: 5,
+        bigBlind: 10,
+        currentTurn: 'seat1',
+        currentBet: 0,
+        lastRaise: 0,
+        lastRaiseAmount: 0,
+        lastRaisePlayer: 0,
+        lastRaiseTotal: 0,
+      },
+    })
+    .send();
+});
+
 const httpServer = createServer(app);
 
 httpServer.listen(3000);
