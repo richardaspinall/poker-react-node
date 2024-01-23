@@ -1,6 +1,6 @@
 import Result, { ResultSuccess, ResultError } from '../../../backend/src/shared/Result';
 
-class FetchFasade {
+class FetchFacade {
   private static async processRequest<TResult>(request: RequestInfo): Promise<Result<TResult>> {
     const response = await fetch(request);
 
@@ -24,7 +24,7 @@ class FetchFasade {
       body: JSON.stringify(payload),
     });
 
-    return FetchFasade.processRequest<TResult>(request);
+    return FetchFacade.processRequest<TResult>(request);
   }
 
   static async get<TResult>(route: string): Promise<Result<TResult>> {
@@ -36,8 +36,8 @@ class FetchFasade {
       headers: headers,
     });
 
-    return FetchFasade.processRequest<TResult>(request);
+    return FetchFacade.processRequest<TResult>(request);
   }
 }
 
-export default FetchFasade;
+export default FetchFacade;
