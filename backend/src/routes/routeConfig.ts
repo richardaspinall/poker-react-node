@@ -5,19 +5,6 @@ interface RouteConfig {
   handler: string; // Path to the router or handler file
 }
 
-// Define the route configurations
-const routes: RouteConfig[] = [
-  {
-    httpMethod: 'post',
-    path: '/actions/tables.join',
-    handler: '../handlers/actions/TablesJoinHandler.ts',
-  },
-  {
-    httpMethod: 'post',
-    path: '/actions/tables.leave',
-    handler: '../handlers/actions/TablesLeaveHandler.ts',
-  },
-];
 import { ApiMethodShape, ApiMethods } from './apiMethods';
 
 const routes: ApiMethodShape[] = Object.keys(ApiMethods).map((key) => {
