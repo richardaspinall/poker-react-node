@@ -11,9 +11,6 @@ export default class GameLobbyService {
 
   constructor() {
     this.gameLobby = new GameLobby();
-
-    // seed a table until we have a database
-    this.createPokerTable('table_1', 2);
   }
 
   public createPokerTable(name: string, numSeats: number): Result<void> {

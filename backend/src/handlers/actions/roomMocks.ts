@@ -3,6 +3,10 @@ import Rooms from '../../sockets/Rooms';
 
 import Result, { ResultSuccess, ResultError } from '../../shared/Result';
 
+export const mockCreateRoomSuccess = (roomId: string) => {
+  jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess(roomId));
+};
+
 export const mockJoinRoomSuccess = () => {
   jest.spyOn(Rooms, 'joinRoom').mockImplementation(() => Result.success());
 };
