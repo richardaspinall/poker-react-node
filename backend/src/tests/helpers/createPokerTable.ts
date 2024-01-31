@@ -1,6 +1,6 @@
 import GameLobbyService from '../../game-lobby-service/GameLobbyService';
 import PokerTable from '../../game/PokerTable';
-import { mockCreateRoomSuccess } from '../../handlers/actions/roomMocks';
+import { mockCreateRoomSuccess } from '../mocks/roomMocks';
 
 export default function createPokerTable(tableName: string, numberOfSeats: number): PokerTable {
   mockCreateRoomSuccess(tableName);

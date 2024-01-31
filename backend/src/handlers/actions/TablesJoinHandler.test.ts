@@ -11,7 +11,7 @@ import {
   mockJoinRoomError,
   mockSendEventToRoomSuccess,
   mockSendEventToRoomError,
-} from './roomMocks';
+} from '../../tests/mocks/roomMocks';
 
 import Rooms from '../../sockets/Rooms';
 import Result, { ResultSuccess, ResultError } from '../../shared/Result';

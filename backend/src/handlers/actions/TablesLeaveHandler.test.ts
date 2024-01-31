@@ -12,7 +12,7 @@ import {
   mockJoinRoomError,
   mockSendEventToRoomSuccess,
   mockSendEventToRoomError,
-} from './roomMocks';
+} from '../../tests/mocks/roomMocks';
 
 import Rooms from '../../sockets/Rooms';
 import Result, { ResultSuccess, ResultError } from '../../shared/Result';
@@ -30,9 +30,9 @@ describe('tables.leave', () => {
       socketId: 'abc123',
     });
     const res = await request(httpServer).post('/api/actions/tables.leave').send({
-        selectedSeatNumber: 'seat-1',
-        socketId: 'abc123',
-      });
+      selectedSeatNumber: 'seat-1',
+      socketId: 'abc123',
+    });
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(true);
   });
