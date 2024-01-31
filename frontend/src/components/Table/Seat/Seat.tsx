@@ -1,9 +1,6 @@
 import React, { useCallback } from 'react';
 import { Socket } from 'socket.io-client';
 
-import FetchFacade from '../../../fetch/FetchFacade';
-
-import { PlayerLeavePayload, PlayerLeaveOutput } from '../../../../../backend/src/shared/api/types/PlayerLeave';
 import apiCall from '../../../fetch/apiCall';
 
 type SeatProps = {
@@ -25,11 +22,10 @@ export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
 
   const playerLeave = useCallback(async (event: React.MouseEvent) => {
     const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
-    const result = await FetchFacade.post<PlayerLeavePayload, PlayerLeaveOutput>('tables.leave', payload);
-    if (result.ok) {
-      console.log(result.getValue());
-    } else {
-      console.log('error', result.errorMessage);
+    const result = await apiCall.post('tables.leave', payload);
+    if (!result?.ok) {
+      // Do something with the error
+      console.log(result?.error);
     }
   }, []);
 
