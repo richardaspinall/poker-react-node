@@ -69,27 +69,24 @@ export default class PokerTable {
 
   public leaveTable(seatNumber: string, clientId: string): Result<void> {
     for (const seat of this.seats) {
-        if (seat.playerId == clientId ){
-          seat.playerId = '';
-          seat.isTaken = false;
-          return Result.success();
-        }
+      if (seat.playerId == clientId) {
+        seat.playerId = '';
+        seat.isTaken = false;
+        return Result.success();
+      }
     }
     return Result.error('Player not found on table');
   }
 
-  public getAvailableSeats(): Result<Seat[]> {
+  public getAvailableSeats(): Seat[] {
     const availableSeats = [];
+
     for (const seat of this.seats) {
-      if (seat.isTaken == false) {
+      if (seat.isTaken === false) {
         availableSeats.push(seat);
       }
     }
-    if (availableSeats.length > 0) {
-      return new ResultSuccess(availableSeats);
-    } else {
-      return new ResultError('No seats available');
-    }
+    return availableSeats;
   }
 
   getName() {
