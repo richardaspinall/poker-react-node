@@ -38,7 +38,7 @@ export default class PokerTable {
 
   public sitAtTable(tableName: string, seatNumber: string, clientId: string): Result<void> {
     for (const seat of this.seats) {
-      if (seat.playerId == clientId) {
+      if (seat.playerId === clientId) {
         return Result.error('Player is already sitting at the table');
       }
     }

@@ -7,6 +7,7 @@ export default class Result<T> {
   ) {}
 
   public getValue(): T {
+    if (this.isError) throw new Error(this.errorMessage);
     if (!this.value) throw new Error('Value is undefined');
     return this.value;
   }
