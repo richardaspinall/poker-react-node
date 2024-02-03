@@ -1,23 +1,32 @@
 import GameLobby from './GameLobby';
 import PokerTable from '../../game/PokerTable';
-import Rooms from '../../sockets/Rooms';
-import { ResultSuccess } from '../../shared/Result';
+import createPokerTable from '../../tests/helpers/createPokerTable';
 
 describe('GameLobby', () => {
   let gameLobby: GameLobby;
   let pokerTable: PokerTable;
 
   beforeEach(() => {
-    jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     gameLobby = new GameLobby();
-    pokerTable = PokerTable.createPokerTable('table-1', 2).getValue();
+    pokerTable = createPokerTable('table-1', 2);
   });
 
   describe('addTable', () => {
     it('should add a table to the game lobby', () => {
       gameLobby.addTable(pokerTable);
+      const tables = gameLobby.getTables();
 
-      expect(gameLobby.getTables()).toEqual([pokerTable]);
+      expect(tables[pokerTable.getName()]).toBe(pokerTable);
+    });
+  });
+
+  describe('getTables', () => {
+    it('should return one poker table', () => {
+      gameLobby.addTable(pokerTable);
+      const tables = gameLobby.getTables();
+
+      expect(tables[pokerTable.getName()]).toBe(pokerTable);
+      expect(Object.keys(tables).length).toEqual(1);
     });
   });
 
