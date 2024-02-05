@@ -4,12 +4,11 @@ import { Request, Response } from 'express';
 // Internal modules
 import BaseHandler from '../../shared/BaseHandler';
 import Logger from '../../utils/Logger';
-
-import { PlayerSitPayload, PlayerSitOutput } from '../../shared/api/types/PlayerSit';
 import Rooms from '../../sockets/Rooms';
-import PokerTable from '../../game/PokerTable';
-
 import GameLobbyService from '../../game-lobby-service';
+
+// Types
+import { PlayerSitOutput, validatePlayerSitPayload } from '../../shared/api/types/PlayerSit';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
@@ -19,9 +18,14 @@ class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
   }
 
   protected getResult(req: Request, res: Response<PlayerSitOutput>) {
-    const body = req.body as PlayerSitPayload;
-    const seatNumber = body.selectedSeatNumber;
-    const clientId = body.socketId;
+    const payload = validatePlayerSitPayload(req.body);
+    if (payload.isError) {
+      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
+      return;
+    }
+
+    const seatNumber = payload.getValue().selectedSeatNumber;
+    const clientId = payload.getValue().socketId;
 
     const pokerTable = GameLobbyService.getTable('table_1');
 
@@ -40,11 +44,11 @@ class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
     }
     // Emit event to all clients connected that a player has sat down
     let event = 'player_joined';
-    let payload = {
+    let eventPayload = {
       playerId: clientId,
       seatId: seatNumber,
     };
-    let send_events = Rooms.sendEventToRoom('table_1', event, payload);
+    let send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
     if (!send_events.ok) {
       return res.send({
         ok: false,

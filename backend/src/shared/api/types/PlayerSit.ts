@@ -10,6 +10,7 @@ export type PlayerSitPayload = {
 export type PlayerSitOutput = {
   ok: boolean;
   error?: string;
+  error_details?: string;
 };
 
 // Joi schema
@@ -18,7 +19,7 @@ export const tableCreateSchema = Joi.object({
   socketId: Joi.string().required(),
 });
 
-export function validateTableCreatePayload(payload: any): Result<PlayerSitPayload> {
+export function validatePlayerSitPayload(payload: any): Result<PlayerSitPayload> {
   // Runtime validation with Joi
   const { error, value } = tableCreateSchema.validate(payload, { abortEarly: false });
 
