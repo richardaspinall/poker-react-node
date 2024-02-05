@@ -3,6 +3,7 @@ import Joi from 'joi';
 
 // Internal
 import Result, { ResultError, ResultSuccess } from '../../Result';
+import { BaseOutput } from './BaseOutput';
 
 // Internal utils
 import Logger from '../../../utils/Logger';
@@ -14,11 +15,11 @@ export type PlayerLeavePayload = {
   socketId: string;
 };
 
-export type PlayerLeaveOutput = {
+export interface PlayerLeaveOutput extends BaseOutput {
   ok: boolean;
   error?: string;
   error_details?: string;
-};
+}
 
 // Joi schema
 export const tableLeaveSchema = Joi.object({
@@ -26,6 +27,13 @@ export const tableLeaveSchema = Joi.object({
   socketId: Joi.string().required(),
 });
 
+/*
+ * Depreacted: use shared/validatePayload.ts
+ *
+ * @param payload – the incoming payload to validate against Joi schema
+ *
+ *
+ */
 export function validateTableLeavePayload(payload: any): Result<PlayerLeavePayload> {
   // Runtime validation with Joi
   const { error, value } = tableLeaveSchema.validate(payload, { abortEarly: false });

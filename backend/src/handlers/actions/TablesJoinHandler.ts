@@ -3,27 +3,22 @@ import { Request, Response } from 'express';
 
 // Internal modules
 import BaseHandler from '../../shared/BaseHandler';
+import Result from '../../shared/Result';
 import Logger from '../../utils/Logger';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
 
 // Types
-import { PlayerSitOutput, validatePlayerSitPayload } from '../../shared/api/types/PlayerSit';
+import { PlayerSitPayload, PlayerSitOutput, tableJoinSchema } from '../../shared/api/types/PlayerSit';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
+class TablesJoinHandler extends BaseHandler<PlayerSitPayload> {
   constructor() {
-    super();
+    super(tableJoinSchema);
   }
 
-  protected getResult(req: Request, res: Response<PlayerSitOutput>) {
-    const payload = validatePlayerSitPayload(req.body);
-    if (payload.isError) {
-      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
-      return;
-    }
-
+  protected getResult(payload: Result<PlayerSitPayload>, res: Response<PlayerSitOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
 

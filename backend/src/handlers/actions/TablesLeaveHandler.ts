@@ -4,25 +4,21 @@ import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service/';
 
 // Internal modules
-import Logger from '../../utils/Logger';
-import { PlayerLeaveOutput, validateTableLeavePayload } from '../../shared/api/types/PlayerLeave';
-
 import BaseHandler from '../../shared/BaseHandler';
+import Result from '../../shared/Result';
+import Logger from '../../utils/Logger';
+
+// Types
+import { PlayerLeavePayload, PlayerLeaveOutput, tableLeaveSchema } from '../../shared/api/types/PlayerLeave';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
+class TablesLeaveHandler extends BaseHandler<PlayerLeavePayload> {
   constructor() {
-    super();
+    super(tableLeaveSchema);
   }
 
-  protected getResult(req: Request, res: Response<PlayerLeaveOutput>) {
-    const payload = validateTableLeavePayload(req.body);
-    if (payload.isError) {
-      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
-      return;
-    }
-
+  protected getResult(payload: Result<PlayerLeavePayload>, res: Response<PlayerLeaveOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
     const pokerTable = GameLobbyService.getTable('table_1');

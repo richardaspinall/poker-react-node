@@ -2,7 +2,6 @@
 import Joi from 'joi';
 
 // Internal
-
 import Result, { ResultError, ResultSuccess } from '../../Result';
 
 // Internal utils
@@ -27,6 +26,7 @@ export const tableJoinSchema = Joi.object({
   socketId: Joi.string().required(),
 });
 
+// Depreacted: use shared/validatePayload.ts
 export function validatePlayerSitPayload(payload: any): Result<PlayerSitPayload> {
   // Runtime validation with Joi
   const { error, value } = tableJoinSchema.validate(payload, { abortEarly: false });
