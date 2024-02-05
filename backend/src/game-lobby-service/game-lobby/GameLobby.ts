@@ -7,20 +7,22 @@ This class will be the main class for the game lobby. It will be responsible for
 // internal modules
 import PokerTable from '../../game/PokerTable';
 
+type TablesRecord = Record<string, PokerTable>;
+
 export default class GameLobby {
   // TODO: This would be a database eventually
-  private tables: PokerTable[] = [];
+  private tables: TablesRecord = {};
 
   public addTable(pokerTable: PokerTable) {
-    this.tables.push(pokerTable);
+    this.tables[pokerTable.getName()] = pokerTable;
   }
 
-  public getTables(): PokerTable[] {
+  public getTables(): TablesRecord {
     return this.tables;
   }
 
   public isNameTaken(name: string): boolean {
-    return !!this.tables.find((table) => table.getName() === name);
+    return !!this.tables[name];
   }
 
   // Methods remove tables, join/leave tables.

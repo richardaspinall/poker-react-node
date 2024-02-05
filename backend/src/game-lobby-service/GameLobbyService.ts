@@ -32,6 +32,7 @@ export default class GameLobbyService {
   }
 
   public getTable(name: string): PokerTable | undefined {
-    return this.gameLobby.getTables().find((table) => table.getName() === name);
+    const tables = this.gameLobby.getTables();
+    return tables[name];
   }
 }
