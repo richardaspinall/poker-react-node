@@ -40,7 +40,8 @@ Extension: humao.rest-client
     "dotenv": "^16.3.1", // allow for environment variables in .env file
     "express": "^4.18.2", // server framework
     "mysql2": "^3.6.5", // for working with mysql
-    "socket.io": "^4.7.2" // socket library
+    "socket.io": "^4.7.2", // socket library
+    "joi": "^17.12.1", // schema validation
   },
   "devDependencies": {
     // types for each library:
