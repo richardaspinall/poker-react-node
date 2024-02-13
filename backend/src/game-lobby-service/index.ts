@@ -1,5 +1,6 @@
 import GameLobbyService from './GameLobbyService';
-// Seed for now
+
+// TODO: Seed / hardcode for now until we are working with a DB
 const gameLobbyService = new GameLobbyService();
 console.log('here');
 gameLobbyService.createPokerTable('table_1', 2);
