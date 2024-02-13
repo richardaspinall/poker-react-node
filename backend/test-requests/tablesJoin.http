@@ -2,16 +2,10 @@
 # With the REST Client extension in vscode, the below requests will show an option 
 # to send the request as a curl command. 
 
-###
-GET http://localhost:3000/api/actions
-
-###
-
-POST http://localhost:3000/api/actions
+POST http://localhost:3000/api/actions/tables.join
 content-type: application/json
 
 {
-    "test": "Hello world",
-    "time": "Wed, 21 Oct 2015 18:27:50 GMT"
+    "selectedSeatNumber": "seat-1",
+    "socketId": "abc123"
 }
-
