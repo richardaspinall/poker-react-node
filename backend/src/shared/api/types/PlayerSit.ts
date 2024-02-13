@@ -1,6 +1,14 @@
+// External
 import Joi from 'joi';
 
+// Internal
+
 import Result, { ResultError, ResultSuccess } from '../../Result';
+
+// Internal utils
+import Logger from '../../../utils/Logger';
+
+const debug = Logger.newDebugger('APP:Validation');
 
 export type PlayerSitPayload = {
   selectedSeatNumber: string;
@@ -14,17 +22,17 @@ export type PlayerSitOutput = {
 };
 
 // Joi schema
-export const tableCreateSchema = Joi.object({
+export const tableJoinSchema = Joi.object({
   selectedSeatNumber: Joi.string().required(),
   socketId: Joi.string().required(),
 });
 
 export function validatePlayerSitPayload(payload: any): Result<PlayerSitPayload> {
   // Runtime validation with Joi
-  const { error, value } = tableCreateSchema.validate(payload, { abortEarly: false });
+  const { error, value } = tableJoinSchema.validate(payload, { abortEarly: false });
 
   if (error) {
-    console.log(error.details);
+    debug(error.details);
     return new ResultError('Invalid request payload', error.details);
   }
   // Here, 'value' is validated by Joi, but TypeScript doesn't know its type.

@@ -26,6 +26,8 @@ https://www.npmjs.com/package/debug
 
 `NAMESPACE=APP:Sockets npm run start:debug-only` displays only logs in the sockets namespace (`APP:Sockets`)
 
+`DEBUG=APP:* npm run api_tests` shows debug logs when running tests
+
 ### Generic info, error and debugging:
 
 Note: better to use the above namespacing for more specific logging

@@ -20,6 +20,22 @@ import GameLobbyService from '../../game-lobby-service';
 const debug = Logger.newDebugger('test:tables');
 
 describe('tables.join', () => {
+  // TODO: need to add more unit tests for invalid requests and types
+  it('should error when payload is invalid', async () => {
+    jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
+    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError('Room not found'));
+    GameLobbyService.createPokerTable('table_1', 2);
+
+    const res = await request(httpServer).post('/api/actions/tables.join').send({
+      selectedSeatNumber: 1,
+      socketId: 'abc123',
+    });
+
+    expect(res.statusCode).toEqual(400);
+    expect(res.body.ok).toEqual(false);
+    expect(res.body.error).toEqual('Invalid request payload');
+  });
+
   // TODO: will eventually need to add the table they are sitting at but this is hardcoded
   // for now. See third commented out test
   it('should seat a player to a table', async () => {
@@ -49,21 +65,6 @@ describe('tables.join', () => {
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error).toEqual('Seat is already taken');
-  });
-
-  // TODO: need to add more unit tests for invalid requests and types
-  it('should error when payload is invalid', async () => {
-    jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
-    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError('Room not found'));
-    GameLobbyService.createPokerTable('table_1', 2);
-    const res = await request(httpServer).post('/api/actions/tables.join').send({
-      selectedSeatNumber: 1,
-      socketId: 'abc123',
-    });
-
-    expect(res.statusCode).toEqual(400);
-    expect(res.body.ok).toEqual(false);
-    expect(res.body.error).toEqual('Invalid request payload');
   });
 
   // it('should error when the table doesnt exist', async () => {

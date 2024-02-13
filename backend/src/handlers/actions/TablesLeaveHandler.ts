@@ -5,11 +5,11 @@ import GameLobbyService from '../../game-lobby-service/';
 
 // Internal modules
 import Logger from '../../utils/Logger';
-import { PlayerLeavePayload, PlayerLeaveOutput } from '../../shared/api/types/PlayerLeave';
+import { PlayerLeaveOutput, validateTableLeavePayload } from '../../shared/api/types/PlayerLeave';
+
 import BaseHandler from '../../shared/BaseHandler';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
-
 
 class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
   constructor() {
@@ -17,9 +17,14 @@ class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
   }
 
   protected getResult(req: Request, res: Response<PlayerLeaveOutput>) {
-    const body = req.body as PlayerLeavePayload;
-    const seatNumber = body.selectedSeatNumber;
-    const clientId = body.socketId;
+    const payload = validateTableLeavePayload(req.body);
+    if (payload.isError) {
+      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
+      return;
+    }
+
+    const seatNumber = payload.getValue().selectedSeatNumber;
+    const clientId = payload.getValue().socketId;
     const pokerTable = GameLobbyService.getTable('table_1');
     if (!pokerTable) {
       return res.send({
@@ -36,7 +41,7 @@ class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
     }
     // Emit event to all clients connected that a player has sat down
     const event = 'player_left';
-    const payload = {
+    const eventPayload = {
       playerId: clientId,
       seatId: seatNumber,
     };
@@ -52,4 +57,3 @@ class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
 }
 
 export default TablesLeaveHandler;
-
