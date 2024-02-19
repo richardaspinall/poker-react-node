@@ -1,0 +1,23 @@
+# Usage:
+# With the REST Client extension in vscode, the below requests will show an option 
+# to send the request as a curl command. 
+
+### should pass:
+
+POST http://localhost:3000/api/actions/tables.join
+content-type: application/json
+
+{
+    "selectedSeatNumber": "seat-1",
+    "socketId": "abc123"
+}
+
+### should error with Invalid request payload and error_details:
+
+POST http://localhost:3000/api/actions/tables.join
+content-type: application/json
+
+{
+    "selectedSeatNumber": 1234,
+    "socketId": "abc123"
+}
