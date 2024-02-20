@@ -14,7 +14,7 @@ export type PokerTableJoinPayload = {
   socketId: string;
 };
 
-export type PlayerLeaveOutput = {
+export type PokerTableJoinOutput = {
   ok: boolean;
   error?: string;
   error_details?: string;
@@ -26,7 +26,7 @@ export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
   socketId: Joi.string().required(),
 });
 
-export function validateTableLeavePayload(payload: any): Result<PlayerLeavePayload> {
+export function validatePokerTableJoinPayload(payload: any): Result<PokerTableJoinPayload> {
   // Runtime validation with Joi
   const { error, value } = pokerTableJoinSchema.validate(payload, { abortEarly: false });
 

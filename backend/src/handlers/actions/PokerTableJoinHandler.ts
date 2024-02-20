@@ -1,5 +1,5 @@
 // External modules
-import { Response } from 'express';
+import { Request, Response } from 'express';
 
 // Internal modules
 import BaseHandler from '../../shared/BaseHandler';
@@ -8,17 +8,17 @@ import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
 
 // Types
-import { PlayerSitOutput, validatePlayerSitPayload } from '../../shared/api/types/PlayerSit';
+import { PokerTableJoinOutput, validatePokerTableJoinPayload } from '../../shared/api/types/PokerTableJoin';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
+class PokerTableJoinHandler extends BaseHandler<PokerTableJoinOutput> {
   constructor() {
     super();
   }
 
-  protected getResult(req: Request, res: Response<PlayerSitOutput>) {
-    const payload = validatePlayerSitPayload(req.body);
+  protected getResult(req: Request, res: Response<PokerTableJoinOutput>) {
+    const payload = validatePokerTableJoinPayload(req.body);
     if (payload.isError) {
       res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
       return;

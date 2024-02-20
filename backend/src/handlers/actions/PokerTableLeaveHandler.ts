@@ -1,23 +1,23 @@
 // External modules
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
 
 // Internal modules
 import Logger from '../../utils/Logger';
-import { PlayerLeaveOutput, validateTableLeavePayload } from '../../shared/api/types/PlayerLeave';
+import { PokerTableLeaveOutput, validatePokerTableLeavePayload } from '../../shared/api/types/PokerTableLeave';
 
 import BaseHandler from '../../shared/BaseHandler';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class TablesLeaveHandler extends BaseHandler<PlayerLeaveOutput> {
+class PokerTableLeaveHandler extends BaseHandler<PokerTableLeaveOutput> {
   constructor() {
     super();
   }
 
-  protected getResult(req: Request, res: Response<PlayerLeaveOutput>) {
-    const payload = validateTableLeavePayload(req.body);
+  protected getResult(req: Request, res: Response<PokerTableLeaveOutput>) {
+    const payload = validatePokerTableLeavePayload(req.body);
     if (payload.isError) {
       res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
       return;
