@@ -3,7 +3,6 @@ import Joi from 'joi';
 
 // Internal
 import Result, { ResultError, ResultSuccess } from '../../Result';
-import { BaseOutput } from './BaseOutput';
 
 // Internal utils
 import Logger from '../../../utils/Logger';
@@ -15,7 +14,11 @@ export type PokerTableJoinPayload = {
   socketId: string;
 };
 
-export interface PokerTableJoinOutput extends BaseOutput {}
+export type PlayerLeaveOutput = {
+  ok: boolean;
+  error?: string;
+  error_details?: string;
+};
 
 // Joi schema
 export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
@@ -23,14 +26,7 @@ export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
   socketId: Joi.string().required(),
 });
 
-/*
- * Depreacted: use shared/validatePayload.ts
- *
- * @param payload – the incoming payload to validate against Joi schema
- *
- * @returns a PokerTableJoinPayload wrapped in a Result where errors or values can be found
- */
-export function validatePokerTableJoinPayload(payload: any): Result<PokerTableJoinPayload> {
+export function validateTableLeavePayload(payload: any): Result<PlayerLeavePayload> {
   // Runtime validation with Joi
   const { error, value } = pokerTableJoinSchema.validate(payload, { abortEarly: false });
 

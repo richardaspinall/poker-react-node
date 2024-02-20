@@ -3,26 +3,27 @@ import { Response } from 'express';
 
 // Internal modules
 import BaseHandler from '../../shared/BaseHandler';
-import Result from '../../shared/Result';
 import Logger from '../../utils/Logger';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
 
 // Types
-import {
-  PokerTableJoinPayload,
-  PokerTableJoinOutput,
-  pokerTableJoinSchema,
-} from '../../shared/api/types/PokerTableJoin';
+import { PlayerSitOutput, validatePlayerSitPayload } from '../../shared/api/types/PlayerSit';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
+class TablesJoinHandler extends BaseHandler<PlayerSitOutput> {
   constructor() {
-    super(pokerTableJoinSchema);
+    super();
   }
 
-  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
+  protected getResult(req: Request, res: Response<PlayerSitOutput>) {
+    const payload = validatePlayerSitPayload(req.body);
+    if (payload.isError) {
+      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
+      return;
+    }
+
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
 
