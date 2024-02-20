@@ -1,47 +1,53 @@
 // External modules
 import { Request, Response } from 'express';
-import Rooms from '../../sockets/Rooms';
-import GameLobbyService from '../../game-lobby-service/';
 
 // Internal modules
 import BaseHandler from '../../shared/BaseHandler';
 import Result from '../../shared/Result';
 import Logger from '../../utils/Logger';
+import Rooms from '../../sockets/Rooms';
+import GameLobbyService from '../../game-lobby-service';
 
 // Types
-import { PlayerLeavePayload, PlayerLeaveOutput, tableLeaveSchema } from '../../shared/api/types/PlayerLeave';
+import {
+  PokerTableJoinPayload,
+  PokerTableJoinOutput,
+  pokerTableJoinSchema,
+} from '../../shared/api/types/PokerTableJoin';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class TablesLeaveHandler extends BaseHandler<PlayerLeavePayload> {
+class TablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
   constructor() {
-    super(tableLeaveSchema);
+    super(pokerTableJoinSchema);
   }
 
-  protected getResult(payload: Result<PlayerLeavePayload>, res: Response<PlayerLeaveOutput>) {
+  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
+
     const pokerTable = GameLobbyService.getTable('table_1');
+
     if (!pokerTable) {
       return res.send({
         ok: false,
         error: 'Table does not exist',
       });
     }
-    const leave_room = pokerTable.leaveTable(seatNumber, clientId);
-    if (!leave_room.ok) {
+    const join_room = pokerTable.sitAtTable('table_1', seatNumber, clientId);
+    if (!join_room.ok) {
       return res.send({
         ok: false,
-        error: leave_room.errorMessage,
+        error: join_room.errorMessage,
       });
     }
     // Emit event to all clients connected that a player has sat down
-    const event = 'player_left';
-    const eventPayload = {
+    let event = 'player_joined';
+    let eventPayload = {
       playerId: clientId,
       seatId: seatNumber,
     };
-    const send_events = Rooms.sendEventToRoom('table_1', event, payload);
+    let send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
     if (!send_events.ok) {
       return res.send({
         ok: false,
@@ -52,4 +58,4 @@ class TablesLeaveHandler extends BaseHandler<PlayerLeavePayload> {
   }
 }
 
-export default TablesLeaveHandler;
+export default TablesJoinHandler;

@@ -1,15 +1,15 @@
-import { PlayerSitPayload, PlayerSitOutput } from './types/PlayerSit';
-import { PlayerLeavePayload, PlayerLeaveOutput } from './types/PlayerLeave';
+import { PokerTableJoinPayload, PokerTableJoinOutput } from './types/PokerTableJoin';
+import { PokerTableLeavePayload, PokerTableLeaveOutput } from './types/PokerTableLeave';
 
 export interface ApiMethodMap {
   // Add entries for each API method
   'tables.join': {
-    request: PlayerSitPayload;
-    response: PlayerSitOutput;
+    request: PokerTableJoinPayload;
+    response: PokerTableJoinOutput;
   };
   'tables.leave': {
-    request: PlayerLeavePayload;
-    response: PlayerLeaveOutput;
+    request: PokerTableLeavePayload;
+    response: PokerTableLeaveOutput;
   };
 }
 
