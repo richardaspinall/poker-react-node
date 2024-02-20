@@ -1,29 +1,28 @@
 // External modules
-import { Request, Response } from 'express';
+import { Response } from 'express';
 
 // Internal modules
 import BaseHandler from '../../shared/BaseHandler';
+import Result from '../../shared/Result';
 import Logger from '../../utils/Logger';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
 
 // Types
-import { PokerTableJoinOutput, validatePokerTableJoinPayload } from '../../shared/api/types/PokerTableJoin';
+import {
+  PokerTableJoinPayload,
+  PokerTableJoinOutput,
+  pokerTableJoinSchema,
+} from '../../shared/api/types/PokerTableJoin';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class PokerTableJoinHandler extends BaseHandler<PokerTableJoinOutput> {
+class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
   constructor() {
-    super();
+    super(pokerTableJoinSchema);
   }
 
-  protected getResult(req: Request, res: Response<PokerTableJoinOutput>) {
-    const payload = validatePokerTableJoinPayload(req.body);
-    if (payload.isError) {
-      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
-      return;
-    }
-
+  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
 
