@@ -18,8 +18,7 @@ const debug = Logger.newDebugger('APP:Routes:actions');
  * PokerTableJoinHandler is used to handle requests to join a poker table
  */
 class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
-  // The constructor is used to set the validation schema for the payload
-  // which is used to validate incoming payloads in the runHandler (in the parent class)
+  // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
     super(pokerTableJoinSchema);
   }
