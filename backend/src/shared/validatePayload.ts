@@ -28,8 +28,5 @@ export function validatePayload<TPayload>(
     return new ResultError('Invalid request payload', error.details);
   }
 
-  // We can use type assertion as we are certain it is of type TPayload now
-  const res = value as TPayload;
-
-  return new ResultSuccess(res);
+  return new ResultSuccess(value);
 }
