@@ -1,23 +1,25 @@
-// External modules
-import { Response } from 'express';
+// Types
+import type { Response } from 'express';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/types/PokerTableJoin';
 
-// Internal modules
+// Internal
 import BaseHandler from '../../shared/BaseHandler';
 import Result from '../../shared/Result';
 import Logger from '../../utils/Logger';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
 
-// Types
-import {
-  PokerTableJoinPayload,
-  PokerTableJoinOutput,
-  pokerTableJoinSchema,
-} from '../../shared/api/types/PokerTableJoin';
+// Schemas
+import { pokerTableJoinSchema } from '../../shared/api/types/PokerTableJoin';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
+/**
+ * PokerTableJoinHandler is used to handle requests to join a poker table
+ */
 class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
+  // The constructor is used to set the validation schema for the payload
+  // which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
     super(pokerTableJoinSchema);
   }

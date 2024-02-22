@@ -1,16 +1,30 @@
+// Types
+import type { Request, Response } from 'express';
+import type { BaseOutput } from './api/types/BaseOutput';
+import type { ApiHandler } from './api/ApiMethodMap';
+
 // External
-import { Request, Response } from 'express';
 import Joi from 'joi';
 
 // Internal
-import { BaseOutput } from './api/types/BaseOutput';
 import { validatePayload } from './validatePayload';
 import Result from './Result';
 
-export default abstract class BaseHandler<TPayload, TOutput extends BaseOutput> {
-  constructor(private validationSchema: Joi.ObjectSchema<any>) {}
+/**
+ * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
+ *
+ * @param TPayload - The type of the payload that the handler will receive
+ * @param TOutput - The type of the output that the handler will return
+ *
+ * @function getResult - This function is implemented by the child class. It is responsible for taking the payload and returning the result
+ * @function runHandler - This function is responsible for running the handler. It will validate the payload and then call getResult
+ */
+export default abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implements ApiHandler {
+  /**
+   *  @param validationSchema - The Joi schema that the payload will be validated against
+   */
+  constructor(private validationSchema: Joi.ObjectSchema<TPayload>) {}
 
-  // getResult should be implemented by the child class as protected (even though it's not enforced)
   protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {

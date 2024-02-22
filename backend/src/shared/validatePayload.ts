@@ -9,17 +9,27 @@ import Logger from '../utils/Logger';
 
 const debug = Logger.newDebugger('APP:Validation');
 
-export function validatePayload<T>(validationSchema: Joi.ObjectSchema<any>, payload: any): Result<T> {
-  // Runtime validation with Joi
+/**
+ * validatePayload is a function that is used to validate incoming payloads against a Joi schema
+ *
+ * @param validationSchema – the Joi schema that the payload will be validated against which is
+ * from the handler
+ * @param payload – the incoming payload to validate against Joi schema which could be anything
+ * @returns a payload wrapped in a Result where errors or values can be found
+ */
+export function validatePayload<TPayload>(
+  validationSchema: Joi.ObjectSchema<TPayload>,
+  payload: any
+): Result<TPayload> {
   const { error, value } = validationSchema.validate(payload, { abortEarly: false });
 
   if (error) {
     debug(error.details);
     return new ResultError('Invalid request payload', error.details);
   }
-  // Here, 'value' is validated by Joi, but TypeScript doesn't know its type.
-  // You can use type assertion to inform TypeScript about the type.
-  const res = value as T;
+
+  // We can use type assertion as we are certain it is of type TPayload now
+  const res = value as TPayload;
 
   return new ResultSuccess(res);
 }
