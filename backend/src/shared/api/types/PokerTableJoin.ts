@@ -9,26 +9,26 @@ import Logger from '../../../utils/Logger';
 
 const debug = Logger.newDebugger('APP:Validation');
 
-export type PlayerLeavePayload = {
+export type PokerTableJoinPayload = {
   selectedSeatNumber: string;
   socketId: string;
 };
 
-export type PlayerLeaveOutput = {
+export type PokerTableJoinOutput = {
   ok: boolean;
   error?: string;
   error_details?: string;
 };
 
 // Joi schema
-export const tableLeaveSchema = Joi.object({
+export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
   selectedSeatNumber: Joi.string().required(),
   socketId: Joi.string().required(),
 });
 
-export function validateTableLeavePayload(payload: any): Result<PlayerLeavePayload> {
+export function validatePokerTableJoinPayload(payload: any): Result<PokerTableJoinPayload> {
   // Runtime validation with Joi
-  const { error, value } = tableLeaveSchema.validate(payload, { abortEarly: false });
+  const { error, value } = pokerTableJoinSchema.validate(payload, { abortEarly: false });
 
   if (error) {
     debug(error.details);
@@ -36,7 +36,7 @@ export function validateTableLeavePayload(payload: any): Result<PlayerLeavePaylo
   }
   // Here, 'value' is validated by Joi, but TypeScript doesn't know its type.
   // You can use type assertion to inform TypeScript about the type.
-  const res: PlayerLeavePayload = value;
+  const res: PokerTableJoinPayload = value;
 
   return new ResultSuccess(res);
 }
