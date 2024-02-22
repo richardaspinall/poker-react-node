@@ -1,9 +1,11 @@
+// Types
+import { BaseOutput } from './BaseOutput';
+
 // External
 import Joi from 'joi';
 
 // Internal
 import Result, { ResultError, ResultSuccess } from '../../Result';
-import { BaseOutput } from './BaseOutput';
 
 // Internal utils
 import Logger from '../../../utils/Logger';

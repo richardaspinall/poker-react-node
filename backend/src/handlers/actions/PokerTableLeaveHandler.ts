@@ -1,22 +1,24 @@
-// External modules
-import { Response } from 'express';
+// Types
+import type { Response } from 'express';
+import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/types/PokerTableLeave';
+
+// Internal
+import BaseHandler from '../../shared/BaseHandler';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
-
-// Internal modules
-import BaseHandler from '../../shared/BaseHandler';
 import Result from '../../shared/Result';
+
+// Internal utils
 import Logger from '../../utils/Logger';
 
-// Types
-import {
-  PokerTableLeavePayload,
-  PokerTableLeaveOutput,
-  pokerTableLeaveSchema,
-} from '../../shared/api/types/PokerTableLeave';
+// Schemas
+import { pokerTableLeaveSchema } from '../../shared/api/types/PokerTableLeave';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
+/**
+ * PokerTableLeaveHandler is used to handle requests to leave a poker table
+ */
 class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTableLeaveOutput> {
   constructor() {
     super(pokerTableLeaveSchema);
