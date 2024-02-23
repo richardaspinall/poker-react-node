@@ -1,21 +1,13 @@
-// external modules
+// External
 import request from 'supertest';
 
-// internal modules
-import httpServer, { shutDown } from '../../index';
+// Internal
+import httpServer from '../../index';
 import Logger from '../../utils/Logger';
 import GameLobbyService from '../../game-lobby-service';
-
-// mocks (not all used here, but leaving cos it could be in future)
-import {
-  mockJoinRoomSuccess,
-  mockJoinRoomError,
-  mockSendEventToRoomSuccess,
-  mockSendEventToRoomError,
-} from '../../tests/mocks/roomMocks';
-
+import { shutDownServer } from '../../tests/helpers/shutDownServer';
 import Rooms from '../../sockets/Rooms';
-import Result, { ResultSuccess, ResultError } from '../../shared/Result';
+import { ResultSuccess, ResultError } from '../../shared/Result';
 
 const debug = Logger.newDebugger('test:tables');
 
@@ -70,8 +62,12 @@ describe('tables.leave', () => {
     jest.restoreAllMocks();
   });
 
-  // Shut down the server after all tests
-  afterAll(async () => {
-    await shutDown();
+  /**
+   *  Cleanup WS & HTTP servers
+   */
+  afterAll((done) => {
+    (async () => {
+      shutDownServer(done);
+    })();
   });
 });
