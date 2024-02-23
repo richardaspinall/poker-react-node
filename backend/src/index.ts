@@ -40,4 +40,4 @@ async function shutDown(): Promise<void> {
   });
 }
 
-export { shutDown };
+export { httpServer, SocketServer, shutDown };
