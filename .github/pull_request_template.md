@@ -22,6 +22,7 @@
 <!--- X off relevant items for this change, delete anything not relevant --->
 
 - [ ] Added unit tests
+- [ ] Added comments
 - [ ] Added learning objectives to clickup task
 - [ ] Added new package information to appropriate README
 
