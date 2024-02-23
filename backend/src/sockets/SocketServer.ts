@@ -34,7 +34,6 @@ export default class SocketServer {
   private static async onConnection(socket: Socket) {
     Logger.info(`${socket.id} connected`);
 
-    SocketServer.sendEventToClient(socket, 'hello_from_server', null);
     GameSockets.setUpSocket(socket);
   }
 
