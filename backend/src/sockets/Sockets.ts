@@ -2,19 +2,19 @@
 import { Socket } from 'socket.io';
 
 // internal modules
-import SocketServer from './SocketServer';
-import Rooms from './Rooms';
-import SocketHandlers from './SocketEventHandlers';
-import Logger from '../utils/Logger';
+import { SocketServer } from './SocketServer';
+import { Rooms } from './Rooms';
+import { SocketHandlers } from './SocketEventHandlers';
+import { Logger } from '../utils/Logger';
 
 // types
-import Result, { ResultSuccess, ResultError } from '../shared/Result';
+import { Result, ResultSuccess, ResultError } from '../shared/Result';
 
 export type ClientId = string;
 
 const debug = Logger.newDebugger('APP:Sockets');
 
-export default class Sockets {
+export class Sockets {
   // For now the socket map is just a map of client id to socket id but we will change this later
   //
   // We would save a reference of the socket.id in the player object to look it up. And then when we get to

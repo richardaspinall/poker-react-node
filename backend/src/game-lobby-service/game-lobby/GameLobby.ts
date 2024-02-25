@@ -5,11 +5,11 @@ This class will be the main class for the game lobby. It will be responsible for
 */
 
 // internal modules
-import PokerTable from '../../game/PokerTable';
+import { PokerTable } from '../../game/PokerTable';
 
 type TablesRecord = Record<string, PokerTable>;
 
-export default class GameLobby {
+export class GameLobby {
   // TODO: This would be a database eventually
   private tables: TablesRecord = {};
 

@@ -1,4 +1,4 @@
-export default class Result<T> {
+export class Result<T> {
   constructor(
     public ok: boolean,
     public isError: boolean,

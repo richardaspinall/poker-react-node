@@ -1,5 +1,5 @@
-import createPokerTable from '../tests/helpers/createPokerTable';
-import createPokerTableWithPlayers from '../tests/helpers/createPokerTableWithPlayers';
+import { createPokerTable } from '../tests/helpers/createPokerTable';
+import { createPokerTableWithPlayers } from '../tests/helpers/createPokerTableWithPlayers';
 
 import { mockSendEventToRoomSuccess } from '../tests/mocks/roomMocks';
 

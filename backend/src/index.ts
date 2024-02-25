@@ -1,9 +1,9 @@
 import { createServer } from 'http';
 import express from 'express';
 import cors from 'cors';
-import router from './routes';
-import SocketServer from './sockets/SocketServer';
-import PokerTable from './game/PokerTable';
+import { router } from './routes';
+import { SocketServer } from './sockets/SocketServer';
+import { PokerTable } from './game/PokerTable';
 
 const app = express();
 
@@ -19,8 +19,6 @@ const httpServer = createServer(app);
 httpServer.listen(3000);
 
 SocketServer.initialize(httpServer);
-
-export default httpServer;
 
 // Function to shut down the server (used in tests)
 async function shutDown(): Promise<void> {

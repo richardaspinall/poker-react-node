@@ -2,16 +2,16 @@
 import { Socket } from 'socket.io';
 
 // internal modules
-import SocketServer from './SocketServer';
-import Sockets, { ClientId } from './Sockets';
+import { SocketServer } from './SocketServer';
+import { Sockets, ClientId } from './Sockets';
 
-import Logger from '../utils/Logger';
+import { Logger } from '../utils/Logger';
 
 // types
-import Result, { ResultSuccess, ResultError } from '../shared/Result';
+import { Result, ResultSuccess, ResultError } from '../shared/Result';
 export type RoomId = string;
 
-export default class Rooms {
+export class Rooms {
   // The second string might be removed later (and a set used instead)
   private static roomMap = new Map<RoomId, string>();
 

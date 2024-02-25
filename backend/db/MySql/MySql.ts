@@ -50,4 +50,4 @@ class MySql {
   }
 }
 
-export default MySql;
+export { MySql };

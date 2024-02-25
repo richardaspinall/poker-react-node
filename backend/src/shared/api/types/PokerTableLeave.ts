@@ -5,10 +5,10 @@ import type { BaseOutput } from './BaseOutput';
 import Joi from 'joi';
 
 // Internal
-import Result, { ResultError, ResultSuccess } from '../../Result';
+import { Result, ResultError, ResultSuccess } from '../../Result';
 
 // Internal utils
-import Logger from '../../../utils/Logger';
+import { Logger } from '../../../utils/Logger';
 
 const debug = Logger.newDebugger('APP:Validation');
 

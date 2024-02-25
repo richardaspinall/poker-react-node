@@ -3,13 +3,13 @@ import type { Response } from 'express';
 import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/types/PokerTableLeave';
 
 // Internal
-import BaseHandler from '../../shared/BaseHandler';
-import Rooms from '../../sockets/Rooms';
-import GameLobbyService from '../../game-lobby-service';
-import Result from '../../shared/Result';
+import { BaseHandler } from '../../shared/BaseHandler';
+import { Rooms } from '../../sockets/Rooms';
+import { GameLobbyService } from '../../game-lobby-service';
+import { Result } from '../../shared/Result';
 
 // Internal utils
-import Logger from '../../utils/Logger';
+import { Logger } from '../../utils/Logger';
 
 // Schemas
 import { pokerTableLeaveSchema } from '../../shared/api/types/PokerTableLeave';
@@ -58,4 +58,4 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
   }
 }
 
-export default PokerTableLeaveHandler;
+export { PokerTableLeaveHandler };

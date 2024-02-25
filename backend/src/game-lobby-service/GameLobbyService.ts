@@ -1,12 +1,12 @@
 // internal modules
-import GameLobby from './game-lobby/GameLobby';
-import PokerTable from '../game/PokerTable';
-import Result from '../shared/Result';
-import Logger from '../utils/Logger';
+import { GameLobby } from './game-lobby/GameLobby';
+import { PokerTable } from '../game/PokerTable';
+import { Result } from '../shared/Result';
+import { Logger } from '../utils/Logger';
 
 const debug = Logger.newDebugger('APP:GameLobbyService');
 
-export default class GameLobbyService {
+export class GameLobbyService {
   private gameLobby: GameLobby;
 
   constructor() {

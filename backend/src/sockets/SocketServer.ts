@@ -3,15 +3,15 @@ import { Server as HttpServer } from 'http';
 import { Server as IOServer, Socket } from 'socket.io';
 
 // Internal modules
-import GameSockets from './Sockets';
-import Logger from '../utils/Logger';
+import { Sockets } from './Sockets';
+import { Logger } from '../utils/Logger';
 
 // Types
 import { ClientToServerEvents, ServerToClientEvents } from './SocketEvents';
 
 const debug = Logger.newDebugger('APP:SocketServer');
 
-export default class SocketServer {
+export class SocketServer {
   private static io: IOServer;
 
   public static getInstance() {
@@ -34,7 +34,7 @@ export default class SocketServer {
   private static async onConnection(socket: Socket) {
     Logger.info(`${socket.id} connected`);
 
-    GameSockets.setUpSocket(socket);
+    Sockets.setUpSocket(socket);
   }
 
   public static sendEventToClient(socket: Socket, event: string, payload: any) {

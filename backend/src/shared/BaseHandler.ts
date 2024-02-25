@@ -8,7 +8,7 @@ import Joi from 'joi';
 
 // Internal
 import { validatePayload } from './validatePayload';
-import Result from './Result';
+import { Result } from './Result';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
@@ -19,7 +19,7 @@ import Result from './Result';
  * @function getResult - This function is implemented by the child class. It is responsible for taking the payload and returning the result
  * @function runHandler - This function is responsible for running the handler. It will validate the payload and then call getResult
  */
-export default abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implements ApiHandler {
+export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implements ApiHandler {
   /**
    *  @param validationSchema - The Joi schema that the payload will be validated against
    */

@@ -1,5 +1,5 @@
-import GameLobbyService from './GameLobbyService';
-import Rooms from '../sockets/Rooms';
+import { GameLobbyService } from './GameLobbyService';
+import { Rooms } from '../sockets/Rooms';
 import { ResultSuccess } from '../shared/Result';
 
 describe('GameLobbyService', () => {

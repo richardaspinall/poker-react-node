@@ -1,7 +1,7 @@
 import { mockSendEventToRoomSuccess } from '../mocks/roomMocks';
-import createPokerTable from './createPokerTable';
+import { createPokerTable } from './createPokerTable';
 
-export default function createPokerTableWithPlayers(tableName: string, numberOfSeats: number) {
+export function createPokerTableWithPlayers(tableName: string, numberOfSeats: number) {
   mockSendEventToRoomSuccess();
   const pokerTable = createPokerTable(tableName, numberOfSeats);
   const playerNames: string[] = [];

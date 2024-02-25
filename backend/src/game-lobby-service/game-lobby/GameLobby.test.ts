@@ -1,6 +1,6 @@
-import GameLobby from './GameLobby';
-import PokerTable from '../../game/PokerTable';
-import createPokerTable from '../../tests/helpers/createPokerTable';
+import { GameLobby } from './GameLobby';
+import { PokerTable } from '../../game/PokerTable';
+import { createPokerTable } from '../../tests/helpers/createPokerTable';
 
 describe('GameLobby', () => {
   let gameLobby: GameLobby;

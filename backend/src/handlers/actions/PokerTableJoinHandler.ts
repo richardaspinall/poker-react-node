@@ -3,11 +3,11 @@ import type { Response } from 'express';
 import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/types/PokerTableJoin';
 
 // Internal
-import BaseHandler from '../../shared/BaseHandler';
-import Result from '../../shared/Result';
-import Logger from '../../utils/Logger';
-import Rooms from '../../sockets/Rooms';
-import GameLobbyService from '../../game-lobby-service';
+import { BaseHandler } from '../../shared/BaseHandler';
+import { Result } from '../../shared/Result';
+import { Logger } from '../../utils/Logger';
+import { Rooms } from '../../sockets/Rooms';
+import { GameLobbyService } from '../../game-lobby-service';
 
 // Schemas
 import { pokerTableJoinSchema } from '../../shared/api/types/PokerTableJoin';
@@ -59,4 +59,4 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
   }
 }
 
-export default PokerTableJoinHandler;
+export { PokerTableJoinHandler };

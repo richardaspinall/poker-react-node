@@ -1,4 +1,4 @@
-export default class Seat {
+export class Seat {
   public seatNumber: string;
   public playerId: string;
   public isTaken: boolean;
