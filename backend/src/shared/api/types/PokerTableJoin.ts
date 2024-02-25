@@ -1,3 +1,6 @@
+// Types
+import { BaseOutput } from './BaseOutput';
+
 // External
 import Joi from 'joi';
 
@@ -14,11 +17,7 @@ export type PokerTableJoinPayload = {
   socketId: string;
 };
 
-export type PokerTableJoinOutput = {
-  ok: boolean;
-  error?: string;
-  error_details?: string;
-};
+export interface PokerTableJoinOutput extends BaseOutput {}
 
 // Joi schema
 export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
@@ -26,6 +25,13 @@ export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
   socketId: Joi.string().required(),
 });
 
+/*
+ * Depreacted: use shared/validatePayload.ts
+ *
+ * @param payload – the incoming payload to validate against Joi schema
+ *
+ * @returns a PokerTableJoinPayload wrapped in a Result where errors or values can be found
+ */
 export function validatePokerTableJoinPayload(payload: any): Result<PokerTableJoinPayload> {
   // Runtime validation with Joi
   const { error, value } = pokerTableJoinSchema.validate(payload, { abortEarly: false });

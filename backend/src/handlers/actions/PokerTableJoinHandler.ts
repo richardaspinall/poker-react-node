@@ -1,29 +1,29 @@
-// External modules
-import { Request, Response } from 'express';
+// Types
+import type { Response } from 'express';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/types/PokerTableJoin';
 
-// Internal modules
+// Internal
 import BaseHandler from '../../shared/BaseHandler';
+import Result from '../../shared/Result';
 import Logger from '../../utils/Logger';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
 
-// Types
-import { PokerTableJoinOutput, validatePokerTableJoinPayload } from '../../shared/api/types/PokerTableJoin';
+// Schemas
+import { pokerTableJoinSchema } from '../../shared/api/types/PokerTableJoin';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class PokerTableJoinHandler extends BaseHandler<PokerTableJoinOutput> {
+/**
+ * PokerTableJoinHandler is used to handle requests to join a poker table
+ */
+class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
+  // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super();
+    super(pokerTableJoinSchema);
   }
 
-  protected getResult(req: Request, res: Response<PokerTableJoinOutput>) {
-    const payload = validatePokerTableJoinPayload(req.body);
-    if (payload.isError) {
-      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
-      return;
-    }
-
+  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
 

@@ -1,28 +1,30 @@
-// External modules
-import { Request, Response } from 'express';
+// Types
+import type { Response } from 'express';
+import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/types/PokerTableLeave';
+
+// Internal
+import BaseHandler from '../../shared/BaseHandler';
 import Rooms from '../../sockets/Rooms';
 import GameLobbyService from '../../game-lobby-service';
+import Result from '../../shared/Result';
 
-// Internal modules
+// Internal utils
 import Logger from '../../utils/Logger';
-import { PokerTableLeaveOutput, validatePokerTableLeavePayload } from '../../shared/api/types/PokerTableLeave';
 
-import BaseHandler from '../../shared/BaseHandler';
+// Schemas
+import { pokerTableLeaveSchema } from '../../shared/api/types/PokerTableLeave';
 
 const debug = Logger.newDebugger('APP:Routes:actions');
 
-class PokerTableLeaveHandler extends BaseHandler<PokerTableLeaveOutput> {
+/**
+ * PokerTableLeaveHandler is used to handle requests to leave a poker table
+ */
+class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTableLeaveOutput> {
   constructor() {
-    super();
+    super(pokerTableLeaveSchema);
   }
 
-  protected getResult(req: Request, res: Response<PokerTableLeaveOutput>) {
-    const payload = validatePokerTableLeavePayload(req.body);
-    if (payload.isError) {
-      res.status(400).send({ ok: false, error: payload.errorMessage, error_details: payload.errorDetails });
-      return;
-    }
-
+  protected getResult(payload: Result<PokerTableLeavePayload>, res: Response<PokerTableLeaveOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
     const pokerTable = GameLobbyService.getTable('table_1');
