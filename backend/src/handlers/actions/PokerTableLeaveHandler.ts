@@ -6,7 +6,7 @@ import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared
 import { BaseHandler } from '../../shared/BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { Result } from '../../shared/Result';
+import { Result } from '@shared/Result';
 
 // Internal utils
 import { Logger } from '../../utils/Logger';

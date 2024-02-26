@@ -1,5 +1,5 @@
 // Internal
-import { Result, ResultSuccess, ResultError } from '../../shared/Result';
+import { Result, ResultSuccess, ResultError } from '@shared/Result';
 import { Rooms } from '../../sockets/Rooms';
 
 export const mockCreateRoomSuccess = (roomId: string) => {

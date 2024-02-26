@@ -1,7 +1,7 @@
 // Internal
 import { GameLobby } from './game-lobby/GameLobby';
 import { PokerTable } from '../game/PokerTable';
-import { Result } from '../shared/Result';
+import { Result } from '@shared/Result';
 import { Logger } from '../utils/Logger';
 
 const debug = Logger.newDebugger('APP:GameLobbyService');

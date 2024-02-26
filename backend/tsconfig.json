@@ -1,5 +1,10 @@
 {
+  "ts-node": {
+    // Do not forget to `npm i -D tsconfig-paths`
+    "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "module": "commonjs",
     "lib": ["es6"],
@@ -12,7 +17,11 @@
     "typeRoots": ["./node_modules/@types"],
     "outDir": "build",
     "rootDir": "src",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@tests/*": ["./src/tests/*"], // Maps `@myalias` to the specified path,
+      "@shared/*": ["./src/shared/*"] // Maps `@myalias` to the specified path,
+    }
   },
   "include": ["src/**/*"],
   "exclude": ["src/**/*.spec.ts"]
