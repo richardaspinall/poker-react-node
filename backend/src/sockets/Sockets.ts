@@ -2,7 +2,7 @@
 import { Socket } from 'socket.io';
 
 // Internal
-import { Result, ResultSuccess, ResultError } from '../shared/Result';
+import { Result, ResultSuccess, ResultError } from '@shared/Result';
 import { SocketServer } from './SocketServer';
 import { Rooms } from './Rooms';
 import { SocketHandlers } from './SocketEventHandlers';

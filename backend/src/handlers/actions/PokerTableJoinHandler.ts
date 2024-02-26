@@ -4,7 +4,7 @@ import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/a
 
 // Internal
 import { BaseHandler } from '../../shared/BaseHandler';
-import { Result } from '../../shared/Result';
+import { Result } from '@shared/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 

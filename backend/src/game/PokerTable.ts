@@ -1,5 +1,5 @@
 // Internal
-import { Result, ResultError, ResultSuccess } from '../shared/Result';
+import { Result, ResultError, ResultSuccess } from '@shared/Result';
 import { Rooms } from '../sockets/Rooms';
 import { Seat } from './Seat';
 

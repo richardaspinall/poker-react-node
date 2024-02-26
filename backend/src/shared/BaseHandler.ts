@@ -8,7 +8,7 @@ import Joi from 'joi';
 
 // Internal
 import { validatePayload } from './validatePayload';
-import { Result } from './Result';
+import { Result } from '@shared/Result';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
