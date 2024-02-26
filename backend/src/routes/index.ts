@@ -1,5 +1,7 @@
+// External
 import express from 'express';
 
+// Internal
 import { routes } from './routeConfig';
 
 export const router = express.Router();

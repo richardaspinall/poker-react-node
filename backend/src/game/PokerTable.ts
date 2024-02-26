@@ -1,12 +1,14 @@
-/* 
-  PokerTable is responsible for managing a single poker table. It will be responsible for managing the game state (which is a class), players at a table..
-*/
+// Internal
 import { Result, ResultError, ResultSuccess } from '../shared/Result';
 import { Rooms } from '../sockets/Rooms';
 import { Seat } from './Seat';
 
+// Internal utils
 import { Logger } from '../utils/Logger';
 
+/* 
+  PokerTable is responsible for managing a single poker table. It will be responsible for managing the game state (which is a class), players at a table..
+*/
 export class PokerTable {
   private tableName: string;
   private seats: Seat[];

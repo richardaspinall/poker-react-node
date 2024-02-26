@@ -1,5 +1,7 @@
+// External
 import { io, Socket } from 'socket.io-client';
 
+// Internal
 import { SocketServer } from '../index';
 import { shutDownServer } from '../tests/helpers/shutDownServer';
 import { Sockets } from './Sockets';

@@ -1,19 +1,22 @@
-// external modules
+// External
 import { Socket } from 'socket.io';
 
-// internal modules
+// Internal
+import { Result, ResultSuccess, ResultError } from '../shared/Result';
 import { SocketServer } from './SocketServer';
 import { Rooms } from './Rooms';
 import { SocketHandlers } from './SocketEventHandlers';
-import { Logger } from '../utils/Logger';
 
-// types
-import { Result, ResultSuccess, ResultError } from '../shared/Result';
+// Internal utils
+import { Logger } from '../utils/Logger';
 
 export type ClientId = string;
 
 const debug = Logger.newDebugger('APP:Sockets');
 
+/**
+ * Sockets is responsible for managing sockets
+ */
 export class Sockets {
   // For now the socket map is just a map of client id to socket id but we will change this later
   //

@@ -1,3 +1,6 @@
+/**
+ * Result class to handle success and error cases in a consistent way
+ */
 export class Result<T> {
   constructor(
     public ok: boolean,
@@ -22,12 +25,18 @@ export class Result<T> {
   }
 }
 
+/**
+ * ResultError class to handle error cases
+ */
 export class ResultError<T> extends Result<T> {
   constructor(public errorMessage: string, public errorDetails: any = {}) {
     super(false, true, errorMessage, errorDetails);
   }
 }
 
+/**
+ * ResultSuccess class to handle error cases
+ */
 export class ResultSuccess<T> extends Result<T> {
   constructor(public value: T) {
     super(true, false, '', value);

@@ -1,14 +1,11 @@
-/*
-Description:
-
-This class will be the main class for the game lobby. It will be responsible for creating and managing poker tables
-*/
-
-// internal modules
+// Internal
 import { PokerTable } from '../../game/PokerTable';
 
 type TablesRecord = Record<string, PokerTable>;
 
+/**
+ * GameLobby is responsible for holding all the poker tables
+ */
 export class GameLobby {
   // TODO: This would be a database eventually
   private tables: TablesRecord = {};

@@ -1,3 +1,6 @@
+/**
+ * Seat class to represent a seat at a poker table
+ */
 export class Seat {
   public seatNumber: string;
   public playerId: string;

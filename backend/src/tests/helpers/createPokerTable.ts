@@ -1,3 +1,4 @@
+// Internal
 import { GameLobbyService } from '../../game-lobby-service/GameLobbyService';
 import { PokerTable } from '../../game/PokerTable';
 import { mockCreateRoomSuccess } from '../mocks/roomMocks';

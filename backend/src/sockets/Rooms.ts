@@ -1,16 +1,18 @@
-// external modules
+// External
 import { Socket } from 'socket.io';
 
-// internal modules
+// Internal
+import { Result, ResultSuccess, ResultError } from '../shared/Result';
 import { SocketServer } from './SocketServer';
-import { Sockets, ClientId } from './Sockets';
 
+// Internal utils
 import { Logger } from '../utils/Logger';
 
-// types
-import { Result, ResultSuccess, ResultError } from '../shared/Result';
 export type RoomId = string;
 
+/**
+ * Rooms is responsible for managing rooms in the socket server
+ */
 export class Rooms {
   // The second string might be removed later (and a set used instead)
   private static roomMap = new Map<RoomId, string>();

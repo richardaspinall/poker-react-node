@@ -1,8 +1,8 @@
-// External modules
+// External
 import { Server as HttpServer } from 'http';
 import { Server as IOServer, Socket } from 'socket.io';
 
-// Internal modules
+// Internal
 import { Sockets } from './Sockets';
 import { Logger } from '../utils/Logger';
 
@@ -11,6 +11,9 @@ import { ClientToServerEvents, ServerToClientEvents } from './SocketEvents';
 
 const debug = Logger.newDebugger('APP:SocketServer');
 
+/**
+ * SocketServer is responsible for managing the socket server
+ */
 export class SocketServer {
   private static io: IOServer;
 

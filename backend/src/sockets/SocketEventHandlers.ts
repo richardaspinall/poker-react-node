@@ -1,11 +1,14 @@
-// External modules
+// External
 import { Socket } from 'socket.io';
 
-// Iternal modules
+// Internal utils
 import { Logger } from '../utils/Logger';
 
 const debug = Logger.newDebugger('APP:SocketEventHandlers');
 
+/**
+ * SocketHandlers is responsible for handling socket events
+ */
 export class SocketHandlers {
   static setUpHandlers(socket: Socket) {
     // response is a callback function that can be used to send data back to the client

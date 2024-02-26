@@ -1,3 +1,4 @@
+// Internal
 import { GameLobby } from './GameLobby';
 import { PokerTable } from '../../game/PokerTable';
 import { createPokerTable } from '../../tests/helpers/createPokerTable';

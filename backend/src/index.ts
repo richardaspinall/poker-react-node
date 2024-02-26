@@ -1,6 +1,9 @@
+// External
 import { createServer } from 'http';
 import express from 'express';
 import cors from 'cors';
+
+// Internal
 import { router } from './routes';
 import { SocketServer } from './sockets/SocketServer';
 import { PokerTable } from './game/PokerTable';

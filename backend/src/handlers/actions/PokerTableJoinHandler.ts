@@ -5,9 +5,11 @@ import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/a
 // Internal
 import { BaseHandler } from '../../shared/BaseHandler';
 import { Result } from '../../shared/Result';
-import { Logger } from '../../utils/Logger';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
+
+// Internal utils
+import { Logger } from '../../utils/Logger';
 
 // Schemas
 import { pokerTableJoinSchema } from '../../shared/api/types/PokerTableJoin';

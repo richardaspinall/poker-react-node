@@ -1,3 +1,4 @@
+// Internal
 import { mockSendEventToRoomSuccess } from '../mocks/roomMocks';
 import { createPokerTable } from './createPokerTable';
 
