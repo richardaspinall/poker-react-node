@@ -10,6 +10,9 @@ export interface ApiHandler {
   runHandler(req: Request<any>, res: Response<BaseOutput>): any;
 }
 
+/**
+ * ApiMethodMap is used to define the types for each API method
+ */
 export interface ApiMethodMap {
   // Add entries for each API method
   'tables.join': {

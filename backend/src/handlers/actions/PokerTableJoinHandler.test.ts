@@ -2,12 +2,14 @@
 import request from 'supertest';
 
 // Internal
-import httpServer from '../../index';
-import Logger from '../../utils/Logger';
+import { httpServer } from '../../index';
 import { shutDownServer } from '../../tests/helpers/shutDownServer';
-import Rooms from '../../sockets/Rooms';
+import { Rooms } from '../../sockets/Rooms';
 import { ResultSuccess, ResultError } from '../../shared/Result';
-import GameLobbyService from '../../game-lobby-service';
+import { GameLobbyService } from '../../game-lobby-service';
+
+// Internal utils
+import { Logger } from '../../utils/Logger';
 
 const debug = Logger.newDebugger('test:tables');
 

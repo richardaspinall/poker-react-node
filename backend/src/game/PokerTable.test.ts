@@ -1,6 +1,6 @@
-import createPokerTable from '../tests/helpers/createPokerTable';
-import createPokerTableWithPlayers from '../tests/helpers/createPokerTableWithPlayers';
-
+// Internal
+import { createPokerTable } from '../tests/helpers/createPokerTable';
+import { createPokerTableWithPlayers } from '../tests/helpers/createPokerTableWithPlayers';
 import { mockSendEventToRoomSuccess } from '../tests/mocks/roomMocks';
 
 describe('PokerTable', () => {

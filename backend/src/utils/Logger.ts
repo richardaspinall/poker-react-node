@@ -1,3 +1,4 @@
+// External
 import debug from 'debug';
 import chalk from 'chalk';
 
@@ -29,5 +30,6 @@ class Logger {
     debugLog(chalk.yellow('---STACK TRACE---:'), chalk.white(error.stack));
   }
 }
+const LoggerInstance = new Logger();
 
-export default new Logger();
+export { LoggerInstance as Logger };

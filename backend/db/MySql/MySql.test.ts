@@ -1,4 +1,4 @@
-import MySql from './MySql';
+import { MySql } from './MySql';
 
 describe('MySql', () => {
   const mySql = new MySql(process.env.DB_DATABASE || '');

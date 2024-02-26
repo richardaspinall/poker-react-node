@@ -1,4 +1,6 @@
-import createPokerTable from './createPokerTable';
+// Internal
+import { createPokerTable } from './createPokerTable';
+
 describe('createPokerTable', () => {
   it('should create a poker table', () => {
     const pokerTable = createPokerTable('table_1', 2);

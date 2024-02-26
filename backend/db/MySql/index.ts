@@ -1,3 +1,3 @@
-import MySql from './MySql';
-
-export default new MySql(process.env.DB_DATABASE || '');
+import { MySql } from './MySql';
+const MySqLInstance = new MySql(process.env.DB_DATABASE || '');
+export { MySqLInstance };

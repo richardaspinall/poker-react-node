@@ -1,14 +1,16 @@
+// External
 import express from 'express';
 
-import routes from './routeConfig';
+// Internal
+import { routes } from './routeConfig';
 
-const router = express.Router();
+export const router = express.Router();
 
 // Automatically set up routes based on the route configuration
 routes.forEach((route) => {
   import(route.handler)
     .then((module) => {
-      const HandlerClass = module.default;
+      const HandlerClass = module[route.handlerName];
       const handlerInstance = new HandlerClass();
 
       router[route.httpMethod](route.path, (req, res) => {
@@ -19,5 +21,3 @@ routes.forEach((route) => {
       console.error(`Failed to load route '${route.path}':`, error);
     });
 });
-
-export default router;
