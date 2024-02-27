@@ -6,7 +6,6 @@ import cors from 'cors';
 // Internal
 import { router } from './routes';
 import { SocketServer } from './sockets/SocketServer';
-import { PokerTable } from './game/PokerTable';
 
 const app = express();
 
