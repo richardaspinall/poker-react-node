@@ -14,8 +14,6 @@ import { Logger } from '../utils/Logger';
 
 export type ClientId = string;
 
-const debug = Logger.newDebugger('APP:Sockets');
-
 /**
  * Sockets is responsible for managing sockets
  */

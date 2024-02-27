@@ -8,14 +8,7 @@ import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { Result } from '@shared/Result';
 import { PokerTableDoesNotExistError } from '@shared/errors/PokerTableLeaveErrors';
-
-// Internal utils
-import { Logger } from '../../utils/Logger';
-
-// Schemas
 import { pokerTableLeaveSchema } from '../../shared/api/types/PokerTableLeave';
-
-const debug = Logger.newDebugger('APP:Routes:actions');
 
 /**
  * PokerTableLeaveHandler is used to handle requests to leave a poker table

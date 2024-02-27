@@ -8,14 +8,7 @@ import { Result } from '@shared/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { PokerTableDoesNotExistError } from '../../shared/errors/PokerTableJoinErrors';
-
-// Internal utils
-import { Logger } from '../../utils/Logger';
-
-// Schemas
 import { pokerTableJoinSchema } from '../../shared/api/types/PokerTableJoin';
-
-const debug = Logger.newDebugger('APP:Routes:actions');
 
 /**
  * PokerTableJoinHandler is used to handle requests to join a poker table

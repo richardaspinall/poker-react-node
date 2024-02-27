@@ -2,9 +2,6 @@
 import { Result, ResultError, ResultSuccess } from '@shared/Result';
 import { Rooms } from '../sockets/Rooms';
 import { Seat } from './Seat';
-
-// Internal utils
-import { Logger } from '../utils/Logger';
 import {
   PlayerAlreadySeatedError,
   PlayerNotFoundAtTableError,
@@ -19,7 +16,7 @@ export class PokerTable {
   private tableName: string;
   private seats: Seat[];
 
-  private constructor(tableName: string, numberOfSeats: number, roomId: string) {
+  private constructor(tableName: string, numberOfSeats: number) {
     this.tableName = tableName;
 
     const seatsArray = [];
@@ -38,8 +35,7 @@ export class PokerTable {
     if (res.error) {
       return new ResultError(res.error);
     }
-    const roomId = res.getValue();
-    const newTable = new PokerTable(tableName, numberOfSeats, roomId);
+    const newTable = new PokerTable(tableName, numberOfSeats);
     return new ResultSuccess(newTable);
   }
 
@@ -58,13 +54,13 @@ export class PokerTable {
           seat.isTaken = true;
           const tableIsReady = this.checkTableReady();
           if (tableIsReady) {
-            let event = 'start_game';
-            let payload = {
+            const event = 'start_game';
+            const payload = {
               tableName: tableName,
             };
-            let send_events = Rooms.sendEventToRoom('table_1', event, payload);
-            if (send_events.error) {
-              return Result.error(send_events.error);
+            const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
+            if (sendEvents.error) {
+              return Result.error(sendEvents.error);
             }
           }
           return Result.success();

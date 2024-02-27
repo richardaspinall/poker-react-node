@@ -9,11 +9,6 @@ import { ResultSuccess, ResultError } from '@shared/Result';
 import { GameLobbyService } from '../../game-lobby-service';
 import { RoomNotFoundError } from '@shared/errors/RoomErrors';
 
-// Internal utils
-import { Logger } from '../../utils/Logger';
-
-const debug = Logger.newDebugger('test:tables');
-
 describe('tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
