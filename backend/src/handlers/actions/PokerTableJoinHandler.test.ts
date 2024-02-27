@@ -7,6 +7,7 @@ import { shutDownServer } from '@tests/helpers/shutDownServer';
 import { Rooms } from '../../sockets/Rooms';
 import { ResultSuccess, ResultError } from '@shared/Result';
 import { GameLobbyService } from '../../game-lobby-service';
+import { RoomNotFoundError } from '@shared/errors/RoomErrors';
 
 // Internal utils
 import { Logger } from '../../utils/Logger';
@@ -17,7 +18,7 @@ describe('tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
-    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError('Room not found'));
+    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
 
     const res = await request(httpServer).post('/api/actions/tables.join').send({
@@ -27,7 +28,7 @@ describe('tables.join', () => {
 
     expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error).toEqual('Invalid request payload');
+    expect(res.body.error.code).toEqual('INVALID_REQUEST_PAYLOAD');
   });
 
   // TODO: will eventually need to add the table they are sitting at but this is hardcoded
@@ -45,7 +46,7 @@ describe('tables.join', () => {
 
   it('should error when the seat is already taken', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
-    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError('Room not found'));
+    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
     await request(httpServer).post('/api/actions/tables.join').send({
       selectedSeatNumber: 'seat-1',
@@ -58,7 +59,7 @@ describe('tables.join', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error).toEqual('Seat is already taken');
+    expect(res.body.error.message).toEqual('Seat is taken');
   });
 
   // it('should error when the table doesnt exist', async () => {

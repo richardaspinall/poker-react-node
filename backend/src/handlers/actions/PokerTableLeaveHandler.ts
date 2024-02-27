@@ -7,6 +7,7 @@ import { BaseHandler } from '../../shared/BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { Result } from '@shared/Result';
+import { PokerTableDoesNotExistError } from '@shared/errors/PokerTableLeaveErrors';
 
 // Internal utils
 import { Logger } from '../../utils/Logger';
@@ -31,14 +32,14 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
     if (!pokerTable) {
       return res.send({
         ok: false,
-        error: 'Table does not exist',
+        error: new PokerTableDoesNotExistError(),
       });
     }
     const leave_room = pokerTable.leaveTable(seatNumber, clientId);
-    if (!leave_room.ok) {
+    if (leave_room.error) {
       return res.send({
         ok: false,
-        error: leave_room.errorMessage,
+        error: leave_room.error,
       });
     }
     // Emit event to all clients connected that a player has sat down
@@ -48,10 +49,10 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
       seatId: seatNumber,
     };
     const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
-    if (!send_events.ok) {
+    if (send_events.error) {
       return res.send({
         ok: false,
-        error: send_events.errorMessage,
+        error: send_events.error,
       });
     }
     return res.send({ ok: true });

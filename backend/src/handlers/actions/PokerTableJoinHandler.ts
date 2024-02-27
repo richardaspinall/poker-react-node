@@ -7,6 +7,7 @@ import { BaseHandler } from '../../shared/BaseHandler';
 import { Result } from '@shared/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
+import { PokerTableDoesNotExistError } from '../../shared/errors/PokerTableJoinErrors';
 
 // Internal utils
 import { Logger } from '../../utils/Logger';
@@ -34,14 +35,14 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
     if (!pokerTable) {
       return res.send({
         ok: false,
-        error: 'Table does not exist',
+        error: new PokerTableDoesNotExistError(),
       });
     }
     const join_room = pokerTable.sitAtTable('table_1', seatNumber, clientId);
-    if (!join_room.ok) {
+    if (join_room.error) {
       return res.send({
         ok: false,
-        error: join_room.errorMessage,
+        error: join_room.error,
       });
     }
     // Emit event to all clients connected that a player has sat down
@@ -51,10 +52,10 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
       seatId: seatNumber,
     };
     const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
-    if (!send_events.ok) {
+    if (send_events.error) {
       return res.send({
         ok: false,
-        error: send_events.errorMessage,
+        error: send_events.error,
       });
     }
     return res.send({ ok: true });

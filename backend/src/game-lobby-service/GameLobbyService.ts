@@ -3,6 +3,7 @@ import { GameLobby } from './game-lobby/GameLobby';
 import { PokerTable } from '../game/PokerTable';
 import { Result } from '@shared/Result';
 import { Logger } from '../utils/Logger';
+import { PokerTableNameTakenError } from '@shared/errors/GameLobbyServiceErrors';
 
 const debug = Logger.newDebugger('APP:GameLobbyService');
 
@@ -19,13 +20,13 @@ export class GameLobbyService {
   public createPokerTable(name: string, numSeats: number): Result<void> {
     // do some checking on name through the GameLobby
     if (this.gameLobby.isNameTaken(name)) {
-      return Result.error('name_taken');
+      return Result.error(new PokerTableNameTakenError());
     }
 
     const res = PokerTable.createPokerTable(name, numSeats);
-    if (res.isError) {
-      debug(res.errorMessage);
-      return Result.error(res.errorMessage);
+    if (res.error) {
+      debug(res.error.message);
+      return Result.error(res.error);
     }
     const pokerTable = res.getValue();
 
