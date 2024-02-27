@@ -91,7 +91,7 @@ export class PokerTable {
     return availableSeats;
   }
 
-  getName() {
+  public getName() {
     return this.tableName;
   }
 
