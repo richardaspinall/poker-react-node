@@ -10,24 +10,24 @@ type SeatProps = {
 };
 
 export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
-  const onPlayerSit = useCallback(async (event: React.MouseEvent) => {
-    const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
+  const onPlayerSit = useCallback(async () => {
+    const payload = { selectedSeatNumber: seatNumber, socketId: socket.id };
 
     const result = await apiCall.post('tables.join', payload);
     if (!result?.ok) {
       // Do something with the error
       console.log(result?.error);
     }
-  }, []);
+  }, [seatNumber, socket]);
 
-  const playerLeave = useCallback(async (event: React.MouseEvent) => {
-    const payload = { selectedSeatNumber: event.currentTarget.id, socketId: socket.id };
+  const playerLeave = useCallback(async () => {
+    const payload = { selectedSeatNumber: seatNumber, socketId: socket.id };
     const result = await apiCall.post('tables.leave', payload);
     if (!result?.ok) {
       // Do something with the error
       console.log(result?.error);
     }
-  }, []);
+  }, [seatNumber, socket]);
 
   return (
     <div>
