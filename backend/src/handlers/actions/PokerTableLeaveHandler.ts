@@ -36,6 +36,7 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
       });
     }
     const leave_room = pokerTable.leaveTable(seatNumber, clientId);
+    // TODO: should have a switch on the possible errors
     if (leave_room.error) {
       return res.send({
         ok: false,

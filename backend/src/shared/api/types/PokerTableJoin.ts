@@ -4,14 +4,6 @@ import { BaseOutput } from './BaseOutput';
 // External
 import Joi from 'joi';
 
-// Internal
-import { Result, ResultError, ResultSuccess } from '@shared/Result';
-
-// Internal utils
-import { Logger } from '../../../utils/Logger';
-
-const debug = Logger.newDebugger('APP:Validation');
-
 export type PokerTableJoinPayload = {
   selectedSeatNumber: string;
   socketId: string;
