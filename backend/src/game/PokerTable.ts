@@ -71,7 +71,7 @@ export class PokerTable {
 
   public leaveTable(seatNumber: string, clientId: string): Result<void> {
     for (const seat of this.seats) {
-      if (seat.playerId == clientId) {
+      if (seat.playerId === clientId && seat.seatNumber === seatNumber) {
         seat.playerId = '';
         seat.isTaken = false;
         return Result.success();
