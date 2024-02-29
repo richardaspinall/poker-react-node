@@ -1,8 +1,12 @@
-import { BaseError } from '@shared/Result';
-
 // Consistent output for all API calls
 export type BaseOutput = {
   ok: boolean;
   payload?: unknown;
-  error?: BaseError;
+  error?: APIError;
+};
+
+export type APIError = {
+  code: string;
+  message?: string;
+  errorDetails?: any;
 };
