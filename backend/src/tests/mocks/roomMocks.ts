@@ -1,6 +1,7 @@
 // Internal
 import { Result, ResultSuccess, ResultError } from '@shared/Result';
 import { Rooms } from '../../sockets/Rooms';
+import { RoomNotFoundError } from '@shared/errors/RoomErrors';
 
 export const mockCreateRoomSuccess = (roomId: string) => {
   jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess(roomId));
@@ -11,7 +12,7 @@ export const mockJoinRoomSuccess = () => {
 };
 
 export const mockJoinRoomError = () => {
-  jest.spyOn(Rooms, 'joinRoom').mockImplementation(() => new ResultError('Mocked error'));
+  jest.spyOn(Rooms, 'joinRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('room_1')));
 };
 
 export const mockSendEventToRoomSuccess = () => {
@@ -19,5 +20,5 @@ export const mockSendEventToRoomSuccess = () => {
 };
 
 export const mockSendEventToRoomError = () => {
-  jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError('Room not found'));
+  jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('room_1')));
 };

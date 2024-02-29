@@ -5,6 +5,8 @@ import { Socket } from 'socket.io';
 import { Result, ResultSuccess, ResultError } from '@shared/Result';
 import { SocketServer } from './SocketServer';
 
+import { RoomAlreadyExistsError, RoomNotFoundError } from '@shared/errors/RoomErrors';
+
 // Internal utils
 import { Logger } from '../utils/Logger';
 
@@ -22,23 +24,24 @@ export class Rooms {
       this.roomMap.set(roomId, roomId);
       return new ResultSuccess(roomId);
     }
-    return new ResultError('Room already exists');
+    return new ResultError(new RoomAlreadyExistsError());
   }
 
   public static joinRoom(roomId: RoomId, socket: Socket): Result<void> {
     const roomRes = this.getRoom(roomId);
-    if (roomRes.isError) {
-      return Result.error(roomRes.errorMessage);
+    if (roomRes.error) {
+      return Result.error(roomRes.error);
     }
     const room = roomRes.getValue();
+
     socket.join(room);
     return Result.success();
   }
 
   public static sendEventToRoom(roomId: RoomId, event: string, payload: any): Result<void> {
     const roomRes = this.getRoom(roomId);
-    if (roomRes.isError) {
-      return Result.error(roomRes.errorMessage);
+    if (roomRes.error) {
+      return Result.error(roomRes.error);
     }
     const room = roomRes.getValue();
     SocketServer.sendEventToRoom(room, event, payload);
@@ -49,14 +52,14 @@ export class Rooms {
     if (this.roomMap.has(roomId)) {
       return new ResultSuccess(roomId);
     }
-    return new ResultError('Room not found');
+    return new ResultError(new RoomNotFoundError(roomId));
   }
 
   private static leaveRoom(roomId: RoomId, socket: Socket): Result<void> {
     const roomRes = this.getRoom(roomId);
 
-    if (roomRes.isError) {
-      return Result.error(roomRes.errorMessage);
+    if (roomRes.error) {
+      return Result.error(roomRes.error);
     }
 
     const room = roomRes.getValue();
@@ -71,6 +74,6 @@ export class Rooms {
     if (res) {
       return Result.success();
     }
-    return Result.error('Room not found');
+    return Result.error(new RoomNotFoundError(roomId));
   }
 }

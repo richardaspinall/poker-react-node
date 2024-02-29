@@ -3,6 +3,7 @@ import Joi from 'joi';
 
 // Internal
 import { Result, ResultError, ResultSuccess } from '@shared/Result';
+import { InvalidRequestPayloadError } from '@shared/errors/ValidationErrors';
 
 // Internal utils
 import { Logger } from '../utils/Logger';
@@ -25,7 +26,7 @@ export function validatePayload<TPayload>(
 
   if (error) {
     debug(error.details);
-    return new ResultError('Invalid request payload', error.details);
+    return new ResultError(new InvalidRequestPayloadError(error.details));
   }
 
   return new ResultSuccess(value);

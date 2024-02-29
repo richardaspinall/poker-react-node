@@ -7,12 +7,12 @@ import { SocketServer } from './SocketServer';
 import { Rooms } from './Rooms';
 import { SocketHandlers } from './SocketEventHandlers';
 
+import { SocketNotFoundError } from '@shared/errors/SocketErrors';
+
 // Internal utils
 import { Logger } from '../utils/Logger';
 
 export type ClientId = string;
-
-const debug = Logger.newDebugger('APP:Sockets');
 
 /**
  * Sockets is responsible for managing sockets
@@ -32,8 +32,8 @@ export class Sockets {
   public static sendEventToClient(clientId: ClientId, event: string, payload: any): Result<void> {
     const res = Sockets.getSocket(clientId);
 
-    if (res.isError) {
-      return Result.error(res.errorMessage);
+    if (res.error) {
+      return Result.error(res.error);
     }
 
     const socket = res.getValue();
@@ -50,21 +50,21 @@ export class Sockets {
       return new ResultSuccess(socket);
     }
 
-    return new ResultError('Socket not found');
+    return new ResultError(new SocketNotFoundError());
   }
 
   private static addSocket(clientId: ClientId, clientSocket: Socket) {
     Sockets.socketMap.set(clientId, clientSocket);
 
     const joinRoomRes = Rooms.joinRoom('table_1', clientSocket);
-    if (joinRoomRes.isError) {
-      Logger.error(joinRoomRes.errorMessage);
+    if (joinRoomRes.error) {
+      Logger.error(joinRoomRes.error.code);
       return;
     }
 
     const sendEventRes = Rooms.sendEventToRoom('table_1', 'hello_from_server', { clientId: clientId });
-    if (sendEventRes.isError) {
-      Logger.error(sendEventRes.errorMessage);
+    if (sendEventRes.error) {
+      Logger.error(sendEventRes.error.code);
       return;
     }
   }

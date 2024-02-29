@@ -3,19 +3,17 @@ import request from 'supertest';
 
 // Internal
 import { httpServer } from '../../index';
-import { Logger } from '../../utils/Logger';
 import { GameLobbyService } from '../../game-lobby-service';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
 import { Rooms } from '../../sockets/Rooms';
 import { ResultSuccess, ResultError } from '@shared/Result';
-
-const debug = Logger.newDebugger('test:tables');
+import { RoomNotFoundError } from '@shared/errors/RoomErrors';
 
 describe('tables.leave', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
-    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError('Room not found'));
+    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
 
     const res = await request(httpServer).post('/api/actions/tables.leave').send({
@@ -25,7 +23,7 @@ describe('tables.leave', () => {
 
     expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error).toEqual('Invalid request payload');
+    expect(res.body.error.code).toEqual('INVALID_REQUEST_PAYLOAD');
   });
 
   // TODO: will eventually need to add the table they are sitting at but this is hardcoded
@@ -55,7 +53,7 @@ describe('tables.leave', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error).toEqual('Player not found on table');
+    expect(res.body.error.code).toEqual('PLAYER_NOT_FOUND_AT_TABLE');
   });
 
   afterEach(() => {
