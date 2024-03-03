@@ -11,3 +11,9 @@ export class RoomNotFoundError extends BaseError {
     super('ROOM_NOT_FOUND', `Room ${id} could not be found`);
   }
 }
+
+export class RoomCreationError extends BaseError {
+  constructor() {
+    super('ROOM_CREATION_ERROR', `Room was not created`);
+  }
+}

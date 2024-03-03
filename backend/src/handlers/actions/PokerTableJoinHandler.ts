@@ -63,7 +63,7 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
       if (!send_events.ok) {
         return res.send({
           ok: false,
-          error: send_events.errorMessage,
+          error: send_events.error,
         });
       }
     }

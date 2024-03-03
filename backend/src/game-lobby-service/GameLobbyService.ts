@@ -5,6 +5,7 @@ import { Result } from '@shared/Result';
 import{ Rooms } from '../sockets/Rooms';
 import { Logger } from '../utils/Logger';
 import { PokerTableNameTakenError } from '@shared/errors/GameLobbyServiceErrors';
+import { RoomCreationError } from '@shared/errors/RoomErrors';
 
 const debug = Logger.newDebugger('APP:GameLobbyService');
 
@@ -26,7 +27,7 @@ export class GameLobbyService {
 
     const room = Rooms.createRoom(name);
     if (!room.ok) {
-      return Result.error('create_room_error');
+      return Result.error(new RoomCreationError());
     }
     const roomId = room.getValue();
     const pokerTable = PokerTable.createPokerTable(name, numSeats, roomId).getValue();
