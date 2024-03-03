@@ -5,6 +5,7 @@ import { Result } from '@shared/Result';
 import{ Rooms } from '../sockets/Rooms';
 import { Logger } from '../utils/Logger';
 import { PokerTableNameTakenError } from '@shared/errors/GameLobbyServiceErrors';
+import { RoomNotCreatedError } from '@shared/errors/RoomErrors';
 
 const debug = Logger.newDebugger('APP:GameLobbyService');
 
