@@ -1,5 +1,5 @@
 // Internal
-import { Result, ResultError, ResultSuccess } from '@shared/Result';
+import { Result, ResultSuccess } from '@shared/Result';
 import { Seat } from './Seat';
 import {
   PlayerAlreadySeatedError,

@@ -1,8 +1,8 @@
 // Internal
 import { GameLobby } from './game-lobby/GameLobby';
 import { PokerTable } from '../game/PokerTable';
-import { Result } from '@shared/Result';
 import{ Rooms } from '../sockets/Rooms';
+import { Result, ResultError } from '@shared/Result';
 import { Logger } from '../utils/Logger';
 import { PokerTableNameTakenError } from '@shared/errors/GameLobbyServiceErrors';
 import { RoomNotCreatedError } from '@shared/errors/RoomErrors';
