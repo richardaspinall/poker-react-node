@@ -10,7 +10,7 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const res = pokerTable.sitAtTable(tableName, 'seat-1', 'a1');
+      const res = pokerTable.sitAtTable('seat-1', 'a1');
 
       expect(res.ok).toEqual(true);
       expect(res.isError).toEqual(false);
@@ -22,12 +22,12 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const a1SitsSeat1 = pokerTable.sitAtTable(tableName, 'seat-1', 'a1');
+      const a1SitsSeat1 = pokerTable.sitAtTable('seat-1', 'a1');
 
       expect(a1SitsSeat1.ok).toEqual(true);
       expect(a1SitsSeat1.isError).toEqual(false);
 
-      const b1SitsSeat1 = pokerTable.sitAtTable(tableName, 'seat-1', 'b2');
+      const b1SitsSeat1 = pokerTable.sitAtTable('seat-1', 'b2');
 
       expect(b1SitsSeat1.ok).toEqual(false);
       expect(b1SitsSeat1.isError).toEqual(true);
@@ -40,12 +40,12 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const a1SitsSeat1 = pokerTable.sitAtTable(tableName, 'seat-1', 'a1');
+      const a1SitsSeat1 = pokerTable.sitAtTable('seat-1', 'a1');
 
       expect(a1SitsSeat1.ok).toEqual(true);
       expect(a1SitsSeat1.isError).toEqual(false);
 
-      const a1SitsSeat2 = pokerTable.sitAtTable(tableName, 'seat-2', 'a1');
+      const a1SitsSeat2 = pokerTable.sitAtTable('seat-2', 'a1');
 
       expect(a1SitsSeat2.ok).toEqual(false);
       expect(a1SitsSeat2.isError).toEqual(true);
@@ -57,7 +57,7 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const res = pokerTable.sitAtTable(tableName, 'seat-3', 'a1');
+      const res = pokerTable.sitAtTable('seat-3', 'a1');
 
       expect(res.ok).toEqual(false);
       expect(res.isError).toEqual(true);

@@ -31,7 +31,7 @@ export class PokerTable {
     return new ResultSuccess(newTable);
   }
 
-  public sitAtTable(tableName: string, seatNumber: string, clientId: string): Result<void> {
+  public sitAtTable(seatNumber: string, clientId: string): Result<void> {
     for (const seat of this.seats) {
       if (seat.playerId === clientId) {
         return Result.error('Player is already sitting at the table');
@@ -77,14 +77,12 @@ export class PokerTable {
     return this.tableName;
   }
 
-  private checkTableReady(): boolean {
+  public checkTableReady(): boolean {
     for (const seat of this.seats) {
       if (seat.playerId == '') {
         return false;
       }
     }
-    // StartGame logic to go here [separate task]
-    // startGame(tableName)
     return true;
   }
 }

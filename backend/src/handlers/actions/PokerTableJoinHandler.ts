@@ -37,7 +37,7 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
         error: 'Table does not exist',
       });
     }
-    const join_room = pokerTable.sitAtTable('table_1', seatNumber, clientId);
+    const join_room = pokerTable.sitAtTable(seatNumber, clientId);
     if (!join_room.ok) {
       return res.send({
         ok: false,
