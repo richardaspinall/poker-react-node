@@ -1,6 +1,5 @@
 // Internal
 import { Result, ResultError, ResultSuccess } from '@shared/Result';
-import { Rooms } from '../sockets/Rooms';
 import { Seat } from './Seat';
 
 // Internal utils
@@ -45,17 +44,6 @@ export class PokerTable {
         } else {
           seat.playerId = clientId;
           seat.isTaken = true;
-          const tableIsReady = this.checkTableReady();
-          if (tableIsReady) {
-            let event = 'start_game';
-            let payload = {
-              tableName: tableName,
-            };
-            let send_events = Rooms.sendEventToRoom('table_1', event, payload);
-            if (!send_events.ok) {
-              return Result.error(send_events.errorMessage);
-            }
-          }
           return Result.success();
         }
       }
