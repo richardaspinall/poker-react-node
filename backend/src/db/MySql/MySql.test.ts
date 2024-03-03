@@ -14,13 +14,12 @@ describe('MySql', () => {
   });
 
   describe('insert', () => {
-    it('should insert a new user', async () => {
+    it('should insert a new player', async () => {
       const result = await mySql.insert('INSERT INTO users (username, password) VALUES (?, ?)', [
         'james',
         'testpassword',
       ]);
-
-      expect(result.affectedRows).toEqual(1);
+      expect(result.isOk()).toEqual(true);
     });
 
     it('should return a duplicate entry error when entering a used username', async () => {
@@ -29,7 +28,7 @@ describe('MySql', () => {
         'testpassword',
       ]);
 
-      expect(result.code).toEqual('ER_DUP_ENTRY');
+      expect(result.error?.code).toEqual('DUPLICATE_ENTRY');
     });
   });
 

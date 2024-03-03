@@ -4,6 +4,10 @@
 export class Result<T> {
   constructor(public ok: boolean, public value: T | undefined = undefined, public error?: BaseError) {}
 
+  public isOk(): boolean {
+    return this.ok;
+  }
+
   public getValue(): T {
     if (this.error) throw new Error(this.error.code);
     if (!this.value) throw new Error('Value is undefined');

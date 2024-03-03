@@ -30,16 +30,22 @@ class MySql {
       return new ResultSuccess(rows);
     } catch (error) {
       // const mysqlError = error as Error & { code?: string };
-      return new ResultError(new DBSelectError('players'));
+      return new ResultError(new DBSelectError('users'));
     }
   }
 
-  async insert(query: string, params: any[] = []): Promise<any> {
+  async insert(query: string, params: any[] = []): Promise<Result<void>> {
     try {
-      const [result] = await this.pool.execute(query, params);
-      return result;
+      const [result] = await this.pool.execute<RowDataPacket[]>(query, params);
+      return Result.success();
     } catch (error) {
-      return error;
+      const mysqlError = error as Error & { code?: string };
+      if (mysqlError.code === 'ER_DUP_ENTRY') {
+        // TODO: add the actual table from the query
+        return Result.error(new DBInsertDuplicateError('users'));
+      } else {
+        return Result.error(new DBInsertError('users'));
+      }
     }
   }
 
