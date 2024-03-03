@@ -34,7 +34,7 @@ export class PokerTable {
     return new ResultSuccess(newTable);
   }
 
-  public sitAtTable(tableName: string, seatNumber: string, clientId: string): Result<void> {
+  public sitAtTable(seatNumber: string, clientId: string): Result<void> {
     for (const seat of this.seats) {
       if (seat.playerId === clientId) {
         return Result.error(new PlayerAlreadySeatedError());
