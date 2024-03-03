@@ -31,7 +31,7 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
         error: new PokerTableDoesNotExistError(),
       });
     }
-    const join_room = pokerTable.sitAtTable('table_1', seatNumber, clientId);
+    const join_room = pokerTable.sitAtTable(seatNumber, clientId);
     if (join_room.error) {
       // TODO: should have a switch on the possible errors for endpoints, this will be even more clear when we have
       // a dealer doing the above
@@ -54,6 +54,17 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
         ok: false,
         error: send_events.error,
       });
+    }
+    const tableIsReady = pokerTable.checkTableReady();
+    if (tableIsReady) {
+      const event = 'start_game';
+      const payload = {
+        tableName: 'table_1',
+      };
+      const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
+      if (sendEvents.error) {
+        return Result.error(sendEvents.error);
+      }
     }
     return res.send({ ok: true });
   }

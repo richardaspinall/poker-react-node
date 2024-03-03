@@ -1,6 +1,5 @@
 // Internal
-import { Result, ResultError, ResultSuccess } from '@shared/Result';
-import { Rooms } from '../sockets/Rooms';
+import { Result, ResultSuccess } from '@shared/Result';
 import { Seat } from './Seat';
 import {
   PlayerAlreadySeatedError,
@@ -31,15 +30,11 @@ export class PokerTable {
   }
 
   public static createPokerTable(tableName: string, numberOfSeats: number): Result<PokerTable> {
-    const res = Rooms.createRoom(tableName);
-    if (res.error) {
-      return new ResultError(res.error);
-    }
     const newTable = new PokerTable(tableName, numberOfSeats);
     return new ResultSuccess(newTable);
   }
 
-  public sitAtTable(tableName: string, seatNumber: string, clientId: string): Result<void> {
+  public sitAtTable(seatNumber: string, clientId: string): Result<void> {
     for (const seat of this.seats) {
       if (seat.playerId === clientId) {
         return Result.error(new PlayerAlreadySeatedError());
@@ -52,17 +47,6 @@ export class PokerTable {
         } else {
           seat.playerId = clientId;
           seat.isTaken = true;
-          const tableIsReady = this.checkTableReady();
-          if (tableIsReady) {
-            const event = 'start_game';
-            const payload = {
-              tableName: tableName,
-            };
-            const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
-            if (sendEvents.error) {
-              return Result.error(sendEvents.error);
-            }
-          }
           return Result.success();
         }
       }
@@ -96,14 +80,12 @@ export class PokerTable {
     return this.tableName;
   }
 
-  private checkTableReady(): boolean {
+  public checkTableReady(): boolean {
     for (const seat of this.seats) {
       if (seat.playerId == '') {
         return false;
       }
     }
-    // StartGame logic to go here [separate task]
-    // startGame(tableName)
     return true;
   }
 }
