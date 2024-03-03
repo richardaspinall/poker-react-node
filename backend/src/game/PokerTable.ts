@@ -86,8 +86,6 @@ export class PokerTable {
         return false;
       }
     }
-    // StartGame logic to go here [separate task]
-    // startGame(tableName)
     return true;
   }
 }
