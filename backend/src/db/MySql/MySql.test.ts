@@ -4,10 +4,12 @@ describe('MySql', () => {
   const mySql = new MySql(process.env.DB_DATABASE || '');
 
   describe('select', () => {
-    it('should select user 1000', async () => {
-      const [player] = await mySql.select('SELECT * FROM users WHERE user_id = ?', [1000]);
+    it('should select player 1000', async () => {
+      const resRows = await mySql.select('SELECT * FROM users WHERE user_id = ?', [1000]);
 
-      expect(player).toEqual({ password: 'testpassword', user_id: 1000, username: 'raspinall' });
+      resRows.getValue().forEach((row) => {
+        expect(row).toEqual({ password: 'testpassword', user_id: 1000, username: 'raspinall' });
+      });
     });
   });
 

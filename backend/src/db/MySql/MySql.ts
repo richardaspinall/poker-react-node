@@ -1,6 +1,12 @@
 require('dotenv').config();
 
-import { createPool, Pool } from 'mysql2/promise';
+// External
+import { createPool, Pool, RowDataPacket } from 'mysql2/promise';
+
+// Internal
+import { Result, ResultError, ResultSuccess } from '@shared/Result';
+import { DBSelectError } from '@shared/errors/DB/DBSelectErrors';
+import { DBInsertError, DBInsertDuplicateError } from '@shared/errors/DB/DBInsertErrors';
 
 class MySql {
   private pool: Pool;
@@ -18,12 +24,13 @@ class MySql {
   // TODO: Should prefix the queries with the query types
   // e.g. select, insert, update, delete
   // then the params should be the table and the where clauses
-  async select(query: string, params: any[] = []): Promise<any> {
+  async select(query: string, params: any[] = []): Promise<Result<RowDataPacket[]>> {
     try {
-      const [rows] = await this.pool.execute(query, params);
-      return rows;
+      const [rows] = await this.pool.execute<RowDataPacket[]>(query, params);
+      return new ResultSuccess(rows);
     } catch (error) {
-      return error;
+      // const mysqlError = error as Error & { code?: string };
+      return new ResultError(new DBSelectError('players'));
     }
   }
 
