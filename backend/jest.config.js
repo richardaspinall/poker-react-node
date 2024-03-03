@@ -5,7 +5,12 @@ module.exports = {
   testEnvironment: 'node',
   testRegex: './src/.*\\.(test|spec)?\\.(ts|ts)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  modulePathIgnorePatterns: ['<rootDir>/src/handlers', '<rootDir>/src/routes', '<rootDir>/src/sockets'],
+  modulePathIgnorePatterns: [
+    '<rootDir>/src/handlers',
+    '<rootDir>/src/routes',
+    '<rootDir>/src/sockets',
+    '<rootDir>/src/db',
+  ],
   roots: ['<rootDir>/src'],
   moduleNameMapper: {
     '^@tests/(.*)$': '<rootDir>/src/tests/$1',

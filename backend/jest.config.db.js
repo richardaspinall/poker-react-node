@@ -3,9 +3,9 @@ module.exports = {
     '^.+\\.ts?$': 'ts-jest',
   },
   testEnvironment: 'node',
-  testRegex: './db/.*\\.(test|spec)?\\.(ts|ts)$',
+  testRegex: './src/db/.*\\.(test|spec)?\\.(ts|ts)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  roots: ['<rootDir>/db'],
+  roots: ['<rootDir>/src/db'],
   moduleNameMapper: {
     '^@tests/(.*)$': '<rootDir>/src/tests/$1',
     '^@shared/(.*)$': '<rootDir>/src/shared/$1',
