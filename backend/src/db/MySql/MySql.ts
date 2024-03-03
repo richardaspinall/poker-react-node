@@ -7,6 +7,7 @@ import { createPool, Pool, RowDataPacket } from 'mysql2/promise';
 import { Result, ResultError, ResultSuccess } from '@shared/Result';
 import { DBSelectError } from '@shared/errors/DB/DBSelectErrors';
 import { DBInsertError, DBInsertDuplicateError } from '@shared/errors/DB/DBInsertErrors';
+import { DBDeleteError } from '@shared/errors/DB/DBDeleteErrors';
 
 class MySql {
   private pool: Pool;
@@ -49,12 +50,13 @@ class MySql {
     }
   }
 
-  async delete(query: string, params: any[] = []): Promise<any> {
+  async delete(query: string, params: any[] = []): Promise<Result<void>> {
     try {
       const [result] = await this.pool.execute(query, params);
-      return result;
+      return Result.success();
     } catch (error) {
-      return error;
+      console.log(error);
+      return Result.error(new DBDeleteError('users'));
     }
   }
 

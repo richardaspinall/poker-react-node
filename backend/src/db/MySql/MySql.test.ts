@@ -36,7 +36,7 @@ describe('MySql', () => {
     it('should delete a user', async () => {
       const result = await mySql.delete('DELETE FROM users WHERE username = ?', ['james']);
 
-      expect(result.affectedRows).toEqual(1);
+      expect(result.isOk()).toEqual(true);
     });
   });
 
