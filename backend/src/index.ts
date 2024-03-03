@@ -8,6 +8,12 @@ import { router } from './routes';
 import { SocketServer } from './sockets/SocketServer';
 import { PokerTable } from './game/PokerTable';
 
+import { UserRepository } from './player/UserRepository';
+import { User } from './player/User';
+
+UserRepository.createUser({ username: 'test3', password: 'test' });
+UserRepository.deleteUser(1014);
+
 const app = express();
 
 // middleware to parse json and urlencoded request body
