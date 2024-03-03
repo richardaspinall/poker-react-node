@@ -2,6 +2,7 @@
 import { GameLobby } from './game-lobby/GameLobby';
 import { PokerTable } from '../game/PokerTable';
 import { Result } from '@shared/Result';
+import{ Rooms } from '../sockets/Rooms';
 import { Logger } from '../utils/Logger';
 import { PokerTableNameTakenError } from '@shared/errors/GameLobbyServiceErrors';
 
@@ -23,6 +24,10 @@ export class GameLobbyService {
       return Result.error(new PokerTableNameTakenError());
     }
 
+    const room = Rooms.createRoom(name);
+    if (room.error) {
+      return new ResultError(new RoomNotCreatedError());
+    }
     const res = PokerTable.createPokerTable(name, numSeats);
     if (res.error) {
       debug(res.error.message);

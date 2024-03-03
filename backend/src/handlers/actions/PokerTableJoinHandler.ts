@@ -55,6 +55,17 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
         error: send_events.error,
       });
     }
+    const tableIsReady = pokerTable.checkTableReady();
+    if (tableIsReady) {
+      const event = 'start_game';
+      const payload = {
+        tableName: 'table_1',
+      };
+      const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
+      if (sendEvents.error) {
+        return Result.error(sendEvents.error);
+      }
+    }
     return res.send({ ok: true });
   }
 }
