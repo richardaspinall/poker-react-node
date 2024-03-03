@@ -29,8 +29,8 @@ export class PokerTable {
     this.seats = seatsArray;
   }
 
-  public static createPokerTable(tableName: string, numberOfSeats: number, roomId: string): Result<PokerTable> {
-    const newTable = new PokerTable(tableName, numberOfSeats, roomId);
+  public static createPokerTable(tableName: string, numberOfSeats: number): Result<PokerTable> {
+    const newTable = new PokerTable(tableName, numberOfSeats);
     return new ResultSuccess(newTable);
   }
 

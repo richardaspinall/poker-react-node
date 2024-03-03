@@ -30,7 +30,7 @@ export class GameLobbyService {
       return Result.error(new RoomCreationError());
     }
     const roomId = room.getValue();
-    const pokerTable = PokerTable.createPokerTable(name, numSeats, roomId).getValue();
+    const pokerTable = PokerTable.createPokerTable(name, numSeats).getValue();
     this.gameLobby.addTable(pokerTable);
 
     return Result.success();
