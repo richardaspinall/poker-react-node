@@ -31,10 +31,8 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
         error: new PokerTableDoesNotExistError(),
       });
     }
-    const join_room = pokerTable.sitAtTable('table_1', seatNumber, clientId);
-    if (join_room.error) {
-      // TODO: should have a switch on the possible errors for endpoints, this will be even more clear when we have
-      // a dealer doing the above
+    const join_room = pokerTable.sitAtTable(seatNumber, clientId);
+    if (!join_room.ok) {
       return res.send({
         ok: false,
         error: join_room.error,
