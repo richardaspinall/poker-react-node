@@ -23,7 +23,7 @@ describe('UserRepository', () => {
 
   describe('createUser', () => {
     it('should create a user', async () => {
-      mockMySqlInsertDuplicateError();
+      mockMySqlInsertDuplicateError('users');
       const userOrError = await UserRepository.createUser({ username: 'raspinall', password: 'testpassword' });
 
       expect(userOrError.error?.code).toEqual('DUPLICATE_ENTRY');
@@ -41,11 +41,11 @@ describe('UserRepository', () => {
     });
 
     it('should return a select error', async () => {
-      mockMySqlSelectError();
+      mockMySqlSelectError('users');
 
       const user = await UserRepository.getUserById(1000);
       expect(user.error?.code).toEqual('SELECT_FAILED');
-      expect(user.error?.message).toEqual('Select failed for: users');
+      expect(user.error?.message).toEqual('Selection failed to: users');
     });
   });
 

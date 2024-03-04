@@ -9,23 +9,22 @@ import { Result, ResultSuccess, ResultError } from '@shared/Result';
 import { DBInsertError, DBInsertDuplicateError } from '@shared/errors/DB/DBInsertErrors';
 import { DBSelectError } from '@shared/errors/DB/DBSelectErrors';
 
-export const mockMySqlInsertError = () => {
-  jest.spyOn(MySqLInstance, 'insert').mockImplementation(async () => await Result.error(new DBInsertError('users')));
+export const mockMySqlInsertError = (table: string) => {
+  jest.spyOn(MySqLInstance, 'insert').mockImplementation(async () => await Result.error(new DBInsertError(table)));
 };
 
-// TODO: add params to the mock
-export const mockMySqlInsertDuplicateError = () => {
+export const mockMySqlInsertDuplicateError = (table: string) => {
   jest
     .spyOn(MySqLInstance, 'insert')
-    .mockImplementation(async () => await Result.error(new DBInsertDuplicateError('users')));
+    .mockImplementation(async () => await Result.error(new DBInsertDuplicateError(table)));
 };
 
 export const mockMySqlInsertSuccess = () => {
   jest.spyOn(MySqLInstance, 'insert').mockImplementation(async () => await Result.success());
 };
 
-export const mockMySqlSelectError = () => {
-  jest.spyOn(MySqLInstance, 'select').mockImplementation(async () => await new ResultError(new DBSelectError('users')));
+export const mockMySqlSelectError = (table: string) => {
+  jest.spyOn(MySqLInstance, 'select').mockImplementation(async () => await new ResultError(new DBSelectError(table)));
 };
 
 export const mockMySqlSelectSuccess = () => {
