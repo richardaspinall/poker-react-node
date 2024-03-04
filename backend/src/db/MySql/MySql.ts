@@ -25,38 +25,47 @@ class MySql {
   // TODO: Should prefix the queries with the query types
   // e.g. select, insert, update, delete
   // then the params should be the table and the where clauses
-  async select(query: string, params: any[] = []): Promise<Result<RowDataPacket[]>> {
+  async select(table: string, whereClause: string[] = [], params: any[] = []): Promise<Result<RowDataPacket[]>> {
+    const where =
+      whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';
+    const query = `SELECT * FROM ${table} ${where}`;
     try {
       const [rows] = await this.pool.execute<RowDataPacket[]>(query, params);
+
       return new ResultSuccess(rows);
     } catch (error) {
-      // const mysqlError = error as Error & { code?: string };
-      return new ResultError(new DBSelectError('users'));
+      return new ResultError(new DBSelectError(table));
     }
   }
 
-  async insert(query: string, params: any[] = []): Promise<Result<void>> {
+  async insert(table: string, columns: string[], params: any[]): Promise<Result<void>> {
+    const placeholders = columns.map(() => '?').join(', ');
+    const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
     try {
-      const [result] = await this.pool.execute<RowDataPacket[]>(query, params);
+      await this.pool.execute<RowDataPacket[]>(query, params);
+
       return Result.success();
     } catch (error) {
       const mysqlError = error as Error & { code?: string };
+
       if (mysqlError.code === 'ER_DUP_ENTRY') {
-        // TODO: add the actual table from the query
-        return Result.error(new DBInsertDuplicateError('users'));
+        return Result.error(new DBInsertDuplicateError(table));
       } else {
-        return Result.error(new DBInsertError('users'));
+        return Result.error(new DBInsertError(table));
       }
     }
   }
 
-  async delete(query: string, params: any[] = []): Promise<Result<void>> {
+  async delete(table: string, whereClause: string[] = [], params: any[] = []): Promise<Result<void>> {
+    const where =
+      whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';
+    const query = `DELETE FROM ${table} ${where}`;
     try {
-      const [result] = await this.pool.execute(query, params);
+      await this.pool.execute(query, params);
+
       return Result.success();
     } catch (error) {
-      console.log(error);
-      return Result.error(new DBDeleteError('users'));
+      return Result.error(new DBDeleteError(table));
     }
   }
 
