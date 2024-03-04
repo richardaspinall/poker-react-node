@@ -19,7 +19,7 @@ describe('MySql', () => {
         'james',
         'testpassword',
       ]);
-      expect(result.isOk()).toEqual(true);
+      expect(result.ok).toEqual(true);
     });
 
     it('should return a duplicate entry error when entering a used username', async () => {
@@ -36,7 +36,7 @@ describe('MySql', () => {
     it('should delete a user', async () => {
       const result = await mySql.delete('DELETE FROM users WHERE username = ?', ['james']);
 
-      expect(result.isOk()).toEqual(true);
+      expect(result.ok).toEqual(true);
     });
   });
 
