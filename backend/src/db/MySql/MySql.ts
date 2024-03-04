@@ -13,10 +13,16 @@ import { DBDeleteError } from '@shared/errors/DB/DBDeleteErrors';
  * MySql is responsible for managing the connection to the database and executing queries.
  */
 class MySql {
-  private pool: Pool;
+  private pool: Pool = {} as Pool;
 
   constructor(db_database: string) {
-    if (!db_database) throw new Error('No database name provided');
+    if (process.env.TEST_RUNNER) {
+      this.pool = {} as Pool;
+      return;
+    }
+    if (!db_database) {
+      throw new Error('No database name provided');
+    }
     this.pool = createPool({
       host: process.env.DB_HOST,
       user: process.env.DB_USER,

@@ -4,7 +4,7 @@
   "description": "backend for poker game",
   "main": "src/index.ts",
   "scripts": {
-    "unit_tests": "jest $npm_config_file",
+    "unit_tests": "TEST_RUNNER=true jest $npm_config_file",
     "db_tests": "DB_DATABASE=test_poker jest --config jest.config.db.js --runInBand --detectOpenHandles",
     "api_tests": "jest --config jest.config.api.js --runInBand --detectOpenHandles",
     "dev": "nodemon",

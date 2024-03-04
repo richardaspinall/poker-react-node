@@ -7,12 +7,15 @@ import {
   mockMySqlInsertDuplicateError,
   mockMySqlSelectSuccess,
   mockMySqlSelectError,
+  mockMySqlClose,
 } from '../tests/mocks/dbMocks';
 
 describe('UserRepository', () => {
+  mockMySqlClose();
   describe('createUser', () => {
     it('should create a user', async () => {
       mockMySqlInsertSuccess();
+      mockMySqlSelectSuccess();
       const userId = await UserRepository.createUser({ username: 'raspinall', password: 'testpassword' });
 
       const user = await UserRepository.getUserById(userId.getValue());

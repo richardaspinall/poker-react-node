@@ -33,3 +33,7 @@ export const mockMySqlSelectSuccess = () => {
         await new ResultSuccess([{ user_id: 1000, username: 'raspinall', password: 'testpassword' }] as RowDataPacket[])
     );
 };
+
+export const mockMySqlClose = () => {
+  jest.spyOn(MySqLInstance, 'close').mockImplementation(async () => {});
+};
