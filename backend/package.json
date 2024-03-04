@@ -5,10 +5,10 @@
   "main": "src/index.ts",
   "scripts": {
     "unit_tests": "jest $npm_config_file",
-    "db_tests": "DB=test_poker jest --config jest.config.db.js",
+    "db_tests": "DB_DATABASE=test_poker jest --config jest.config.db.js",
     "api_tests": "jest --config jest.config.api.js --runInBand",
     "dev": "nodemon",
-    "create-test-db": "DB=test_poker node db/create_dev_db.js",
+    "create-test-db": "DB_DATABASE=test_poker node src/db/create_dev_db.js",
     "lint": "eslint . --ext .ts"
   },
   "author": "",
