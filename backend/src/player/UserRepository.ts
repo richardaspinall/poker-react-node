@@ -7,6 +7,9 @@ interface NewUserDTO {
   password: string;
 }
 
+/**
+ * UserRepository is responsible for managing the user table in the database.
+ */
 export class UserRepository {
   static async createUser(userDTO: NewUserDTO): Promise<Result<number>> {
     const res = await DB.insert('users', ['username', 'password'], [userDTO.username, userDTO.password]);
