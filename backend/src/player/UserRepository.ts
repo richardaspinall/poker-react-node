@@ -1,4 +1,5 @@
 // Internal
+import { Result, ResultError, ResultSuccess } from '@shared/Result';
 import { MySqLInstance as DB } from '../db/MySql';
 import { User } from './User';
 interface NewUserDTO {
@@ -7,27 +8,39 @@ interface NewUserDTO {
 }
 
 export class UserRepository {
-  static async createUser(userDTO: NewUserDTO): Promise<number> {
-    const insertRows = await DB.insert('INSERT INTO players (username, password) VALUES (?, ?)', [
-      userDTO.username,
-      userDTO.password,
-    ]);
-    console.log('HERE', insertRows);
-    const rows = await DB.select('SELECT * FROM players WHERE username = ?', [userDTO.username]);
-    console.log(rows);
-    return rows[0].player_id;
-  }
-
-  static async getUserById(id: number): Promise<User | null> {
-    const rows = await DB.select('SELECT * FROM players WHERE player_id = ?', [id]);
-    if (rows.length) {
-      return new User(rows[0].username, rows[0].player_id);
+  static async createUser(userDTO: NewUserDTO): Promise<Result<number>> {
+    const res = await DB.insert('users', ['username', 'password'], [userDTO.username, userDTO.password]);
+    if (res.error) {
+      return new ResultError(res.error);
     }
-    return null;
+    const userOrError = await DB.select('users', ['username'], [userDTO.username]);
+    if (userOrError.error) {
+      // TODO: should return User specific errors from here
+      return new ResultError(userOrError.error);
+    }
+    const userId: number = userOrError.getValue()[0].user_id;
+
+    return new ResultSuccess(userId);
   }
 
-  static async deleteUser(id: number): Promise<void> {
-    const deleteRows = await DB.delete('DELETE FROM players WHERE player_id = ?', [id]);
-    console.log(deleteRows);
+  static async getUserById(id: number): Promise<Result<User>> {
+    const userOrError = await DB.select('users', ['user_id'], [id]);
+    if (userOrError.error) {
+      // TODO: should return User specific errors from here
+      return new ResultError(userOrError.error);
+    }
+    const username = userOrError.getValue()[0].username;
+    const userId = userOrError.getValue()[0].user_id;
+    const user = new User(username, userId);
+
+    return new ResultSuccess(user);
+  }
+
+  static async deleteUser(id: number): Promise<Result<void>> {
+    const deleteOrError = await DB.delete('users', ['user_id'], [id]);
+    if (deleteOrError.error) {
+      return new ResultError(deleteOrError.error);
+    }
+    return Result.success();
   }
 }

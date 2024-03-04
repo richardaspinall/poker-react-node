@@ -1,70 +1,56 @@
-import { MySqLInstance } from '../db/MySql/index';
+// Internal
+import { MySqLInstance } from '../db/MySql';
 import { UserRepository } from './UserRepository';
-import { Result } from '@shared/Result';
-import { DBInsertError } from '@shared/errors/DB/DBInsertErrors';
 
-export const mockMySqlInsertError = () => {
-  jest.spyOn(MySqLInstance, 'insert').mockImplementation(async () => await Result.error(new DBInsertError('players')));
-};
+import {
+  mockMySqlInsertSuccess,
+  mockMySqlInsertDuplicateError,
+  mockMySqlSelectSuccess,
+  mockMySqlSelectError,
+} from '../tests/mocks/dbMocks';
 
-export const mockMySqlInsertSuccess = () => {
-  jest.spyOn(MySqLInstance, 'insert').mockImplementation(async () => await Result.success());
-};
-
-export const mockMySqlSelectError = () => {
-  jest.spyOn(MySqLInstance, 'select').mockImplementation(async () => await Result.error(new DBInsertError('players')));
-};
-
-export const mockMySqlSelectSuccess = () => {
-  jest.spyOn(MySqLInstance, 'select').mockImplementation(async () => await Result.success());
-};
-
-describe('MySql', () => {
-  //   describe('select', () => {
-  //     it('should select player 1000', async () => {
-  //       const [player] = await mySql.select('SELECT * FROM players WHERE player_id = ?', [1000]);
-
-  //       expect(player).toEqual({ password: 'testpassword', player_id: 1000, username: 'raspinall' });
-  //     });
-  //   });
-
-  describe('insert', () => {
-    // it('should insert a new player', async () => {
-    //   const insertRows = await mySql.insert('INSERT INTO players (username, password) VALUES (?, ?)', [
-    //     'jimmy',
-    //     'testpassword',
-    //   ]);
-
-    //   expect(insertRows.affectedRows).toEqual(1);
-    // });
-    it('should insert a new player', async () => {
+describe('UserRepository', () => {
+  describe('createUser', () => {
+    it('should create a user', async () => {
       mockMySqlInsertSuccess();
-      const userId = await UserRepository.createUser({ username: 'jknakjbn', password: 'testpassword' });
-      console.log('USERID', userId);
-      const user = await UserRepository.getUserById(userId);
-      expect(user?.getName()).toEqual('jknakjbn');
+      const userId = await UserRepository.createUser({ username: 'raspinall', password: 'testpassword' });
 
-      await UserRepository.deleteUser(userId);
+      const user = await UserRepository.getUserById(userId.getValue());
+      expect(user.getValue().getId()).toEqual(1000);
+      expect(user.getValue().getName()).toEqual('raspinall');
     });
-
-    // it('should return a duplicate entry error when entering a used username', async () => {
-    //     const userId = await UserRepository.createUser({ username: 'james', password: 'testpassword' });
-
-    //   expect(result.code).toEqual('ER_DUP_ENTRY');
-    // });
   });
 
-  //   describe('delete', () => {
-  //     it('should delete a player', async () => {
-  //       const result = await mySql.delete('DELETE FROM players WHERE username = ?', ['james']);
+  describe('createUser', () => {
+    it('should create a user', async () => {
+      mockMySqlInsertDuplicateError();
+      const userOrError = await UserRepository.createUser({ username: 'raspinall', password: 'testpassword' });
 
-  //       expect(result.affectedRows).toEqual(1);
-  //     });
-  //   });
+      expect(userOrError.error?.code).toEqual('DUPLICATE_ENTRY');
+      expect(userOrError.error?.message).toEqual('Insertion failed to: users because of duplicate entry');
+    });
+  });
+
+  describe('getUserById', () => {
+    it('should return a user', async () => {
+      mockMySqlSelectSuccess();
+
+      const user = await UserRepository.getUserById(1000);
+      expect(user.getValue().getId()).toEqual(1000);
+      expect(user.getValue().getName()).toEqual('raspinall');
+    });
+
+    it('should return a select error', async () => {
+      mockMySqlSelectError();
+
+      const user = await UserRepository.getUserById(1000);
+      expect(user.error?.code).toEqual('SELECT_FAILED');
+      expect(user.error?.message).toEqual('Select failed for: users');
+    });
+  });
 
   afterAll(async () => {
     // Close the database connection
     await MySqLInstance.close();
-    console.log('CLOSED');
   });
 });

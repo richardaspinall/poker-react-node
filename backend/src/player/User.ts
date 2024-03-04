@@ -12,6 +12,6 @@ export class User {
   }
 
   public getId(): string {
-    throw new Error('Method not implemented.');
+    return this.id;
   }
 }
