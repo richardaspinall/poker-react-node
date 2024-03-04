@@ -9,6 +9,9 @@ import { DBSelectError } from '@shared/errors/DB/DBSelectErrors';
 import { DBInsertError, DBInsertDuplicateError } from '@shared/errors/DB/DBInsertErrors';
 import { DBDeleteError } from '@shared/errors/DB/DBDeleteErrors';
 
+/**
+ * MySql is responsible for managing the connection to the database and executing queries.
+ */
 class MySql {
   private pool: Pool;
 
@@ -22,9 +25,6 @@ class MySql {
     });
   }
 
-  // TODO: Should prefix the queries with the query types
-  // e.g. select, insert, update, delete
-  // then the params should be the table and the where clauses
   async select(table: string, whereClause: string[] = [], params: any[] = []): Promise<Result<RowDataPacket[]>> {
     const where =
       whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';
