@@ -12,8 +12,8 @@ export function createPokerTableWithPlayers(tableName: string, numberOfSeats: nu
     playerNames.push('a' + seatNumber);
     const res = pokerTable.sitAtTable('seat-' + seatNumber, 'a' + seatNumber);
 
-    if (res.error) {
-      throw new Error(res.error.message);
+    if (res.isError()) {
+      throw new Error(res.getError().message);
     }
   }
   return { pokerTable, playerNames };

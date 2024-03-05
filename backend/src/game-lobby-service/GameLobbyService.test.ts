@@ -38,7 +38,7 @@ describe('GameLobbyService', () => {
       gameLobbyService.createPokerTable('table_2', 2);
       const result = gameLobbyService.createPokerTable('table_2', 2);
 
-      expect(result.error?.code).toEqual('NAME_TAKEN');
+      expect(result.getError()?.code).toEqual('NAME_TAKEN');
     });
   });
 });

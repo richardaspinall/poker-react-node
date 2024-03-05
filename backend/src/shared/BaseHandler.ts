@@ -30,8 +30,8 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
     const payload = validatePayload<TPayload>(this.validationSchema, req.body);
 
-    if (payload.error) {
-      res.status(400).send({ ok: false, error: payload.error });
+    if (payload.isError()) {
+      res.status(400).send({ ok: false, error: payload.getError() });
       return;
     }
 

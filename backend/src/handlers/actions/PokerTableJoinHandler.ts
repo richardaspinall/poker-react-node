@@ -32,12 +32,12 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
       });
     }
     const join_room = pokerTable.sitAtTable(seatNumber, clientId);
-    if (join_room.error) {
+    if (join_room.isError()) {
       // TODO: should have a switch on the possible errors for endpoints, this will be even more clear when we have
       // a dealer doing the above
       return res.send({
         ok: false,
-        error: join_room.error,
+        error: join_room.getError(),
       });
     }
     // Emit event to all clients connected that a player has sat down
@@ -49,10 +49,10 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
 
     // TODO: maybe shouldn't happen here, def shouldn't send back errors about rooms
     const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
-    if (send_events.error) {
+    if (send_events.isError()) {
       return res.send({
         ok: false,
-        error: send_events.error,
+        error: send_events.getError(),
       });
     }
     const tableIsReady = pokerTable.checkTableReady();
@@ -62,8 +62,8 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
         tableName: 'table_1',
       };
       const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
-      if (sendEvents.error) {
-        return Result.error(sendEvents.error);
+      if (sendEvents.isError()) {
+        return Result.error(sendEvents.getError());
       }
     }
     return res.send({ ok: true });
