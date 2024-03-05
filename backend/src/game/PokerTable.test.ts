@@ -12,7 +12,7 @@ describe('PokerTable', () => {
 
       const res = pokerTable.sitAtTable('seat-1', 'a1');
 
-      expect(res.ok).toEqual(true);
+      expect(res.isOk()).toEqual(true);
     });
 
     it('should error when seat is already taken', () => {
@@ -22,13 +22,13 @@ describe('PokerTable', () => {
 
       const a1SitsSeat1 = pokerTable.sitAtTable('seat-1', 'a1');
 
-      expect(a1SitsSeat1.ok).toEqual(true);
+      expect(a1SitsSeat1.isOk()).toEqual(true);
 
       const b1SitsSeat1 = pokerTable.sitAtTable('seat-1', 'b2');
 
-      expect(b1SitsSeat1.ok).toEqual(false);
-      expect(b1SitsSeat1.error?.code).toEqual('SEAT_TAKEN');
-      expect(b1SitsSeat1.error?.message).toEqual('Seat is taken');
+      expect(b1SitsSeat1.isOk()).toEqual(false);
+      expect(b1SitsSeat1.getError()?.code).toEqual('SEAT_TAKEN');
+      expect(b1SitsSeat1.getError()?.message).toEqual('Seat is taken');
     });
 
     it('should error when player is already sitting down', () => {
@@ -39,13 +39,13 @@ describe('PokerTable', () => {
 
       const a1SitsSeat1 = pokerTable.sitAtTable('seat-1', 'a1');
 
-      expect(a1SitsSeat1.ok).toEqual(true);
+      expect(a1SitsSeat1.isOk()).toEqual(true);
 
       const a1SitsSeat2 = pokerTable.sitAtTable('seat-2', 'a1');
 
-      expect(a1SitsSeat2.ok).toEqual(false);
-      expect(a1SitsSeat2.error?.code).toEqual('PLAYER_ALREADY_SEATED');
-      expect(a1SitsSeat2.error?.message).toEqual('Player is already seated at the table');
+      expect(a1SitsSeat2.isOk()).toEqual(false);
+      expect(a1SitsSeat2.getError()?.code).toEqual('PLAYER_ALREADY_SEATED');
+      expect(a1SitsSeat2.getError()?.message).toEqual('Player is already seated at the table');
     });
 
     it('should error when seat number does not exist', () => {
@@ -55,9 +55,9 @@ describe('PokerTable', () => {
 
       const res = pokerTable.sitAtTable('seat-3', 'a1');
 
-      expect(res.ok).toEqual(false);
-      expect(res.error?.code).toEqual('SEAT_NOT_FOUND');
-      expect(res.error?.message).toEqual('Seat not found');
+      expect(res.isOk()).toEqual(false);
+      expect(res.getError()?.code).toEqual('SEAT_NOT_FOUND');
+      expect(res.getError()?.message).toEqual('Seat not found');
     });
 
     afterEach(() => {
@@ -83,7 +83,7 @@ describe('PokerTable', () => {
 
       const res = pokerTable.leaveTable('seat-1', player1);
 
-      expect(res.ok).toEqual(true);
+      expect(res.isOk()).toEqual(true);
 
       const availableSeats = pokerTable.getAvailableSeats();
       const seat1IsAvailable = availableSeats.some((seat) => seat.seatNumber === 'seat-1');
@@ -101,9 +101,9 @@ describe('PokerTable', () => {
 
       const res = pokerTable.leaveTable('seat-1', 'a1');
 
-      expect(res.ok).toEqual(false);
-      expect(res.error?.code).toEqual('PLAYER_NOT_FOUND_AT_TABLE');
-      expect(res.error?.message).toEqual('Player is not seated at the table');
+      expect(res.isOk()).toEqual(false);
+      expect(res.getError()?.code).toEqual('PLAYER_NOT_FOUND_AT_TABLE');
+      expect(res.getError()?.message).toEqual('Player is not seated at the table');
     });
 
     it('should return the available seat', () => {
@@ -114,7 +114,7 @@ describe('PokerTable', () => {
 
       const res = pokerTable.leaveTable('seat-1', player1);
 
-      expect(res.ok).toEqual(true);
+      expect(res.isOk()).toEqual(true);
 
       const availableSeats = pokerTable.getAvailableSeats();
 

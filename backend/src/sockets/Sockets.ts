@@ -32,8 +32,8 @@ export class Sockets {
   public static sendEventToClient(clientId: ClientId, event: string, payload: any): Result<void> {
     const res = Sockets.getSocket(clientId);
 
-    if (res.error) {
-      return Result.error(res.error);
+    if (res.isError()) {
+      return Result.error(res.getError());
     }
 
     const socket = res.getValue();
@@ -57,14 +57,14 @@ export class Sockets {
     Sockets.socketMap.set(clientId, clientSocket);
 
     const joinRoomRes = Rooms.joinRoom('table_1', clientSocket);
-    if (joinRoomRes.error) {
-      Logger.error(joinRoomRes.error.code);
+    if (joinRoomRes.isError()) {
+      Logger.error(joinRoomRes.getError().code);
       return;
     }
 
     const sendEventRes = Rooms.sendEventToRoom('table_1', 'hello_from_server', { clientId: clientId });
-    if (sendEventRes.error) {
-      Logger.error(sendEventRes.error.code);
+    if (sendEventRes.isError()) {
+      Logger.error(sendEventRes.getError().code);
       return;
     }
   }

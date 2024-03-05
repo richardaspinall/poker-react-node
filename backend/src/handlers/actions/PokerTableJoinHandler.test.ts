@@ -67,7 +67,7 @@ describe('tables.join', () => {
 
   //   expect(res.statusCode).toEqual(200);
   //   expect(res.body.ok).toEqual(false);
-  //   expect(res.body.error).toEqual('Room not found');
+  //   expect(res.body.getError()).toEqual('Room not found');
   // });
 
   afterEach(() => {

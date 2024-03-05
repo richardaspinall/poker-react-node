@@ -30,10 +30,10 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
     }
     const leave_room = pokerTable.leaveTable(seatNumber, clientId);
     // TODO: should have a switch on the possible errors
-    if (leave_room.error) {
+    if (leave_room.isError()) {
       return res.send({
         ok: false,
-        error: leave_room.error,
+        error: leave_room.getError(),
       });
     }
     // Emit event to all clients connected that a player has sat down
@@ -43,10 +43,10 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
       seatId: seatNumber,
     };
     const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
-    if (send_events.error) {
+    if (send_events.isError()) {
       return res.send({
         ok: false,
-        error: send_events.error,
+        error: send_events.getError(),
       });
     }
     return res.send({ ok: true });

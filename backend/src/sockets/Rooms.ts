@@ -29,8 +29,8 @@ export class Rooms {
 
   public static joinRoom(roomId: RoomId, socket: Socket): Result<void> {
     const roomRes = this.getRoom(roomId);
-    if (roomRes.error) {
-      return Result.error(roomRes.error);
+    if (roomRes.isError()) {
+      return Result.error(roomRes.getError());
     }
     const room = roomRes.getValue();
 
@@ -40,8 +40,8 @@ export class Rooms {
 
   public static sendEventToRoom(roomId: RoomId, event: string, payload: any): Result<void> {
     const roomRes = this.getRoom(roomId);
-    if (roomRes.error) {
-      return Result.error(roomRes.error);
+    if (roomRes.isError()) {
+      return Result.error(roomRes.getError());
     }
     const room = roomRes.getValue();
     SocketServer.sendEventToRoom(room, event, payload);
@@ -58,8 +58,8 @@ export class Rooms {
   private static leaveRoom(roomId: RoomId, socket: Socket): Result<void> {
     const roomRes = this.getRoom(roomId);
 
-    if (roomRes.error) {
-      return Result.error(roomRes.error);
+    if (roomRes.isError()) {
+      return Result.error(roomRes.getError());
     }
 
     const room = roomRes.getValue();

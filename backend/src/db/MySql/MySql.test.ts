@@ -17,13 +17,13 @@ describe('MySql', () => {
     it('should insert a new player', async () => {
       const result = await mySql.insert('users', ['username', 'password'], ['james', 'testpassword']);
 
-      expect(result.ok).toEqual(true);
+      expect(result.isOk()).toEqual(true);
     });
 
     it('should return a duplicate entry error when entering a used username', async () => {
       const result = await mySql.insert('users', ['username', 'password'], ['james', 'testpassword']);
 
-      expect(result.error?.code).toEqual('DUPLICATE_ENTRY');
+      expect(result.getError()?.code).toEqual('DUPLICATE_ENTRY');
     });
   });
 
@@ -31,7 +31,7 @@ describe('MySql', () => {
     it('should delete a user', async () => {
       const result = await mySql.delete('users', ['username'], ['james']);
 
-      expect(result.ok).toEqual(true);
+      expect(result.isOk()).toEqual(true);
     });
   });
 
