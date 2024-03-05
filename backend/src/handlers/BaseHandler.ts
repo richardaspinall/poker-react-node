@@ -1,7 +1,7 @@
 // Types
 import type { Request, Response } from 'express';
 import type { BaseOutput } from '@shared/api/types/BaseOutput';
-import type { ApiHandler } from '@shared/api/ApiMethodMap';
+import type { APIHandler } from '@shared/api/APIMethodMap';
 
 // External
 import Joi from 'joi';
@@ -19,7 +19,7 @@ import { Result } from '@shared/Result';
  * @function getResult - This function is implemented by the child class. It is responsible for taking the payload and returning the result
  * @function runHandler - This function is responsible for running the handler. It will validate the payload and then call getResult
  */
-export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implements ApiHandler {
+export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implements APIHandler {
   /**
    *  @param validationSchema - The Joi schema that the payload will be validated against
    */
