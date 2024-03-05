@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 
 // Internal
-import { router } from './routes';
+import { router } from '@Infra/routes';
 import { SocketServer } from './sockets/SocketServer';
 
 const app = express();
