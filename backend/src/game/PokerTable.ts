@@ -1,12 +1,12 @@
 // Internal
-import { Result, ResultSuccess } from '@shared/Result';
+import { Result, ResultSuccess } from '../infra/Result';
 import { Seat } from './Seat';
 import {
   PlayerAlreadySeatedError,
   PlayerNotFoundAtTableError,
   SeatNotFoundError,
   SeatTakenError,
-} from '@shared/errors/PokerTableErrors';
+} from '@Shared/errors/PokerTableErrors';
 
 /* 
   PokerTable is responsible for managing a single poker table. It will be responsible for managing the game state (which is a class), players at a table..

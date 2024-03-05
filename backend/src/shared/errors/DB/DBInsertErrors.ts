@@ -1,4 +1,4 @@
-import { BaseError } from '@shared/Result';
+import { BaseError } from '@Infra/Result';
 
 export class DBInsertError extends BaseError {
   constructor(public tableName: string) {

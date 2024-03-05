@@ -1,14 +1,14 @@
 // Types
 import type { Request, Response } from 'express';
-import type { BaseOutput } from '@shared/api/types/BaseOutput';
-import type { APIHandler } from '@shared/api/APIMethodMap';
+import type { BaseOutput } from '@Shared/api/types/BaseOutput';
+import type { APIHandler } from '@Shared/api/APIMethodMap';
 
 // External
 import Joi from 'joi';
 
 // Internal
-import { validatePayload } from '@shared/validatePayload';
-import { Result } from '@shared/Result';
+import { validatePayload } from './validatePayload';
+import { Result } from '@Infra/Result';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes

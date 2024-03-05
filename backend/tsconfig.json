@@ -19,8 +19,9 @@
     "rootDir": "src",
     "downlevelIteration": true,
     "paths": {
-      "@tests/*": ["./src/tests/*"], // Maps `@myalias` to the specified path,
-      "@shared/*": ["./src/shared/*"] // Maps `@myalias` to the specified path,
+      "@Tests/*": ["./src/tests/*"], // Maps `@myalias` to the specified path,
+      "@Shared/*": ["./src/shared/*"], // Maps `@myalias` to the specified path,
+      "@Infra/*": ["./src/infra/*"] // Maps `@myalias` to the specified path,
     }
   },
   "include": ["src/**/*"],

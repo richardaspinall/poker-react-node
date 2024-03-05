@@ -2,10 +2,10 @@
 import { Socket } from 'socket.io';
 
 // Internal
-import { Result, ResultSuccess, ResultError } from '@shared/Result';
+import { Result, ResultSuccess, ResultError } from '@Infra/Result';
 import { SocketServer } from './SocketServer';
 
-import { RoomAlreadyExistsError, RoomNotFoundError } from '@shared/errors/RoomErrors';
+import { RoomAlreadyExistsError, RoomNotFoundError } from '@Shared/errors/RoomErrors';
 
 // Internal utils
 import { Logger } from '../utils/Logger';

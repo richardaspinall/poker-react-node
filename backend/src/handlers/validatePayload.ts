@@ -2,8 +2,8 @@
 import Joi from 'joi';
 
 // Internal
-import { Result, ResultError, ResultSuccess } from '@shared/Result';
-import { InvalidRequestPayloadError } from '@shared/errors/ValidationErrors';
+import { Result, ResultError, ResultSuccess } from '@Infra/Result';
+import { InvalidRequestPayloadError } from '@Shared/errors/ValidationErrors';
 
 // Internal utils
 import { Logger } from '../utils/Logger';

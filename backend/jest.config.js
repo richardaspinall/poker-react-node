@@ -13,7 +13,8 @@ module.exports = {
   ],
   roots: ['<rootDir>/src'],
   moduleNameMapper: {
-    '^@tests/(.*)$': '<rootDir>/src/tests/$1',
-    '^@shared/(.*)$': '<rootDir>/src/shared/$1',
+    '^@Tests/(.*)$': '<rootDir>/src/tests/$1',
+    '^@Shared/(.*)$': '<rootDir>/src/shared/$1',
+    '^@Infra/(.*)$': '<rootDir>/src/infra/$1',
   },
 };

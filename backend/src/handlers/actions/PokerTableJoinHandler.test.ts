@@ -3,11 +3,11 @@ import request from 'supertest';
 
 // Internal
 import { httpServer } from '../../index';
-import { shutDownServer } from '@tests/helpers/shutDownServer';
+import { shutDownServer } from '@Tests/helpers/shutDownServer';
 import { Rooms } from '../../sockets/Rooms';
-import { ResultSuccess, ResultError } from '@shared/Result';
+import { ResultSuccess, ResultError } from '@Infra/Result';
 import { GameLobbyService } from '../../game-lobby-service';
-import { RoomNotFoundError } from '@shared/errors/RoomErrors';
+import { RoomNotFoundError } from '@Shared/errors/RoomErrors';
 
 describe('tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types

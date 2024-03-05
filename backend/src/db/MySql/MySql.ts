@@ -4,10 +4,10 @@ require('dotenv').config();
 import { createPool, Pool, RowDataPacket } from 'mysql2/promise';
 
 // Internal
-import { Result, ResultError, ResultSuccess } from '@shared/Result';
-import { DBSelectError } from '@shared/errors/DB/DBSelectErrors';
-import { DBInsertError, DBInsertDuplicateError } from '@shared/errors/DB/DBInsertErrors';
-import { DBDeleteError } from '@shared/errors/DB/DBDeleteErrors';
+import { Result, ResultError, ResultSuccess } from '../../infra/Result';
+import { DBSelectError } from '@Shared/errors/DB/DBSelectErrors';
+import { DBInsertError, DBInsertDuplicateError } from '@Shared/errors/DB/DBInsertErrors';
+import { DBDeleteError } from '@Shared/errors/DB/DBDeleteErrors';
 
 /**
  * MySql is responsible for managing the connection to the database and executing queries.

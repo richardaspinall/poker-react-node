@@ -1,12 +1,12 @@
 // Internal
-import { ApiMethodShape, ApiMethods } from './apiMethods';
+import { APIMethodShape, APIMethods } from './APIMethods';
 
-export const routes: ApiMethodShape[] = Object.keys(ApiMethods).map((key) => {
-  const apiMethod = ApiMethods[key as keyof typeof ApiMethods];
+export const routes: APIMethodShape[] = Object.keys(APIMethods).map((key) => {
+  const APIMethod = APIMethods[key as keyof typeof APIMethods];
   return {
-    httpMethod: apiMethod.httpMethod,
-    path: `/actions/${apiMethod.path}`,
-    handler: apiMethod.handler,
-    handlerName: apiMethod.handlerName,
+    httpMethod: APIMethod.httpMethod,
+    path: `/actions/${APIMethod.path}`,
+    handler: APIMethod.handler,
+    handlerName: APIMethod.handlerName,
   };
 });

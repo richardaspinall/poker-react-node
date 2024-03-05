@@ -1,7 +1,7 @@
 // Internal
-import { createPokerTable } from '@tests/helpers/createPokerTable';
-import { createPokerTableWithPlayers } from '@tests/helpers/createPokerTableWithPlayers';
-import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
+import { createPokerTable } from '@Tests/helpers/createPokerTable';
+import { createPokerTableWithPlayers } from '@Tests/helpers/createPokerTableWithPlayers';
+import { mockSendEventToRoomSuccess } from '@Tests/mocks/roomMocks';
 
 describe('PokerTable', () => {
   describe('sitAtTable', () => {

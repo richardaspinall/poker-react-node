@@ -1,7 +1,7 @@
 // Internal
-import { Result, ResultSuccess, ResultError } from '@shared/Result';
+import { Result, ResultSuccess, ResultError } from '@Infra/Result';
 import { Rooms } from '../../sockets/Rooms';
-import { RoomNotFoundError } from '@shared/errors/RoomErrors';
+import { RoomNotFoundError } from '@Shared/errors/RoomErrors';
 
 export const mockCreateRoomSuccess = (roomId: string) => {
   jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess(roomId));

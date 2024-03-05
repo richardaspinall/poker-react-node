@@ -4,10 +4,10 @@ import request from 'supertest';
 // Internal
 import { httpServer } from '../../index';
 import { GameLobbyService } from '../../game-lobby-service';
-import { shutDownServer } from '@tests/helpers/shutDownServer';
+import { shutDownServer } from '@Tests/helpers/shutDownServer';
 import { Rooms } from '../../sockets/Rooms';
-import { ResultSuccess, ResultError } from '@shared/Result';
-import { RoomNotFoundError } from '@shared/errors/RoomErrors';
+import { ResultSuccess, ResultError } from '@Infra/Result';
+import { RoomNotFoundError } from '@Shared/errors/RoomErrors';
 
 describe('tables.leave', () => {
   // TODO: need to add more unit tests for invalid requests and types
