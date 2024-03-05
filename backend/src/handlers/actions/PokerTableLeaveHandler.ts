@@ -3,7 +3,7 @@ import type { Response } from 'express';
 import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/types/PokerTableLeave';
 
 // Internal
-import { BaseHandler } from '../../shared/BaseHandler';
+import { BaseHandler } from '../BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { Result } from '@shared/Result';
