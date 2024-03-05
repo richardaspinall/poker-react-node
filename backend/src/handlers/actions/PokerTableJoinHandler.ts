@@ -3,8 +3,8 @@ import type { Response } from 'express';
 import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/types/PokerTableJoin';
 
 // Internal
-import { BaseHandler } from '../../shared/BaseHandler';
-import { Result } from '@shared/Result';
+import { BaseHandler } from '../BaseHandler';
+import { Result } from '@Infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { PokerTableDoesNotExistError } from '../../shared/errors/PokerTableJoinErrors';

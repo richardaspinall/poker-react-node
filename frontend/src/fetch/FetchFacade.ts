@@ -1,4 +1,4 @@
-import Result, { ResultSuccess, ResultError } from '../../../backend/src/shared/Result';
+import Result, { ResultSuccess, ResultError } from '../../../backend/src/infra/Result';
 
 class FetchFacade {
   private static async processRequest<TResult>(request: RequestInfo): Promise<Result<TResult>> {

@@ -1,7 +1,7 @@
 // Internal
 import { GameLobbyService } from '../../game-lobby-service/GameLobbyService';
 import { PokerTable } from '../../game/PokerTable';
-import { mockCreateRoomSuccess } from '@tests/mocks/roomMocks';
+import { mockCreateRoomSuccess } from '@Tests/mocks/roomMocks';
 
 export function createPokerTable(tableName: string, numberOfSeats: number): PokerTable {
   mockCreateRoomSuccess(tableName);

@@ -1,5 +1,5 @@
 // Internal
-import { createPokerTableWithPlayers } from '@tests/helpers/createPokerTableWithPlayers';
+import { createPokerTableWithPlayers } from '@Tests/helpers/createPokerTableWithPlayers';
 
 describe('createPokerTable', () => {
   it('should create a poker table', () => {
