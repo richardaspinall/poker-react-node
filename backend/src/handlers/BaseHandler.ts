@@ -1,13 +1,13 @@
 // Types
 import type { Request, Response } from 'express';
-import type { BaseOutput } from './api/types/BaseOutput';
-import type { ApiHandler } from './api/ApiMethodMap';
+import type { BaseOutput } from '@shared/api/types/BaseOutput';
+import type { ApiHandler } from '@shared/api/ApiMethodMap';
 
 // External
 import Joi from 'joi';
 
 // Internal
-import { validatePayload } from './validatePayload';
+import { validatePayload } from '@shared/validatePayload';
 import { Result } from '@shared/Result';
 
 /**
