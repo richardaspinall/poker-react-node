@@ -1,10 +1,10 @@
 import FetchFacade from './FetchFacade';
 
-import { APIMethod, APIMethodMap } from '../../../backend/src/shared/api/ApiMethodMap';
+import { ApiMethod, ApiMethodMap } from '../../../backend/src/shared/api/ApiMethodMap';
 
 const apiCall = {
-  async post<TMethod extends APIMethod>(route: TMethod, payload: APIMethodMap[TMethod]['request']) {
-    const result = await FetchFacade.post<APIMethodMap[TMethod]['request'], APIMethodMap[TMethod]['response']>(
+  async post<TMethod extends ApiMethod>(route: TMethod, payload: ApiMethodMap[TMethod]['request']) {
+    const result = await FetchFacade.post<ApiMethodMap[TMethod]['request'], ApiMethodMap[TMethod]['response']>(
       route,
       payload
     );
@@ -16,8 +16,8 @@ const apiCall = {
     }
   },
 
-  async get<TMethod extends APIMethod>(route: TMethod) {
-    return await FetchFacade.get<APIMethodMap[TMethod]['response']>(route);
+  async get<TMethod extends ApiMethod>(route: TMethod) {
+    return await FetchFacade.get<ApiMethodMap[TMethod]['response']>(route);
   },
 };
 

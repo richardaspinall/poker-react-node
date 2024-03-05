@@ -1,10 +1,10 @@
-export interface APIMethodShape {
+export interface ApiMethodShape {
   httpMethod: 'get' | 'post' | 'put' | 'delete' | 'patch';
   path: string;
   handler: string;
   handlerName: string;
 }
-export const APIMethods: { [key: string]: APIMethodShape } = {
+export const ApiMethods: { [key: string]: ApiMethodShape } = {
   // add entries for each API method
   tablesJoin: {
     httpMethod: 'post',

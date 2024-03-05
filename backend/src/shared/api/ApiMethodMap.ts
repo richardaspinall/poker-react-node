@@ -6,14 +6,14 @@ import type { BaseOutput } from './types/BaseOutput';
 import type { PokerTableJoinPayload, PokerTableJoinOutput } from './types/PokerTableJoin';
 import type { PokerTableLeavePayload, PokerTableLeaveOutput } from './types/PokerTableLeave';
 
-export interface APIHandler {
+export interface ApiHandler {
   runHandler(req: Request<any>, res: Response<BaseOutput>): any;
 }
 
 /**
  * ApiMethodMap is used to define the types for each API method
  */
-export interface APIMethodMap {
+export interface ApiMethodMap {
   // Add entries for each API method
   'tables.join': {
     request: PokerTableJoinPayload;
@@ -25,4 +25,4 @@ export interface APIMethodMap {
   };
 }
 
-export type APIMethod = keyof APIMethodMap;
+export type ApiMethod = keyof ApiMethodMap;
