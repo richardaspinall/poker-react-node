@@ -13,13 +13,13 @@ interface NewUserDTO {
 export class UserRepository {
   static async createUser(userDTO: NewUserDTO): Promise<Result<number>> {
     const res = await DB.insert('users', ['username', 'password'], [userDTO.username, userDTO.password]);
-    if (res.error) {
-      return new ResultError(res.error);
+    if (res.isError()) {
+      return new ResultError(res.getError());
     }
     const userOrError = await DB.select('users', ['username'], [userDTO.username]);
-    if (userOrError.error) {
+    if (userOrError.isError()) {
       // TODO: should return User specific errors from here
-      return new ResultError(userOrError.error);
+      return new ResultError(userOrError.getError());
     }
     const userId: number = userOrError.getValue()[0].user_id;
 
@@ -28,9 +28,9 @@ export class UserRepository {
 
   static async getUserById(id: number): Promise<Result<User>> {
     const userOrError = await DB.select('users', ['user_id'], [id]);
-    if (userOrError.error) {
+    if (userOrError.isError()) {
       // TODO: should return User specific errors from here
-      return new ResultError(userOrError.error);
+      return new ResultError(userOrError.getError());
     }
     const username = userOrError.getValue()[0].username;
     const userId = userOrError.getValue()[0].user_id;
@@ -41,8 +41,8 @@ export class UserRepository {
 
   static async deleteUser(id: number): Promise<Result<void>> {
     const deleteOrError = await DB.delete('users', ['user_id'], [id]);
-    if (deleteOrError.error) {
-      return new ResultError(deleteOrError.error);
+    if (deleteOrError.isError()) {
+      return new ResultError(deleteOrError.getError());
     }
     return Result.success();
   }

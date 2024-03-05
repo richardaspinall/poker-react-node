@@ -30,6 +30,7 @@ export class Result<T> {
     if (!this.value) throw new Error('Value is undefined');
     return this.value;
   }
+
   public getError(): BaseError {
     if (!this.error) throw new Error('Error is undefined');
     return this.error;
