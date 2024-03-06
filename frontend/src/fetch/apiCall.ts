@@ -8,11 +8,11 @@ const apiCall = {
       route,
       payload
     );
-    if (result.ok) {
+    if (result.isSuccess) {
       return result.getValue();
     } else {
-      console.log(result.errorMessage);
-      throw new Error(result.errorMessage);
+      console.log(result.error);
+      throw new Error(result.error);
     }
   },
 
