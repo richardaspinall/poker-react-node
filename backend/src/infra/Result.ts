@@ -15,6 +15,8 @@ export class Result<T> {
     this.ok = ok;
     this.value = value;
     this.error = error;
+
+    Object.freeze(this);
   }
 
   public isOk(): boolean {

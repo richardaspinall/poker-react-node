@@ -1,16 +1,16 @@
-import Result, { ResultSuccess, ResultError } from '../../../backend/src/infra/Result';
+import { Result } from './Result';
 
 class FetchFacade {
   private static async processRequest<TResult>(request: RequestInfo): Promise<Result<TResult>> {
     const response = await fetch(request);
 
     if (!response.ok) {
-      return new ResultError(response.statusText);
+      return Result.fail(response.statusText);
     }
 
     const body: TResult = await response.json();
 
-    return new ResultSuccess(body);
+    return Result.ok(body);
   }
 
   static async post<TPayload, TResult = null>(route: string, payload: TPayload): Promise<Result<TResult>> {
