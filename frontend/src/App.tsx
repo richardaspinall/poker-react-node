@@ -1,9 +1,12 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import { useState, useEffect } from 'react';
 import { socket } from './Socket';
 import { ConnectionState } from './components/ConnectionState';
 import { ConnectionManager } from './components/ConnectionManager';
-import { MyForm } from './components/MyForm';
-import { Table } from './components/Table/Table';
+import { Layout } from './pages/Layout';
+import { Home } from './pages/Home';
+import { Play } from './pages/Play';
 
 // https://socket.io/how-to/use-with-react
 export default function App() {
@@ -27,8 +30,8 @@ export default function App() {
       console.log('Player left');
     }
     function onGameReady() {
-      console.log('Starting Game')
-  }
+      console.log('Starting Game');
+    }
 
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
@@ -49,10 +52,16 @@ export default function App() {
 
   return (
     <div className="App">
-      <ConnectionState isConnected={isConnected} />
-      <ConnectionManager />
-      <MyForm />
-      <Table />
+      <BrowserRouter>
+        <ConnectionState isConnected={isConnected} />
+        <ConnectionManager />
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/play" element={<Play />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
