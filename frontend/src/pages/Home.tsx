@@ -1,8 +1,8 @@
-import { MyForm } from '../components/MyForm';
+import { CreateAccount } from '../components/CreateAccount/CreateAccount';
 export function Home() {
   return (
     <>
-      <div>Home</div> <MyForm />
+      <div>Home</div> <CreateAccount />
     </>
   );
 }
