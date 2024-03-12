@@ -1,0 +1,7 @@
+.create-account {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 50px;
+  padding: 0% 30%;
+}

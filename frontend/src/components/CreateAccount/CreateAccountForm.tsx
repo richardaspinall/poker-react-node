@@ -1,7 +1,9 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { socket } from '../../Socket';
 
-export function CreateAccount() {
+import './CreateAccountForm.css';
+
+export function CreateAccountForm() {
   // Form state
   const [formData, setFormData] = useState({
     username: '',
@@ -16,6 +18,7 @@ export function CreateAccount() {
       ...prevFormData,
       [name]: value,
     }));
+    console.log(formData);
   };
 
   function handleSubmit(event: FormEvent) {
@@ -35,11 +38,11 @@ export function CreateAccount() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
+      <div className="form-group">
         <label htmlFor="username">Username</label>
         <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} required />
       </div>
-      <div>
+      <div className="form-group">
         <label htmlFor="password">Password</label>
         <input
           type="password"
