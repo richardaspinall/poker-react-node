@@ -1,24 +1,45 @@
-import { useState, ChangeEvent, FormEvent } from 'react';
+import { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
 import { socket } from '../../Socket';
 
-import './CreateAccountForm.css';
+import './CreateAccountForm.scss';
+interface FormData {
+  [key: string]: string;
+  username: string;
+  password: string;
+}
 
 export function CreateAccountForm() {
   // Form state
-  const [formData, setFormData] = useState({
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [formData, setFormData] = useState<FormData>({
     username: '',
     password: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
 
-  // Handle form input changes
+  const [touched, setTouched] = useState({
+    username: false,
+    password: false,
+  });
+
+  const isValid = (name: string) => {
+    return formData[name].trim() !== '';
+  };
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
     }));
-    console.log(formData);
+  };
+
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
+    const { name } = e.target;
+    setTouched((prevTouched) => ({
+      ...prevTouched,
+      [name]: true,
+    }));
   };
 
   function handleSubmit(event: FormEvent) {
@@ -40,7 +61,16 @@ export function CreateAccountForm() {
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="username">Username</label>
-        <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} required />
+        <input
+          type="text"
+          id="username"
+          name="username"
+          value={formData.username}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          className={!isValid('username') && touched.username ? 'invalid' : ''}
+          required
+        />
       </div>
       <div className="form-group">
         <label htmlFor="password">Password</label>
@@ -50,6 +80,8 @@ export function CreateAccountForm() {
           name="password"
           value={formData.password}
           onChange={handleChange}
+          onBlur={handleBlur}
+          className={!isValid('password') && touched.password ? 'invalid' : ''}
           required
         />
       </div>
