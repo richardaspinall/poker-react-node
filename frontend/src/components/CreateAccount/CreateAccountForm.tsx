@@ -2,6 +2,7 @@ import { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
 import { socket } from '../../Socket';
 
 import './CreateAccountForm.scss';
+
 interface FormData {
   [key: string]: string;
   username: string;
@@ -9,7 +10,6 @@ interface FormData {
 }
 
 export function CreateAccountForm() {
-  // Form state
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
@@ -42,7 +42,7 @@ export function CreateAccountForm() {
     }));
   };
 
-  function handleSubmit(event: FormEvent) {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     setIsLoading(true);
 
@@ -55,7 +55,7 @@ export function CreateAccountForm() {
       }
       setIsLoading(false);
     });
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
