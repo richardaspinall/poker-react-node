@@ -1,0 +1,11 @@
+# Usage:
+# With the REST Client extension in vscode, the below requests will show an option 
+# to send the request as a curl command. 
+
+POST http://localhost:3000/api/actions/users.create
+content-type: application/json
+
+{
+    "username": "test",
+    "password": "abc123"
+}

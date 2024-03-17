@@ -18,4 +18,10 @@ export const ApiMethods: { [key: string]: ApiMethodShape } = {
     handler: '../../handlers/actions/PokerTableLeaveHandler.ts',
     handlerName: 'PokerTableLeaveHandler',
   },
+  userCreate: {
+    httpMethod: 'post',
+    path: 'users.create',
+    handler: '../../handlers/actions/CreateUserHandler.ts',
+    handlerName: 'CreateUserHandler',
+  },
 } as const;
