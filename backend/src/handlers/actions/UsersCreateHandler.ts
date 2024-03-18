@@ -5,7 +5,6 @@ import { type UsersCreatePayload, type UsersCreateOutput, usersCreateSchema } fr
 // Internal
 import { BaseHandler } from '../BaseHandler';
 import { Result } from '@Infra/Result';
-import { UsersCreateError } from '../../shared/errors/UsersCreateErrors';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB
