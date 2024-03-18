@@ -5,7 +5,7 @@ import type { BaseOutput } from './types/BaseOutput';
 // Handler types
 import type { PokerTableJoinPayload, PokerTableJoinOutput } from './types/PokerTableJoin';
 import type { PokerTableLeavePayload, PokerTableLeaveOutput } from './types/PokerTableLeave';
-import type { CreateUserPayload, CreateUserOutput } from './types/CreateUser';
+import type { UsersCreatePayload, UsersCreateOutput } from './types/UsersCreate';
 
 export interface ApiHandler {
   runHandler(req: Request<any>, res: Response<BaseOutput>): any;
@@ -25,8 +25,8 @@ export interface ApiMethodMap {
     response: PokerTableLeaveOutput;
   };
   'users.create': {
-    request: CreateUserPayload;
-    response: CreateUserOutput;
+    request: UsersCreatePayload;
+    response: UsersCreateOutput;
   };
 }
 

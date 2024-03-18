@@ -1,11 +1,11 @@
 import { BaseError } from '@Infra/Result';
 
-export class CreateUserError extends BaseError {
+export class UsersCreateError extends BaseError {
   constructor() {
     super('CREATE_USER_ERROR', 'User not created');
   }
 }
-export class CreateUserNameTakenError extends BaseError {
+export class UsersCreateNameTakenError extends BaseError {
   constructor() {
     super('NAME_TAKEN', 'Username taken');
   }
