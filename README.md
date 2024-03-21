@@ -4,7 +4,9 @@ poker game in react and node
 
 # Install
 
-`npm run install:all` (installs all requirements for app)
+1. Fork or download a local copy of the `poker-react-node` repo
+2. Open a terminal window and use `cd` to navigate to the 'poker-react-node' folder
+3. Run the following command in the terminal to install all of the requirements for the app: `npm run install:all` 
 
 ## Run
 
