@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
-import { socket } from '../../Socket';
+import apiCall from '../../fetch/apiCall';
 
 import './CreateAccountForm.scss';
 
@@ -42,19 +42,19 @@ export function CreateAccountForm() {
     }));
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setIsLoading(true);
+    const payload = { username: formData.username, password: formData.password };
 
-    // This is how you emit an event and get a response back via the server callback "response".
-    socket.timeout(5000).emit('hello_from_client', formData.username, (err: Error, statusCode: number) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log(statusCode);
-      }
-      setIsLoading(false);
-    });
+    const result = await apiCall.post('users.create', payload);
+
+    if (result.ok) {
+      console.log(result.payload);
+      console.log('success');
+    } else {
+      console.log('error');
+      console.log(result.error);
+    }
   };
 
   return (
@@ -82,7 +82,6 @@ export function CreateAccountForm() {
           onChange={handleChange}
           onBlur={handleBlur}
           className={!isValid('password') && touched.password ? 'invalid' : ''}
-          required
         />
       </div>
       <button type="submit" disabled={isLoading}>
