@@ -16,3 +16,5 @@ export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
   selectedSeatNumber: Joi.string().required(),
   socketId: Joi.string().required(),
 });
+
+// TODO: api errors should be here

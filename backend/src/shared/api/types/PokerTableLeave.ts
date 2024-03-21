@@ -16,3 +16,5 @@ export const pokerTableLeaveSchema = Joi.object<PokerTableLeavePayload>({
   selectedSeatNumber: Joi.string().required(),
   socketId: Joi.string().required(),
 });
+
+// TODO: api errors should be here

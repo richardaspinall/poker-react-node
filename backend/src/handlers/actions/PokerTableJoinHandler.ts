@@ -9,6 +9,7 @@ import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { PokerTableDoesNotExistError } from '../../shared/errors/PokerTableJoinErrors';
 import { pokerTableJoinSchema } from '../../shared/api/types/PokerTableJoin';
+import { InternalError } from '@Shared/api/types/BaseOutput';
 
 /**
  * PokerTableJoinHandler is used to handle requests to join a poker table
@@ -35,9 +36,13 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
     if (join_room.isError()) {
       // TODO: should have a switch on the possible errors for endpoints, this will be even more clear when we have
       // a dealer doing the above
+
+      // TODO: change to logger
+      console.log('Error joining room', join_room.getError());
+
       return res.send({
         ok: false,
-        error: join_room.getError(),
+        error: new InternalError(),
       });
     }
     // Emit event to all clients connected that a player has sat down
@@ -50,12 +55,17 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
     // TODO: maybe shouldn't happen here, def shouldn't send back errors about rooms
     const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
     if (send_events.isError()) {
+      // TODO: change to logger
+      console.log('Error sending events', send_events.getError());
+
       return res.send({
         ok: false,
-        error: send_events.getError(),
+        error: new InternalError(),
       });
     }
+
     const tableIsReady = pokerTable.checkTableReady();
+
     if (tableIsReady) {
       const event = 'start_game';
       const payload = {
@@ -63,7 +73,13 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
       };
       const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
       if (sendEvents.isError()) {
-        return Result.error(sendEvents.getError());
+        // TODO: change to logger
+        console.log('Error sending events', sendEvents.getError());
+
+        return res.send({
+          ok: false,
+          error: new InternalError(),
+        });
       }
     }
     return res.send({ ok: true });
