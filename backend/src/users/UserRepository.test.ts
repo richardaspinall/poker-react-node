@@ -1,5 +1,5 @@
 // Internal
-import { MySqLInstance } from '../db/MySql';
+import { MySqLInstance } from '../db/my-sql';
 import { UserRepository } from './UserRepository';
 
 import {

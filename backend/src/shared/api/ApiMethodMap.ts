@@ -1,11 +1,11 @@
 // Types
 import type { Request, Response } from 'express';
-import type { BaseOutput } from './types/BaseOutput';
+import type { BaseOutput } from './BaseOutput';
 
 // Handler types
-import type { PokerTableJoinPayload, PokerTableJoinOutput } from './types/PokerTableJoin';
-import type { PokerTableLeavePayload, PokerTableLeaveOutput } from './types/PokerTableLeave';
-import type { UsersCreatePayload, UsersCreateOutput } from './types/UsersCreate';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from './PokerTables/types/PokerTableJoin';
+import type { PokerTableLeavePayload, PokerTableLeaveOutput } from './PokerTables/types/PokerTableLeave';
+import type { UsersCreatePayload, UsersCreateOutput } from './Users/types/UsersCreate';
 
 export interface ApiHandler {
   runHandler(req: Request<any>, res: Response<BaseOutput>): any;

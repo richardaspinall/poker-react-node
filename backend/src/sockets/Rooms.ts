@@ -7,9 +7,6 @@ import { SocketServer } from './SocketServer';
 
 import { RoomAlreadyExistsError, RoomNotFoundError } from './errors/RoomErrors';
 
-// Internal utils
-import { Logger } from '../utils/Logger';
-
 export type RoomId = string;
 
 /**

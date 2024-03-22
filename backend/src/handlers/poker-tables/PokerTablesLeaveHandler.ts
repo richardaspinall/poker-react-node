@@ -1,23 +1,24 @@
 // Types
 import type { Response } from 'express';
-import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/types/PokerTableLeave';
+import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/PokerTables/types/PokerTableLeave';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { Result } from '@Infra/Result';
-import { pokerTableLeaveSchema, PokerTableDoesNotExistError } from '@Shared/api/types/PokerTableLeave';
-import { InternalError } from '@Shared/api/types/BaseOutput';
+import { pokerTableLeaveSchema } from '@Shared/api/PokerTables/types/PokerTableLeave';
+import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
+import { InternalError } from '@Shared/api/BaseOutput';
 import { Logger } from '../../utils/Logger';
-import { mapBaseErrorToAPIError } from '@Shared/api/helpers/mapBaseErrorToAPIError';
+import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
 
 const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
 
 /**
  * PokerTableLeaveHandler is used to handle requests to leave a poker table
  */
-class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTableLeaveOutput> {
+class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTableLeaveOutput> {
   constructor() {
     super(pokerTableLeaveSchema);
   }
@@ -67,4 +68,4 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
   }
 }
 
-export { PokerTableLeaveHandler };
+export { PokerTablesLeaveHandler };

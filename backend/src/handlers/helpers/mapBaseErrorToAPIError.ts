@@ -1,5 +1,5 @@
 import { IBaseError } from '@Infra/Result';
-import { APIError } from '../types/BaseOutput';
+import { APIError } from '../../shared/api/BaseOutput';
 
 export function mapBaseErrorToAPIError(baseError: IBaseError): APIError {
   return {

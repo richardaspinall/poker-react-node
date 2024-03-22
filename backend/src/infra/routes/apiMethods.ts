@@ -9,14 +9,14 @@ export const ApiMethods: { [key: string]: ApiMethodShape } = {
   tablesJoin: {
     httpMethod: 'post',
     path: 'tables.join',
-    handler: '../../handlers/actions/PokerTableJoinHandler.ts',
-    handlerName: 'PokerTableJoinHandler',
+    handler: '../../handlers/poker-tables/PokerTablesJoinHandler.ts',
+    handlerName: 'PokerTablesJoinHandler',
   },
   tablesLeave: {
     httpMethod: 'post',
     path: 'tables.leave',
-    handler: '../../handlers/actions/PokerTableLeaveHandler.ts',
-    handlerName: 'PokerTableLeaveHandler',
+    handler: '../../handlers/poker-tables/PokerTablesLeaveHandler.ts',
+    handlerName: 'PokerTablesLeaveHandler',
   },
   usersCreate: {
     httpMethod: 'post',

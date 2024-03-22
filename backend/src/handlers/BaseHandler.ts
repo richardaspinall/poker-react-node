@@ -1,6 +1,6 @@
 // Types
 import type { Request, Response } from 'express';
-import type { BaseOutput } from '@Shared/api/types/BaseOutput';
+import type { BaseOutput } from '@Shared/api/BaseOutput';
 import type { ApiHandler } from '@Shared/api/ApiMethodMap';
 
 // External
@@ -9,7 +9,7 @@ import Joi from 'joi';
 // Internal
 import { validatePayload } from './validatePayload';
 import { Result } from '@Infra/Result';
-import { mapBaseErrorToAPIError } from '@Shared/api/helpers/mapBaseErrorToAPIError';
+import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes

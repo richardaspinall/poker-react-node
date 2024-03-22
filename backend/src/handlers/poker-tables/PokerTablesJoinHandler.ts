@@ -1,23 +1,24 @@
 // Types
 import type { Response } from 'express';
-import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/types/PokerTableJoin';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/PokerTables/types/PokerTableJoin';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
 import { Result } from '@Infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { pokerTableJoinSchema, PokerTableDoesNotExistError } from '@Shared/api/types/PokerTableJoin';
-import { InternalError } from '@Shared/api/types/BaseOutput';
+import { pokerTableJoinSchema } from '@Shared/api/PokerTables/types/PokerTableJoin';
+import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
+import { InternalError } from '@Shared/api/BaseOutput';
 import { Logger } from '../../utils/Logger';
-import { mapBaseErrorToAPIError } from '@Shared/api/helpers/mapBaseErrorToAPIError';
+import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
 
 const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 
 /**
  * PokerTableJoinHandler is used to handle requests to join a poker table
  */
-class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
+class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
     super(pokerTableJoinSchema);
@@ -94,4 +95,4 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
   }
 }
 
-export { PokerTableJoinHandler };
+export { PokerTablesJoinHandler };

@@ -1,6 +1,6 @@
 // Internal
 import { Result, ResultError, ResultSuccess } from '@Infra/Result';
-import { MySqLInstance as DB } from '../db/MySql';
+import { MySqLInstance as DB } from '../db/my-sql';
 import { User } from './User';
 interface NewUserDTO {
   username: string;
