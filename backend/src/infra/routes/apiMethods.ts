@@ -21,7 +21,7 @@ export const ApiMethods: { [key: string]: ApiMethodShape } = {
   usersCreate: {
     httpMethod: 'post',
     path: 'users.create',
-    handler: '../../handlers/actions/UsersCreateHandler.ts',
+    handler: '../../handlers/users/UsersCreateHandler.ts',
     handlerName: 'UsersCreateHandler',
   },
 } as const;

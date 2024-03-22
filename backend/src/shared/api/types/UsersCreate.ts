@@ -17,4 +17,16 @@ export const usersCreateSchema = Joi.object<UsersCreatePayload>({
   password: Joi.string().required(),
 });
 
-// TODO: api errors should be here
+import { BaseError } from '@Infra/Result';
+
+// TODO: change to extends from APIError for API errors
+export class UsersCreateError extends BaseError {
+  constructor() {
+    super('user_create_error', 'User not created');
+  }
+}
+export class UsersCreateNameTakenError extends BaseError {
+  constructor() {
+    super('name_taken', 'Username taken');
+  }
+}

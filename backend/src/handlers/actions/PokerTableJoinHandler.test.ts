@@ -7,15 +7,11 @@ import { shutDownServer } from '@Tests/helpers/shutDownServer';
 import { Rooms } from '../../sockets/Rooms';
 import { ResultSuccess, ResultError } from '@Infra/Result';
 import { GameLobbyService } from '../../game-lobby-service';
-import { RoomNotFoundError } from '@Shared/errors/RoomErrors';
+import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 
 describe('tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
-    jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
-    jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
-    GameLobbyService.createPokerTable('table_1', 2);
-
     const res = await request(httpServer).post('/api/actions/tables.join').send({
       selectedSeatNumber: 1,
       socketId: 'abc123',
@@ -23,7 +19,7 @@ describe('tables.join', () => {
 
     expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.code).toEqual('INVALID_REQUEST_PAYLOAD');
+    expect(res.body.error.errorCode).toEqual('invalid_request_payload');
   });
 
   // TODO: will eventually need to add the table they are sitting at but this is hardcoded
@@ -43,6 +39,7 @@ describe('tables.join', () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
+
     await request(httpServer).post('/api/actions/tables.join').send({
       selectedSeatNumber: 'seat-1',
       socketId: 'abc123',
@@ -54,7 +51,7 @@ describe('tables.join', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.message).toEqual('Seat is taken');
+    expect(res.body.error.errorMessage).toEqual('Seat is taken');
   });
 
   // it('should error when the table doesnt exist', async () => {

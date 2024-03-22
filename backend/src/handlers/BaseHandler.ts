@@ -9,6 +9,7 @@ import Joi from 'joi';
 // Internal
 import { validatePayload } from './validatePayload';
 import { Result } from '@Infra/Result';
+import { mapBaseErrorToAPIError } from '@Shared/api/helpers/mapBaseErrorToAPIError';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
@@ -31,7 +32,10 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     const payload = validatePayload<TPayload>(this.validationSchema, req.body);
 
     if (payload.isError()) {
-      res.status(400).send({ ok: false, error: payload.getError() });
+      const error = payload.getError();
+      const apiError = mapBaseErrorToAPIError(error);
+
+      res.status(400).send({ ok: false, error: apiError });
       return;
     }
 

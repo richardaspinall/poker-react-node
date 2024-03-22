@@ -5,7 +5,7 @@ import { Socket } from 'socket.io';
 import { Result, ResultSuccess, ResultError } from '@Infra/Result';
 import { SocketServer } from './SocketServer';
 
-import { RoomAlreadyExistsError, RoomNotFoundError } from '@Shared/errors/RoomErrors';
+import { RoomAlreadyExistsError, RoomNotFoundError } from './errors/RoomErrors';
 
 // Internal utils
 import { Logger } from '../utils/Logger';

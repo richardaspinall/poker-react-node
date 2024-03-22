@@ -7,8 +7,12 @@ import { BaseHandler } from '../BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { Result } from '@Infra/Result';
-import { PokerTableDoesNotExistError } from '@Shared/errors/PokerTableLeaveErrors';
-import { pokerTableLeaveSchema } from '../../shared/api/types/PokerTableLeave';
+import { pokerTableLeaveSchema, PokerTableDoesNotExistError } from '@Shared/api/types/PokerTableLeave';
+import { InternalError } from '@Shared/api/types/BaseOutput';
+import { Logger } from '../../utils/Logger';
+import { mapBaseErrorToAPIError } from '@Shared/api/helpers/mapBaseErrorToAPIError';
+
+const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
 
 /**
  * PokerTableLeaveHandler is used to handle requests to leave a poker table
@@ -25,15 +29,24 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
     if (!pokerTable) {
       return res.send({
         ok: false,
-        error: new PokerTableDoesNotExistError(),
+        error: mapBaseErrorToAPIError(new PokerTableDoesNotExistError()),
       });
     }
     const leave_room = pokerTable.leaveTable(seatNumber, clientId);
     // TODO: should have a switch on the possible errors
     if (leave_room.isError()) {
+      switch (leave_room.getError().code) {
+        case 'player_not_found_at_table':
+          return res.send({
+            ok: false,
+            error: mapBaseErrorToAPIError(leave_room.getError()),
+          });
+      }
+
+      debug(leave_room.getError());
       return res.send({
         ok: false,
-        error: leave_room.getError(),
+        error: new InternalError(),
       });
     }
     // Emit event to all clients connected that a player has sat down
@@ -44,9 +57,10 @@ class PokerTableLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTa
     };
     const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
     if (send_events.isError()) {
+      debug(leave_room.getError());
       return res.send({
         ok: false,
-        error: send_events.getError(),
+        error: new InternalError(),
       });
     }
     return res.send({ ok: true });

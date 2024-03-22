@@ -23,7 +23,7 @@ describe('MySql', () => {
     it('should return a duplicate entry error when entering a used username', async () => {
       const result = await mySql.insert('users', ['username', 'password'], ['james', 'testpassword']);
 
-      expect(result.getError()?.code).toEqual('DUPLICATE_ENTRY');
+      expect(result.getError()?.code).toEqual('duplicate_entry');
     });
   });
 

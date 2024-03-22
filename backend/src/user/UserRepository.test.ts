@@ -29,7 +29,7 @@ describe('UserRepository', () => {
       mockMySqlInsertDuplicateError('users');
       const userOrError = await UserRepository.createUser({ username: 'raspinall', password: 'testpassword' });
 
-      expect(userOrError.getError().code).toEqual('DUPLICATE_ENTRY');
+      expect(userOrError.getError().code).toEqual('duplicate_entry');
       expect(userOrError.getError().message).toEqual('Insertion failed to: users because of duplicate entry');
     });
   });
@@ -47,7 +47,7 @@ describe('UserRepository', () => {
       mockMySqlSelectError('users');
 
       const user = await UserRepository.getUserById(1000);
-      expect(user.getError().code).toEqual('SELECT_FAILED');
+      expect(user.getError().code).toEqual('select_failed');
       expect(user.getError().message).toEqual('Selection failed to: users');
     });
   });

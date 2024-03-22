@@ -5,9 +5,9 @@ import { createPool, Pool, RowDataPacket } from 'mysql2/promise';
 
 // Internal
 import { Result, ResultError, ResultSuccess } from '../../infra/Result';
-import { DBSelectError } from '@Shared/errors/DB/DBSelectErrors';
-import { DBInsertError, DBInsertDuplicateError } from '@Shared/errors/DB/DBInsertErrors';
-import { DBDeleteError } from '@Shared/errors/DB/DBDeleteErrors';
+import { DBSelectError } from '../errors/DBSelectErrors';
+import { DBInsertError, DBInsertDuplicateError } from '../errors/DBInsertErrors';
+import { DBDeleteError } from '../errors/DBDeleteErrors';
 
 /**
  * MySql is responsible for managing the connection to the database and executing queries.

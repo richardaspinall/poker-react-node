@@ -7,9 +7,12 @@ import { BaseHandler } from '../BaseHandler';
 import { Result } from '@Infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { PokerTableDoesNotExistError } from '../../shared/errors/PokerTableJoinErrors';
-import { pokerTableJoinSchema } from '../../shared/api/types/PokerTableJoin';
+import { pokerTableJoinSchema, PokerTableDoesNotExistError } from '@Shared/api/types/PokerTableJoin';
 import { InternalError } from '@Shared/api/types/BaseOutput';
+import { Logger } from '../../utils/Logger';
+import { mapBaseErrorToAPIError } from '@Shared/api/helpers/mapBaseErrorToAPIError';
+
+const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 
 /**
  * PokerTableJoinHandler is used to handle requests to join a poker table
@@ -29,22 +32,29 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
     if (!pokerTable) {
       return res.send({
         ok: false,
-        error: new PokerTableDoesNotExistError(),
+        error: mapBaseErrorToAPIError(new PokerTableDoesNotExistError()),
       });
     }
+
     const join_room = pokerTable.sitAtTable(seatNumber, clientId);
     if (join_room.isError()) {
-      // TODO: should have a switch on the possible errors for endpoints, this will be even more clear when we have
-      // a dealer doing the above
+      switch (join_room.getError().code) {
+        case 'seat_taken':
+        case 'player_already_seated':
+          return res.send({
+            ok: false,
+            error: mapBaseErrorToAPIError(join_room.getError()),
+          });
+      }
 
-      // TODO: change to logger
-      console.log('Error joining room', join_room.getError());
+      debug(join_room.getError());
 
-      return res.send({
+      return res.status(500).send({
         ok: false,
         error: new InternalError(),
       });
     }
+
     // Emit event to all clients connected that a player has sat down
     const event = 'player_joined';
     const eventPayload = {
@@ -52,13 +62,12 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
       seatId: seatNumber,
     };
 
-    // TODO: maybe shouldn't happen here, def shouldn't send back errors about rooms
+    // TODO: maybe shouldn't happen here
     const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
     if (send_events.isError()) {
-      // TODO: change to logger
-      console.log('Error sending events', send_events.getError());
+      debug(send_events.getError());
 
-      return res.send({
+      return res.status(500).send({
         ok: false,
         error: new InternalError(),
       });
@@ -73,10 +82,9 @@ class PokerTableJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTabl
       };
       const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
       if (sendEvents.isError()) {
-        // TODO: change to logger
-        console.log('Error sending events', sendEvents.getError());
+        debug(sendEvents.getError());
 
-        return res.send({
+        return res.status(500).send({
           ok: false,
           error: new InternalError(),
         });

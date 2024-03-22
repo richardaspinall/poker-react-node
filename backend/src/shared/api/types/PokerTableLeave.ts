@@ -1,5 +1,6 @@
 // Types
-import type { BaseOutput } from './BaseOutput';
+import { BaseOutput } from './BaseOutput';
+import { BaseError } from '@Infra/Result';
 
 // External
 import Joi from 'joi';
@@ -17,4 +18,14 @@ export const pokerTableLeaveSchema = Joi.object<PokerTableLeavePayload>({
   socketId: Joi.string().required(),
 });
 
-// TODO: api errors should be here
+export class PlayerNotFoundAtTableError extends BaseError {
+  constructor() {
+    super('player_not_found_at_table', 'Player is not seated at the table');
+  }
+}
+
+export class PokerTableDoesNotExistError extends BaseError {
+  constructor() {
+    super('table_does_not_exist', 'Table does not exist');
+  }
+}

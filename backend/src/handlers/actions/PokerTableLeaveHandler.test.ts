@@ -7,7 +7,7 @@ import { GameLobbyService } from '../../game-lobby-service';
 import { shutDownServer } from '@Tests/helpers/shutDownServer';
 import { Rooms } from '../../sockets/Rooms';
 import { ResultSuccess, ResultError } from '@Infra/Result';
-import { RoomNotFoundError } from '@Shared/errors/RoomErrors';
+import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 
 describe('tables.leave', () => {
   // TODO: need to add more unit tests for invalid requests and types
@@ -23,7 +23,7 @@ describe('tables.leave', () => {
 
     expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.code).toEqual('INVALID_REQUEST_PAYLOAD');
+    expect(res.body.error.errorCode).toEqual('invalid_request_payload');
   });
 
   // TODO: will eventually need to add the table they are sitting at but this is hardcoded
@@ -53,7 +53,7 @@ describe('tables.leave', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.code).toEqual('PLAYER_NOT_FOUND_AT_TABLE');
+    expect(res.body.error.errorCode).toEqual('player_not_found_at_table');
   });
 
   afterEach(() => {

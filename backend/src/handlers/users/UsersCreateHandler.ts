@@ -5,7 +5,7 @@ import { type UsersCreatePayload, type UsersCreateOutput, usersCreateSchema } fr
 // Internal
 import { BaseHandler } from '../BaseHandler';
 import { Result } from '@Infra/Result';
-import { APINotImplementedError } from '@Shared/api/types/BaseOutput';
+import { MethodNotImplementedError } from '@Shared/api/types/BaseOutput';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB
@@ -20,7 +20,7 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
     const username = payload.getValue().username;
     const password = payload.getValue().password;
 
-    return res.send({ ok: false, error: new APINotImplementedError() });
+    return res.send({ ok: false, error: new MethodNotImplementedError() });
     // Store new user in db here
     return res.send({ ok: true });
   }

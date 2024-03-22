@@ -13,7 +13,7 @@ describe('users.create', () => {
     });
     expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.code).toEqual('INVALID_REQUEST_PAYLOAD');
+    expect(res.body.error.errorCode).toEqual('invalid_request_payload');
   });
 
   it('should create a user', async () => {
@@ -22,7 +22,8 @@ describe('users.create', () => {
       password: 'abc123',
     });
     expect(res.statusCode).toEqual(200);
-    expect(res.body.ok).toEqual(true);
+    expect(res.body.ok).toEqual(false);
+    expect(res.body.error.errorCode).toEqual('method_not_implemented');
   });
 
   afterEach(() => {

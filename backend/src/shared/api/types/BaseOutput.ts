@@ -15,14 +15,14 @@ export class BaseAPIError implements APIError {
   constructor(public errorCode: string, public errorMessage?: string, public errorDetails?: any) {}
 }
 
-export class APINotImplementedError extends BaseAPIError {
+export class MethodNotImplementedError extends BaseAPIError {
   constructor() {
-    super('API_NOT_IMPLEMENTED', 'API not implemented');
+    super('method_not_implemented', 'API not implemented');
   }
 }
 
 export class InternalError extends BaseAPIError {
   constructor() {
-    super('INTERNAL_ERROR', 'An internal error occurred');
+    super('internal_error', 'An internal error occurred');
   }
 }

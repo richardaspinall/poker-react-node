@@ -3,7 +3,7 @@ import Joi from 'joi';
 
 // Internal
 import { Result, ResultError, ResultSuccess } from '@Infra/Result';
-import { InvalidRequestPayloadError } from '@Shared/errors/ValidationErrors';
+import { InvalidRequestPayloadError } from './ValidationErrors';
 
 // Internal utils
 import { Logger } from '../utils/Logger';

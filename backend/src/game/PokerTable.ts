@@ -1,16 +1,19 @@
 // Internal
-import { Result, ResultSuccess } from '../infra/Result';
+import { Result, ResultSuccess, BaseError } from '@Infra/Result';
 import { Seat } from './Seat';
-import {
-  PlayerAlreadySeatedError,
-  PlayerNotFoundAtTableError,
-  SeatNotFoundError,
-  SeatTakenError,
-} from '@Shared/errors/PokerTableErrors';
+import { PlayerAlreadySeatedError, SeatTakenError } from '../shared/api/types/PokerTableJoin';
+import { PlayerNotFoundAtTableError } from '../shared/api/types/PokerTableLeave';
 
 /* 
   PokerTable is responsible for managing a single poker table. It will be responsible for managing the game state (which is a class), players at a table..
 */
+
+class SeatNotFoundError extends BaseError {
+  constructor() {
+    super('SEAT_NOT_FOUND', 'Seat not found');
+  }
+}
+
 export class PokerTable {
   private tableName: string;
   private seats: Seat[];

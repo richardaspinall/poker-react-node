@@ -73,7 +73,7 @@ export class ResultSuccess<T> extends Result<T> {
   }
 }
 
-interface IBaseError {
+export interface IBaseError {
   code: string;
   message?: string;
   errorDetails?: any;
