@@ -68,7 +68,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
         return next(sendEvents.getError());
       }
     }
-
+    // throw new Error('Method not implemented.');
     return res.send({ ok: true });
   }
 }

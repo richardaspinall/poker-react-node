@@ -5,7 +5,7 @@ import cors from 'cors';
 
 // Internal
 import { router } from '@Infra/routes';
-import { globalErrorHandler } from '@Infra/globalErrorHandler';
+import { GlobalErrorHandler } from '@Infra/GlobalErrorHandler';
 import { SocketServer } from './sockets/SocketServer';
 
 const app = express();
@@ -16,9 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use('/api', router);
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.use(globalErrorHandler);
+app.use(GlobalErrorHandler.handleError);
 
 const httpServer = createServer(app);
 
