@@ -2,26 +2,26 @@
 export type BaseOutput = {
   ok: boolean;
   payload?: unknown;
-  error?: APIError;
+  error?: IAPIError;
 };
 
-export interface APIError {
+export interface IAPIError {
   errorCode: string;
   errorMessage?: string;
   errorDetails?: any;
 }
 
-export class BaseAPIError implements APIError {
-  constructor(public errorCode: string, public errorMessage?: string, public errorDetails?: any) {}
+class APIError implements IAPIError {
+  protected constructor(public errorCode: string, public errorMessage?: string, public errorDetails?: any) {}
 }
 
-export class MethodNotImplementedError extends BaseAPIError {
+export class MethodNotImplementedError extends APIError {
   constructor() {
     super('method_not_implemented', 'API not implemented');
   }
 }
 
-export class InternalError extends BaseAPIError {
+export class InternalError extends APIError {
   constructor() {
     super('internal_error', 'An internal error occurred');
   }

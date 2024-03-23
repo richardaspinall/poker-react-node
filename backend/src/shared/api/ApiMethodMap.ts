@@ -1,5 +1,5 @@
 // Types
-import type { Request, Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 import type { BaseOutput } from './BaseOutput';
 
 // Handler types
@@ -8,7 +8,7 @@ import type { PokerTableLeavePayload, PokerTableLeaveOutput } from './PokerTable
 import type { UsersCreatePayload, UsersCreateOutput } from './Users/types/UsersCreate';
 
 export interface ApiHandler {
-  runHandler(req: Request<any>, res: Response<BaseOutput>): any;
+  runHandler(req: Request<any>, res: Response<BaseOutput>, next: NextFunction): any;
 }
 
 /**

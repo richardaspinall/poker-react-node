@@ -1,6 +1,7 @@
 // Types
-import type { Response } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/PokerTables/types/PokerTableJoin';
+import { IBaseError } from '@Infra/Result';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
@@ -9,9 +10,9 @@ import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { pokerTableJoinSchema } from '@Shared/api/PokerTables/types/PokerTableJoin';
 import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
-import { InternalError } from '@Shared/api/BaseOutput';
-import { Logger } from '../../utils/Logger';
 import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
+
+import { Logger } from '../../utils/Logger';
 
 const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 
@@ -24,36 +25,20 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     super(pokerTableJoinSchema);
   }
 
-  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
+  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>, next: NextFunction) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
 
     const pokerTable = GameLobbyService.getTable('table_1');
 
     if (!pokerTable) {
-      return res.send({
-        ok: false,
-        error: mapBaseErrorToAPIError(new PokerTableDoesNotExistError()),
-      });
+      return next(new PokerTableDoesNotExistError());
     }
 
-    const join_room = pokerTable.sitAtTable(seatNumber, clientId);
-    if (join_room.isError()) {
-      switch (join_room.getError().code) {
-        case 'seat_taken':
-        case 'player_already_seated':
-          return res.send({
-            ok: false,
-            error: mapBaseErrorToAPIError(join_room.getError()),
-          });
-      }
-
-      debug(join_room.getError());
-
-      return res.status(500).send({
-        ok: false,
-        error: new InternalError(),
-      });
+    const joinRoom = pokerTable.sitAtTable(seatNumber, clientId);
+    if (joinRoom.isError()) {
+      debug(joinRoom.getError());
+      return next(joinRoom.getError());
     }
 
     // Emit event to all clients connected that a player has sat down
@@ -64,14 +49,10 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     };
 
     // TODO: maybe shouldn't happen here
-    const send_events = Rooms.sendEventToRoom('table_1', event, eventPayload);
-    if (send_events.isError()) {
-      debug(send_events.getError());
-
-      return res.status(500).send({
-        ok: false,
-        error: new InternalError(),
-      });
+    const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
+    if (sendEvents.isError()) {
+      debug(sendEvents.getError());
+      return next(sendEvents.getError());
     }
 
     const tableIsReady = pokerTable.checkTableReady();
@@ -84,15 +65,25 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
       const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
       if (sendEvents.isError()) {
         debug(sendEvents.getError());
-
-        return res.status(500).send({
-          ok: false,
-          error: new InternalError(),
-        });
+        return next(sendEvents.getError());
       }
     }
+
     return res.send({ ok: true });
   }
 }
 
-export { PokerTablesJoinHandler };
+function pokerTablesJoinErrorHandler(err: IBaseError, req: Request, res: Response, next: NextFunction) {
+  switch (err.code) {
+    case 'seat_taken':
+    case 'player_already_seated':
+    case 'table_does_not_exist':
+      return res.send({
+        ok: false,
+        error: mapBaseErrorToAPIError(err),
+      });
+  }
+  next(err); // Pass to the next error handler if it's not a SpecificError
+}
+
+export { PokerTablesJoinHandler, pokerTablesJoinErrorHandler };
