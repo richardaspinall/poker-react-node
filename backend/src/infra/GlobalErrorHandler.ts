@@ -33,7 +33,7 @@ class GlobalErrorHandler extends BaseErrorHandler {
     }
 
     debug(error.code);
-    debug(Logger.debugStack(error));
+    console.log(Logger.debugStack(error));
 
     return res.status(500).send({ ok: false, error: mapBaseErrorToAPIError(new InternalError()) });
   }
