@@ -17,9 +17,8 @@ export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
   socketId: Joi.string().required(),
 });
 
-export enum PokerTableErrorCodes {
+export enum PokerTableJoinErrorCodes {
   SeatTaken = 'seat_taken',
   PlayerAlreadySeated = 'player_already_seated',
   PlayerNotFound = 'player_not_found_at_table',
-  TableDoesNotExist = 'table_does_not_exist',
 }

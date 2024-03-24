@@ -1,9 +1,9 @@
 import { BaseError } from '@Infra/Result';
 
-import { PokerTableErrorCodes } from '../types/PokerTableJoin';
+import { PokerTableJoinErrorCodes } from '../types/PokerTableJoin';
 
 export class PlayerAlreadySeatedError extends BaseError {
   constructor() {
-    super(PokerTableErrorCodes.PlayerAlreadySeated, 'Player is already seated at the table');
+    super(PokerTableJoinErrorCodes.PlayerAlreadySeated, 'Player is already seated at the table');
   }
 }

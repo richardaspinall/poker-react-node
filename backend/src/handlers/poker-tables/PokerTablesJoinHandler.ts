@@ -7,7 +7,7 @@ import { BaseHandler } from '../BaseHandler';
 import { Result } from '@Infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { pokerTableJoinSchema, PokerTableErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
+import { pokerTableJoinSchema, PokerTableJoinErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
 import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
 import { Logger } from '../../utils/Logger';
 
@@ -19,7 +19,7 @@ const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super(pokerTableJoinSchema, PokerTableErrorCodes);
+    super(pokerTableJoinSchema, PokerTableJoinErrorCodes);
   }
 
   protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {

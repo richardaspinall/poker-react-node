@@ -7,8 +7,7 @@ import { BaseHandler } from '../BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { Result } from '@Infra/Result';
-import { pokerTableLeaveSchema } from '@Shared/api/PokerTables/types/PokerTableLeave';
-import { PokerTableErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
+import { pokerTableLeaveSchema, PokerTableLeaveErrorCodes } from '@Shared/api/PokerTables/types/PokerTableLeave';
 import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
 import { Logger } from '../../utils/Logger';
 
@@ -19,7 +18,7 @@ const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
  */
 class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTableLeaveOutput> {
   constructor() {
-    super(pokerTableLeaveSchema, PokerTableErrorCodes);
+    super(pokerTableLeaveSchema, PokerTableLeaveErrorCodes);
   }
 
   protected getResult(payload: Result<PokerTableLeavePayload>, res: Response<PokerTableLeaveOutput>) {

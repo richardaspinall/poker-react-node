@@ -1,7 +1,10 @@
+// Types
 import type { Request, Response, NextFunction } from 'express';
-
-import { BaseErrorCodes, InternalError } from '@Shared/api/BaseOutput';
 import { IBaseError } from '@Infra/Result';
+
+// Internal
+import { BaseErrorCodes, InternalError } from '@Shared/api/BaseOutput';
+import { mapBaseErrorToAPIError } from '../handlers/helpers/mapBaseErrorToAPIError';
 
 import { Logger } from '../utils/Logger';
 
@@ -25,15 +28,14 @@ class GlobalErrorHandler extends BaseErrorHandler {
     if (this.isValidErrorCode(error.code, BaseErrorCodes)) {
       return res.send({
         ok: false,
-        error: error,
+        error: mapBaseErrorToAPIError(error),
       });
     }
 
-    console.log('An unexpected error occured, run npm run start:debug to see more details');
     debug(error.code);
     debug(Logger.debugStack(error));
 
-    return res.status(500).send({ ok: false, error: new InternalError() });
+    return res.status(500).send({ ok: false, error: mapBaseErrorToAPIError(new InternalError()) });
   }
 }
 const globalErrorHandler = new GlobalErrorHandler();

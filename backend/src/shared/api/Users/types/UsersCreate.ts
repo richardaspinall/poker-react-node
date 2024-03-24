@@ -16,3 +16,8 @@ export const usersCreateSchema = Joi.object<UsersCreatePayload>({
   username: Joi.string().required(),
   password: Joi.string().required(),
 });
+
+export enum UsersCreateErrorCodes {
+  UsernameTaken = 'username_taken',
+  UsersCreateError = 'users_create_error',
+}

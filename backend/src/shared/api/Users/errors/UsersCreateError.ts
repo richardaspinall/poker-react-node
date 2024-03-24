@@ -1,7 +1,9 @@
 import { BaseError } from '@Infra/Result';
 
+import { UsersCreateErrorCodes } from '../types/UsersCreate';
+
 export class UsersCreateError extends BaseError {
   constructor() {
-    super('user_create_error', 'User not created');
+    super(UsersCreateErrorCodes.UsersCreateError, 'User not created');
   }
 }

@@ -10,7 +10,7 @@ import {
 import { BaseHandler } from '../BaseHandler';
 import { Result } from '@Infra/Result';
 import { MethodNotImplementedError } from '@Shared/api/BaseOutput';
-import { PokerTableErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
+import { UsersCreateErrorCodes } from '@Shared/api/Users/types/UsersCreate';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB
@@ -18,7 +18,7 @@ import { PokerTableErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJo
 class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super(usersCreateSchema, PokerTableErrorCodes);
+    super(usersCreateSchema, UsersCreateErrorCodes);
   }
 
   protected getResult(payload: Result<UsersCreatePayload>, res: Response<UsersCreateOutput>) {
@@ -26,8 +26,6 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
     const password = payload.getValue().password;
 
     return this.handleError(new MethodNotImplementedError(), res);
-    // Store new user in db here
-    return res.send({ ok: true });
   }
 }
 

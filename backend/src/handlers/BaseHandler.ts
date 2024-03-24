@@ -46,6 +46,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     return ErrorHandler.handleError(error, this.enumType, res);
   }
 }
+
 class ErrorHandler {
   static isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
     return Object.values(enumType).includes(errorCode);

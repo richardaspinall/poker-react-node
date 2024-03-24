@@ -1,9 +1,9 @@
 import { BaseError } from '@Infra/Result';
 
-import { PokerTableErrorCodes } from '../types/PokerTableJoin';
+import { PokerTableJoinErrorCodes } from '../types/PokerTableJoin';
 
 export class PlayerNotFoundAtTableError extends BaseError {
   constructor() {
-    super(PokerTableErrorCodes.PlayerNotFound, 'Player is not seated at the table');
+    super(PokerTableJoinErrorCodes.PlayerNotFound, 'Player is not seated at the table');
   }
 }

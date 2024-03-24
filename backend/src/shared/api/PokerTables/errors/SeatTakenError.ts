@@ -1,9 +1,9 @@
 import { BaseError } from '@Infra/Result';
 
-import { PokerTableErrorCodes } from '../types/PokerTableJoin';
+import { PokerTableJoinErrorCodes } from '../types/PokerTableJoin';
 
 export class SeatTakenError extends BaseError {
   constructor() {
-    super(PokerTableErrorCodes.SeatTaken, 'Seat is taken');
+    super(PokerTableJoinErrorCodes.SeatTaken, 'Seat is taken');
   }
 }

@@ -1,9 +1,9 @@
 import { BaseError } from '@Infra/Result';
 
-import { PokerTableErrorCodes } from '../types/PokerTableJoin';
+import { PokerTableLeaveErrorCodes } from '../types/PokerTableLeave';
 
 export class PokerTableDoesNotExistError extends BaseError {
   constructor() {
-    super(PokerTableErrorCodes.TableDoesNotExist, 'Table does not exist');
+    super(PokerTableLeaveErrorCodes.TableDoesNotExist, 'Table does not exist');
   }
 }
