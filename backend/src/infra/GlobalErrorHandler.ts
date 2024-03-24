@@ -20,7 +20,7 @@ class GlobalErrorHandler extends BaseErrorHandler {
     this.handleError = this.handleError.bind(this); // Bind the function to the class as handleError is called from express and the context is lost
   }
 
-  isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
+  private isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
     return Object.values(enumType).includes(errorCode);
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
