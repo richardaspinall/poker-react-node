@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 
+import { TestError } from '@tests/helpers/TestError';
+
 import { GlobalErrorHandler } from './GlobalErrorHandler';
 
 describe('GlobalErrorHandler', () => {
@@ -14,13 +16,9 @@ describe('GlobalErrorHandler', () => {
 
   const next: NextFunction = jest.fn();
 
+  const testError = new TestError();
   it('should send an internal error', () => {
-    const error = {
-      code: 'error_code',
-      message: 'error_message',
-    };
-
-    GlobalErrorHandler.handleError(error as any, req as Request, res as Response, next);
+    GlobalErrorHandler.handleError(testError, req as Request, res as Response, next);
 
     expect(res.send).toHaveBeenCalledWith({
       ok: false,
@@ -37,7 +35,7 @@ describe('GlobalErrorHandler', () => {
       message: 'error_message',
     };
 
-    GlobalErrorHandler.handleError(error as any, req as Request, res as Response, next);
+    GlobalErrorHandler.handleError(error, req as Request, res as Response, next);
 
     expect(res.send).toHaveBeenCalledWith({
       ok: false,
