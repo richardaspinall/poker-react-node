@@ -1,3 +1,5 @@
+import { BaseError } from '@Infra/Result';
+
 // Consistent output for all API calls
 export type BaseOutput = {
   ok: boolean;
@@ -11,17 +13,17 @@ export interface IAPIError {
   errorDetails?: any;
 }
 
-class APIError implements IAPIError {
-  protected constructor(public errorCode: string, public errorMessage?: string, public errorDetails?: any) {}
+export enum BaseErrorCodes {
+  MethodNotImplemented = 'method_not_implemented',
 }
 
-export class MethodNotImplementedError extends APIError {
+export class MethodNotImplementedError extends BaseError {
   constructor() {
-    super('method_not_implemented', 'API not implemented');
+    super(BaseErrorCodes.MethodNotImplemented, 'API not implemented');
   }
 }
 
-export class InternalError extends APIError {
+export class InternalError extends BaseError {
   constructor() {
     super('internal_error', 'An internal error occurred');
   }

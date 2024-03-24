@@ -4,13 +4,11 @@ import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/a
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
-import { Result, IBaseError } from '@Infra/Result';
+import { Result } from '@Infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { pokerTableJoinSchema } from '@Shared/api/PokerTables/types/PokerTableJoin';
+import { pokerTableJoinSchema, PokerTableErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
 import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
-import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
-
 import { Logger } from '../../utils/Logger';
 
 const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
@@ -21,7 +19,7 @@ const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super(pokerTableJoinSchema);
+    super(pokerTableJoinSchema, PokerTableErrorCodes);
   }
 
   protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
@@ -68,19 +66,6 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
       }
     }
     return res.send({ ok: true });
-  }
-
-  protected handleError(error: IBaseError, res: Response) {
-    switch (error.code) {
-      case 'seat_taken':
-      case 'player_already_seated':
-      case 'table_does_not_exist':
-        return res.send({
-          ok: false,
-          error: mapBaseErrorToAPIError(error),
-        });
-    }
-    throw new Error(error.code);
   }
 }
 

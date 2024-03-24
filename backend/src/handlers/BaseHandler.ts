@@ -24,11 +24,9 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
   /**
    *  @param validationSchema - The Joi schema that the payload will be validated against
    */
-  constructor(private validationSchema: Joi.ObjectSchema<TPayload>) {}
+  constructor(private validationSchema: Joi.ObjectSchema<TPayload>, private enumType: { [key: string]: string }) {}
 
   protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>): any;
-
-  protected abstract handleError(error: IBaseError, res: Response): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
     const payload = validatePayload<TPayload>(this.validationSchema, req.body);
@@ -42,5 +40,25 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     }
 
     return this.getResult(payload, res);
+  }
+
+  protected handleError(error: IBaseError, res: Response) {
+    return ErrorHandler.handleError(error, this.enumType, res);
+  }
+}
+class ErrorHandler {
+  static isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
+    return Object.values(enumType).includes(errorCode);
+  }
+
+  static handleError(error: IBaseError, enumType: { [key: string]: string }, res: Response) {
+    if (this.isValidErrorCode(error.code, enumType)) {
+      return res.send({
+        ok: false,
+        error: mapBaseErrorToAPIError(error),
+      });
+    }
+
+    throw error;
   }
 }

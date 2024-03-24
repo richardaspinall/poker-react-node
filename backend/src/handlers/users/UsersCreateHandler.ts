@@ -8,9 +8,9 @@ import {
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
-import { Result, IBaseError } from '@Infra/Result';
+import { Result } from '@Infra/Result';
 import { MethodNotImplementedError } from '@Shared/api/BaseOutput';
-import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
+import { PokerTableErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB
@@ -18,25 +18,16 @@ import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
 class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super(usersCreateSchema);
+    super(usersCreateSchema, PokerTableErrorCodes);
   }
 
   protected getResult(payload: Result<UsersCreatePayload>, res: Response<UsersCreateOutput>) {
     const username = payload.getValue().username;
     const password = payload.getValue().password;
 
-    return res.send({ ok: false, error: new MethodNotImplementedError() });
+    return this.handleError(new MethodNotImplementedError(), res);
     // Store new user in db here
     return res.send({ ok: true });
-  }
-
-  protected handleError(error: IBaseError, res: Response) {
-    return res.send({
-      ok: false,
-      error: mapBaseErrorToAPIError(error),
-    });
-
-    throw error;
   }
 }
 

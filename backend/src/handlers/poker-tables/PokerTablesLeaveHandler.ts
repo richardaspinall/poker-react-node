@@ -6,11 +6,11 @@ import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared
 import { BaseHandler } from '../BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { Result, IBaseError } from '@Infra/Result';
+import { Result } from '@Infra/Result';
 import { pokerTableLeaveSchema } from '@Shared/api/PokerTables/types/PokerTableLeave';
+import { PokerTableErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
 import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
 import { Logger } from '../../utils/Logger';
-import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
 
 const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
 
@@ -19,7 +19,7 @@ const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
  */
 class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTableLeaveOutput> {
   constructor() {
-    super(pokerTableLeaveSchema);
+    super(pokerTableLeaveSchema, PokerTableErrorCodes);
   }
 
   protected getResult(payload: Result<PokerTableLeavePayload>, res: Response<PokerTableLeaveOutput>) {
@@ -48,18 +48,6 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
       return this.handleError(sendEvents.getError(), res);
     }
     return res.send({ ok: true });
-  }
-
-  protected handleError(error: IBaseError, res: Response) {
-    switch (error.code) {
-      case 'player_not_found_at_table':
-      case 'table_does_not_exist':
-        return res.send({
-          ok: false,
-          error: mapBaseErrorToAPIError(error),
-        });
-    }
-    throw error;
   }
 }
 
