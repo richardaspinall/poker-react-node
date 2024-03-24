@@ -38,6 +38,7 @@ class GlobalErrorHandler extends BaseErrorHandler {
     return res.status(500).send({ ok: false, error: mapBaseErrorToAPIError(new InternalError()) });
   }
 }
+//
 const globalErrorHandler = new GlobalErrorHandler();
 
 export { globalErrorHandler as GlobalErrorHandler };
