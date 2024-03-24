@@ -4,8 +4,8 @@ import express from 'express';
 import cors from 'cors';
 
 // Internal
-import { router } from '@Infra/routes';
-import { GlobalErrorHandler } from '@Infra/GlobalErrorHandler';
+import { router } from '@infra/routes';
+import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
 import { SocketServer } from './sockets/SocketServer';
 
 const app = express();

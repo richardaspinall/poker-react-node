@@ -1,14 +1,14 @@
 // Types
 import type { Response } from 'express';
-import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/PokerTables/types/PokerTableJoin';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/poker-tables/types/PokerTableJoin';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
-import { Result } from '@Infra/Result';
+import { Result } from '@infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { pokerTableJoinSchema, PokerTableJoinErrorCodes } from '@Shared/api/PokerTables/types/PokerTableJoin';
-import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
+import { pokerTableJoinSchema, PokerTableJoinErrorCodes } from '@shared/api/poker-tables/types/PokerTableJoin';
+import { PokerTableDoesNotExistError } from './errors';
 import { Logger } from '../../utils/Logger';
 
 const debug = Logger.newDebugger('APP:PokerTableJoinHandler');

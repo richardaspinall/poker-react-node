@@ -1,5 +1,5 @@
 // Internal
-import { Result, ResultError, ResultSuccess } from '@Infra/Result';
+import { Result, ResultError, ResultSuccess } from '@infra/Result';
 import { MySqLInstance as DB } from '../db/my-sql';
 import { User } from './User';
 interface NewUserDTO {

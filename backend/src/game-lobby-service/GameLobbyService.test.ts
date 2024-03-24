@@ -1,7 +1,7 @@
 // Internal
 import { GameLobbyService } from './GameLobbyService';
 import { Rooms } from '../sockets/Rooms';
-import { ResultSuccess } from '@Infra/Result';
+import { ResultSuccess } from '@infra/Result';
 
 describe('GameLobbyService', () => {
   let gameLobbyService: GameLobbyService;

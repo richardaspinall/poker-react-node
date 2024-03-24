@@ -1,4 +1,4 @@
-import { BaseError } from '@Infra/Result';
+import { BaseError } from '@infra/BaseError';
 
 export class InvalidRequestPayloadError extends BaseError {
   constructor(details: any) {

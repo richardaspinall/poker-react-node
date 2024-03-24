@@ -1,14 +1,17 @@
 // Types
 import type { Response } from 'express';
-import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/PokerTables/types/PokerTableLeave';
+import type {
+  PokerTableLeavePayload,
+  PokerTableLeaveOutput,
+} from '../../shared/api/poker-tables/types/PokerTableLeave';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { Result } from '@Infra/Result';
-import { pokerTableLeaveSchema, PokerTableLeaveErrorCodes } from '@Shared/api/PokerTables/types/PokerTableLeave';
-import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
+import { Result } from '@infra/Result';
+import { pokerTableLeaveSchema, PokerTableLeaveErrorCodes } from '@shared/api/poker-tables/types/PokerTableLeave';
+import { PokerTableDoesNotExistError } from './errors';
 import { Logger } from '../../utils/Logger';
 
 const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');

@@ -1,6 +1,6 @@
 // Internal
-import { mockSendEventToRoomSuccess } from '@Tests/mocks/roomMocks';
-import { createPokerTable } from '@Tests/helpers/createPokerTable';
+import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
+import { createPokerTable } from '@tests/helpers/createPokerTable';
 
 export function createPokerTableWithPlayers(tableName: string, numberOfSeats: number) {
   mockSendEventToRoomSuccess();

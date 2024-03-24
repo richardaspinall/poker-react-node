@@ -1,5 +1,5 @@
 // Internal
-import { Result, ResultSuccess, ResultError } from '@Infra/Result';
+import { Result, ResultSuccess, ResultError } from '@infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 

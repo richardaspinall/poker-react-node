@@ -3,9 +3,9 @@ import request from 'supertest';
 
 // Internal
 import { httpServer } from '../../index';
-import { shutDownServer } from '@Tests/helpers/shutDownServer';
+import { shutDownServer } from '@tests/helpers/shutDownServer';
 import { Rooms } from '../../sockets/Rooms';
-import { ResultSuccess, ResultError } from '@Infra/Result';
+import { ResultSuccess, ResultError } from '@infra/Result';
 import { GameLobbyService } from '../../game-lobby-service';
 import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 

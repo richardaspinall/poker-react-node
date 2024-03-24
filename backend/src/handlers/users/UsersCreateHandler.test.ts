@@ -3,7 +3,7 @@ import request from 'supertest';
 
 // Internal
 import { httpServer } from '../../index';
-import { shutDownServer } from '@Tests/helpers/shutDownServer';
+import { shutDownServer } from '@tests/helpers/shutDownServer';
 
 describe('users.create', () => {
   it('should error when payload is invalid', async () => {

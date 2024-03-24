@@ -7,8 +7,8 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   roots: ['<rootDir>/src'],
   moduleNameMapper: {
-    '^@Tests/(.*)$': '<rootDir>/src/tests/$1',
-    '^@Shared/(.*)$': '<rootDir>/src/shared/$1',
-    '^@Infra/(.*)$': '<rootDir>/src/infra/$1',
+    '^@tests/(.*)$': '<rootDir>/src/tests/$1',
+    '^@shared/(.*)$': '<rootDir>/src/shared/$1',
+    '^@infra/(.*)$': '<rootDir>/src/infra/$1',
   },
 };

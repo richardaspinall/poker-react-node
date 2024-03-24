@@ -1,6 +1,6 @@
-import { BaseError } from '@Infra/Result';
+import { BaseError } from '@infra/BaseError';
 
-import { PokerTableLeaveErrorCodes } from '../types/PokerTableLeave';
+import { PokerTableLeaveErrorCodes } from '../../../shared/api/poker-tables/types/PokerTableLeave';
 
 export class PokerTableDoesNotExistError extends BaseError {
   constructor() {

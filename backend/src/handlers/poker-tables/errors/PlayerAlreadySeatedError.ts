@@ -1,6 +1,6 @@
-import { BaseError } from '@Infra/Result';
+import { BaseError } from '@infra/BaseError';
 
-import { PokerTableJoinErrorCodes } from '../types/PokerTableJoin';
+import { PokerTableJoinErrorCodes } from '../../../shared/api/poker-tables/types/PokerTableJoin';
 
 export class PlayerAlreadySeatedError extends BaseError {
   constructor() {

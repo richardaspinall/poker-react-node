@@ -1,6 +1,6 @@
-import { BaseError } from '@Infra/Result';
+import { BaseError } from '@infra/BaseError';
 
-import { UsersCreateErrorCodes } from '../types/UsersCreate';
+import { UsersCreateErrorCodes } from '../../../shared/api/users/types/UsersCreate';
 
 export class UsersCreateError extends BaseError {
   constructor() {

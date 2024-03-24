@@ -1,4 +1,4 @@
-import { BaseError } from '@Infra/Result';
+import { BaseError } from '@infra/BaseError';
 
 // Consistent output for all API calls
 export type BaseOutput = {

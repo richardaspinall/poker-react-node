@@ -2,7 +2,7 @@
 import { RowDataPacket } from 'mysql2/promise';
 
 // Internal
-import { Result, ResultSuccess, ResultError } from '@Infra/Result';
+import { Result, ResultSuccess, ResultError } from '@infra/Result';
 import { MySqLInstance } from '../../db/my-sql';
 import { DBInsertError, DBInsertDuplicateError } from '../../db/errors/DBInsertErrors';
 import { DBSelectError } from '../../db/errors/DBSelectErrors';

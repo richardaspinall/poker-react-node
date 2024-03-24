@@ -4,13 +4,13 @@ import {
   type UsersCreatePayload,
   type UsersCreateOutput,
   usersCreateSchema,
-} from '../../shared/api/Users/types/UsersCreate';
+} from '../../shared/api/users/types/UsersCreate';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
-import { Result } from '@Infra/Result';
-import { MethodNotImplementedError } from '@Shared/api/BaseOutput';
-import { UsersCreateErrorCodes } from '@Shared/api/Users/types/UsersCreate';
+import { Result } from '@infra/Result';
+import { MethodNotImplementedError } from '@shared/api/BaseOutput';
+import { UsersCreateErrorCodes } from '@shared/api/users/types/UsersCreate';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB

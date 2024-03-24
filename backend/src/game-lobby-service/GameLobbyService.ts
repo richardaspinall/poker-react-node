@@ -2,9 +2,9 @@
 import { GameLobby } from './game-lobby/GameLobby';
 import { PokerTable } from '../game/PokerTable';
 import { Rooms } from '../sockets/Rooms';
-import { Result, ResultError } from '@Infra/Result';
+import { Result, ResultError } from '@infra/Result';
 import { Logger } from '../utils/Logger';
-import { PokerTableNameTakenError } from './errors/GameLobbyServiceErrors';
+import { PokerTableNameTakenError } from '../handlers/poker-tables/errors';
 import { RoomNotCreatedError } from '../sockets/errors/RoomErrors';
 
 const debug = Logger.newDebugger('APP:GameLobbyService');

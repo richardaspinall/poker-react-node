@@ -1,9 +1,9 @@
 // Types
 import type { Request, Response, NextFunction } from 'express';
-import { IBaseError } from '@Infra/Result';
+import { IBaseError } from '@infra/BaseError';
 
 // Internal
-import { BaseErrorCodes, InternalError } from '@Shared/api/BaseOutput';
+import { BaseErrorCodes, InternalError } from '@shared/api/BaseOutput';
 import { mapBaseErrorToAPIError } from '../handlers/helpers/mapBaseErrorToAPIError';
 
 import { Logger } from '../utils/Logger';

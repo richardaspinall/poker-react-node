@@ -2,7 +2,7 @@
 import { Socket } from 'socket.io';
 
 // Internal
-import { Result, ResultSuccess, ResultError } from '@Infra/Result';
+import { Result, ResultSuccess, ResultError } from '@infra/Result';
 import { SocketServer } from './SocketServer';
 
 import { RoomAlreadyExistsError, RoomNotFoundError } from './errors/RoomErrors';
