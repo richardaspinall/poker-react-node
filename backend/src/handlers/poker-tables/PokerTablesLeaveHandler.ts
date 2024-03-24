@@ -1,13 +1,12 @@
 // Types
-import type { Request, Response, NextFunction } from 'express';
+import type { Response } from 'express';
 import type { PokerTableLeavePayload, PokerTableLeaveOutput } from '../../shared/api/PokerTables/types/PokerTableLeave';
-import { IBaseError } from '@Infra/Result';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { Result } from '@Infra/Result';
+import { Result, IBaseError } from '@Infra/Result';
 import { pokerTableLeaveSchema } from '@Shared/api/PokerTables/types/PokerTableLeave';
 import { PokerTableDoesNotExistError } from '@Shared/api/PokerTables/errors';
 import { Logger } from '../../utils/Logger';
@@ -23,22 +22,18 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
     super(pokerTableLeaveSchema);
   }
 
-  protected getResult(
-    payload: Result<PokerTableLeavePayload>,
-    res: Response<PokerTableLeaveOutput>,
-    next: NextFunction
-  ) {
+  protected getResult(payload: Result<PokerTableLeavePayload>, res: Response<PokerTableLeaveOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
     const pokerTable = GameLobbyService.getTable('table_1');
     if (!pokerTable) {
-      return next(new PokerTableDoesNotExistError());
+      return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
     const leaveRoom = pokerTable.leaveTable(seatNumber, clientId);
     if (leaveRoom.isError()) {
       debug(leaveRoom.getError());
-      return next(leaveRoom.getError());
+      return this.handleError(leaveRoom.getError(), res);
     }
 
     // Emit event to all clients connected that a player has sat down
@@ -50,22 +45,22 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
     const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
-      return next(sendEvents.getError());
+      return this.handleError(sendEvents.getError(), res);
     }
     return res.send({ ok: true });
   }
-}
 
-function pokerTablesLeaveErrorHandler(err: IBaseError, req: Request, res: Response, next: NextFunction) {
-  switch (err.code) {
-    case 'player_not_found_at_table':
-    case 'table_does_not_exist':
-      return res.send({
-        ok: false,
-        error: mapBaseErrorToAPIError(err),
-      });
+  protected handleError(error: IBaseError, res: Response) {
+    switch (error.code) {
+      case 'player_not_found_at_table':
+      case 'table_does_not_exist':
+        return res.send({
+          ok: false,
+          error: mapBaseErrorToAPIError(error),
+        });
+    }
+    throw error;
   }
-  next(err); // Pass to the next error handler if it's not a SpecificError
 }
 
-export { PokerTablesLeaveHandler, pokerTablesLeaveErrorHandler };
+export { PokerTablesLeaveHandler };

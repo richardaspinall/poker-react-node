@@ -8,6 +8,5 @@ export const routes: ApiMethodShape[] = Object.keys(ApiMethods).map((key) => {
     path: `/actions/${apiMethod.path}`,
     handler: apiMethod.handler,
     handlerName: apiMethod.handlerName,
-    errorHandler: apiMethod.errorHandler,
   };
 });

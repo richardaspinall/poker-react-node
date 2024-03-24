@@ -8,8 +8,9 @@ import {
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
-import { Result } from '@Infra/Result';
+import { Result, IBaseError } from '@Infra/Result';
 import { MethodNotImplementedError } from '@Shared/api/BaseOutput';
+import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB
@@ -27,6 +28,15 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
     return res.send({ ok: false, error: new MethodNotImplementedError() });
     // Store new user in db here
     return res.send({ ok: true });
+  }
+
+  protected handleError(error: IBaseError, res: Response) {
+    return res.send({
+      ok: false,
+      error: mapBaseErrorToAPIError(error),
+    });
+
+    throw error;
   }
 }
 

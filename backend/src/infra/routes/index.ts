@@ -1,10 +1,8 @@
 // External
-import express from 'express';
-import { Request, Response, NextFunction } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 
 // Internal
 import { routes } from './routeConfig';
-import { IBaseError } from '@Infra/Result';
 
 export const router = express.Router();
 
@@ -24,18 +22,8 @@ routes.forEach((route) => {
         }
       };
 
-      // Define a wrapper for the route-specific error handler, if one exists
-      const errorHandlerWrapper = (err: IBaseError, req: Request, res: Response, next: NextFunction) => {
-        if (route.errorHandler) {
-          route.errorHandler(err, req, res, next);
-        } else {
-          // No route-specific error handler; call next() to use the global error handler
-          next(err);
-        }
-      };
-
       // Apply the route handler and the error handler wrapper
-      router[route.httpMethod](route.path, routeHandler, errorHandlerWrapper);
+      router[route.httpMethod](route.path, routeHandler);
     })
     .catch((error) => {
       console.error(`Failed to load handler for route '${route.path}':`, error);

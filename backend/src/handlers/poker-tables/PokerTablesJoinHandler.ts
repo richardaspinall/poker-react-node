@@ -1,11 +1,10 @@
 // Types
-import type { Request, Response, NextFunction } from 'express';
+import type { Response } from 'express';
 import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/PokerTables/types/PokerTableJoin';
-import { IBaseError } from '@Infra/Result';
 
 // Internal
 import { BaseHandler } from '../BaseHandler';
-import { Result } from '@Infra/Result';
+import { Result, IBaseError } from '@Infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { pokerTableJoinSchema } from '@Shared/api/PokerTables/types/PokerTableJoin';
@@ -25,20 +24,20 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     super(pokerTableJoinSchema);
   }
 
-  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>, next: NextFunction) {
+  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
     const seatNumber = payload.getValue().selectedSeatNumber;
     const clientId = payload.getValue().socketId;
 
     const pokerTable = GameLobbyService.getTable('table_1');
 
     if (!pokerTable) {
-      return next(new PokerTableDoesNotExistError());
+      return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
     const joinRoom = pokerTable.sitAtTable(seatNumber, clientId);
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
-      return next(joinRoom.getError());
+      return this.handleError(joinRoom.getError(), res);
     }
 
     // Emit event to all clients connected that a player has sat down
@@ -52,7 +51,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
-      return next(sendEvents.getError());
+      return this.handleError(sendEvents.getError(), res);
     }
 
     const tableIsReady = pokerTable.checkTableReady();
@@ -65,25 +64,24 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
       const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
       if (sendEvents.isError()) {
         debug(sendEvents.getError());
-        return next(sendEvents.getError());
+        return this.handleError(sendEvents.getError(), res);
       }
     }
-    // throw new Error('Method not implemented.');
     return res.send({ ok: true });
   }
-}
 
-function pokerTablesJoinErrorHandler(err: IBaseError, req: Request, res: Response, next: NextFunction) {
-  switch (err.code) {
-    case 'seat_taken':
-    case 'player_already_seated':
-    case 'table_does_not_exist':
-      return res.send({
-        ok: false,
-        error: mapBaseErrorToAPIError(err),
-      });
+  protected handleError(error: IBaseError, res: Response) {
+    switch (error.code) {
+      case 'seat_taken':
+      case 'player_already_seated':
+      case 'table_does_not_exist':
+        return res.send({
+          ok: false,
+          error: mapBaseErrorToAPIError(error),
+        });
+    }
+    throw new Error(error.code);
   }
-  next(err); // Pass to the next error handler if it's not a SpecificError
 }
 
-export { PokerTablesJoinHandler, pokerTablesJoinErrorHandler };
+export { PokerTablesJoinHandler };

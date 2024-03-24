@@ -1,5 +1,5 @@
 // Types
-import type { NextFunction, Request, Response } from 'express';
+import type { Request, Response } from 'express';
 import type { BaseOutput } from '@Shared/api/BaseOutput';
 import type { ApiHandler } from '@Shared/api/ApiMethodMap';
 
@@ -8,7 +8,7 @@ import Joi from 'joi';
 
 // Internal
 import { validatePayload } from './validatePayload';
-import { Result } from '@Infra/Result';
+import { Result, IBaseError } from '@Infra/Result';
 import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
 
 /**
@@ -26,9 +26,11 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
    */
   constructor(private validationSchema: Joi.ObjectSchema<TPayload>) {}
 
-  protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>, next: NextFunction): any;
+  protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>): any;
 
-  public runHandler(req: Request<TPayload>, res: Response<BaseOutput>, next: NextFunction) {
+  protected abstract handleError(error: IBaseError, res: Response): any;
+
+  public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
     const payload = validatePayload<TPayload>(this.validationSchema, req.body);
 
     if (payload.isError()) {
@@ -39,6 +41,6 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
       return;
     }
 
-    return this.getResult(payload, res, next);
+    return this.getResult(payload, res);
   }
 }
