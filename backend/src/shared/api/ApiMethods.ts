@@ -9,13 +9,13 @@ export const ApiMethods: { [key: string]: ApiMethodShape } = {
   // add entries for each API method
   tablesJoin: {
     httpMethod: 'post',
-    path: 'tables.join',
+    path: 'poker-tables.join',
     handler: '../../handlers/poker-tables/PokerTablesJoinHandler.ts',
     handlerName: 'PokerTablesJoinHandler',
   },
   tablesLeave: {
     httpMethod: 'post',
-    path: 'tables.leave',
+    path: 'poker-tables.leave',
     handler: '../../handlers/poker-tables/PokerTablesLeaveHandler.ts',
     handlerName: 'PokerTablesLeaveHandler',
   },

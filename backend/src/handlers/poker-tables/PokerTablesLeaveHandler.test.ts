@@ -9,14 +9,14 @@ import { Rooms } from '../../sockets/Rooms';
 import { ResultSuccess, ResultError } from '@infra/Result';
 import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 
-describe('tables.leave', () => {
+describe('poker-tables.leave', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
 
-    const res = await request(httpServer).post('/api/actions/tables.leave').send({
+    const res = await request(httpServer).post('/api/actions/poker-tables.leave').send({
       selectedSeatNumber: 1,
       socketId: 'abc123',
     });
@@ -31,11 +31,11 @@ describe('tables.leave', () => {
   it('should remove a player from a table', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     GameLobbyService.createPokerTable('table_1', 2);
-    await request(httpServer).post('/api/actions/tables.join').send({
+    await request(httpServer).post('/api/actions/poker-tables.join').send({
       selectedSeatNumber: 'seat-1',
       socketId: 'abc123',
     });
-    const res = await request(httpServer).post('/api/actions/tables.leave').send({
+    const res = await request(httpServer).post('/api/actions/poker-tables.leave').send({
       selectedSeatNumber: 'seat-1',
       socketId: 'abc123',
     });
@@ -46,7 +46,7 @@ describe('tables.leave', () => {
   it('should error when the player is not already sitting at the table', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-2'));
     GameLobbyService.createPokerTable('table_2', 2);
-    const res = await request(httpServer).post('/api/actions/tables.leave').send({
+    const res = await request(httpServer).post('/api/actions/poker-tables.leave').send({
       selectedSeatNumber: 'seat-2',
       socketId: 'def456',
     });

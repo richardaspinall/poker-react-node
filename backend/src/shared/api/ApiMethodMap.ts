@@ -16,11 +16,11 @@ export interface ApiHandler {
  */
 export interface ApiMethodMap {
   // Add entries for each API method
-  'tables.join': {
+  'poker-tables.join': {
     request: PokerTableJoinPayload;
     response: PokerTableJoinOutput;
   };
-  'tables.leave': {
+  'poker-tables.leave': {
     request: PokerTableLeavePayload;
     response: PokerTableLeaveOutput;
   };

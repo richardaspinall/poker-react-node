@@ -4,7 +4,7 @@
 
 ### should pass:
 
-POST http://localhost:3000/api/actions/tables.join
+POST http://localhost:3000/api/actions/poker-tables.join
 content-type: application/json
 
 {
@@ -14,7 +14,7 @@ content-type: application/json
 
 ### should error with Invalid request payload and error_details:
 
-POST http://localhost:3000/api/actions/tables.join
+POST http://localhost:3000/api/actions/poker-tables.join
 content-type: application/json
 
 {
