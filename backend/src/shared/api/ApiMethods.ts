@@ -6,7 +6,12 @@ export interface ApiMethodShape {
 }
 
 export const ApiMethods: { [key: string]: ApiMethodShape } = {
-  // add entries for each API method
+  signin: {
+    httpMethod: 'post',
+    path: 'signin',
+    handler: '../../handlers/signin/SigninHandler.ts',
+    handlerName: 'SigninHandler',
+  },
   tablesJoin: {
     httpMethod: 'post',
     path: 'poker-tables.join',
