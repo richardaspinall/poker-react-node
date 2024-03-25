@@ -6,6 +6,8 @@ import { ConnectionState } from './components/ConnectionState';
 import { ConnectionManager } from './components/ConnectionManager';
 import { Layout } from './pages/Layout';
 import { Home } from './pages/Home';
+import { CreateAccount } from './pages/CreateAccount';
+import { Signin } from './pages/Signin';
 import { Play } from './pages/Play';
 
 // https://socket.io/how-to/use-with-react
@@ -58,6 +60,8 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
+            <Route path="/createaccount" element={<CreateAccount />} />
+            <Route path="/signin" element={<Signin />} />
             <Route path="/play" element={<Play />} />
           </Route>
         </Routes>

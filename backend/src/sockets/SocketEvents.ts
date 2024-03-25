@@ -4,7 +4,7 @@ export interface ClientToServerEvents {
 
 export interface ServerToClientEvents {
   hello_from_server: () => void;
-  player_joined: (payload:any) => void;
-  player_left: (payload:any) => void;
-  start_game: (payload:any) => void;
+  player_joined: (payload: any) => void;
+  player_left: (payload: any) => void;
+  start_game: (payload: any) => void;
 }
