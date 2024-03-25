@@ -1,14 +1,14 @@
 // Types
-import type { Request, Response } from 'express';
-import type { BaseOutput } from './types/BaseOutput';
+import type { NextFunction, Request, Response } from 'express';
+import type { BaseOutput } from './BaseOutput';
 
 // Handler types
-import type { PokerTableJoinPayload, PokerTableJoinOutput } from './types/PokerTableJoin';
-import type { PokerTableLeavePayload, PokerTableLeaveOutput } from './types/PokerTableLeave';
-import type { UsersCreatePayload, UsersCreateOutput } from './types/UsersCreate';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from './poker-tables/types/PokerTableJoin';
+import type { PokerTableLeavePayload, PokerTableLeaveOutput } from './poker-tables/types/PokerTableLeave';
+import type { UsersCreatePayload, UsersCreateOutput } from './users/types/UsersCreate';
 
 export interface ApiHandler {
-  runHandler(req: Request<any>, res: Response<BaseOutput>): any;
+  runHandler(req: Request<any>, res: Response<BaseOutput>, next: NextFunction): any;
 }
 
 /**
@@ -16,11 +16,11 @@ export interface ApiHandler {
  */
 export interface ApiMethodMap {
   // Add entries for each API method
-  'tables.join': {
+  'poker-tables.join': {
     request: PokerTableJoinPayload;
     response: PokerTableJoinOutput;
   };
-  'tables.leave': {
+  'poker-tables.leave': {
     request: PokerTableLeavePayload;
     response: PokerTableLeaveOutput;
   };

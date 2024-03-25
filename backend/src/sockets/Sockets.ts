@@ -2,12 +2,12 @@
 import { Socket } from 'socket.io';
 
 // Internal
-import { Result, ResultSuccess, ResultError } from '@Infra/Result';
+import { Result, ResultSuccess, ResultError } from '@infra/Result';
 import { SocketServer } from './SocketServer';
 import { Rooms } from './Rooms';
 import { SocketHandlers } from './SocketEventHandlers';
 
-import { SocketNotFoundError } from '@Shared/errors/SocketErrors';
+import { SocketNotFoundError } from './errors/SocketErrors';
 
 // Internal utils
 import { Logger } from '../utils/Logger';

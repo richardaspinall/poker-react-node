@@ -1,5 +1,5 @@
 // Internal
-import { ApiMethodShape, ApiMethods } from './apiMethods';
+import { ApiMethodShape, ApiMethods } from '../../shared/api/ApiMethods';
 
 export const routes: ApiMethodShape[] = Object.keys(ApiMethods).map((key) => {
   const apiMethod = ApiMethods[key as keyof typeof ApiMethods];

@@ -1,16 +1,18 @@
 // Internal
-import { Result, ResultSuccess } from '../infra/Result';
+import { Result, ResultSuccess } from '@infra/Result';
 import { Seat } from './Seat';
+
 import {
   PlayerAlreadySeatedError,
   PlayerNotFoundAtTableError,
   SeatNotFoundError,
   SeatTakenError,
-} from '@Shared/errors/PokerTableErrors';
+} from '../handlers/poker-tables/errors';
 
 /* 
   PokerTable is responsible for managing a single poker table. It will be responsible for managing the game state (which is a class), players at a table..
 */
+
 export class PokerTable {
   private tableName: string;
   private seats: Seat[];

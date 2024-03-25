@@ -3,7 +3,10 @@ import FetchFacade from './FetchFacade';
 import { ApiMethod, ApiMethodMap } from '../../../backend/src/shared/api/ApiMethodMap';
 
 const apiCall = {
-  async post<TMethod extends ApiMethod>(route: TMethod, payload: ApiMethodMap[TMethod]['request']) {
+  async post<TMethod extends ApiMethod>(
+    route: TMethod,
+    payload: ApiMethodMap[TMethod]['request']
+  ): Promise<ApiMethodMap[TMethod]['response']> {
     const result = await FetchFacade.post<ApiMethodMap[TMethod]['request'], ApiMethodMap[TMethod]['response']>(
       route,
       payload

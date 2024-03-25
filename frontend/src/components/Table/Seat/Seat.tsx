@@ -13,7 +13,7 @@ export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber, socketId: socket.id };
 
-    const result = await apiCall.post('tables.join', payload);
+    const result = await apiCall.post('poker-tables.join', payload);
     if (!result?.ok) {
       // Do something with the error
       console.log(result?.error);
@@ -22,7 +22,7 @@ export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
 
   const playerLeave = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber, socketId: socket.id };
-    const result = await apiCall.post('tables.leave', payload);
+    const result = await apiCall.post('poker-tables.leave', payload);
     if (!result?.ok) {
       // Do something with the error
       console.log(result?.error);

@@ -1,3 +1,4 @@
+import { BaseError } from './BaseError';
 /**
  * Result class to handle success and error cases in a consistent way
  */
@@ -71,14 +72,4 @@ export class ResultSuccess<T> extends Result<T> {
   constructor(value: T) {
     super(true, value);
   }
-}
-
-interface IBaseError {
-  code: string;
-  message?: string;
-  errorDetails?: any;
-}
-
-export class BaseError implements IBaseError {
-  constructor(public code: string, public message?: string, public errorDetails?: any) {}
 }

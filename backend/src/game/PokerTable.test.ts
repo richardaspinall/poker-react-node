@@ -1,7 +1,7 @@
 // Internal
-import { createPokerTable } from '@Tests/helpers/createPokerTable';
-import { createPokerTableWithPlayers } from '@Tests/helpers/createPokerTableWithPlayers';
-import { mockSendEventToRoomSuccess } from '@Tests/mocks/roomMocks';
+import { createPokerTable } from '@tests/helpers/createPokerTable';
+import { createPokerTableWithPlayers } from '@tests/helpers/createPokerTableWithPlayers';
+import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
 
 describe('PokerTable', () => {
   describe('sitAtTable', () => {
@@ -27,7 +27,7 @@ describe('PokerTable', () => {
       const b1SitsSeat1 = pokerTable.sitAtTable('seat-1', 'b2');
 
       expect(b1SitsSeat1.isOk()).toEqual(false);
-      expect(b1SitsSeat1.getError()?.code).toEqual('SEAT_TAKEN');
+      expect(b1SitsSeat1.getError()?.code).toEqual('seat_taken');
       expect(b1SitsSeat1.getError()?.message).toEqual('Seat is taken');
     });
 
@@ -44,7 +44,7 @@ describe('PokerTable', () => {
       const a1SitsSeat2 = pokerTable.sitAtTable('seat-2', 'a1');
 
       expect(a1SitsSeat2.isOk()).toEqual(false);
-      expect(a1SitsSeat2.getError()?.code).toEqual('PLAYER_ALREADY_SEATED');
+      expect(a1SitsSeat2.getError()?.code).toEqual('player_already_seated');
       expect(a1SitsSeat2.getError()?.message).toEqual('Player is already seated at the table');
     });
 
@@ -102,7 +102,7 @@ describe('PokerTable', () => {
       const res = pokerTable.leaveTable('seat-1', 'a1');
 
       expect(res.isOk()).toEqual(false);
-      expect(res.getError()?.code).toEqual('PLAYER_NOT_FOUND_AT_TABLE');
+      expect(res.getError()?.code).toEqual('player_not_found_at_table');
       expect(res.getError()?.message).toEqual('Player is not seated at the table');
     });
 

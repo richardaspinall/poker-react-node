@@ -2,13 +2,10 @@
 import { Socket } from 'socket.io';
 
 // Internal
-import { Result, ResultSuccess, ResultError } from '@Infra/Result';
+import { Result, ResultSuccess, ResultError } from '@infra/Result';
 import { SocketServer } from './SocketServer';
 
-import { RoomAlreadyExistsError, RoomNotFoundError } from '@Shared/errors/RoomErrors';
-
-// Internal utils
-import { Logger } from '../utils/Logger';
+import { RoomAlreadyExistsError, RoomNotFoundError } from './errors/RoomErrors';
 
 export type RoomId = string;
 

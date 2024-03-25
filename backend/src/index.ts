@@ -4,7 +4,8 @@ import express from 'express';
 import cors from 'cors';
 
 // Internal
-import { router } from '@Infra/routes';
+import { router } from '@infra/routes';
+import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
 import { SocketServer } from './sockets/SocketServer';
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
 app.use('/api', router);
+app.use(GlobalErrorHandler.handleError);
 
 const httpServer = createServer(app);
 

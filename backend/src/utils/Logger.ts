@@ -1,6 +1,7 @@
 // External
 import debug from 'debug';
 import chalk from 'chalk';
+import { IBaseError } from '@infra/BaseError';
 
 const infoLog = debug('APP:info');
 const errorLog = debug('APP:error');
@@ -8,28 +9,35 @@ const debugLog = debug('APP:debug');
 
 class Logger {
   // This is a wrapper for the debug module
-  newDebugger(namespace: string): debug.Debugger {
+  static newDebugger(namespace: string): debug.Debugger {
     return debug(namespace);
   }
 
   // The below functions are for direct use
-  info(message: string): void {
+  static info(message: string): void {
     infoLog(message);
   }
 
-  error(message: string): void {
+  static error(message: string): void {
     errorLog(message);
   }
 
-  debug(message: any): void {
+  static debug(message: any): void {
     debugLog(message);
   }
 
-  debugStack(message: string): void {
-    const error = new Error(message);
-    debugLog(chalk.yellow('---STACK TRACE---:'), chalk.white(error.stack));
+  static debugStack(error: IBaseError): string {
+    return formatError(error);
   }
 }
-const LoggerInstance = new Logger();
 
-export { LoggerInstance as Logger };
+function formatError(error: IBaseError): string {
+  const codeAndDetails = `Code: ${error.code} \nDetails: ${error.errorDetails}`;
+  const separator = '-----------------------------------STACK TRACE-----------------------------------';
+  const stack = error.stack || 'No stack trace available'; // Fallback if stack is undefined
+
+  // Concatenate parts with color formatting
+  return `${chalk.green(codeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.white(stack)}`;
+}
+
+export { Logger };

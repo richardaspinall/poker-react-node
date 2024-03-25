@@ -1,5 +1,5 @@
 // External
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 
 // Internal
 import { routes } from './routeConfig';
@@ -13,11 +13,19 @@ routes.forEach((route) => {
       const HandlerClass = module[route.handlerName];
       const handlerInstance = new HandlerClass();
 
-      router[route.httpMethod](route.path, (req, res) => {
-        handlerInstance['runHandler'](req, res);
-      });
+      // Define the primary route handler
+      const routeHandler = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+          await handlerInstance['runHandler'](req, res, next);
+        } catch (error) {
+          next(error); // Pass any caught errors to next() for error handling
+        }
+      };
+
+      // Apply the route handler and the error handler wrapper
+      router[route.httpMethod](route.path, routeHandler);
     })
     .catch((error) => {
-      console.error(`Failed to load route '${route.path}':`, error);
+      console.error(`Failed to load handler for route '${route.path}':`, error);
     });
 });

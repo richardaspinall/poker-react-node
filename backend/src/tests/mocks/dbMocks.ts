@@ -2,10 +2,10 @@
 import { RowDataPacket } from 'mysql2/promise';
 
 // Internal
-import { Result, ResultSuccess, ResultError } from '@Infra/Result';
-import { MySqLInstance } from '../../db/MySql';
-import { DBInsertError, DBInsertDuplicateError } from '@Shared/errors/DB/DBInsertErrors';
-import { DBSelectError } from '@Shared/errors/DB/DBSelectErrors';
+import { Result, ResultSuccess, ResultError } from '@infra/Result';
+import { MySqLInstance } from '../../db/my-sql';
+import { DBInsertError, DBInsertDuplicateError } from '../../db/errors/DBInsertErrors';
+import { DBSelectError } from '../../db/errors/DBSelectErrors';
 
 export const mockMySqlInsertError = (table: string) => {
   jest.spyOn(MySqLInstance, 'insert').mockImplementation(async () => await Result.error(new DBInsertError(table)));
