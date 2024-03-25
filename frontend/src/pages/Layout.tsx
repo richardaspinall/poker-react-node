@@ -12,6 +12,9 @@ export function Layout() {
             <Link to="/createaccount">Create Account</Link>
           </li>
           <li>
+            <Link to="/signin">Sign in</Link>
+          </li>
+          <li>
             <Link to="/play">Play</Link>
           </li>
         </ul>

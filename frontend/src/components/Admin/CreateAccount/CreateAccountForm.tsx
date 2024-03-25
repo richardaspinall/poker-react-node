@@ -1,5 +1,7 @@
 import { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
-import apiCall from '../../fetch/apiCall';
+import { useNavigate } from 'react-router-dom';
+
+import apiCall from '../../../fetch/apiCall';
 
 import './CreateAccountForm.scss';
 
@@ -10,6 +12,7 @@ interface FormData {
 }
 
 export function CreateAccountForm() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
@@ -51,6 +54,7 @@ export function CreateAccountForm() {
     if (result.ok) {
       console.log(result.payload);
       console.log('success');
+      navigate('/login');
     } else {
       console.log('error');
       console.log(result.error);

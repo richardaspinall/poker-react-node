@@ -1,5 +1,5 @@
-import { CreateAccountForm } from '../components/CreateAccount/CreateAccountForm';
-import './CreateAccount.css';
+import { CreateAccountForm } from '../components/Admin/CreateAccount/CreateAccountForm';
+import './CreateAccount.scss';
 
 export function CreateAccount() {
   return (
