@@ -10,7 +10,7 @@ describe('signin', () => {
     mockMySqlSelectSuccess();
 
     const res = await request(httpServer).post('/api/actions/signin').send({
-      username: 'testuser',
+      username: 'raspinall',
       password: 'testpassword',
     });
 
@@ -33,7 +33,7 @@ describe('signin', () => {
     mockMySqlSelectSuccess();
 
     const res = await request(httpServer).post('/api/actions/signin').send({
-      username: 'testuser',
+      username: 'raspinall',
       password: 'invalidpassword',
     });
 
