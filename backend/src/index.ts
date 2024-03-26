@@ -2,18 +2,44 @@
 import { createServer } from 'http';
 import express from 'express';
 import cors from 'cors';
+import session, { Session } from 'express-session';
 
 // Internal
 import { router } from '@infra/routes';
 import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
 import { SocketServer } from './sockets/SocketServer';
 
+declare module 'http' {
+  interface IncomingMessage {
+    session: Session & {
+      authenticated: boolean;
+      userId: number;
+    };
+  }
+}
+
 const app = express();
+
+// Session middleware configuration
+// TODO: edit the secret key with env var
+app.use(
+  session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// For development only (CORS)
+const corsOptions = {
+  origin: 'http://127.0.0.1:5173', // Replace with your front-end domain
+  credentials: true, // This allows the browser to send the cookie
+};
 
 // middleware to parse json and urlencoded request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use('/api', router);
 app.use(GlobalErrorHandler.handleError);
