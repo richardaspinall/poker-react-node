@@ -8,7 +8,7 @@ describe('MySql', () => {
       const resRows = await mySql.select('users', ['user_id'], [1000]);
 
       resRows.getValue().forEach((row) => {
-        expect(row).toEqual({ password: 'testpassword', user_id: 1000, username: 'raspinall' });
+        expect(row).toEqual({ password: 'testpassword', user_id: 1000, username: 'testuser' });
       });
     });
   });
