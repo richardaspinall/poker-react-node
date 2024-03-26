@@ -30,7 +30,7 @@ export const mockMySqlSelectSuccess = () => {
     .spyOn(MySqLInstance, 'select')
     .mockImplementation(
       async () =>
-        await new ResultSuccess([{ user_id: 1000, username: 'raspinall', password: 'testpassword' }] as RowDataPacket[])
+        await new ResultSuccess([{ user_id: 1000, username: 'testuser', password: 'testpassword' }] as RowDataPacket[])
     );
 };
 
