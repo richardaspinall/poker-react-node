@@ -1,7 +1,9 @@
-// Internal
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
 import { MySqLInstance as DB } from '../db/my-sql';
 import { User } from './User';
+
+import { UsernameNotFoundError } from '../handlers/signin/errors/UsernameNotFoundError';
+
 interface NewUserDTO {
   username: string;
   password: string;
@@ -37,6 +39,21 @@ export class UserRepository {
     const user = new User(username, userId);
 
     return new ResultSuccess(user);
+  }
+
+  static async getPassword(username: string): Promise<Result<string>> {
+    const userOrError = await DB.select('users', ['username'], [username]);
+    if (userOrError.isError()) {
+      return new ResultError(userOrError.getError());
+    }
+
+    if (userOrError.getValue().length === 0) {
+      return new ResultError(new UsernameNotFoundError());
+    }
+
+    const password = userOrError.getValue()[0].password;
+
+    return new ResultSuccess(password);
   }
 
   static async deleteUser(id: number): Promise<Result<void>> {
