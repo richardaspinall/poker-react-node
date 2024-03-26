@@ -48,6 +48,7 @@ Extension: humao.rest-client
  "dependencies": {
     "dotenv": "^16.3.1", // allow for environment variables in .env file
     "express": "^4.18.2", // server framework
+    "express-session": "^1.18.0", // sessions
     "joi": "^17.12.1", // schema validation
     "mysql2": "^3.6.5", // for working with mysql
     "socket.io": "^4.7.2", // socket library
