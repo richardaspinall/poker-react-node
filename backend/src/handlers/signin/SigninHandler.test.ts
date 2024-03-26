@@ -1,5 +1,4 @@
 import request from 'supertest';
-import { MySqLInstance } from '../../db/my-sql';
 
 import { httpServer } from '../../index';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
@@ -63,7 +62,6 @@ describe('signin', () => {
   afterAll((done) => {
     (async () => {
       shutDownServer(done);
-      await MySqLInstance.close();
     })();
   });
 });
