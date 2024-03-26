@@ -1,8 +1,9 @@
 INSERT INTO users
 (username, password)
 VALUES 
-('raspinall', 'testpassword'),
-('thomas', 'testpassword');
+('richard', 'testpassword'),
+('thomas', 'testpassword'),
+('jon', 'testpassword');
 
 INSERT INTO poker_tables
 (poker_table_name)
@@ -15,4 +16,5 @@ INSERT INTO poker_table_users
 VALUES
 (1, 1000),
 (1, 1001),
-(2, 1000);
+(2, 1000),
+(2, 1002);
