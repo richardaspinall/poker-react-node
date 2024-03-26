@@ -34,6 +34,10 @@ export const mockMySqlSelectSuccess = () => {
     );
 };
 
+export const mockMySqlSelectSuccessWithNoRows = () => {
+  jest.spyOn(MySqLInstance, 'select').mockImplementation(async () => await new ResultSuccess([] as RowDataPacket[]));
+};
+
 export const mockMySqlClose = () => {
   jest.spyOn(MySqLInstance, 'close').mockImplementation(async () => {});
 };
