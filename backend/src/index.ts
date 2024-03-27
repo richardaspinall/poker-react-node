@@ -27,7 +27,7 @@ app.use(
 
 // For development only (CORS)
 const corsOptions = {
-  origin: 'http://127.0.0.1:5173', // Replace with your front-end domain
+  origin: 'http://localhost:5173', // Replace with your front-end domain
   credentials: true, // This allows the browser to send the cookie
 };
 

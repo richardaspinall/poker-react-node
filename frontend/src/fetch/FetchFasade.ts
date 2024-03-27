@@ -14,14 +14,14 @@ class FetchFasade {
   }
 
   static async post<TPayload, TResult = null>(route: string, payload: TPayload): Promise<Result<TResult>> {
-    const headers: Headers = new Headers();
-    headers.set('Content-Type', 'application/json');
-    headers.set('Accept', 'application/json');
+    // const headers: Headers = new Headers();
+    // headers.set('Content-Type', 'application/json');
+    // headers.set('Accept', 'application/json');
 
-    const request: RequestInfo = new Request('http://127.0.0.1:3000' + route, {
+    const request: RequestInfo = new Request('http://localhost:3000' + route, {
       method: 'POST',
-      headers: headers,
       body: JSON.stringify(payload),
+      credentials: 'include', // Necessary for sessions to work across origins
     });
 
     return FetchFasade.processRequest<TResult>(request);
