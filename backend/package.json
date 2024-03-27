@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "unit_tests": "TEST_RUNNER=true jest $npm_config_file",
-    "db_tests": "DB_DATABASE=test_poker jest --config jest.config.db.js --runInBand --detectOpenHandles",
-    "api_tests": "TEST_RUNNER=true jest --config jest.config.api.js --runInBand --detectOpenHandles",
+    "db_tests": "DB_DATABASE=test_poker jest --config jest.config.db.js --runInBand --detectOpenHandles $npm_config_file",
+    "api_tests": "TEST_RUNNER=true jest --config jest.config.api.js --runInBand --detectOpenHandles $npm_config_file",
     "dev": "nodemon",
     "create-test-db": "DB_DATABASE=test_poker node src/db/create_dev_db.js",
     "lint": "eslint . --ext .ts"
