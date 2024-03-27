@@ -9,7 +9,7 @@ import { router } from '@infra/routes';
 import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
 import { SocketServer } from './sockets/SocketServer';
 
-import { UserSessionStore } from './users/UserSessionStore';
+import { SessionStore } from './users/SessionStore';
 import { SigninHandler } from './handlers/signin/SigninHandler';
 
 declare module 'http' {
@@ -25,8 +25,10 @@ const app = express();
 
 // Session middleware configuration
 // TODO: edit the secret key with env var
+
 app.use(
   session({
+    store: new SessionStore(),
     secret: 'your-secret-key',
     resave: false,
     saveUninitialized: false,
@@ -57,7 +59,6 @@ const httpServer = createServer(app);
 httpServer.listen(3000);
 
 SocketServer.initialize(httpServer);
-UserSessionStore.initialize();
 
 // Function to shut down the server (used in tests)
 async function shutDown(): Promise<void> {
