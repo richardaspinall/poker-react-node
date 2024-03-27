@@ -1,13 +1,9 @@
-// External
-import request from 'supertest';
-
-// Internal
-import { httpServer } from '../../index';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
+import { apiTest } from '@tests/helpers/apiTest';
 
 describe('users.create', () => {
   it('should error when payload is invalid', async () => {
-    const res = await request(httpServer).post('/api/actions/users.create').send({
+    const res = await apiTest('/api/actions/users.create', {
       username: '',
       password: 'abc123',
     });
@@ -17,7 +13,7 @@ describe('users.create', () => {
   });
 
   it('should create a user', async () => {
-    const res = await request(httpServer).post('/api/actions/users.create').send({
+    const res = await apiTest('/api/actions/users.create', {
       username: 'test',
       password: 'abc123',
     });
