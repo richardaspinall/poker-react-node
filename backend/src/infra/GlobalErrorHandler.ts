@@ -32,8 +32,9 @@ class GlobalErrorHandler extends BaseErrorHandler {
       });
     }
 
-    debug(error.code);
-    if (!process.env.TEST_RUNNER) {
+    // debug(error.code);
+    // console.log(!!process.env.DEBUG);
+    if (!process.env.TEST_RUNNER || !!process.env.DEBUG) {
       console.log(Logger.debugStack(error));
     }
     return res.status(500).send({ ok: false, error: mapBaseErrorToAPIError(new InternalError()) });
