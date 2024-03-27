@@ -8,6 +8,7 @@ import { mockMySqlSelectSuccess, mockMySqlSelectSuccessWithNoRows } from '../../
 describe('signin', () => {
   it('should authenticate the user successfully with correct credentials', async () => {
     mockMySqlSelectSuccess();
+    // mockMySqlSelectSessionSuccess();
 
     const res = await request(httpServer).post('/api/actions/signin').send({
       username: 'testuser',
