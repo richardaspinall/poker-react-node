@@ -11,7 +11,6 @@ import { validatePayload } from './validatePayload';
 import { Result } from '@infra/Result';
 import { IBaseError } from '@infra/BaseError';
 import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
-import { UserSessionStore } from '../users/UserSessionStore';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
@@ -28,19 +27,22 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
    */
   constructor(private validationSchema: Joi.ObjectSchema<TPayload>, private enumType: { [key: string]: string }) {}
 
-  protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>): any;
+  protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>, user: string): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
-    const user = UserSessionStore.getUserSession(req.session.id);
-    console.log(UserSessionStore.getAllSessions());
+    // const user = UserSessionStore.getUserSession(req.session.id);
+    const user = req.session.username;
+    const userAuthenticated = req.session.authenticated;
 
-    console.log(user);
-    const payload = validatePayload<TPayload>(this.validationSchema, req.body);
-    console.log(req.session);
-    console.log('NEW', req.session.username);
-    if (!user?.authenticated) {
+    if (!userAuthenticated) {
       console.log('User not authenticated');
+      return res
+        .status(400)
+        .send({ ok: false, error: { errorCode: 'UNAUTHENTICATED', errorMessage: 'User not authenticated' } }); // TODO: create error
     }
+
+    const payload = validatePayload<TPayload>(this.validationSchema, req.body);
+
     if (payload.isError()) {
       const error = payload.getError();
       const apiError = mapBaseErrorToAPIError(error);
@@ -49,7 +51,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
       return;
     }
 
-    return this.getResult(payload, res);
+    return this.getResult(payload, res, user);
   }
 
   protected handleError(error: IBaseError, res: Response) {
