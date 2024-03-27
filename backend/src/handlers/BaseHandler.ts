@@ -11,6 +11,7 @@ import { validatePayload } from './validatePayload';
 import { Result } from '@infra/Result';
 import { IBaseError } from '@infra/BaseError';
 import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
+import { UserSessionStore } from '../users/UserSessionStore';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
@@ -30,8 +31,16 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
   protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
-    const payload = validatePayload<TPayload>(this.validationSchema, req.body);
+    const user = UserSessionStore.getUserSession(req.session.id);
+    console.log(UserSessionStore.getAllSessions());
 
+    console.log(user);
+    const payload = validatePayload<TPayload>(this.validationSchema, req.body);
+    console.log(req.session);
+    console.log('NEW', req.session.username);
+    if (!user?.authenticated) {
+      console.log('User not authenticated');
+    }
     if (payload.isError()) {
       const error = payload.getError();
       const apiError = mapBaseErrorToAPIError(error);
@@ -49,7 +58,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
 }
 
 // TODO: Move this to a separate file and tidy up / test
-class ErrorHandler {
+export class ErrorHandler {
   static isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
     return Object.values(enumType).includes(errorCode);
   }

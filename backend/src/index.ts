@@ -9,11 +9,14 @@ import { router } from '@infra/routes';
 import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
 import { SocketServer } from './sockets/SocketServer';
 
+import { UserSessionStore } from './users/UserSessionStore';
+import { SigninHandler } from './handlers/signin/SigninHandler';
+
 declare module 'http' {
   interface IncomingMessage {
     session: Session & {
       authenticated: boolean;
-      userId: number;
+      username: string;
     };
   }
 }
@@ -32,8 +35,10 @@ app.use(
 
 // For development only (CORS)
 const corsOptions = {
-  origin: 'http://127.0.0.1:5173', // Replace with your front-end domain
+  origin: 'http://localhost:5173', // Replace with your front-end domain
   credentials: true, // This allows the browser to send the cookie
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', '*'], // Allowed custom headers
 };
 
 // middleware to parse json and urlencoded request body
@@ -41,7 +46,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOptions));
 
+const signInHandler = new SigninHandler();
+app.use('/api/actions/signin', signInHandler.getResult);
 app.use('/api', router);
+
 app.use(GlobalErrorHandler.handleError);
 
 const httpServer = createServer(app);
@@ -49,6 +57,7 @@ const httpServer = createServer(app);
 httpServer.listen(3000);
 
 SocketServer.initialize(httpServer);
+UserSessionStore.initialize();
 
 // Function to shut down the server (used in tests)
 async function shutDown(): Promise<void> {

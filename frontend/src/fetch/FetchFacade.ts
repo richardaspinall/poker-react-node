@@ -22,6 +22,8 @@ class FetchFacade {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload),
+      mode: 'cors',
+      credentials: 'include',
     });
 
     return FetchFacade.processRequest<TResult>(request);
