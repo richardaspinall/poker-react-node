@@ -6,12 +6,6 @@ export interface ApiMethodShape {
 }
 
 export const ApiMethods: { [key: string]: ApiMethodShape } = {
-  signin: {
-    httpMethod: 'post',
-    path: 'signin',
-    handler: '../../handlers/signin/SigninHandler.ts',
-    handlerName: 'SigninHandler',
-  },
   tablesJoin: {
     httpMethod: 'post',
     path: 'poker-tables.join',

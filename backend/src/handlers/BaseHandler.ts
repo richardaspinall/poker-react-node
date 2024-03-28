@@ -27,9 +27,20 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
    */
   constructor(private validationSchema: Joi.ObjectSchema<TPayload>, private enumType: { [key: string]: string }) {}
 
-  protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>): any;
+  protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>, user: string): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
+    // const user = UserSessionStore.getUserSession(req.session.id);
+    const user = req.session.username;
+    const userAuthenticated = req.session.authenticated;
+
+    if (!userAuthenticated) {
+      console.log('User not authenticated');
+      return res
+        .status(400)
+        .send({ ok: false, error: { errorCode: 'UNAUTHENTICATED', errorMessage: 'User not authenticated' } }); // TODO: create error
+    }
+
     const payload = validatePayload<TPayload>(this.validationSchema, req.body);
 
     if (payload.isError()) {
@@ -40,7 +51,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
       return;
     }
 
-    return this.getResult(payload, res);
+    return this.getResult(payload, res, user);
   }
 
   protected handleError(error: IBaseError, res: Response) {
@@ -49,7 +60,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
 }
 
 // TODO: Move this to a separate file and tidy up / test
-class ErrorHandler {
+export class ErrorHandler {
   static isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
     return Object.values(enumType).includes(errorCode);
   }

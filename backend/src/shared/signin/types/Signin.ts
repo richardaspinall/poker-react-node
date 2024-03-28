@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-import { BaseOutput } from '../../BaseOutput';
+import { BaseOutput } from '../../api/BaseOutput';
 
 export type SigninPayload = {
   username: string;

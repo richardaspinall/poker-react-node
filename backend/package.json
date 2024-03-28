@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "scripts": {
     "unit_tests": "TEST_RUNNER=true jest $npm_config_file",
-    "db_tests": "DB_DATABASE=test_poker jest --config jest.config.db.js --runInBand --detectOpenHandles",
-    "api_tests": "TEST_RUNNER=true jest --config jest.config.api.js --runInBand --detectOpenHandles",
+    "db_tests": "DB_DATABASE=test_poker jest --config jest.config.db.js --runInBand --detectOpenHandles $npm_config_file",
+    "api_tests": "TEST_RUNNER=true jest --config jest.config.api.js --runInBand --detectOpenHandles $npm_config_file",
     "dev": "nodemon",
     "create-test-db": "DB_DATABASE=test_poker node src/db/create_dev_db.js",
     "lint": "eslint . --ext .ts"
@@ -16,6 +16,7 @@
   "dependencies": {
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "express-session": "^1.18.0",
     "joi": "^17.12.1",
     "mysql2": "^3.6.5",
     "socket.io": "^4.7.2"
@@ -24,6 +25,7 @@
     "@types/chalk": "^2.2.0",
     "@types/debug": "^4.1.12",
     "@types/express": "^4.17.19",
+    "@types/express-session": "^1.18.0",
     "@types/jest": "^29.5.5",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^7.0.2",

@@ -62,6 +62,26 @@ class MySql {
     }
   }
 
+  async update(
+    table: string,
+    columns: string[],
+    params: any[],
+    whereClause: string[] = [],
+    whereParams: any[] = []
+  ): Promise<Result<void>> {
+    const set = columns.map((column) => `${column} = ?`).join(', ');
+    const where =
+      whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';
+    const query = `UPDATE ${table} SET ${set} ${where}`;
+    try {
+      await this.pool.execute(query, [...params, ...whereParams]);
+
+      return Result.success();
+    } catch (error) {
+      return Result.error(new DBInsertError(table));
+    }
+  }
+
   async delete(table: string, whereClause: string[] = [], params: any[] = []): Promise<Result<void>> {
     const where =
       whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';

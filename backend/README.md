@@ -14,7 +14,16 @@
 `npm run db_tests`
 `npm run api_tests`
 
-`npm run test --file={path_to_file}`
+`npm run xxx_tests --file={path_to_file}` `path_to_file` being a relative path (right click on the file in VSCode > Copy Relative Path)
+
+Add `DEBUG=APP*` as a env var to a script to see further error details when debugging tests:
+
+Tips:
+
+- Debug a single file to get more granular
+  `DEBUG=APP* npm run api_tests --file=backend/src/handlers/signin/SigninHandler.test.ts`
+
+- Add only: `it.only` to a test to run a single test to get even more granular.
 
 ## Debugging
 
@@ -39,6 +48,7 @@ Extension: humao.rest-client
  "dependencies": {
     "dotenv": "^16.3.1", // allow for environment variables in .env file
     "express": "^4.18.2", // server framework
+    "express-session": "^1.18.0", // sessions
     "joi": "^17.12.1", // schema validation
     "mysql2": "^3.6.5", // for working with mysql
     "socket.io": "^4.7.2", // socket library
