@@ -8,6 +8,7 @@ import { Result, ResultError, ResultSuccess } from '../../infra/Result';
 import { DBSelectError } from '../errors/DBSelectErrors';
 import { DBInsertError, DBInsertDuplicateError } from '../errors/DBInsertErrors';
 import { DBDeleteError } from '../errors/DBDeleteErrors';
+import { DBUpdateError } from '../errors/DBUpdateErrors';
 
 /**
  * MySql is responsible for managing the connection to the database and executing queries.
@@ -59,6 +60,26 @@ class MySql {
       } else {
         return Result.error(new DBInsertError(table));
       }
+    }
+  }
+
+  async update(
+    table: string,
+    columns: string[],
+    params: any[],
+    whereClause: string[] = [],
+    whereParams: any[] = []
+  ): Promise<Result<void>> {
+    const set = columns.map((column) => `${column} = ?`).join(', ');
+    const where =
+      whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';
+    const query = `UPDATE ${table} SET ${set} ${where}`;
+    try {
+      await this.pool.execute(query, [...params, ...whereParams]);
+
+      return Result.success();
+    } catch (error) {
+      return Result.error(new DBUpdateError(table));
     }
   }
 
