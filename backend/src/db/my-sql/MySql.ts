@@ -8,6 +8,7 @@ import { Result, ResultError, ResultSuccess } from '../../infra/Result';
 import { DBSelectError } from '../errors/DBSelectErrors';
 import { DBInsertError, DBInsertDuplicateError } from '../errors/DBInsertErrors';
 import { DBDeleteError } from '../errors/DBDeleteErrors';
+import { DBUpdateError } from '../errors/DBUpdateErrors';
 
 /**
  * MySql is responsible for managing the connection to the database and executing queries.
@@ -78,7 +79,7 @@ class MySql {
 
       return Result.success();
     } catch (error) {
-      return Result.error(new DBInsertError(table));
+      return Result.error(new DBUpdateError(table));
     }
   }
 

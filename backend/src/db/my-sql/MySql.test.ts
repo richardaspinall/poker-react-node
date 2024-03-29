@@ -27,9 +27,16 @@ describe('MySql', () => {
     });
   });
 
+  describe('update', () => {
+    it('should update a user', async () => {
+      const result = await mySql.update('users', ['username'], ['newjames'], ['username'], ['james']);
+      expect(result.isOk()).toEqual(true);
+    });
+  });
+
   describe('delete', () => {
     it('should delete a user', async () => {
-      const result = await mySql.delete('users', ['username'], ['james']);
+      const result = await mySql.delete('users', ['username'], ['newjames']);
 
       expect(result.isOk()).toEqual(true);
     });
