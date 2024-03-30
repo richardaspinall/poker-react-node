@@ -3,14 +3,15 @@ import type { NextFunction, Request, Response } from 'express';
 
 import { SigninErrorCodes } from '@shared/signin/types/Signin';
 import { UserService } from '../../users/UserService';
-import { ErrorHandler } from '../BaseHandler';
+import { ErrorHandler } from '../ErrorHandler';
 
-import { validatePayload } from '../validatePayload';
+import { Logger } from '../../utils/Logger';
 import { mapBaseErrorToAPIError } from '../helpers/mapBaseErrorToAPIError';
-
 import { type SigninPayload, type SigninOutput, signinSchema } from '../../shared/signin/types/Signin';
+import { validatePayload } from '../validatePayload';
 
 export const router = express.Router();
+
 /**
  * SigninHandler signs in a user
  */
@@ -27,15 +28,17 @@ class SigninHandler {
         return;
       }
 
+      // TODO: need to validate username. task: 86cv07w0c
       const username = payload.getValue().username;
       const password = payload.getValue().password;
-      const passwordIsValid = await UserService.validatePassword(username, password);
+      const passwordOrError = await UserService.validatePassword(username, password);
 
-      if (passwordIsValid.isError()) {
-        return ErrorHandler.handleError(passwordIsValid.getError(), SigninErrorCodes, res);
+      if (passwordOrError.isError()) {
+        return ErrorHandler.handleError(passwordOrError.getError(), SigninErrorCodes, res);
       }
+
       if (req.session.authenticated) {
-        console.log('User already authenticated');
+        Logger.info('User already authenticated');
       } else {
         req.session.username = username;
         req.session.authenticated = true;
@@ -43,7 +46,7 @@ class SigninHandler {
 
       return res.send({ ok: true });
     } catch (error) {
-      next(error); // Pass any caught errors to next() for error handling
+      next(error);
     }
   }
 }

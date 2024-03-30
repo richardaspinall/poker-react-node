@@ -1,16 +1,16 @@
-// Types
 import type { Request, Response } from 'express';
-import type { BaseOutput } from '@shared/api/BaseOutput';
-import type { ApiHandler } from '@shared/api/ApiMethodMap';
-
-// External
 import Joi from 'joi';
 
-// Internal
-import { validatePayload } from './validatePayload';
-import { Result } from '@infra/Result';
 import { IBaseError } from '@infra/BaseError';
+import { Result } from '@infra/Result';
+import type { ApiHandler } from '@shared/api/ApiMethodMap';
+import type { BaseOutput } from '@shared/api/BaseOutput';
+
+import { ErrorHandler } from './ErrorHandler';
+import { Logger } from '../utils/Logger';
 import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
+import { UserNotAuthedError } from './users/errors/UserNotAuthedError';
+import { validatePayload } from './validatePayload';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
@@ -30,49 +30,27 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
   protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>, user: string): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
-    // const user = UserSessionStore.getUserSession(req.session.id);
     const user = req.session.username;
     const userAuthenticated = req.session.authenticated;
 
     if (!userAuthenticated) {
-      console.log('User not authenticated');
-      return res
-        .status(400)
-        .send({ ok: false, error: { errorCode: 'UNAUTHENTICATED', errorMessage: 'User not authenticated' } }); // TODO: create error
+      Logger.info('User not authenticated');
+      return this.handleError(new UserNotAuthedError(), res);
     }
 
     const payload = validatePayload<TPayload>(this.validationSchema, req.body);
 
     if (payload.isError()) {
       const error = payload.getError();
-      const apiError = mapBaseErrorToAPIError(error);
-
-      res.status(400).send({ ok: false, error: apiError });
-      return;
+      // const apiError = mapBaseErrorToAPIError(error);
+      return this.handleError(error, res);
+      // res.status(400).send({ ok: false, error: apiError });
+      // return;
     }
-
     return this.getResult(payload, res, user);
   }
 
   protected handleError(error: IBaseError, res: Response) {
     return ErrorHandler.handleError(error, this.enumType, res);
-  }
-}
-
-// TODO: Move this to a separate file and tidy up / test
-export class ErrorHandler {
-  static isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
-    return Object.values(enumType).includes(errorCode);
-  }
-
-  static handleError(error: IBaseError, enumType: { [key: string]: string }, res: Response) {
-    if (this.isValidErrorCode(error.code, enumType)) {
-      return res.send({
-        ok: false,
-        error: mapBaseErrorToAPIError(error),
-      });
-    }
-
-    throw error;
   }
 }

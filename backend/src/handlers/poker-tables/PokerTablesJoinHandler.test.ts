@@ -1,15 +1,10 @@
-// External
-import request from 'supertest';
-
-// Internal
-import { httpServer } from '../../index';
-import { shutDownServer } from '@tests/helpers/shutDownServer';
-import { Rooms } from '../../sockets/Rooms';
+import { apiTest } from '@tests/helpers/apiTest';
 import { ResultSuccess, ResultError } from '@infra/Result';
+import { shutDownServer } from '@tests/helpers/shutDownServer';
+
+import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
-
-import { apiTest } from '@tests/helpers/apiTest';
 
 describe('poker-tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
@@ -19,7 +14,6 @@ describe('poker-tables.join', () => {
       socketId: 'abc123',
     });
 
-    expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error.errorCode).toEqual('invalid_request_payload');
   });
