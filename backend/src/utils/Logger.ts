@@ -32,7 +32,9 @@ class Logger {
 }
 
 function formatError(error: IBaseError): string {
-  const codeAndDetails = `Code: ${error.code} \nDetails: ${error.errorDetails}`;
+  const codeAndDetails = `Code: ${error.code} \nDetails: ${
+    error.errorDetails ? JSON.stringify(error.errorDetails) : null
+  }`;
   const separator = '-----------------------------------STACK TRACE-----------------------------------';
   const stack = error.stack || 'No stack trace available'; // Fallback if stack is undefined
 
