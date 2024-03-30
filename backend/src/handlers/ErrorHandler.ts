@@ -10,7 +10,11 @@ export class ErrorHandler {
   }
 
   static handleError(error: IBaseError, enumType: { [key: string]: string }, res: Response) {
-    if (this.isValidErrorCode(error.code, enumType) || error.code === 'invalid_request_payload') {
+    if (
+      this.isValidErrorCode(error.code, enumType) ||
+      error.code === 'invalid_request_payload' ||
+      error.code === 'not_authed'
+    ) {
       return res.send({
         ok: false,
         error: mapBaseErrorToAPIError(error),
