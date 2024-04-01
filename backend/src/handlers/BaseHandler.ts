@@ -8,7 +8,6 @@ import type { BaseOutput } from '@shared/api/BaseOutput';
 
 import { ErrorHandler } from './ErrorHandler';
 import { Logger } from '../utils/Logger';
-import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
 import { UserNotAuthedError } from './users/errors/UserNotAuthedError';
 import { validatePayload } from './validatePayload';
 
@@ -25,7 +24,13 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
   /**
    *  @param validationSchema - The Joi schema that the payload will be validated against
    */
-  constructor(private validationSchema: Joi.ObjectSchema<TPayload>, private enumType: { [key: string]: string }) {}
+  private validationSchema: Joi.ObjectSchema<TPayload>;
+  private clientErrorCodes: { [key: string]: string };
+
+  constructor(validationSchema: Joi.ObjectSchema<TPayload>, clientErrorCodes: { [key: string]: string }) {
+    this.validationSchema = validationSchema;
+    this.clientErrorCodes = clientErrorCodes;
+  }
 
   protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>, user: string): any;
 
@@ -51,6 +56,6 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
   }
 
   protected handleError(error: IBaseError, res: Response) {
-    return ErrorHandler.handleError(error, this.enumType, res);
+    return ErrorHandler.handleError(error, this.clientErrorCodes, res);
   }
 }

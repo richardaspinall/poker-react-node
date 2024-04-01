@@ -5,13 +5,13 @@ import { IBaseError } from '@infra/BaseError';
 import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
 
 export class ErrorHandler {
-  static isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
-    return Object.values(enumType).includes(errorCode);
+  static isValidErrorCode(errorCode: string, clientErrorCodes: { [key: string]: string }): boolean {
+    return Object.values(clientErrorCodes).includes(errorCode);
   }
 
-  static handleError(error: IBaseError, enumType: { [key: string]: string }, res: Response) {
+  static handleError(error: IBaseError, clientErrorCodes: { [key: string]: string }, res: Response) {
     if (
-      this.isValidErrorCode(error.code, enumType) ||
+      this.isValidErrorCode(error.code, clientErrorCodes) ||
       error.code === 'invalid_request_payload' ||
       error.code === 'not_authed'
     ) {
