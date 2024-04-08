@@ -1,5 +1,5 @@
 import './Table.css';
-import { socket } from '../../Socket';
+import { socket } from '../../Socket'; // RAVIEW: remove
 
 import Pot from './Pot/Pot';
 import Board from './Board/Board';

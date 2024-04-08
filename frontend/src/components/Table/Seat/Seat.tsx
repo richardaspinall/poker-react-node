@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Socket } from 'socket.io-client';
+import { Socket } from 'socket.io-client'; // RAVIEW: remove
 
 import apiCall from '../../../fetch/apiCall';
 
