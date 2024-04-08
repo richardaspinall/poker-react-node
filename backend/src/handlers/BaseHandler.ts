@@ -2,7 +2,6 @@ import type { Request, Response } from 'express';
 import Joi from 'joi';
 
 import { IBaseError } from '@infra/BaseError';
-import { Result } from '@infra/Result';
 import type { ApiHandler } from '@shared/api/ApiMethodMap';
 import type { BaseOutput } from '@shared/api/BaseOutput';
 
@@ -38,12 +37,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     this.requiresAuthentication = requiresAuthentication;
   }
 
-  protected abstract getResult(
-    payload: Result<TPayload>,
-    res: Response<TOutput>,
-    req?: Request<TPayload>,
-    user?: string
-  ): any;
+  protected abstract getResult(payload: TPayload, res: Response<TOutput>, req?: Request<TPayload>, user?: string): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
     let user = undefined;
@@ -65,9 +59,9 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     }
 
     if (this.requiresAuthentication) {
-      return this.getResult(payload, res, undefined, user);
+      return this.getResult(payload.getValue(), res, undefined, user);
     }
-    return this.getResult(payload, res, req);
+    return this.getResult(payload.getValue(), res, req);
   }
 
   protected handleError(error: IBaseError, res: Response) {

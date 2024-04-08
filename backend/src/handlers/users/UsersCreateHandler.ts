@@ -21,9 +21,9 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
     super(usersCreateSchema, UsersCreateErrorCodes);
   }
 
-  protected getResult(payload: Result<UsersCreatePayload>, res: Response<UsersCreateOutput>) {
-    const username = payload.getValue().username;
-    const password = payload.getValue().password;
+  protected getResult(payload: UsersCreatePayload, res: Response<UsersCreateOutput>) {
+    const username = payload.username;
+    const password = payload.password;
 
     return this.handleError(new MethodNotImplementedError(), res);
   }

@@ -19,11 +19,11 @@ class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
     super(signinSchema, SigninErrorCodes, false);
   }
 
-  public async getResult(payload: Result<SigninPayload>, res: Response<SigninOutput>, req: Request<SigninPayload>) {
+  public async getResult(payload: SigninPayload, res: Response<SigninOutput>, req: Request<SigninPayload>) {
     // TODO: need to validate username. task: 86cv07w0c
     // console.log(payload);
-    const username = payload.getValue().username;
-    const password = payload.getValue().password;
+    const username = payload.username;
+    const password = payload.password;
     const passwordOrError = await UserService.validatePassword(username, password);
 
     if (passwordOrError.isError()) {

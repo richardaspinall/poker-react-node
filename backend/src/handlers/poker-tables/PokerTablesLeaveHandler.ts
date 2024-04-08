@@ -24,9 +24,9 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
     super(pokerTableLeaveSchema, PokerTableLeaveErrorCodes);
   }
 
-  protected getResult(payload: Result<PokerTableLeavePayload>, res: Response<PokerTableLeaveOutput>) {
-    const seatNumber = payload.getValue().selectedSeatNumber;
-    const clientId = payload.getValue().socketId;
+  protected getResult(payload: PokerTableLeavePayload, res: Response<PokerTableLeaveOutput>) {
+    const seatNumber = payload.selectedSeatNumber;
+    const clientId = payload.socketId;
     const pokerTable = GameLobbyService.getTable('table_1');
     if (!pokerTable) {
       return this.handleError(new PokerTableDoesNotExistError(), res);

@@ -22,9 +22,9 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     super(pokerTableJoinSchema, PokerTableJoinErrorCodes);
   }
 
-  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
-    const seatNumber = payload.getValue().selectedSeatNumber;
-    const clientId = payload.getValue().socketId;
+  protected getResult(payload: PokerTableJoinPayload, res: Response<PokerTableJoinOutput>) {
+    const seatNumber = payload.selectedSeatNumber;
+    const clientId = payload.socketId;
 
     const pokerTable = GameLobbyService.getTable('table_1');
 
