@@ -36,9 +36,9 @@ export class PokerTable {
     return new ResultSuccess(newTable);
   }
 
-  public sitAtTable(seatNumber: string, clientId: string): Result<void> {
+  public sitAtTable(seatNumber: string, username: string): Result<void> {
     for (const seat of this.seats) {
-      if (seat.playerId === clientId) {
+      if (seat.username === username) {
         return Result.error(new PlayerAlreadySeatedError());
       }
     }
@@ -47,7 +47,7 @@ export class PokerTable {
         if (seat.isTaken) {
           return Result.error(new SeatTakenError());
         } else {
-          seat.playerId = clientId;
+          seat.username = username;
           seat.isTaken = true;
           return Result.success();
         }
@@ -56,10 +56,10 @@ export class PokerTable {
     return Result.error(new SeatNotFoundError());
   }
 
-  public leaveTable(seatNumber: string, clientId: string): Result<void> {
+  public leaveTable(seatNumber: string, username: string): Result<void> {
     for (const seat of this.seats) {
-      if (seat.playerId === clientId && seat.seatNumber === seatNumber) {
-        seat.playerId = '';
+      if (seat.username === username && seat.seatNumber === seatNumber) {
+        seat.username = '';
         seat.isTaken = false;
         return Result.success();
       }
@@ -84,7 +84,7 @@ export class PokerTable {
 
   public checkTableReady(): boolean {
     for (const seat of this.seats) {
-      if (seat.playerId == '') {
+      if (seat.username == '') {
         return false;
       }
     }

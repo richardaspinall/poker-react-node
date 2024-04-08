@@ -18,10 +18,11 @@ class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
     super(signinSchema, SigninErrorCodes, false);
   }
 
+  //
   public async getResult(
     payload: SigninPayload,
     res: Response<SigninOutput>,
-    user: string,
+    _user: string /* unused, used in other class methods */,
     req: Request<SigninPayload>
   ) {
     // TODO: need to validate username. task: 86cv07w0c

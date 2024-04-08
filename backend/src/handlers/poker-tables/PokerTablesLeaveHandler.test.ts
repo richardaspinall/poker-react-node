@@ -1,4 +1,5 @@
 import { apiTest } from '@tests/helpers/apiTest';
+import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
 import { ResultSuccess, ResultError } from '@infra/Result';
 
@@ -12,9 +13,10 @@ describe('poker-tables.leave', () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
+    mockMySqlSelectSessionSuccess('userone');
+
     const res = await apiTest('/api/actions/poker-tables.leave', {
       selectedSeatNumber: 1,
-      socketId: 'abc123',
     });
 
     expect(res.body.ok).toEqual(false);
@@ -26,16 +28,15 @@ describe('poker-tables.leave', () => {
   it('should remove a player from a table', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     GameLobbyService.createPokerTable('table_1', 2);
+    mockMySqlSelectSessionSuccess('userone');
 
     await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
-      socketId: 'abc123',
     });
-
     const res = await apiTest('/api/actions/poker-tables.leave', {
       selectedSeatNumber: 'seat-1',
-      socketId: 'abc123',
     });
+
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(true);
   });
@@ -43,9 +44,10 @@ describe('poker-tables.leave', () => {
   it('should error when the player is not already sitting at the table', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-2'));
     GameLobbyService.createPokerTable('table_2', 2);
+    mockMySqlSelectSessionSuccess('userone');
+
     const res = await apiTest('/api/actions/poker-tables.leave', {
       selectedSeatNumber: 'seat-2',
-      socketId: 'def456',
     });
 
     expect(res.statusCode).toEqual(200);

@@ -1,5 +1,6 @@
 import { apiTest } from '@tests/helpers/apiTest';
 import { ResultSuccess, ResultError } from '@infra/Result';
+import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
 
 import { Rooms } from '../../sockets/Rooms';
@@ -9,9 +10,10 @@ import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 describe('poker-tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
+    mockMySqlSelectSessionSuccess('userone');
+
     const res = await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 1,
-      socketId: 'abc123',
     });
 
     expect(res.body.ok).toEqual(false);
@@ -23,10 +25,12 @@ describe('poker-tables.join', () => {
   it('should seat a player to a table', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     GameLobbyService.createPokerTable('table_1', 2);
+    mockMySqlSelectSessionSuccess('userone');
+
     const res = await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
-      socketId: 'abc123',
     });
+
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(true);
   });
@@ -36,13 +40,14 @@ describe('poker-tables.join', () => {
     jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
 
+    mockMySqlSelectSessionSuccess('userone');
     await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
-      socketId: 'abc123',
     });
+
+    mockMySqlSelectSessionSuccess('usertwo');
     const res = await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
-      socketId: 'def456',
     });
 
     expect(res.statusCode).toEqual(200);

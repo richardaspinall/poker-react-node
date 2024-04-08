@@ -3,16 +3,16 @@
  */
 export class Seat {
   public seatNumber: string;
-  public playerId: string;
+  public username: string;
   public isTaken: boolean;
 
-  public constructor(seatNumber: string, playerId: string, isTaken: boolean) {
+  public constructor(seatNumber: string, username: string, isTaken: boolean) {
     this.seatNumber = seatNumber;
-    this.playerId = playerId;
+    this.username = username;
     this.isTaken = isTaken;
   }
 
-  public static createSeat(seatNumber: string, playerId: string = '', isTaken: boolean = false): Seat {
-    return new Seat(seatNumber, playerId, isTaken);
+  public static createSeat(seatNumber: string, username: string = '', isTaken: boolean = false): Seat {
+    return new Seat(seatNumber, username, isTaken);
   }
 }
