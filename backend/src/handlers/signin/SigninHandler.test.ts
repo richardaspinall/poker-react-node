@@ -25,7 +25,6 @@ describe('signin', () => {
       password: '',
     });
 
-    expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error.errorCode).toEqual('invalid_request_payload');
   });

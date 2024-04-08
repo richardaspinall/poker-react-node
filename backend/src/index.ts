@@ -10,7 +10,6 @@ import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
 import { SocketServer } from './sockets/SocketServer';
 
 import { SessionStore } from './users/SessionStore';
-import { SigninHandler } from './handlers/signin/SigninHandler';
 
 declare module 'http' {
   interface IncomingMessage {
@@ -48,10 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors(corsOptions));
 
-const signInHandler = new SigninHandler();
-app.use('/api/actions/signin', signInHandler.getResult);
 app.use('/api', router);
-
 app.use(GlobalErrorHandler.handleError);
 
 const httpServer = createServer(app);

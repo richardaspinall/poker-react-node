@@ -33,6 +33,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     }
 
     const joinRoom = pokerTable.sitAtTable(seatNumber, clientId);
+
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
       return this.handleError(joinRoom.getError(), res);
@@ -47,6 +48,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
 
     // TODO: maybe shouldn't happen here
     const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
+
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return this.handleError(sendEvents.getError(), res);
@@ -60,11 +62,13 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
         tableName: 'table_1',
       };
       const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
+
       if (sendEvents.isError()) {
         debug(sendEvents.getError());
         return this.handleError(sendEvents.getError(), res);
       }
     }
+
     return res.send({ ok: true });
   }
 }

@@ -3,6 +3,7 @@ import express, { Request, Response, NextFunction } from 'express';
 
 // Internal
 import { routes } from './routeConfig';
+import { ApiHandler } from '@shared/api/ApiMethodMap';
 
 export const router = express.Router();
 
@@ -11,7 +12,7 @@ routes.forEach((route) => {
   import(route.handler)
     .then((module) => {
       const HandlerClass = module[route.handlerName];
-      const handlerInstance = new HandlerClass();
+      const handlerInstance = new HandlerClass() as ApiHandler;
 
       // Define the primary route handler
       const routeHandler = async (req: Request, res: Response, next: NextFunction) => {
