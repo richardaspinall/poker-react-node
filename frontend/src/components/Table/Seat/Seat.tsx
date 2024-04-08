@@ -1,33 +1,31 @@
-import React, { useCallback } from 'react';
-import { Socket } from 'socket.io-client'; // RAVIEW: remove
+import { useCallback } from 'react';
 
 import apiCall from '../../../fetch/apiCall';
 
 type SeatProps = {
   seatNumber: string;
   chipCount: number;
-  socket: Socket;
 };
 
-export default function Seat({ seatNumber, chipCount, socket }: SeatProps) {
+export default function Seat({ seatNumber, chipCount }: SeatProps) {
   const onPlayerSit = useCallback(async () => {
-    const payload = { selectedSeatNumber: seatNumber, socketId: socket.id };
+    const payload = { selectedSeatNumber: seatNumber };
 
     const result = await apiCall.post('poker-tables.join', payload);
     if (!result?.ok) {
       // Do something with the error
       console.log(result?.error);
     }
-  }, [seatNumber, socket]);
+  }, [seatNumber]);
 
   const playerLeave = useCallback(async () => {
-    const payload = { selectedSeatNumber: seatNumber, socketId: socket.id };
+    const payload = { selectedSeatNumber: seatNumber };
     const result = await apiCall.post('poker-tables.leave', payload);
     if (!result?.ok) {
       // Do something with the error
       console.log(result?.error);
     }
-  }, [seatNumber, socket]);
+  }, [seatNumber]);
 
   return (
     <div>
