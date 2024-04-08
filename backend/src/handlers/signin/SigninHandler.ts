@@ -18,7 +18,12 @@ class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
     super(signinSchema, SigninErrorCodes, false);
   }
 
-  public async getResult(payload: SigninPayload, res: Response<SigninOutput>, req: Request<SigninPayload>) {
+  public async getResult(
+    payload: SigninPayload,
+    res: Response<SigninOutput>,
+    user: string,
+    req: Request<SigninPayload>
+  ) {
     // TODO: need to validate username. task: 86cv07w0c
     // console.log(payload);
     const username = payload.username;
