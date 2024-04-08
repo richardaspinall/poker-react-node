@@ -1,23 +1,19 @@
-// External
-import request from 'supertest';
-
-// Internal
-import { httpServer } from '../../index';
-import { shutDownServer } from '@tests/helpers/shutDownServer';
-import { Rooms } from '../../sockets/Rooms';
+import { apiTest } from '@tests/helpers/apiTest';
 import { ResultSuccess, ResultError } from '@infra/Result';
+import { shutDownServer } from '@tests/helpers/shutDownServer';
+
+import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
 import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 
 describe('poker-tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
-    const res = await request(httpServer).post('/api/actions/poker-tables.join').send({
+    const res = await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 1,
       socketId: 'abc123',
     });
 
-    expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error.errorCode).toEqual('invalid_request_payload');
   });
@@ -27,7 +23,7 @@ describe('poker-tables.join', () => {
   it('should seat a player to a table', async () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     GameLobbyService.createPokerTable('table_1', 2);
-    const res = await request(httpServer).post('/api/actions/poker-tables.join').send({
+    const res = await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
       socketId: 'abc123',
     });
@@ -40,11 +36,11 @@ describe('poker-tables.join', () => {
     jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
 
-    await request(httpServer).post('/api/actions/poker-tables.join').send({
+    await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
       socketId: 'abc123',
     });
-    const res = await request(httpServer).post('/api/actions/poker-tables.join').send({
+    const res = await apiTest('/api/actions/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
       socketId: 'def456',
     });

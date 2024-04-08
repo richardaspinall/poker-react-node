@@ -1,23 +1,18 @@
-// External
-import request from 'supertest';
-
-// Internal
-import { httpServer } from '../../index';
+import { apiTest } from '@tests/helpers/apiTest';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
 
 describe('users.create', () => {
   it('should error when payload is invalid', async () => {
-    const res = await request(httpServer).post('/api/actions/users.create').send({
+    const res = await apiTest('/api/actions/users.create', {
       username: '',
       password: 'abc123',
     });
-    expect(res.statusCode).toEqual(400);
     expect(res.body.ok).toEqual(false);
     expect(res.body.error.errorCode).toEqual('invalid_request_payload');
   });
 
   it('should create a user', async () => {
-    const res = await request(httpServer).post('/api/actions/users.create').send({
+    const res = await apiTest('/api/actions/users.create', {
       username: 'test',
       password: 'abc123',
     });

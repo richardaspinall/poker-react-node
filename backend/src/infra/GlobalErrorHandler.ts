@@ -8,8 +8,6 @@ import { mapBaseErrorToAPIError } from '../handlers/helpers/mapBaseErrorToAPIErr
 
 import { Logger } from '../utils/Logger';
 
-const debug = Logger.newDebugger('APP:GlobalErrorHandler');
-
 abstract class BaseErrorHandler {
   abstract handleError(err: IBaseError, req: Request, res: Response, next: NextFunction): void;
 }

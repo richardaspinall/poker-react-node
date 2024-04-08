@@ -18,10 +18,11 @@ class FetchFacade {
     headers.set('Content-Type', 'application/json');
     headers.set('Accept', 'application/json');
 
-    const request: RequestInfo = new Request('http://127.0.0.1:3000/api/actions/' + route, {
+    const request: RequestInfo = new Request('http://localhost:3000/api/actions/' + route, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(payload),
+      credentials: 'include',
     });
 
     return FetchFacade.processRequest<TResult>(request);
@@ -31,7 +32,7 @@ class FetchFacade {
     const headers: Headers = new Headers();
     headers.set('Accept', 'application/json');
 
-    const request: RequestInfo = new Request('http://127.0.0.1:3000/api/actions/' + route, {
+    const request: RequestInfo = new Request('http://localhost:3000/api/actions/' + route, {
       method: 'GET',
       headers: headers,
     });

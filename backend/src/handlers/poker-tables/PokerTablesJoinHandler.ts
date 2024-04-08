@@ -1,13 +1,11 @@
-// Types
 import type { Response } from 'express';
-import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/poker-tables/types/PokerTableJoin';
 
-// Internal
+import { pokerTableJoinSchema, PokerTableJoinErrorCodes } from '@shared/api/poker-tables/types/PokerTableJoin';
+
 import { BaseHandler } from '../BaseHandler';
-import { Result } from '@infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { pokerTableJoinSchema, PokerTableJoinErrorCodes } from '@shared/api/poker-tables/types/PokerTableJoin';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/poker-tables/types/PokerTableJoin';
 import { PokerTableDoesNotExistError } from './errors';
 import { Logger } from '../../utils/Logger';
 
@@ -22,9 +20,9 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     super(pokerTableJoinSchema, PokerTableJoinErrorCodes);
   }
 
-  protected getResult(payload: Result<PokerTableJoinPayload>, res: Response<PokerTableJoinOutput>) {
-    const seatNumber = payload.getValue().selectedSeatNumber;
-    const clientId = payload.getValue().socketId;
+  protected getResult(payload: PokerTableJoinPayload, res: Response<PokerTableJoinOutput>) {
+    const seatNumber = payload.selectedSeatNumber;
+    const clientId = payload.socketId;
 
     const pokerTable = GameLobbyService.getTable('table_1');
 
@@ -33,6 +31,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     }
 
     const joinRoom = pokerTable.sitAtTable(seatNumber, clientId);
+
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
       return this.handleError(joinRoom.getError(), res);
@@ -47,6 +46,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
 
     // TODO: maybe shouldn't happen here
     const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
+
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return this.handleError(sendEvents.getError(), res);
@@ -60,11 +60,13 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
         tableName: 'table_1',
       };
       const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
+
       if (sendEvents.isError()) {
         debug(sendEvents.getError());
         return this.handleError(sendEvents.getError(), res);
       }
     }
+
     return res.send({ ok: true });
   }
 }

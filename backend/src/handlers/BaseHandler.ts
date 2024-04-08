@@ -1,16 +1,14 @@
-// Types
 import type { Request, Response } from 'express';
-import type { BaseOutput } from '@shared/api/BaseOutput';
-import type { ApiHandler } from '@shared/api/ApiMethodMap';
-
-// External
 import Joi from 'joi';
 
-// Internal
-import { validatePayload } from './validatePayload';
-import { Result } from '@infra/Result';
 import { IBaseError } from '@infra/BaseError';
-import { mapBaseErrorToAPIError } from './helpers/mapBaseErrorToAPIError';
+import type { ApiHandler } from '@shared/api/ApiMethodMap';
+import type { BaseOutput } from '@shared/api/BaseOutput';
+
+import { ErrorHandler } from './ErrorHandler';
+import { Logger } from '../utils/Logger';
+import { UserNotAuthedError } from './users/errors/UserNotAuthedError';
+import { validatePayload } from './validatePayload';
 
 /**
  * BaseHandler is used to handle requests to the server. It is designed to be extended by other classes
@@ -25,43 +23,48 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
   /**
    *  @param validationSchema - The Joi schema that the payload will be validated against
    */
-  constructor(private validationSchema: Joi.ObjectSchema<TPayload>, private enumType: { [key: string]: string }) {}
+  private validationSchema: Joi.ObjectSchema<TPayload>;
+  private clientErrorCodes: { [key: string]: string };
+  protected requiresAuthentication: boolean;
 
-  protected abstract getResult(payload: Result<TPayload>, res: Response<TOutput>): any;
+  constructor(
+    validationSchema: Joi.ObjectSchema<TPayload>,
+    clientErrorCodes: { [key: string]: string },
+    requiresAuthentication: boolean = true
+  ) {
+    this.validationSchema = validationSchema;
+    this.clientErrorCodes = clientErrorCodes;
+    this.requiresAuthentication = requiresAuthentication;
+  }
+
+  protected abstract getResult(payload: TPayload, res: Response<TOutput>, req?: Request<TPayload>, user?: string): any;
 
   public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
+    let user = undefined;
+    if (this.requiresAuthentication) {
+      user = req.session.username;
+      const userAuthenticated = req.session.authenticated;
+
+      if (!userAuthenticated) {
+        Logger.info('User not authenticated');
+        return this.handleError(new UserNotAuthedError(), res);
+      }
+    }
+
     const payload = validatePayload<TPayload>(this.validationSchema, req.body);
 
     if (payload.isError()) {
       const error = payload.getError();
-      const apiError = mapBaseErrorToAPIError(error);
-
-      res.status(400).send({ ok: false, error: apiError });
-      return;
+      return this.handleError(error, res);
     }
 
-    return this.getResult(payload, res);
+    if (this.requiresAuthentication) {
+      return this.getResult(payload.getValue(), res, undefined, user);
+    }
+    return this.getResult(payload.getValue(), res, req);
   }
 
   protected handleError(error: IBaseError, res: Response) {
-    return ErrorHandler.handleError(error, this.enumType, res);
-  }
-}
-
-// TODO: Move this to a separate file and tidy up / test
-class ErrorHandler {
-  static isValidErrorCode(errorCode: string, enumType: { [key: string]: string }): boolean {
-    return Object.values(enumType).includes(errorCode);
-  }
-
-  static handleError(error: IBaseError, enumType: { [key: string]: string }, res: Response) {
-    if (this.isValidErrorCode(error.code, enumType)) {
-      return res.send({
-        ok: false,
-        error: mapBaseErrorToAPIError(error),
-      });
-    }
-
-    throw error;
+    return ErrorHandler.handleError(error, this.clientErrorCodes, res);
   }
 }

@@ -142,7 +142,7 @@ class NounVerbHandler extends BaseHandler<NounVerbPayload, NounVerbOutput> {
     super(nounVerbSchema);
   }
 
-  protected getResult(payload: Result<NounVerbPayload>, res: Response<NounVerbOutput>) {
+  protected getResult(payload: NounVerbPayload, res: Response<NounVerbOutput>) {
     return res.send({ ok: true });
   }
 }
@@ -156,7 +156,7 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
     super(usersCreateSchema);
   }
 
-  protected getResult(payload: Result<UsersCreatePayload>, res: Response<UsersCreateOutput>) {
+  protected getResult(payload: UsersCreatePayload, res: Response<UsersCreateOutput>) {
     return res.send({ ok: true });
   }
 }
