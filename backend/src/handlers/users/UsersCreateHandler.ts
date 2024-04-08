@@ -1,16 +1,14 @@
-// Types
 import type { Response } from 'express';
+
+import { MethodNotImplementedError } from '@shared/api/BaseOutput';
+import { UsersCreateErrorCodes } from '@shared/api/users/types/UsersCreate';
+
 import {
   type UsersCreatePayload,
   type UsersCreateOutput,
   usersCreateSchema,
 } from '../../shared/api/users/types/UsersCreate';
-
-// Internal
 import { BaseHandler } from '../BaseHandler';
-import { Result } from '@infra/Result';
-import { MethodNotImplementedError } from '@shared/api/BaseOutput';
-import { UsersCreateErrorCodes } from '@shared/api/users/types/UsersCreate';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB

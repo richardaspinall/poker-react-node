@@ -1,13 +1,11 @@
-// Types
 import type { Response } from 'express';
-import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/poker-tables/types/PokerTableJoin';
 
-// Internal
+import { pokerTableJoinSchema, PokerTableJoinErrorCodes } from '@shared/api/poker-tables/types/PokerTableJoin';
+
 import { BaseHandler } from '../BaseHandler';
-import { Result } from '@infra/Result';
 import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
-import { pokerTableJoinSchema, PokerTableJoinErrorCodes } from '@shared/api/poker-tables/types/PokerTableJoin';
+import type { PokerTableJoinPayload, PokerTableJoinOutput } from '../../shared/api/poker-tables/types/PokerTableJoin';
 import { PokerTableDoesNotExistError } from './errors';
 import { Logger } from '../../utils/Logger';
 

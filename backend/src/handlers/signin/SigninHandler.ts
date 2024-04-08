@@ -1,7 +1,6 @@
 import express from 'express';
 import type { Request, Response } from 'express';
 
-import { Result } from '@infra/Result';
 import { SigninErrorCodes } from '@shared/signin/types/Signin';
 
 import { Logger } from '../../utils/Logger';
