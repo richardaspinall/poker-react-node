@@ -1,5 +1,4 @@
 import './Table.css';
-import { socket } from '../../Socket';
 
 import Pot from './Pot/Pot';
 import Board from './Board/Board';
@@ -13,8 +12,8 @@ export function Table({}: TableProps) {
       <div id="table">
         <Pot />
         <Board />
-        <Seat seatNumber="seat-1" chipCount={1000} socket={socket} />
-        <Seat seatNumber="seat-2" chipCount={1000} socket={socket} />
+        <Seat seatNumber="seat-1" chipCount={1000} />
+        <Seat seatNumber="seat-2" chipCount={1000} />
       </div>
       <Actions />
     </>

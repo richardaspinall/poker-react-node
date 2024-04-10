@@ -20,9 +20,8 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     super(pokerTableJoinSchema, PokerTableJoinErrorCodes);
   }
 
-  protected getResult(payload: PokerTableJoinPayload, res: Response<PokerTableJoinOutput>) {
+  protected getResult(payload: PokerTableJoinPayload, res: Response<PokerTableJoinOutput>, username: string) {
     const seatNumber = payload.selectedSeatNumber;
-    const clientId = payload.socketId;
 
     const pokerTable = GameLobbyService.getTable('table_1');
 
@@ -30,7 +29,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
       return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
-    const joinRoom = pokerTable.sitAtTable(seatNumber, clientId);
+    const joinRoom = pokerTable.sitAtTable(seatNumber, username);
 
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
@@ -40,7 +39,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     // Emit event to all clients connected that a player has sat down
     const event = 'player_joined';
     const eventPayload = {
-      playerId: clientId,
+      username: username,
       seatId: seatNumber,
     };
 

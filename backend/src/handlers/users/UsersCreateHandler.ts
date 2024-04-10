@@ -16,7 +16,7 @@ import { BaseHandler } from '../BaseHandler';
 class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super(usersCreateSchema, UsersCreateErrorCodes);
+    super(usersCreateSchema, UsersCreateErrorCodes, false);
   }
 
   protected getResult(payload: UsersCreatePayload, res: Response<UsersCreateOutput>) {

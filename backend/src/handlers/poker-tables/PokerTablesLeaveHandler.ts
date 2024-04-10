@@ -23,15 +23,15 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
     super(pokerTableLeaveSchema, PokerTableLeaveErrorCodes);
   }
 
-  protected getResult(payload: PokerTableLeavePayload, res: Response<PokerTableLeaveOutput>) {
+  protected getResult(payload: PokerTableLeavePayload, res: Response<PokerTableLeaveOutput>, username: string) {
     const seatNumber = payload.selectedSeatNumber;
-    const clientId = payload.socketId;
+
     const pokerTable = GameLobbyService.getTable('table_1');
     if (!pokerTable) {
       return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
-    const leaveRoom = pokerTable.leaveTable(seatNumber, clientId);
+    const leaveRoom = pokerTable.leaveTable(seatNumber, username);
     if (leaveRoom.isError()) {
       debug(leaveRoom.getError());
       return this.handleError(leaveRoom.getError(), res);
@@ -40,7 +40,7 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
     // Emit event to all clients connected that a player has sat down
     const event = 'player_left';
     const eventPayload = {
-      playerId: clientId,
+      username: username,
       seatId: seatNumber,
     };
     const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
