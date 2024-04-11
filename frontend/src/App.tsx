@@ -1,18 +1,14 @@
-import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { socket } from './Socket';
-import { useSocket } from './hooks/useSocket';
-import { ConnectionState } from './components/ConnectionState';
 import { ConnectionManager } from './components/ConnectionManager';
 import { ConnectionState } from './components/ConnectionState';
+import { useSocket } from './hooks/useSocket';
 import { CreateAccount } from './pages/CreateAccount';
 import { Home } from './pages/Home';
 import { Layout } from './pages/Layout';
 import { Play } from './pages/Play';
 import { Signin } from './pages/Signin';
-import { Play } from './pages/Play';
-import { useEffect } from 'react';
 
 // https://socket.io/how-to/use-with-react
 export default function App() {
