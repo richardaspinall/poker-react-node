@@ -2,7 +2,6 @@ import { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiCall from '../../../fetch/apiCall';
-
 import '../CreateAccount/CreateAccountForm.scss';
 
 interface FormData {

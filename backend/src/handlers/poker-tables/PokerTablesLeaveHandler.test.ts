@@ -1,7 +1,7 @@
+import { ResultError, ResultSuccess } from '@infra/Result';
 import { apiTest } from '@tests/helpers/apiTest';
-import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
-import { ResultSuccess, ResultError } from '@infra/Result';
+import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
 
 import { GameLobbyService } from '../../game-lobby-service';
 import { Rooms } from '../../sockets/Rooms';

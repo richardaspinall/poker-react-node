@@ -1,9 +1,8 @@
-import './Table.css';
-
-import Pot from './Pot/Pot';
-import Board from './Board/Board';
-import Seat from './Seat/Seat';
 import Actions from './Actions/Actions';
+import Board from './Board/Board';
+import Pot from './Pot/Pot';
+import Seat from './Seat/Seat';
+import './Table.css';
 
 type TableProps = {};
 export function Table({}: TableProps) {

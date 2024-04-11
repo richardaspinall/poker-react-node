@@ -3,9 +3,9 @@ import type { Request, Response } from 'express';
 
 import { SigninErrorCodes } from '@shared/signin/types/Signin';
 
-import { Logger } from '../../utils/Logger';
+import { SigninOutput, SigninPayload, signinSchema } from '../../shared/signin/types/Signin';
 import { UserService } from '../../users/UserService';
-import { type SigninPayload, type SigninOutput, signinSchema } from '../../shared/signin/types/Signin';
+import { Logger } from '../../utils/Logger';
 import { BaseHandler } from '../BaseHandler';
 
 export const router = express.Router();

@@ -1,4 +1,3 @@
-// Internal
 import { shutDown } from '../../index';
 
 export async function shutDownServer(done: jest.DoneCallback) {

@@ -1,5 +1,5 @@
-// Internal
 import request from 'supertest';
+
 import { httpServer } from '../../index';
 
 export async function apiTest(endpoint: string, payload: any) {

@@ -1,8 +1,8 @@
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
-import { MySqLInstance as DB } from '../db/my-sql';
-import { User } from './User';
 
+import { MySqLInstance as DB } from '../db/my-sql';
 import { UsernameNotFoundError } from '../handlers/signin/errors/UsernameNotFoundError';
+import { User } from './User';
 
 interface NewUserDTO {
   username: string;

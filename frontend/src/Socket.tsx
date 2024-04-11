@@ -1,4 +1,5 @@
 import { io, Socket } from 'socket.io-client';
+
 import { ServerToClientEvents, ClientToServerEvents } from '../../backend/src/sockets/SocketEvents.ts';
 
 // "undefined" means the URL will be computed from the `window.location` object

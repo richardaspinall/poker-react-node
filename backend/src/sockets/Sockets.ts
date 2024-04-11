@@ -1,16 +1,12 @@
-// External
 import { Socket } from 'socket.io';
 
-// Internal
-import { Result, ResultSuccess, ResultError } from '@infra/Result';
-import { SocketServer } from './SocketServer';
+import { Result, ResultError, ResultSuccess } from '@infra/Result';
+
+import { Logger } from '../utils/Logger';
 import { Rooms } from './Rooms';
 import { SocketHandlers } from './SocketEventHandlers';
-
+import { SocketServer } from './SocketServer';
 import { SocketNotFoundError } from './errors/SocketErrors';
-
-// Internal utils
-import { Logger } from '../utils/Logger';
 
 export type ClientId = string;
 

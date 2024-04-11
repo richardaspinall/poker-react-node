@@ -1,13 +1,9 @@
-// External
 import { Server as HttpServer } from 'http';
 import { Server as IOServer, Socket } from 'socket.io';
 
-// Internal
-import { Sockets } from './Sockets';
 import { Logger } from '../utils/Logger';
-
-// Types
 import { ClientToServerEvents, ServerToClientEvents } from './SocketEvents';
+import { Sockets } from './Sockets';
 
 const debug = Logger.newDebugger('APP:SocketServer');
 

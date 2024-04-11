@@ -1,4 +1,3 @@
-// Internal
 import { createPokerTableWithPlayers } from '@tests/helpers/createPokerTableWithPlayers';
 
 describe('createPokerTable', () => {

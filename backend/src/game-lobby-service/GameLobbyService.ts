@@ -1,11 +1,11 @@
-// Internal
-import { GameLobby } from './game-lobby/GameLobby';
-import { PokerTable } from '../game/PokerTable';
-import { Rooms } from '../sockets/Rooms';
 import { Result, ResultError } from '@infra/Result';
-import { Logger } from '../utils/Logger';
+
+import { PokerTable } from '../game/PokerTable';
 import { PokerTableNameTakenError } from '../handlers/poker-tables/errors';
+import { Rooms } from '../sockets/Rooms';
 import { RoomNotCreatedError } from '../sockets/errors/RoomErrors';
+import { Logger } from '../utils/Logger';
+import { GameLobby } from './game-lobby/GameLobby';
 
 const debug = Logger.newDebugger('APP:GameLobbyService');
 

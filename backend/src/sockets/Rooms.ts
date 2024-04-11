@@ -1,10 +1,8 @@
-// External
 import { Socket } from 'socket.io';
 
-// Internal
-import { Result, ResultSuccess, ResultError } from '@infra/Result';
-import { SocketServer } from './SocketServer';
+import { Result, ResultError, ResultSuccess } from '@infra/Result';
 
+import { SocketServer } from './SocketServer';
 import { RoomAlreadyExistsError, RoomNotFoundError } from './errors/RoomErrors';
 
 export type RoomId = string;

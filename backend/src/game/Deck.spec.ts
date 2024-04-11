@@ -1,4 +1,4 @@
-import { Deck, createCardsInSuit, Suit } from './Deck';
+import { Deck, Suit, createCardsInSuit } from './Deck';
 
 describe('Deck', () => {
   describe('getCards', () => {

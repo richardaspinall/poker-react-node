@@ -1,4 +1,3 @@
-// Internal
 import { PokerTable } from '../../game/PokerTable';
 
 type TablesRecord = Record<string, PokerTable>;

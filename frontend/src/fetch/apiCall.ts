@@ -1,6 +1,5 @@
-import FetchFacade from './FetchFacade';
-
 import { ApiMethod, ApiMethodMap } from '../../../backend/src/shared/api/ApiMethodMap';
+import FetchFacade from './FetchFacade';
 
 const apiCall = {
   async post<TMethod extends ApiMethod>(

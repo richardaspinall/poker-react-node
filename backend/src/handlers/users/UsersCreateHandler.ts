@@ -3,11 +3,7 @@ import type { Response } from 'express';
 import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { UsersCreateErrorCodes } from '@shared/api/users/types/UsersCreate';
 
-import {
-  type UsersCreatePayload,
-  type UsersCreateOutput,
-  usersCreateSchema,
-} from '../../shared/api/users/types/UsersCreate';
+import { UsersCreateOutput, UsersCreatePayload, usersCreateSchema } from '../../shared/api/users/types/UsersCreate';
 import { BaseHandler } from '../BaseHandler';
 
 /**
