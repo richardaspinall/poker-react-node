@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
+import { ServerToClientEvents } from '../../../backend/src/sockets/SocketEvents';
 import { socket } from '../Socket';
 
 export function useSocket() {
@@ -14,14 +15,6 @@ export function useSocket() {
       console.log('Hello from server');
     };
 
-    // const onPlayerJoined = () => {
-    //   console.log('Player sat down');
-    // };
-
-    const onPlayerLeft = () => {
-      console.log('Player left');
-    };
-
     const onGameReady = () => {
       console.log('Starting Game');
     };
@@ -30,8 +23,6 @@ export function useSocket() {
     socket.on('connect', onConnect);
     socket.on('disconnect', onDisconnect);
     socket.on('hello_from_server', onHelloFromServer);
-    // socket.on('player_joined', onPlayerJoined);
-    socket.on('player_left', onPlayerLeft);
     socket.on('start_game', onGameReady);
 
     // Cleanup on component unmount
@@ -39,13 +30,11 @@ export function useSocket() {
       socket.off('connect', onConnect);
       socket.off('disconnect', onDisconnect);
       socket.off('hello_from_server', onHelloFromServer);
-      //   socket.off('player_joined', onPlayerJoined);
-      socket.off('player_left', onPlayerLeft);
       socket.off('start_game', onGameReady);
     };
   }, []);
 
-  const subscribeToEvent = useCallback((event, callback) => {
+  const subscribeToEvent = useCallback((event: keyof ServerToClientEvents, callback: () => void) => {
     socket.on(event, callback);
 
     // Return a cleanup function

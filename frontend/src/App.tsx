@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { ConnectionManager } from './components/ConnectionManager';
@@ -12,14 +11,7 @@ import { Signin } from './pages/Signin';
 
 // https://socket.io/how-to/use-with-react
 export default function App() {
-  const { isConnected, subscribeToEvent } = useSocket();
-
-  // TODO: push down to appropriate component
-  useEffect(() => {
-    return subscribeToEvent('player_joined', () => {
-      console.log('Player sat down');
-    });
-  }, [subscribeToEvent]);
+  const { isConnected } = useSocket();
 
   return (
     <div className="App">
