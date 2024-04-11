@@ -55,6 +55,7 @@ Extension: humao.rest-client
 
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.3.0", //sort imports
     // types for each library:
     "@types/chalk": "^2.2.0",
     "@types/debug": "^4.1.12",
