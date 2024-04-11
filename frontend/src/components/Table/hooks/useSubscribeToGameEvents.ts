@@ -1,8 +1,14 @@
 import { useEffect } from 'react';
 
-import { useSocket } from '../../hooks/useSocket';
+import { useSocket } from '../../../hooks/useSocket';
 
-export function useSubscribeToEvents() {
+/*
+ * This hook uses the subscribeToEvent function from useSocket to add events to
+ * the socket connection.
+ *
+ * TODO: We may want to split this into multiple hooks if the number of events grows.
+ */
+export function useSubscribeToGameEvents() {
   const { subscribeToEvent } = useSocket();
 
   useEffect(() => {

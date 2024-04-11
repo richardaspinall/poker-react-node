@@ -6,9 +6,12 @@ import Board from './Board/Board';
 import Pot from './Pot/Pot';
 import Seat from './Seat/Seat';
 import './Table.css';
+import { useSubscribeToGameEvents } from './hooks/useSubscribeToGameEvents';
 
 type TableProps = {};
 export function Table({}: TableProps) {
+  useSubscribeToGameEvents(); // Subscribe to socket events like player joined and player left
+
   return (
     <>
       <div id="table">
