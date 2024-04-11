@@ -1,14 +1,12 @@
-// Internal
 import { MySqLInstance } from '../db/my-sql';
-import { UserRepository } from './UserRepository';
-
 import {
-  mockMySqlInsertSuccess,
-  mockMySqlInsertDuplicateError,
-  mockMySqlSelectSuccess,
-  mockMySqlSelectError,
   mockMySqlClose,
+  mockMySqlInsertDuplicateError,
+  mockMySqlInsertSuccess,
+  mockMySqlSelectError,
+  mockMySqlSelectSuccess,
 } from '../tests/mocks/dbMocks';
+import { UserRepository } from './UserRepository';
 
 describe('UserRepository', () => {
   mockMySqlClose();

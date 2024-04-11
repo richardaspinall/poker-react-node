@@ -1,6 +1,6 @@
-// External
-import debug from 'debug';
 import chalk from 'chalk';
+import debug from 'debug';
+
 import { IBaseError } from '@infra/BaseError';
 
 const infoLog = debug('APP:info');

@@ -1,10 +1,10 @@
+import { ResultError, ResultSuccess } from '@infra/Result';
 import { apiTest } from '@tests/helpers/apiTest';
-import { ResultSuccess, ResultError } from '@infra/Result';
-import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
+import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
 
-import { Rooms } from '../../sockets/Rooms';
 import { GameLobbyService } from '../../game-lobby-service';
+import { Rooms } from '../../sockets/Rooms';
 import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
 
 describe('poker-tables.join', () => {

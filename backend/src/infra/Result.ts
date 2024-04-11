@@ -1,4 +1,5 @@
 import { BaseError } from './BaseError';
+
 /**
  * Result class to handle success and error cases in a consistent way
  */

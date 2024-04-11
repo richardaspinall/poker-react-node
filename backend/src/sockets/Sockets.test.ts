@@ -1,9 +1,8 @@
-// External
-import { io, Socket } from 'socket.io-client';
+import { Socket, io } from 'socket.io-client';
 
-// Internal
-import { SocketServer } from '../index';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
+
+import { SocketServer } from '../index';
 import { Sockets } from './Sockets';
 
 let socket: Socket;

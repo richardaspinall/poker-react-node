@@ -1,14 +1,12 @@
-// External
-import { createServer } from 'http';
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
 import session, { Session } from 'express-session';
+import { createServer } from 'http';
 
-// Internal
-import { router } from '@infra/routes';
 import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
-import { SocketServer } from './sockets/SocketServer';
+import { router } from '@infra/routes';
 
+import { SocketServer } from './sockets/SocketServer';
 import { SessionStore } from './users/SessionStore';
 
 declare module 'http' {

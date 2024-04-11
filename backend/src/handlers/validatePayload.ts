@@ -1,12 +1,9 @@
-// External
 import Joi from 'joi';
 
-// Internal
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
-import { InvalidRequestPayloadError } from './ValidationErrors';
 
-// Internal utils
 import { Logger } from '../utils/Logger';
+import { InvalidRequestPayloadError } from './ValidationErrors';
 
 const debug = Logger.newDebugger('APP:Validation');
 

@@ -1,7 +1,5 @@
-// External
 import { Socket } from 'socket.io';
 
-// Internal utils
 import { Logger } from '../utils/Logger';
 import { ClientToServerEvents, ServerToClientEvents } from './SocketEvents';
 

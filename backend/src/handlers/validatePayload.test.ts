@@ -1,7 +1,5 @@
-// External
-import Joi from 'joi'; // See: https://joi.dev/api/?v=17.12.0
+import Joi from 'joi';
 
-// Internal
 import { validatePayload } from './validatePayload';
 
 describe('validatePayload', () => {

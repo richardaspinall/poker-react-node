@@ -1,6 +1,7 @@
 import { RowDataPacket } from 'mysql2/promise';
 
 import { ResultSuccess } from '@infra/Result';
+
 import { MySqLInstance } from '../../db/my-sql';
 
 export const mockMySqlSelectSessionSuccess = (username: string) => {

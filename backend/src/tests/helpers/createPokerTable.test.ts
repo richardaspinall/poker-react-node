@@ -1,4 +1,3 @@
-// Internal
 import { createPokerTable } from '@tests/helpers/createPokerTable';
 
 describe('createPokerTable', () => {

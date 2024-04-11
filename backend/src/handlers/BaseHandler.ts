@@ -5,8 +5,8 @@ import { IBaseError } from '@infra/BaseError';
 import type { ApiHandler } from '@shared/api/ApiMethodMap';
 import type { BaseOutput } from '@shared/api/BaseOutput';
 
-import { ErrorHandler } from './ErrorHandler';
 import { Logger } from '../utils/Logger';
+import { ErrorHandler } from './ErrorHandler';
 import { UserNotAuthedError } from './users/errors/UserNotAuthedError';
 import { validatePayload } from './validatePayload';
 

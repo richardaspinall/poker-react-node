@@ -1,8 +1,6 @@
-// Types
-import { BaseOutput } from '../../BaseOutput';
-
-// External
 import Joi from 'joi';
+
+import { BaseOutput } from '../../BaseOutput';
 
 export type UsersCreatePayload = {
   username: string;

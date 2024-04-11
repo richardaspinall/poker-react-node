@@ -1,9 +1,8 @@
-// External
-import express, { Request, Response, NextFunction } from 'express';
+import express, { NextFunction, Request, Response } from 'express';
 
-// Internal
-import { routes } from './routeConfig';
 import { ApiHandler } from '@shared/api/ApiMethodMap';
+
+import { routes } from './routeConfig';
 
 export const router = express.Router();
 
