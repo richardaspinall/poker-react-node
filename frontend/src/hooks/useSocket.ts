@@ -1,6 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { ServerToClientEventParams, ServerToClientEvents } from '../../../backend/src/shared/websockets/SocketEvents';
+import {
+  ServerToClientEventParams,
+  ServerToClientEvents,
+} from '../../../backend/src/shared/websockets/WebsocketEvents';
 import { socket } from '../Socket';
 
 export function useSocket() {
