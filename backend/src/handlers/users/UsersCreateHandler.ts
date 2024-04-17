@@ -18,23 +18,16 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
 
   public async getResult(
     payload: UsersCreatePayload,
-    res: Response<UsersCreateOutput>,
-    req: Request<UsersCreatePayload>
+    res: Response<UsersCreateOutput>
   ) {
     const username = payload.username;
     const password = payload.password;
-    const passwordOrError = await UserService.validatePassword(username, password);
-    if (passwordOrError.isError()) {
-      return this.handleError(passwordOrError.getError(), res);
-    }
+    // basic credential validation eg length and character for both
+
     const createUserOrError = await UserRepository.createUser({ username: username, password: password });
     if (createUserOrError.isError()) {
       return this.handleError(createUserOrError.getError(), res);
     }
-    
-    // req.session.username = username;
-    // req.session.authenticated = true;
-  
     return res.send({ ok: true });
   }
 }
