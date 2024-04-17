@@ -1,8 +1,9 @@
-import type { Response } from 'express';
+import type { Request, Response } from 'express';
 
-import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { UsersCreateErrorCodes } from '@shared/api/users/types/UsersCreate';
 
+import { UserRepository } from '../../users/UserRepository';
+import { UserService } from '../../users/UserService';
 import { UsersCreateOutput, UsersCreatePayload, usersCreateSchema } from '../../shared/api/users/types/UsersCreate';
 import { BaseHandler } from '../BaseHandler';
 
@@ -15,11 +16,26 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
     super(usersCreateSchema, UsersCreateErrorCodes, false);
   }
 
-  protected getResult(payload: UsersCreatePayload, res: Response<UsersCreateOutput>) {
+  public async getResult(
+    payload: UsersCreatePayload,
+    res: Response<UsersCreateOutput>,
+    req: Request<UsersCreatePayload>
+  ) {
     const username = payload.username;
     const password = payload.password;
-
-    return this.handleError(new MethodNotImplementedError(), res);
+    const passwordOrError = await UserService.validatePassword(username, password);
+    if (passwordOrError.isError()) {
+      return this.handleError(passwordOrError.getError(), res);
+    }
+    const createUserOrError = await UserRepository.createUser({ username: username, password: password });
+    if (createUserOrError.isError()) {
+      return this.handleError(createUserOrError.getError(), res);
+    }
+    
+    // req.session.username = username;
+    // req.session.authenticated = true;
+  
+    return res.send({ ok: true });
   }
 }
 
