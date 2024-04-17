@@ -33,7 +33,7 @@ export class Rooms {
     return Result.success();
   }
 
-  public static sendEventToRoom(roomId: RoomId, event: string, payload: any): Result<void> {
+  public static sendEventToRoom<TPayload>(roomId: RoomId, event: string, payload: TPayload): Result<void> {
     const roomRes = this.getRoom(roomId);
     if (roomRes.isError()) {
       return Result.error(roomRes.getError());

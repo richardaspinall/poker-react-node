@@ -1,7 +1,8 @@
 import { Socket } from 'socket.io';
 
+import { ClientToServerEvents, ServerToClientEvents } from '@shared/websockets/SocketEvents';
+
 import { Logger } from '../utils/Logger';
-import { ClientToServerEvents, ServerToClientEvents } from './SocketEvents';
 
 const debug = Logger.newDebugger('APP:SocketEventHandlers');
 
