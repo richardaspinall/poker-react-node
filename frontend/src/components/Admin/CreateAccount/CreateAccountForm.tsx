@@ -53,7 +53,7 @@ export function CreateAccountForm() {
     if (result.ok) {
       console.log(result.payload);
       console.log('success');
-      navigate('/login');
+      navigate('/signin');
     } else {
       console.log('error');
       console.log(result.error);
