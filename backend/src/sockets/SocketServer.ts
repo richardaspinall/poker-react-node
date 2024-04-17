@@ -1,7 +1,7 @@
 import { Server as HttpServer } from 'http';
 import { Server as IOServer, Socket } from 'socket.io';
 
-import { ClientToServerEvents, ServerToClientEvents } from '@shared/websockets/SocketEvents';
+import { ClientToServerEvents, ServerToClientEvents } from '@shared/websockets/WebsocketEvents';
 
 import { Logger } from '../utils/Logger';
 import { Sockets } from './Sockets';
