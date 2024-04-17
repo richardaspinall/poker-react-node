@@ -1,6 +1,7 @@
 import type { Response } from 'express';
 
 import { PokerTableJoinErrorCodes, pokerTableJoinSchema } from '@shared/api/poker-tables/types/PokerTableJoin';
+import { playerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../game-lobby-service';
 import type { PokerTableJoinOutput, PokerTableJoinPayload } from '../../shared/api/poker-tables/types/PokerTableJoin';
@@ -40,11 +41,11 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
     const event = 'player_joined';
     const eventPayload = {
       username: username,
-      seatId: seatNumber,
+      seatNumber: seatNumber,
     };
 
     // TODO: maybe shouldn't happen here
-    const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
+    const sendEvents = Rooms.sendEventToRoom<playerJoinedEvent>('table_1', event, eventPayload);
 
     if (sendEvents.isError()) {
       debug(sendEvents.getError());

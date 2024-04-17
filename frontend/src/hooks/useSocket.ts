@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { ServerToClientEvents } from '../../../backend/src/sockets/SocketEvents';
+import { ServerToClientEventParams, ServerToClientEvents } from '../../../backend/src/shared/websockets/SocketEvents';
 import { socket } from '../Socket';
 
 export function useSocket() {
@@ -28,14 +28,17 @@ export function useSocket() {
     };
   }, []);
 
-  const subscribeToEvent = useCallback((event: keyof ServerToClientEvents, callback: () => void) => {
-    socket.on(event, callback);
+  const subscribeToEvent = useCallback(
+    <E extends keyof ServerToClientEvents>(event: E, callback: (payload: ServerToClientEventParams<E>) => void) => {
+      socket.on(event, callback as any);
 
-    // Return a cleanup function
-    return () => {
-      socket.off(event, callback);
-    };
-  }, []);
+      // Return a cleanup function
+      return () => {
+        socket.off(event, callback as any);
+      };
+    },
+    []
+  );
 
   return { isConnected, subscribeToEvent }; // Expose any states or functions that components might need
 }

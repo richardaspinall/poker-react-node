@@ -1,6 +1,7 @@
 import type { Response } from 'express';
 
 import { PokerTableLeaveErrorCodes, pokerTableLeaveSchema } from '@shared/api/poker-tables/types/PokerTableLeave';
+import { playerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../game-lobby-service';
 import type {
@@ -40,9 +41,9 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
     const event = 'player_left';
     const eventPayload = {
       username: username,
-      seatId: seatNumber,
+      seatNumber: seatNumber,
     };
-    const sendEvents = Rooms.sendEventToRoom('table_1', event, eventPayload);
+    const sendEvents = Rooms.sendEventToRoom<playerLeftEvent>('table_1', event, eventPayload);
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return this.handleError(sendEvents.getError(), res);
