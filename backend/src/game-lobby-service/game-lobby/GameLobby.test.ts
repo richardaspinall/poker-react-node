@@ -12,28 +12,28 @@ describe('GameLobby', () => {
     pokerTable = createPokerTable('table-1', 2);
   });
 
-  describe('addTable', () => {
+  describe('addPokerTable', () => {
     it('should add a table to the game lobby', () => {
-      gameLobby.addTable(pokerTable);
-      const tables = gameLobby.getTables();
+      gameLobby.addPokerTable(pokerTable);
+      const pokerTables = gameLobby.getPokerTables();
 
-      expect(tables[pokerTable.getName()]).toBe(pokerTable);
+      expect(pokerTables[pokerTable.getName()]).toBe(pokerTable);
     });
   });
 
-  describe('getTables', () => {
+  describe('getPokerTables', () => {
     it('should return one poker table', () => {
-      gameLobby.addTable(pokerTable);
-      const tables = gameLobby.getTables();
+      gameLobby.addPokerTable(pokerTable);
+      const pokerTables = gameLobby.getPokerTables();
 
-      expect(tables[pokerTable.getName()]).toBe(pokerTable);
-      expect(Object.keys(tables).length).toEqual(1);
+      expect(pokerTables[pokerTable.getName()]).toBe(pokerTable);
+      expect(Object.keys(pokerTables).length).toEqual(1);
     });
   });
 
   describe('isNameTaken', () => {
     it('should return true if the name is taken', () => {
-      gameLobby.addTable(pokerTable);
+      gameLobby.addPokerTable(pokerTable);
       expect(gameLobby.isNameTaken('table-1')).toEqual(true);
     });
 

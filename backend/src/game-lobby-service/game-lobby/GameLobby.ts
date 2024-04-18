@@ -1,25 +1,25 @@
 import { PokerTable } from '../../game/PokerTable';
 
-type TablesRecord = Record<string, PokerTable>;
+type PokerTablesRecord = Record<string, PokerTable>;
 
 /**
  * GameLobby is responsible for holding all the poker tables
  */
 export class GameLobby {
   // TODO: This would be a database eventually
-  private tables: TablesRecord = {};
+  private pokerTables: PokerTablesRecord = {};
 
-  public addTable(pokerTable: PokerTable) {
-    this.tables[pokerTable.getName()] = pokerTable;
+  public addPokerTable(pokerTable: PokerTable) {
+    this.pokerTables[pokerTable.getName()] = pokerTable;
   }
 
-  public getTables(): TablesRecord {
-    return this.tables;
+  public getPokerTables(): PokerTablesRecord {
+    return this.pokerTables;
   }
 
   public isNameTaken(name: string): boolean {
-    return !!this.tables[name];
+    return !!this.pokerTables[name];
   }
 
-  // Methods remove tables, join/leave tables.
+  // Methods remove pokerTables, join/leave pokerTables.
 }

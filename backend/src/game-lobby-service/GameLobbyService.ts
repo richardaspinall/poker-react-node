@@ -36,13 +36,13 @@ export class GameLobbyService {
     }
     const pokerTable = res.getValue();
 
-    this.gameLobby.addTable(pokerTable);
+    this.gameLobby.addPokerTable(pokerTable);
 
     return Result.success();
   }
 
-  public getTable(name: string): PokerTable | undefined {
-    const tables = this.gameLobby.getTables();
-    return tables[name];
+  public getPokerTable(name: string): PokerTable | undefined {
+    const pokerTables = this.gameLobby.getPokerTables();
+    return pokerTables[name];
   }
 }

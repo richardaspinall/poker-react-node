@@ -8,8 +8,8 @@
 body {
   padding: 100px;
 }
-/* Table */
-#table {
+/* PokerTable */
+#poker-table {
   height: 579px;
   width: 998px;
   position: relative;
@@ -20,7 +20,7 @@ body {
   background-color: #465f51;
 }
 
-#table:after {
+#poker-table:after {
   content: ' ';
   position: absolute;
   top: 0px;

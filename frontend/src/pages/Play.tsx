@@ -1,9 +1,9 @@
-import { Table } from '../components/Table/Table';
+import { PokerTable } from '../components/PokerTable/PokerTable';
 
 export function Play() {
   return (
     <>
-      <div>Play</div> <Table />
+      <div>Play</div> <PokerTable />
     </>
   );
 }

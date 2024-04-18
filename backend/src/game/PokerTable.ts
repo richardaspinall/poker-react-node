@@ -2,7 +2,7 @@ import { Result, ResultSuccess } from '@infra/Result';
 
 import {
   PlayerAlreadySeatedError,
-  PlayerNotFoundAtTableError,
+  PlayerNotFoundAtPokerTableError,
   SeatNotFoundError,
   SeatTakenError,
 } from '../handlers/poker-tables/errors';
@@ -13,11 +13,11 @@ import { Seat } from './Seat';
 */
 
 export class PokerTable {
-  private tableName: string;
+  private name: string;
   private seats: Seat[];
 
-  private constructor(tableName: string, numberOfSeats: number) {
-    this.tableName = tableName;
+  private constructor(name: string, numberOfSeats: number) {
+    this.name = name;
 
     const seatsArray = [];
     const seatString = 'seat-';
@@ -30,12 +30,12 @@ export class PokerTable {
     this.seats = seatsArray;
   }
 
-  public static createPokerTable(tableName: string, numberOfSeats: number): Result<PokerTable> {
-    const newTable = new PokerTable(tableName, numberOfSeats);
-    return new ResultSuccess(newTable);
+  public static createPokerTable(pokerTableName: string, numberOfSeats: number): Result<PokerTable> {
+    const newPokerTable = new PokerTable(pokerTableName, numberOfSeats);
+    return new ResultSuccess(newPokerTable);
   }
 
-  public sitAtTable(seatNumber: string, username: string): Result<void> {
+  public addPlayer(seatNumber: string, username: string): Result<void> {
     for (const seat of this.seats) {
       if (seat.username === username) {
         return Result.error(new PlayerAlreadySeatedError());
@@ -55,7 +55,7 @@ export class PokerTable {
     return Result.error(new SeatNotFoundError());
   }
 
-  public leaveTable(seatNumber: string, username: string): Result<void> {
+  public removePlayer(seatNumber: string, username: string): Result<void> {
     for (const seat of this.seats) {
       if (seat.username === username && seat.seatNumber === seatNumber) {
         seat.username = '';
@@ -63,7 +63,7 @@ export class PokerTable {
         return Result.success();
       }
     }
-    return Result.error(new PlayerNotFoundAtTableError());
+    return Result.error(new PlayerNotFoundAtPokerTableError());
   }
 
   public getAvailableSeats(): Seat[] {
@@ -78,10 +78,10 @@ export class PokerTable {
   }
 
   public getName() {
-    return this.tableName;
+    return this.name;
   }
 
-  public checkTableReady(): boolean {
+  public isPokerTableReady(): boolean {
     for (const seat of this.seats) {
       if (seat.username == '') {
         return false;

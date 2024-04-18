@@ -1,7 +1,7 @@
 import type { Response } from 'express';
 
 import { PokerTableLeaveErrorCodes, pokerTableLeaveSchema } from '@shared/api/poker-tables/types/PokerTableLeave';
-import { playerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
+import { PlayerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../game-lobby-service';
 import type {
@@ -26,12 +26,12 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
   protected getResult(payload: PokerTableLeavePayload, res: Response<PokerTableLeaveOutput>, username: string) {
     const seatNumber = payload.selectedSeatNumber;
 
-    const pokerTable = GameLobbyService.getTable('table_1');
+    const pokerTable = GameLobbyService.getPokerTable('table_1');
     if (!pokerTable) {
       return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
-    const leaveRoom = pokerTable.leaveTable(seatNumber, username);
+    const leaveRoom = pokerTable.removePlayer(seatNumber, username);
     if (leaveRoom.isError()) {
       debug(leaveRoom.getError());
       return this.handleError(leaveRoom.getError(), res);
@@ -39,11 +39,11 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
 
     // Emit event to all clients connected that a player has sat down
     const event = 'player_left';
-    const eventPayload = {
+    const playerLeftEventPayload = {
       username: username,
       seatNumber: seatNumber,
     };
-    const sendEvents = Rooms.sendEventToRoom<playerLeftEvent>('table_1', event, eventPayload);
+    const sendEvents = Rooms.sendEventToRoom<PlayerLeftEvent>('table_1', event, playerLeftEventPayload);
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return this.handleError(sendEvents.getError(), res);

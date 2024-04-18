@@ -10,17 +10,17 @@ describe('GameLobbyService', () => {
     gameLobbyService = new GameLobbyService();
   });
 
-  describe('getTable', () => {
+  describe('getPokerTable', () => {
     it('should get a poker table', () => {
       gameLobbyService.createPokerTable('table_2', 2);
 
-      const table = gameLobbyService.getTable('table_2');
-      expect(table?.getName()).toEqual('table_2');
+      const pokerTable = gameLobbyService.getPokerTable('table_2');
+      expect(pokerTable?.getName()).toEqual('table_2');
     });
 
     it('should return undefined if the table does not exist', () => {
-      const table = gameLobbyService.getTable('table_2');
-      expect(table).toEqual(undefined);
+      const pokerTable = gameLobbyService.getPokerTable('table_2');
+      expect(pokerTable).toEqual(undefined);
     });
   });
 
@@ -30,8 +30,8 @@ describe('GameLobbyService', () => {
       jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table_2'));
       gameLobbyService.createPokerTable('table_2', 2);
 
-      const table = gameLobbyService.getTable('table_2');
-      expect(table?.getName()).toEqual('table_2');
+      const pokerTable = gameLobbyService.getPokerTable('table_2');
+      expect(pokerTable?.getName()).toEqual('table_2');
     });
 
     it('should return an error if the name is taken', () => {
