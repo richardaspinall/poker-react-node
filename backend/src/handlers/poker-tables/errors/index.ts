@@ -1,5 +1,5 @@
 import { PlayerAlreadySeatedError } from './PlayerAlreadySeatedError';
-import { PlayerNotFoundAtTableError } from './PlayerNotFoundAtTableError';
+import { PlayerNotFoundAtPokerTableError } from './PlayerNotFoundAtPokerTableError';
 import { PokerTableDoesNotExistError } from './PokerTableDoesNotExistError';
 import { PokerTableNameTakenError } from './PokerTableNameTakenError';
 import { SeatNotFoundError } from './SeatNotFoundError';
@@ -7,7 +7,7 @@ import { SeatTakenError } from './SeatTakenError';
 
 export {
   PlayerAlreadySeatedError,
-  PlayerNotFoundAtTableError,
+  PlayerNotFoundAtPokerTableError,
   PokerTableDoesNotExistError,
   PokerTableNameTakenError,
   SeatNotFoundError,

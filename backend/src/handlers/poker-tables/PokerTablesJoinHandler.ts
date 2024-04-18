@@ -30,7 +30,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
       return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
-    const joinRoom = pokerTable.sitAtPokerTable(seatNumber, username);
+    const joinRoom = pokerTable.addPlayer(seatNumber, username);
 
     if (joinRoom.isError()) {
       debug(joinRoom.getError());

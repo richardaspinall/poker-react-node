@@ -31,7 +31,7 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
       return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
-    const leaveRoom = pokerTable.leavePokerTable(seatNumber, username);
+    const leaveRoom = pokerTable.removePlayer(seatNumber, username);
     if (leaveRoom.isError()) {
       debug(leaveRoom.getError());
       return this.handleError(leaveRoom.getError(), res);

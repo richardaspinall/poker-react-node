@@ -2,7 +2,7 @@ import { Result, ResultSuccess } from '@infra/Result';
 
 import {
   PlayerAlreadySeatedError,
-  PlayerNotFoundAtTableError,
+  PlayerNotFoundAtPokerTableError,
   SeatNotFoundError,
   SeatTakenError,
 } from '../handlers/poker-tables/errors';
@@ -35,7 +35,7 @@ export class PokerTable {
     return new ResultSuccess(newPokerTable);
   }
 
-  public sitAtPokerTable(seatNumber: string, username: string): Result<void> {
+  public addPlayer(seatNumber: string, username: string): Result<void> {
     for (const seat of this.seats) {
       if (seat.username === username) {
         return Result.error(new PlayerAlreadySeatedError());
@@ -55,7 +55,7 @@ export class PokerTable {
     return Result.error(new SeatNotFoundError());
   }
 
-  public leavePokerTable(seatNumber: string, username: string): Result<void> {
+  public removePlayer(seatNumber: string, username: string): Result<void> {
     for (const seat of this.seats) {
       if (seat.username === username && seat.seatNumber === seatNumber) {
         seat.username = '';
@@ -63,7 +63,7 @@ export class PokerTable {
         return Result.success();
       }
     }
-    return Result.error(new PlayerNotFoundAtTableError());
+    return Result.error(new PlayerNotFoundAtPokerTableError());
   }
 
   public getAvailableSeats(): Seat[] {
