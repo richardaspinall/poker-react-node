@@ -1,4 +1,4 @@
-import { PokerTable } from '../components/Table/PokerTable';
+import { PokerTable } from '../components/PokerTable/PokerTable';
 
 export function Play() {
   return (
