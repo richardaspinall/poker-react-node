@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux';
 
 import { selectSeats } from '../../store/selectors.ts';
-import Actions from './Actions/Actions.tsx';
-import Board from './Board/Board.tsx';
+import Actions from './Actions/Actions';
+import Board from './Board/Board';
 import './PokerTable.css';
-import Pot from './Pot/Pot.tsx';
-import Seat from './Seat/Seat.tsx';
+import Pot from './Pot/Pot';
+import Seat from './Seat/Seat';
 import { useSubscribeToGameEvents } from './hooks/useSubscribeToGameEvents.ts';
 
 type PokerTableProps = {};
@@ -15,7 +15,7 @@ export function PokerTable({}: PokerTableProps) {
   const seats = useSelector(selectSeats);
   return (
     <>
-      <div id="pokertable">
+      <div id="poker-table">
         <Pot />
         <Board />
         {seats.value?.map((seat) => (

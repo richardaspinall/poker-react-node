@@ -15,14 +15,15 @@ export function useSubscribeToGameEvents() {
   const { subscribeToEvent } = useSocket();
 
   useEffect(() => {
-    const subscribeToPlayerJoined = subscribeToEvent('player_joined', (playerData) => {
+    const subscribeToPlayerJoined = subscribeToEvent('player_joined', (payload) => {
       console.log('Player sat down');
-      dispatch(addUser({ username: playerData.username, seatNumber: playerData.seatNumber }));
+
+      dispatch(addUser({ username: payload.username, seatNumber: payload.seatNumber }));
     });
-    const subscribeToPlayerLeave = subscribeToEvent('player_left', (playerData) => {
+    const subscribeToPlayerLeft = subscribeToEvent('player_left', (payload) => {
       console.log('Player left the table');
 
-      dispatch(removeUser({ username: playerData.username, seatNumber: playerData.seatNumber }));
+      dispatch(removeUser({ username: payload.username, seatNumber: payload.seatNumber }));
     });
 
     const subscribeToStartGame = subscribeToEvent('start_game', () => {
@@ -31,7 +32,7 @@ export function useSubscribeToGameEvents() {
 
     return () => {
       subscribeToPlayerJoined();
-      subscribeToPlayerLeave();
+      subscribeToPlayerLeft();
       subscribeToStartGame();
     };
   }, [dispatch, subscribeToEvent]);
