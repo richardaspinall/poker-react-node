@@ -37,7 +37,6 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
       return this.handleError(joinRoom.getError(), res);
     }
 
-    // Emit event to all clients connected that a player has sat down
     const event = 'player_joined';
     const playerJoinedEventPayload = {
       username: username,

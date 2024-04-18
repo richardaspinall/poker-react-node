@@ -4,10 +4,11 @@ import apiCall from '../../../fetch/apiCall';
 
 type SeatProps = {
   seatNumber: string;
+  userName?: string;
   chipCount: number;
 };
 
-export default function Seat({ seatNumber, chipCount }: SeatProps) {
+export default function Seat({ seatNumber, userName, chipCount }: SeatProps) {
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber };
 
@@ -30,7 +31,7 @@ export default function Seat({ seatNumber, chipCount }: SeatProps) {
   return (
     <div>
       <button className="seat" id={seatNumber} data-chip-count={chipCount} onClick={onPlayerSit}>
-        Empty
+        {userName ? userName : 'Empty'}
       </button>
       <button onClick={playerLeave}>Leave Seat {seatNumber}</button>
     </div>
