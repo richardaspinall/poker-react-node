@@ -1,7 +1,7 @@
 import type { Response } from 'express';
 
 import { PokerTableJoinErrorCodes, pokerTableJoinSchema } from '@shared/api/poker-tables/types/PokerTableJoin';
-import { playerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
+import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../game-lobby-service';
 import type { PokerTableJoinOutput, PokerTableJoinPayload } from '../../shared/api/poker-tables/types/PokerTableJoin';
@@ -24,13 +24,13 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
   protected getResult(payload: PokerTableJoinPayload, res: Response<PokerTableJoinOutput>, username: string) {
     const seatNumber = payload.selectedSeatNumber;
 
-    const pokerTable = GameLobbyService.getTable('table_1');
+    const pokerTable = GameLobbyService.getPokerTable('table_1');
 
     if (!pokerTable) {
       return this.handleError(new PokerTableDoesNotExistError(), res);
     }
 
-    const joinRoom = pokerTable.sitAtTable(seatNumber, username);
+    const joinRoom = pokerTable.sitAtPokerTable(seatNumber, username);
 
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
@@ -39,20 +39,20 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
 
     // Emit event to all clients connected that a player has sat down
     const event = 'player_joined';
-    const eventPayload = {
+    const playerJoinedEventPayload = {
       username: username,
       seatNumber: seatNumber,
     };
 
     // TODO: maybe shouldn't happen here
-    const sendEvents = Rooms.sendEventToRoom<playerJoinedEvent>('table_1', event, eventPayload);
+    const sendEvents = Rooms.sendEventToRoom<PlayerJoinedEvent>('table_1', event, playerJoinedEventPayload);
 
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return this.handleError(sendEvents.getError(), res);
     }
 
-    const tableIsReady = pokerTable.checkTableReady();
+    const tableIsReady = pokerTable.isPokerTableReady();
 
     if (tableIsReady) {
       const event = 'start_game';

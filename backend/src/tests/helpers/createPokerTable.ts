@@ -15,7 +15,7 @@ export function createPokerTable(tableName: string, numberOfSeats: number): Poke
       throw new Error(res.getError().message);
     }
 
-    const getTableRes = gameLobbyService.getTable(tableName);
+    const getTableRes = gameLobbyService.getPokerTable(tableName);
 
     if (!getTableRes) {
       throw new Error('Poker table not found');

@@ -65,9 +65,9 @@ describe('PokerTable', () => {
   });
   describe('getName', () => {
     it('should return the name of the table', () => {
-      const tableName = 'table_name';
+      const pokerTableName = 'table_name';
       const numberOfSeats = 2;
-      const pokerTable = createPokerTable(tableName, numberOfSeats);
+      const pokerTable = createPokerTable(pokerTableName, numberOfSeats);
 
       expect(pokerTable.getName()).toEqual('table_name');
     });
@@ -75,9 +75,9 @@ describe('PokerTable', () => {
 
   describe('leaveTable', () => {
     it('should confirm a player has left the table', () => {
-      const tableName = 'table_1';
+      const pokerTableName = 'table_1';
       const numberOfSeats = 2;
-      const { pokerTable, playerNames } = createPokerTableWithPlayers(tableName, numberOfSeats);
+      const { pokerTable, playerNames } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
       const player1 = playerNames[0];
 
       const res = pokerTable.leaveTable('seat-1', player1);
@@ -94,9 +94,9 @@ describe('PokerTable', () => {
 
     it('should error when the player is not already sitting at the table', () => {
       mockSendEventToRoomSuccess();
-      const tableName = 'table_1';
+      const pokerTableName = 'table_1';
       const numberOfSeats = 2;
-      const pokerTable = createPokerTable(tableName, numberOfSeats);
+      const pokerTable = createPokerTable(pokerTableName, numberOfSeats);
 
       const res = pokerTable.leaveTable('seat-1', 'a1');
 
@@ -106,9 +106,9 @@ describe('PokerTable', () => {
     });
 
     it('should return the available seat', () => {
-      const tableName = 'table_1';
+      const pokerTableName = 'table_1';
       const numberOfSeats = 2;
-      const { pokerTable, playerNames } = createPokerTableWithPlayers(tableName, numberOfSeats);
+      const { pokerTable, playerNames } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
       const player1 = playerNames[0];
 
       const res = pokerTable.leaveTable('seat-1', player1);
@@ -123,9 +123,9 @@ describe('PokerTable', () => {
 
   describe('getAvailableSeats', () => {
     it('should return two seats when a table has been created and no one has sat down', () => {
-      const tableName = 'table_1';
+      const pokerTableName = 'table_1';
       const numberOfSeats = 2;
-      const pokerTable = createPokerTable(tableName, numberOfSeats);
+      const pokerTable = createPokerTable(pokerTableName, numberOfSeats);
 
       const availableSeats = pokerTable.getAvailableSeats();
 
@@ -135,9 +135,9 @@ describe('PokerTable', () => {
     });
 
     it('should return an empty array when there are no seats available', () => {
-      const tableName = 'table_1';
+      const pokerTableName = 'table_1';
       const numberOfSeats = 2;
-      const { pokerTable } = createPokerTableWithPlayers(tableName, numberOfSeats);
+      const { pokerTable } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
 
       const availableSeats = pokerTable.getAvailableSeats();
 
