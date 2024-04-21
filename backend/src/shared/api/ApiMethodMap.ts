@@ -3,6 +3,7 @@ import type { NextFunction, Request, Response } from 'express';
 import type { SigninOutput, SigninPayload } from '@shared/signin/types/Signin';
 
 import type { BaseOutput } from './BaseOutput';
+import type { PokerTableGetSeatsOutput, PokerTableGetSeatsPayload } from './poker-tables/types/PokerTableGetSeats';
 import type { PokerTableJoinOutput, PokerTableJoinPayload } from './poker-tables/types/PokerTableJoin';
 import type { PokerTableLeaveOutput, PokerTableLeavePayload } from './poker-tables/types/PokerTableLeave';
 import type { UsersCreateOutput, UsersCreatePayload } from './users/types/UsersCreate';
@@ -19,6 +20,10 @@ export interface ApiMethodMap {
   signin: {
     request: SigninPayload;
     response: SigninOutput;
+  };
+  'poker-tables.getSeats': {
+    request: PokerTableGetSeatsPayload;
+    response: PokerTableGetSeatsOutput;
   };
   'poker-tables.join': {
     request: PokerTableJoinPayload;

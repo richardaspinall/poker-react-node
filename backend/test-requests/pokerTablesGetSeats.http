@@ -1,0 +1,7 @@
+
+POST http://localhost:3000/api/actions/poker-tables.getSeats
+content-type: application/json
+
+{
+    "pokerTableName": "table_1"
+}

@@ -1,4 +1,4 @@
-## Creating an endpoint
+# Implementing an endpoint
 
 This document walks through the various parts required to implement an endpoint.
 
@@ -24,7 +24,7 @@ I.e
 
 ```ts
 export type NounVerbPayload = {
-key: value type;
+  key: value type;
 };
 
 export interface NounVerbOutput extends BaseOutput {}
@@ -137,12 +137,16 @@ Logic to run when the endpoint is requested. This file makes use of the expected
 I.e
 
 ```ts
-class NounVerbHandler extends BaseHandler<NounVerbPayload, NounVerbOutput> {
+import type { Response } from 'express';
+
+import { BaseHandler } from '../BaseHandler';
+
+export class Handler extends BaseHandler<{ TPayload }, { TOutput }> {
   constructor() {
-    super(nounVerbSchema);
+    super(schema, errors);
   }
 
-  protected getResult(payload: NounVerbPayload, res: Response<NounVerbOutput>) {
+  protected getResult(payload: { TPayload }, res: Response<{ TOutput }>) {
     return res.send({ ok: true });
   }
 }

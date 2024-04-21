@@ -12,6 +12,12 @@ export const ApiMethods: { [key: string]: ApiMethodShape } = {
     handler: '../../handlers/signin/SigninHandler.ts',
     handlerName: 'SigninHandler',
   },
+  getSeats: {
+    httpMethod: 'post',
+    path: 'poker-tables.getSeats',
+    handler: '../../handlers/poker-tables/PokerTablesGetSeatsHandler.ts',
+    handlerName: 'PokerTablesGetSeatsHandler',
+  },
   tablesJoin: {
     httpMethod: 'post',
     path: 'poker-tables.join',
