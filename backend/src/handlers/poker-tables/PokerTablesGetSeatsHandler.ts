@@ -1,5 +1,8 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { PokerTableGetSeatsOutputSchema, PokerTableGetSeatsPayloadSchema } from '@shared/api/poker-tables/schemas/test';
+import {
+  PokerTableGetSeatsOutputSchema,
+  PokerTableGetSeatsPayloadSchema,
+} from '@shared/api/poker-tables/schemas/PokerTableGetSeatsOutputSchema';
 import {
   PokerTableGetSeatsErrorCodes,
   PokerTableGetSeatsOutput,
