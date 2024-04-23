@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
 
 import { Logger } from '../utils/Logger';
-import { InvalidRequestPayloadError } from './ValidationErrors';
+import { InvalidPayloadError } from './ValidationErrors';
 
 const debug = Logger.newDebugger('APP:Validation');
 
@@ -23,7 +23,7 @@ export function validatePayload<TPayload>(
 
   if (error) {
     debug(error.details);
-    return new ResultError(new InvalidRequestPayloadError(error.details));
+    return new ResultError(new InvalidPayloadError(error.details));
   }
 
   return new ResultSuccess(value);
