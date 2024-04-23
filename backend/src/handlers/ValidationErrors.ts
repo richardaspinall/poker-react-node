@@ -14,6 +14,10 @@ export class InvalidRequestPayloadError extends BaseError {
 
 export class InvalidResponsePayloadError extends BaseError {
   constructor(details: any) {
-    super('invalid_response_payload', 'Invalid response payload', details);
+    super(
+      'invalid_response_payload',
+      'There is a mismatch with what is actually returned and the associated OutputSchema for the handler. Ensure to only return what you have defined in the OutputSchema of the handler',
+      details
+    );
   }
 }
