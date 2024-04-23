@@ -8,6 +8,7 @@ import type { BaseOutput } from '@shared/api/BaseOutput';
 
 import { Logger } from '../utils/Logger';
 import { ErrorHandler } from './ErrorHandler';
+import { InvalidRequestPayloadError, InvalidResponsePayloadError } from './ValidationErrors';
 import { UserNotAuthedError } from './users/errors/UserNotAuthedError';
 import { validatePayload } from './validatePayload';
 
@@ -59,7 +60,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
 
     if (payload.isError()) {
       const error = payload.getError();
-      return this.handleError(error, res);
+      return this.handleError(new InvalidRequestPayloadError(error), res);
     }
 
     const userParam = this.requiresAuthentication ? user : undefined;
@@ -73,7 +74,8 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     const outputPayload = validatePayload<TOutput>(this.outputValidationSchema, output.getValue());
     if (outputPayload.isError()) {
       const error = outputPayload.getError();
-      return this.handleError(error, res);
+
+      return this.handleError(new InvalidResponsePayloadError(error), res);
     }
 
     return res.send(outputPayload.getValue());
