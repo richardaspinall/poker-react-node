@@ -101,14 +101,16 @@ import type { UsersCreatePayload, UsersCreateOutput } from './types/UsersCreate'
 
 Location: `backend/src/shared/api/{domain}/types/NounVerb.ts`
 
-We leverage a third-party data validation library 'Joi' to validate the payloads the endpoint receives. Joi works off the payload shape we define above.
+We leverage a third-party data validation library 'Joi' to validate the payloads the endpoint receives and outputs. Joi works off the payload shape we define above.
+
+**NOTE:** ensure to add `.unknown` to the `OutputSchema` otherwise we could leak information. See: https://github.com/richardaspinall/poker-react-node/pull/101
 
 Docs: https://joi.dev/api/?v=17.12.2
 
 I.e.
 
 ```ts
-export const nounVerbSchema =
+export const NounVerbSchema =
   Joi.object <
   NounVerbPayload >
   {
@@ -119,13 +121,17 @@ export const nounVerbSchema =
 Example
 
 ```ts
-export const usersCreateSchema =
+export const UsersCreatePayloadSchema =
   Joi.object <
   UsersCreatePayload >
   {
     username: Joi.string().required(),
     password: Joi.string().required(),
   };
+
+export const UsersCreateOutputSchema = Joi.object({
+  ok: Joi.boolean().required(),
+}).unknown(false);
 ```
 
 ## Handler
@@ -137,17 +143,24 @@ Logic to run when the endpoint is requested. This file makes use of the expected
 I.e
 
 ```ts
+import { ResultError, ResultSuccess } from '@infra/Result';
+
 import type { Response } from 'express';
+
+import { PayloadSchema, OutputSchema } from '../';
 
 import { BaseHandler } from '../BaseHandler';
 
 export class Handler extends BaseHandler<{ TPayload }, { TOutput }> {
   constructor() {
-    super(schema, errors);
+    super(PayloadSchema, OutputSchema, errors);
   }
 
-  protected getResult(payload: { TPayload }, res: Response<{ TOutput }>) {
-    return res.send({ ok: true });
+  protected getResult(payload: { TPayload }) {
+    if (error) {
+      return new ResultError(new SomeError()); // See bewlow ## Error handler
+    }
+    return new ResultSucess({ ok: true });
   }
 }
 ```
