@@ -1,9 +1,10 @@
 import express from 'express';
-import type { Request, Response } from 'express';
+import type { Request } from 'express';
 
+import { ResultError, ResultSuccess } from '@infra/Result';
 import { SigninErrorCodes } from '@shared/signin/types/Signin';
 
-import { SigninOutput, SigninPayload, signinSchema } from '../../shared/signin/types/Signin';
+import { SigninOutput, SigninOutputSchema, SigninPayload, SigninPayloadSchema } from '../../shared/signin/types/Signin';
 import { UserService } from '../../users/UserService';
 import { Logger } from '../../utils/Logger';
 import { BaseHandler } from '../BaseHandler';
@@ -15,13 +16,12 @@ export const router = express.Router();
  */
 class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
   constructor() {
-    super(signinSchema, SigninErrorCodes, false);
+    super(SigninPayloadSchema, SigninOutputSchema, SigninErrorCodes, false);
   }
 
   //
-  public async getResult(
+  protected async getResult(
     payload: SigninPayload,
-    res: Response<SigninOutput>,
     _user: string /* unused, used in other class methods */,
     req: Request<SigninPayload>
   ) {
@@ -32,7 +32,7 @@ class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
     const passwordOrError = await UserService.validatePassword(username, password);
 
     if (passwordOrError.isError()) {
-      return this.handleError(passwordOrError.getError(), res);
+      return new ResultError(passwordOrError.getError());
     }
 
     if (req.session.authenticated) {
@@ -42,7 +42,7 @@ class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
       req.session.authenticated = true;
     }
 
-    return res.send({ ok: true });
+    return new ResultSuccess<SigninOutput>({ ok: true });
   }
 }
 
