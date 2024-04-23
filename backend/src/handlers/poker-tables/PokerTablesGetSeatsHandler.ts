@@ -26,6 +26,11 @@ export class PokerTablesGetSeatsHandler extends BaseHandler<PokerTableGetSeatsPa
 
     const seats = pokerTable.getSeats();
 
-    return new ResultSuccess({ ok: true, seats });
+    const filteredSeats = seats.map((seat) => ({
+      seatNumber: seat.seatNumber,
+      username: seat.username,
+    }));
+
+    return new ResultSuccess({ ok: true, seats: filteredSeats });
   }
 }
