@@ -4,12 +4,11 @@ import {
   PlayerJoinedEvent,
   PlayerLeftEvent,
 } from '../../../backend/src/shared/websockets/poker-tables/types/PokerTableEvents';
+import fetchSeats from '../components/PokerTable/fetchSeats';
 
 type Seat = {
   seatNumber: string;
-  player?: {
-    username: string;
-  };
+  username?: string;
 };
 
 interface SeatsSlice {
@@ -33,11 +32,11 @@ const initialState: SeatsSlice = {
   error: null,
 };
 
-function updateSeats(seats: Seat[], seatNumber: string, player: { username: string } | undefined = undefined) {
+function updateSeats(seats: Seat[], seatNumber: string, username: string | undefined = undefined) {
   const seatIndex = seats.findIndex((seat) => seat.seatNumber === seatNumber);
 
   if (seatIndex !== -1) {
-    seats[seatIndex].player = player;
+    seats[seatIndex].username = username;
   }
 
   return seats;
@@ -55,12 +54,27 @@ export const seatsSlice = createSlice({
     },
     addUser: (state, action: PayloadAction<PlayerJoinedEvent>) => {
       const { username, seatNumber } = action.payload;
-      state.value = updateSeats(state.value, seatNumber, { username });
+      state.value = updateSeats(state.value, seatNumber, username);
     },
     removeUser: (state, action: PayloadAction<PlayerLeftEvent>) => {
       const { seatNumber } = action.payload;
       state.value = updateSeats(state.value, seatNumber);
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchSeats.pending, (seatsSlice) => {
+        seatsSlice.loading = true;
+      })
+      .addCase(fetchSeats.fulfilled, (seatsSlice, action) => {
+        seatsSlice.loading = false;
+        seatsSlice.value = action.payload;
+      })
+      .addCase(fetchSeats.rejected, (seatsSlice, action) => {
+        seatsSlice.loading = false;
+        // Assigning the error message to the state
+        seatsSlice.error = action.error;
+      });
   },
 });
 
