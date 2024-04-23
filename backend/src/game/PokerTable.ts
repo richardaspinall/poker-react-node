@@ -77,6 +77,10 @@ export class PokerTable {
     return availableSeats;
   }
 
+  public getSeats(): Seat[] {
+    return this.seats;
+  }
+
   public getName() {
     return this.name;
   }
