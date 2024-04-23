@@ -1,6 +1,8 @@
-import type { Response } from 'express';
-
-import { pokerTableGetSeatsSchema } from '@shared/api/poker-tables/schemas/pokerTableGetSeatsSchema';
+import { ResultError, ResultSuccess } from '@infra/Result';
+import {
+  PokerTableGetSeatsOutputSchema,
+  PokerTableGetSeatsPayloadSchema,
+} from '@shared/api/poker-tables/schemas/PokerTableGetSeatsSchema';
 import {
   PokerTableGetSeatsErrorCodes,
   PokerTableGetSeatsOutput,
@@ -13,18 +15,17 @@ import { PokerTableDoesNotExistError } from './errors/PokerTableDoesNotExistErro
 
 export class PokerTablesGetSeatsHandler extends BaseHandler<PokerTableGetSeatsPayload, PokerTableGetSeatsOutput> {
   constructor() {
-    super(pokerTableGetSeatsSchema, PokerTableGetSeatsErrorCodes, false);
+    super(PokerTableGetSeatsPayloadSchema, PokerTableGetSeatsOutputSchema, PokerTableGetSeatsErrorCodes, false);
   }
 
-  protected getResult(payload: PokerTableGetSeatsPayload, res: Response<PokerTableGetSeatsOutput>) {
+  protected async getResult(payload: PokerTableGetSeatsPayload) {
     const pokerTable = GameLobbyService.getPokerTable(payload.pokerTableName);
     if (!pokerTable) {
-      return this.handleError(new PokerTableDoesNotExistError(), res);
+      return new ResultError(new PokerTableDoesNotExistError());
     }
 
-    // TODO: Can we stop isTaken from being passed back?
     const seats = pokerTable.getSeats();
 
-    return res.send({ ok: true, seats });
+    return new ResultSuccess({ ok: true, seats });
   }
 }
