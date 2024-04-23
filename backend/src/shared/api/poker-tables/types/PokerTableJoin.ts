@@ -8,10 +8,13 @@ export type PokerTableJoinPayload = {
 
 export interface PokerTableJoinOutput extends BaseOutput {}
 
-// Joi schema
-export const pokerTableJoinSchema = Joi.object<PokerTableJoinPayload>({
+export const PokerTableJoinPayloadSchema = Joi.object<PokerTableJoinPayload>({
   selectedSeatNumber: Joi.string().required(),
 });
+
+export const PokerTableJoinOutputSchema = Joi.object({
+  ok: Joi.boolean().required(),
+}).unknown(false);
 
 export enum PokerTableJoinErrorCodes {
   SeatTaken = 'seat_taken',

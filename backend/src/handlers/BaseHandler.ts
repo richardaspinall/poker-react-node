@@ -2,6 +2,7 @@ import type { Request, Response } from 'express';
 import Joi from 'joi';
 
 import { IBaseError } from '@infra/BaseError';
+import { Result } from '@infra/Result';
 import type { ApiHandler } from '@shared/api/ApiMethodMap';
 import type { BaseOutput } from '@shared/api/BaseOutput';
 
@@ -24,22 +25,25 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
    *  @param validationSchema - The Joi schema that the payload will be validated against
    */
   private validationSchema: Joi.ObjectSchema<TPayload>;
+  private outputValidationSchema: Joi.ObjectSchema<TOutput>;
   private clientErrorCodes: { [key: string]: string };
   protected requiresAuthentication: boolean;
 
   constructor(
     validationSchema: Joi.ObjectSchema<TPayload>,
+    outputValidationSchema: Joi.ObjectSchema<TOutput>,
     clientErrorCodes: { [key: string]: string },
     requiresAuthentication: boolean = true
   ) {
     this.validationSchema = validationSchema;
+    this.outputValidationSchema = outputValidationSchema;
     this.clientErrorCodes = clientErrorCodes;
     this.requiresAuthentication = requiresAuthentication;
   }
 
-  protected abstract getResult(payload: TPayload, res: Response<TOutput>, user?: string, req?: Request<TPayload>): any;
+  protected abstract getResult(payload: TPayload, user?: string, req?: Request<TPayload>): Promise<Result<any>>;
 
-  public runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
+  public async runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
     let user = undefined;
     if (this.requiresAuthentication) {
       user = req.session.username;
@@ -58,10 +62,21 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
       return this.handleError(error, res);
     }
 
-    if (this.requiresAuthentication) {
-      return this.getResult(payload.getValue(), res, user);
+    const userParam = this.requiresAuthentication ? user : undefined;
+    const output = await this.getResult(payload.getValue(), userParam, this.requiresAuthentication ? undefined : req);
+
+    if (output.isError()) {
+      const error = output.getError();
+      return this.handleError(error, res);
     }
-    return this.getResult(payload.getValue(), res, undefined, req);
+
+    const outputPayload = validatePayload<TOutput>(this.outputValidationSchema, output.getValue());
+    if (outputPayload.isError()) {
+      const error = outputPayload.getError();
+      return this.handleError(error, res);
+    }
+
+    return res.send(outputPayload.getValue());
   }
 
   protected handleError(error: IBaseError, res: Response) {

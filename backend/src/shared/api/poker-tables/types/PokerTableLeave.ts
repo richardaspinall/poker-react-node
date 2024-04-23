@@ -8,10 +8,13 @@ export type PokerTableLeavePayload = {
 
 export interface PokerTableLeaveOutput extends BaseOutput {}
 
-// Joi schema
-export const pokerTableLeaveSchema = Joi.object<PokerTableLeavePayload>({
+export const pokerTableLeavePayloadSchema = Joi.object<PokerTableLeavePayload>({
   selectedSeatNumber: Joi.string().required(),
 });
+
+export const pokerTableLeaveOutputSchema = Joi.object({
+  ok: Joi.boolean().required(),
+}).unknown(false);
 
 export enum PokerTableLeaveErrorCodes {
   SeatTaken = 'seat_taken',

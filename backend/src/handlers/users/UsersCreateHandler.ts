@@ -1,9 +1,13 @@
-import type { Response } from 'express';
-
+import { ResultError } from '@infra/Result';
 import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { UsersCreateErrorCodes } from '@shared/api/users/types/UsersCreate';
 
-import { UsersCreateOutput, UsersCreatePayload, usersCreateSchema } from '../../shared/api/users/types/UsersCreate';
+import {
+  UsersCreateOutput,
+  UsersCreateOutputSchema,
+  UsersCreatePayload,
+  UsersCreatePayloadSchema,
+} from '../../shared/api/users/types/UsersCreate';
 import { BaseHandler } from '../BaseHandler';
 
 /**
@@ -12,14 +16,14 @@ import { BaseHandler } from '../BaseHandler';
 class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super(usersCreateSchema, UsersCreateErrorCodes, false);
+    super(UsersCreatePayloadSchema, UsersCreateOutputSchema, UsersCreateErrorCodes, false);
   }
 
-  protected getResult(payload: UsersCreatePayload, res: Response<UsersCreateOutput>) {
+  protected async getResult(payload: UsersCreatePayload) {
     const username = payload.username;
     const password = payload.password;
 
-    return this.handleError(new MethodNotImplementedError(), res);
+    return new ResultError(new MethodNotImplementedError());
   }
 }
 

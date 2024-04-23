@@ -1,6 +1,9 @@
-import type { Response } from 'express';
-
-import { PokerTableJoinErrorCodes, pokerTableJoinSchema } from '@shared/api/poker-tables/types/PokerTableJoin';
+import { ResultError, ResultSuccess } from '@infra/Result';
+import {
+  PokerTableJoinErrorCodes,
+  PokerTableJoinOutputSchema,
+  PokerTableJoinPayloadSchema,
+} from '@shared/api/poker-tables/types/PokerTableJoin';
 import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../game-lobby-service';
@@ -18,23 +21,23 @@ const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
   // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
   constructor() {
-    super(pokerTableJoinSchema, PokerTableJoinErrorCodes);
+    super(PokerTableJoinPayloadSchema, PokerTableJoinOutputSchema, PokerTableJoinErrorCodes);
   }
 
-  protected getResult(payload: PokerTableJoinPayload, res: Response<PokerTableJoinOutput>, username: string) {
+  protected async getResult(payload: PokerTableJoinPayload, username: string) {
     const seatNumber = payload.selectedSeatNumber;
 
     const pokerTable = GameLobbyService.getPokerTable('table_1');
 
     if (!pokerTable) {
-      return this.handleError(new PokerTableDoesNotExistError(), res);
+      return new ResultError(new PokerTableDoesNotExistError());
     }
 
     const joinRoom = pokerTable.addPlayer(seatNumber, username);
 
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
-      return this.handleError(joinRoom.getError(), res);
+      return new ResultError(joinRoom.getError());
     }
 
     // Emit event to all clients connected that a player has sat down
@@ -49,7 +52,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
 
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
-      return this.handleError(sendEvents.getError(), res);
+      return new ResultError(sendEvents.getError());
     }
 
     const tableIsReady = pokerTable.isPokerTableReady();
@@ -63,11 +66,11 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
 
       if (sendEvents.isError()) {
         debug(sendEvents.getError());
-        return this.handleError(sendEvents.getError(), res);
+        return new ResultError(sendEvents.getError());
       }
     }
 
-    return res.send({ ok: true });
+    return new ResultSuccess<PokerTableJoinOutput>({ ok: true });
   }
 }
 

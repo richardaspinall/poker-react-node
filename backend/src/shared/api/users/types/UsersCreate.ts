@@ -9,11 +9,14 @@ export type UsersCreatePayload = {
 
 export interface UsersCreateOutput extends BaseOutput {}
 
-// Joi schema
-export const usersCreateSchema = Joi.object<UsersCreatePayload>({
+export const UsersCreatePayloadSchema = Joi.object<UsersCreatePayload>({
   username: Joi.string().required(),
   password: Joi.string().required(),
 });
+
+export const UsersCreateOutputSchema = Joi.object({
+  ok: Joi.boolean().required(),
+}).unknown(false);
 
 export enum UsersCreateErrorCodes {
   UsernameTaken = 'username_taken',

@@ -9,11 +9,14 @@ export type SigninPayload = {
 
 export interface SigninOutput extends BaseOutput {}
 
-// Joi schema
-export const signinSchema = Joi.object<SigninPayload>({
+export const SigninPayloadSchema = Joi.object<SigninPayload>({
   username: Joi.string().required(),
   password: Joi.string().required(),
 });
+
+export const SigninOutputSchema = Joi.object({
+  ok: Joi.boolean().required(),
+}).unknown(false);
 
 export enum SigninErrorCodes {
   UsernameNotFound = 'username_not_found',
