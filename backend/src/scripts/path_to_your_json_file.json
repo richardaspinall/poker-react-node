@@ -3,9 +3,43 @@
   "payload": {
     "properties": [
       {
+        "name": "seats",
+        "type": "array",
+        "required": true,
+        "items": [
+          {
+            "name": "seatNumber",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "required": false
+          }
+        ]
+      },
+      {
         "name": "pokerTableName",
         "type": "string",
         "required": true
+      },
+      {
+        "name": "seats",
+        "type": "array",
+        "required": true,
+        "items": [
+          {
+            "name": "seatNumber",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "required": false
+          }
+        ]
       }
     ]
   },
@@ -57,6 +91,52 @@
             "name": "usernumber",
             "type": "number",
             "required": false
+          },
+          {
+            "name": "seats",
+            "type": "array",
+            "required": true,
+            "items": [
+              {
+                "name": "seatNumber",
+                "type": "string",
+                "required": true
+              },
+              {
+                "name": "username",
+                "type": "string",
+                "required": false
+              },
+              {
+                "name": "seats",
+                "type": "array",
+                "required": true,
+                "items": [
+                  {
+                    "name": "seatNumber",
+                    "type": "string",
+                    "required": true
+                  },
+                  {
+                    "name": "seats",
+                    "type": "array",
+                    "required": true,
+                    "items": [
+                      {
+                        "name": "seatNumber",
+                        "type": "string",
+                        "required": true
+                      },
+                      {
+                        "name": "username",
+                        "type": "string",
+                        "required": false
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           }
         ]
       }
