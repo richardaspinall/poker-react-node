@@ -1,62 +1,19 @@
 {
-  "handlerName": "PokerTableGetSeats",
+  "handlerName": "PokerTablesGetSeats",
+  "domainName": "poker-tables",
   "payload": {
     "properties": [
-      {
-        "name": "seats",
-        "type": "array",
-        "required": true,
-        "items": [
-          {
-            "name": "seatNumber",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "username",
-            "type": "string",
-            "required": false
-          }
-        ]
-      },
       {
         "name": "pokerTableName",
         "type": "string",
         "required": true
-      },
-      {
-        "name": "seats",
-        "type": "array",
-        "required": true,
-        "items": [
-          {
-            "name": "seatNumber",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "username",
-            "type": "string",
-            "required": false
-          }
-        ]
       }
     ]
   },
   "output": {
     "properties": [
       {
-        "name": "pokerTableName",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "alias",
-        "type": "string",
-        "required": false
-      },
-      {
-        "name": "isFull",
+        "name": "ok",
         "type": "boolean",
         "required": true
       },
@@ -73,70 +30,8 @@
           {
             "name": "username",
             "type": "string",
+            "allowEmpty": true,
             "required": false
-          }
-        ]
-      },
-      {
-        "name": "secondArray",
-        "type": "array",
-        "required": true,
-        "items": [
-          {
-            "name": "username",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "usernumber",
-            "type": "number",
-            "required": false
-          },
-          {
-            "name": "seats",
-            "type": "array",
-            "required": true,
-            "items": [
-              {
-                "name": "seatNumber",
-                "type": "string",
-                "required": true
-              },
-              {
-                "name": "username",
-                "type": "string",
-                "required": false
-              },
-              {
-                "name": "seats",
-                "type": "array",
-                "required": true,
-                "items": [
-                  {
-                    "name": "seatNumber",
-                    "type": "string",
-                    "required": true
-                  },
-                  {
-                    "name": "seats",
-                    "type": "array",
-                    "required": true,
-                    "items": [
-                      {
-                        "name": "seatNumber",
-                        "type": "string",
-                        "required": true
-                      },
-                      {
-                        "name": "username",
-                        "type": "string",
-                        "required": false
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
           }
         ]
       }
@@ -148,12 +43,6 @@
       "errorCode": "poker_table_does_not_exist",
       "message": "The specified poker table does not exist.",
       "classFile": "PokerTableDoesNotExistError.ts"
-    },
-    {
-      "errorName": "InvalidRequestPayload",
-      "errorCode": "invalid_request_payload",
-      "message": "The request payload is invalid.",
-      "classFile": "InvalidRequestPayloadError.ts"
     }
   ]
 }

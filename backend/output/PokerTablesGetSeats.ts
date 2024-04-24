@@ -1,14 +1,18 @@
 import { BaseOutput } from '../../BaseOutput';
 
-export interface PokerTableGetSeatsPayload extends BaseOutput {
+export interface PokerTablesGetSeatsPayload extends BaseOutput {
   pokerTableName: string;
+  seats: {
+    seatNumber: string;
+    username?: string;
+  }[];
   seats: {
     seatNumber: string;
     username?: string;
   }[];
 }
 
-export interface PokerTableGetSeatsOutput extends BaseOutput {
+export interface PokerTablesGetSeatsOutput extends BaseOutput {
   alias?: string;
   isFull: boolean;
   pokerTableName: string;
@@ -33,7 +37,8 @@ export interface PokerTableGetSeatsOutput extends BaseOutput {
   }[];
 }
 
-export enum PokerTableGetSeatsErrorCodes {
+export enum PokerTablesGetSeatsErrorCodes {
   PokerTableDoesNotExistError = 'poker_table_does_not_exist',
-  InvalidRequestPayload = 'invalid_request_payload',
+  InvalidRequestPayload = 'invalid_request_payload'
 }
+

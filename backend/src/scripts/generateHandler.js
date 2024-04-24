@@ -26,21 +26,21 @@ function renderAndSave(templatePath, outputPath, data) {
   fs.writeFileSync(fullPathNew, content, 'utf8');
 }
 
-// Generate TypeScript files
-const basePath = 'output/'; // Directory where generated files will be saved
+// Generate handler
+renderAndSave('handler-class.ejs', `../handlers/output/${schema.handlerName}Handler.ts`, schema);
 
 // Generate type definitions
-renderAndSave('type-defs.ejs', `${basePath}${schema.handlerName}.ts`, schema);
+renderAndSave('type-defs.ejs', `../shared/output/${schema.handlerName}.ts`, schema);
 
 // // Generate validation schemas
-// renderAndSave('validation-schema.ejs', `${basePath}${schema.handlerName}Schema.ts`, schema);
+renderAndSave('validation-schema.ejs', `../shared/output/${schema.handlerName}Schema.ts`, schema);
 
 // Generate error classes
 schema.errors.forEach((error) => {
-  renderAndSave('error-class.ejs', `${basePath}${error.classFile}`, error);
+  renderAndSave('error-class.ejs', `../handlers/output/${error.classFile}`, error);
 });
 
 // Generate test files
-// renderAndSave('test-file.ejs', `${basePath}${schema.handlerName}.test.ts`, schema);
+// renderAndSave('test-file.ejs', `../handlers/output/${schema.handlerName}.test.ts`, schema);
 
 console.log('TypeScript files generated successfully.');

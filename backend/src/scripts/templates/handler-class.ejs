@@ -1,0 +1,25 @@
+import { ResultError, ResultSuccess } from '@infra/Result';
+import {
+    <%= handlerName %>OutputSchema,
+    <%= handlerName %>PayloadSchema,
+} from '@shared/api/<%= domainName %>/schemas/<%= handlerName %>OutputSchema';
+import {
+    <%= handlerName %>ErrorCodes,
+    <%= handlerName %>Output,
+    <%= handlerName %>Payload,
+} from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
+
+import { BaseHandler } from '../BaseHandler';
+import { PokerTableDoesNotExistError } from './errors/PokerTableDoesNotExistError';
+
+export class <%= handlerName %>Handler extends BaseHandler<<%= handlerName %>Payload, <%= handlerName %>Output> {
+  constructor() {
+    super(<%= handlerName %>PayloadSchema, <%= handlerName %>OutputSchema, <%= handlerName %>ErrorCodes);
+  }
+
+  protected async getResult(payload: <%= handlerName %>Payload) {
+
+
+    return new ResultSuccess({ ok: true, seats: filteredSeats });
+  }
+}

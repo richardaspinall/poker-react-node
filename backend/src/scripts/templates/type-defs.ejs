@@ -1,6 +1,6 @@
 import { BaseOutput } from '../../BaseOutput';
 
-export interface <%= handlerName %>Payload extends BaseOutput {<% if (payload.properties.length > 0) { payload.properties.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
+export interface <%= handlerName %>Payload {<% if (payload.properties.length > 0) { payload.properties.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
 }
 
 export interface <%= handlerName %>Output extends BaseOutput {<% if (output.properties.length > 0) { output.properties.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
@@ -20,7 +20,7 @@ export enum <%= handlerName %>ErrorCodes {<% errors.forEach(function(error, inde
     });
     result += `\n${indent}}[];`; 
   } else {
-    result += ` ${prop.type}${prop.allowEmpty ? " | '' | null" : ''};`;
+    result += ` ${prop.type};`;
   }
   return result;
 } %>
