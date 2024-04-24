@@ -15,11 +15,10 @@ export enum <%= handlerName %>ErrorCodes {<% errors.forEach(function(error, inde
   var result = `\n${indent}${prop.name}${!prop.required ? '?' : ''}:`;
   if (prop.type === 'array') {
     result += ' {';
-    // Sort array items before processing them
     prop.items.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(item, index, array) {
       result += printProperty(item, level + 1);
     });
-    result += `\n${indent}}[];`; // Corrected the indent level for the closing brace
+    result += `\n${indent}}[];`; 
   } else {
     result += ` ${prop.type}${prop.allowEmpty ? " | '' | null" : ''};`;
   }
