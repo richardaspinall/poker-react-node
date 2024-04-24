@@ -1,0 +1,79 @@
+{
+  "handlerName": "PokerTableGetSeats",
+  "payload": {
+    "properties": [
+      {
+        "name": "pokerTableName",
+        "type": "string",
+        "required": true
+      }
+    ]
+  },
+  "output": {
+    "properties": [
+      {
+        "name": "pokerTableName",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "alias",
+        "type": "string",
+        "required": false
+      },
+      {
+        "name": "isFull",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "seats",
+        "type": "array",
+        "required": true,
+        "items": [
+          {
+            "name": "seatNumber",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "required": false
+          }
+        ]
+      },
+      {
+        "name": "secondArray",
+        "type": "array",
+        "required": true,
+        "items": [
+          {
+            "name": "username",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "usernumber",
+            "type": "number",
+            "required": false
+          }
+        ]
+      }
+    ]
+  },
+  "errors": [
+    {
+      "errorName": "PokerTableDoesNotExistError",
+      "errorCode": "poker_table_does_not_exist",
+      "message": "The specified poker table does not exist.",
+      "classFile": "PokerTableDoesNotExistError.ts"
+    },
+    {
+      "errorName": "InvalidRequestPayload",
+      "errorCode": "invalid_request_payload",
+      "message": "The request payload is invalid.",
+      "classFile": "InvalidRequestPayloadError.ts"
+    }
+  ]
+}

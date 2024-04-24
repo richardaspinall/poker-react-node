@@ -1,0 +1,19 @@
+import { BaseOutput } from '../../BaseOutput';
+
+export interface <%= handlerName %>Payload {<% payload.properties.forEach(function(prop, index) { %><% if (prop.type === 'array') { %>
+  <%= prop.name %><%= !prop.required ? '?' : '' %>: {<% prop.items.forEach(function(item, itemIndex) { %>
+    <%= item.name %><%= !item.required ? '?' : '' %>: <%= item.type %><%- item.allowEmpty ? " | '' | null" : '' %>;<% }); %>
+  }[];<% } else { %>
+  <%= prop.name %><%= !prop.required ? '?' : '' %>: <%= prop.type %><%- prop.allowEmpty ? " | '' | null" : '' %>;<% } %><% }); %>
+}
+
+export interface <%= handlerName %>Output extends BaseOutput {<% if (output.properties.length > 0) { output.properties.forEach(function(prop, index) { %><% if (prop.type === 'array') { %>
+  <%= prop.name %><%= !prop.required ? '?' : '' %>: {<% prop.items.forEach(function(item, itemIndex) { %>
+    <%= item.name %><%= !item.required ? '?' : '' %>: <%= item.type %><%- item.allowEmpty ? " | '' | null" : '' %>;<% }); %>
+  }[];<% } else { %>
+  <%= prop.name %><%= !prop.required ? '?' : '' %>: <%= prop.type %><%- prop.allowEmpty ? " | '' | null" : '' %>;<% } %><% }); %> <% } else { %><% } %>
+}
+
+export enum <%= handlerName %>ErrorCodes {<% errors.forEach(function(error, index) { %>
+  <%= error.errorName %> = '<%= error.errorCode %>'<%= index < errors.length - 1 ? ',' : '' %><% }); %>
+}

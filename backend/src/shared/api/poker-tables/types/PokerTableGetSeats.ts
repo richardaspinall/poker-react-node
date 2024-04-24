@@ -9,6 +9,10 @@ export interface PokerTableGetSeatsOutput extends BaseOutput {
     seatNumber: string;
     username: string;
   }[];
+  seats2?: {
+    seatNumber: string;
+    username: string;
+  }[];
 }
 
 // TODO: rename table to poker_table
