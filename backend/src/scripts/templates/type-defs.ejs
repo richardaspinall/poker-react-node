@@ -1,9 +1,9 @@
 import { BaseOutput } from '../../BaseOutput';
 
-export interface <%= handlerName %>Payload {<% if (payload.properties.length > 0) { payload.properties.forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
+export interface <%= handlerName %>Payload extends BaseOutput {<% if (payload.properties.length > 0) { payload.properties.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
 }
 
-export interface <%= handlerName %>Output extends BaseOutput {<% if (output.properties.length > 0) { output.properties.forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
+export interface <%= handlerName %>Output extends BaseOutput {<% if (output.properties.length > 0) { output.properties.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
 }
 
 export enum <%= handlerName %>ErrorCodes {<% errors.forEach(function(error, index) { %>
@@ -15,7 +15,8 @@ export enum <%= handlerName %>ErrorCodes {<% errors.forEach(function(error, inde
   var result = `\n${indent}${prop.name}${!prop.required ? '?' : ''}:`;
   if (prop.type === 'array') {
     result += ' {';
-    prop.items.forEach(function(item, index, array) {
+    // Sort array items before processing them
+    prop.items.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(item, index, array) {
       result += printProperty(item, level + 1);
     });
     result += `\n${indent}}[];`; // Corrected the indent level for the closing brace
