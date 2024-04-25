@@ -3,10 +3,10 @@ import type { NextFunction, Request, Response } from 'express';
 import type { SigninOutput, SigninPayload } from '@shared/signin/types/Signin';
 
 import type { BaseOutput } from './BaseOutput';
+import type { PokerTableGetSeatsOutput, PokerTableGetSeatsPayload } from './poker-tables/types/PokerTableGetSeats';
 import type { PokerTableJoinOutput, PokerTableJoinPayload } from './poker-tables/types/PokerTableJoin';
 import type { PokerTableLeaveOutput, PokerTableLeavePayload } from './poker-tables/types/PokerTableLeave';
 import type { UsersCreateOutput, UsersCreatePayload } from './users/types/UsersCreate';
-import type { PokerTableGetSeatsOutput, PokerTableGetSeatsPayload } from './poker-tables/types/PokerTableGetSeats';
 
 export interface ApiHandler {
   runHandler(req: Request<any>, res: Response<BaseOutput>, next: NextFunction): any;

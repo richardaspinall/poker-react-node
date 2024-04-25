@@ -36,7 +36,7 @@ renderAndSave('type-defs.ejs', `../shared/api/${schema.domainName}/types/${schem
 renderAndSave(
   'validation-schemas.ejs',
   `../shared/api/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
-  schema,
+  schema
 );
 
 // Generate error classes
