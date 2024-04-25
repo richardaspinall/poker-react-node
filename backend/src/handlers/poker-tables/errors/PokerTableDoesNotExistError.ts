@@ -1,9 +1,7 @@
 import { BaseError } from '@infra/BaseError';
 
-import { PokerTableLeaveErrorCodes } from '../../../shared/api/poker-tables/types/PokerTableLeave';
-
 export class PokerTableDoesNotExistError extends BaseError {
-  constructor() {
-    super(PokerTableLeaveErrorCodes.TableDoesNotExist, 'Table does not exist');
-  }
+    constructor() {
+        super('poker_table_does_not_exist', 'The specified poker table does not exist.');
+    }
 }

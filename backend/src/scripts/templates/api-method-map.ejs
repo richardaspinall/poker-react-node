@@ -1,0 +1,12 @@
+<% apiMethods.forEach(function(method) { %>
+import type {<%= method.handlerName %>Output, <%= method.handlerName %>Payload  } from './<%= method.domainName %>/types/<%= method.handlerName %>'
+<% }); %>
+
+export interface ApiMethodMap {
+  <% apiMethods.forEach(function(method) { %>
+  '<%= method.methodName %>': {
+    request: <%= method.requestType %>;
+    response: <%= method.responseType %>;
+  };
+  <% }); %>
+}

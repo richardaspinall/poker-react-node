@@ -11,7 +11,7 @@
     "create-test-db": "DB_DATABASE=test_poker node src/db/create_dev_db.js",
     "lint": "eslint . --ext .ts",
     "generate_handler": "node src/scripts/generateHandler.js && prettier --write './src/scripts/output/**/*.ts' 2>/dev/null",
-    "generate_api_method_map": "node src/scripts/generateAPIMethodMap.js && prettier --write './src/shared/api/ApiMethodMap.ts' 2>/dev/null"
+    "generate_api_method_map": "node src/scripts/generateAPIMethodMapJSON.js && prettier --write './src/shared/api/ApiMethodMap.ts' 2>/dev/null"
   },
   "author": "",
   "license": "ISC",

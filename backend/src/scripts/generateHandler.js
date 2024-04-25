@@ -44,6 +44,11 @@ schema.errors.forEach((error) => {
   renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/${error.classFile}`, error);
 });
 
+// Load JSON Schema
+const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/apiMethodMap.json', 'utf8'));
+// Generate type definitions
+renderAndSave('api-method-map.ejs', `./output/ApiMethodMap.ts`, apiMethodSchema);
+
 // Generate test files
 // renderAndSave('test-file.ejs', `../handlers/output/${schema.handlerName}.test.ts`, schema);
 

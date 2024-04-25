@@ -1,17 +1,18 @@
 import { BaseOutput } from '../../BaseOutput';
 
-export type PokerTableGetSeatsPayload = {
+export interface PokerTableGetSeatsPayload {
   pokerTableName: string;
-};
+}
 
 export interface PokerTableGetSeatsOutput extends BaseOutput {
+  ok: boolean;
   seats: {
     seatNumber: string;
     username: string;
   }[];
 }
 
-// TODO: rename table to poker_table
 export enum PokerTableGetSeatsErrorCodes {
-  PokerTableDoesNotExistError = 'table_does_not_exist',
+  PokerTableDoesNotExistError = 'poker_table_does_not_exist'
 }
+
