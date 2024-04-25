@@ -31,12 +31,23 @@ const methodEntry = `${methodIdentifier}: {
     response: ${handler.handlerName}Output;
   };`;
 
-// Find the last '}' that closes the ApiMethodMap interface and insert before it
-const lastIndex = tsContent.lastIndexOf('}');
+// Locate the ApiMethodMap interface accurately
+let startIndex = tsContent.indexOf('export interface ApiMethodMap {');
+let endIndex = tsContent.indexOf('}', startIndex) + 1;
+let interfaceContent = tsContent.substring(startIndex, endIndex);
 
-if (lastIndex !== -1 && !tsContent.includes(methodIdentifier)) {
-  // Inserting the entry directly before the last bracket without introducing a new line
-  tsContent = tsContent.substring(0, lastIndex) + methodEntry + tsContent.substring(lastIndex);
+// Split entries, sort, and manage commas
+let entries = interfaceContent.substring(interfaceContent.indexOf('{') + 1, interfaceContent.lastIndexOf('}')).trim();
+entries = entries.split(/,(?![^\[\]{}]*(\]|\}))/).map((e) => e.trim()); // Splitting while considering nested structures
+entries = entries.filter((e) => e !== ''); // Remove any empty entries
+
+if (!entries.some((e) => e.startsWith(methodIdentifier))) {
+  entries.push(methodEntry);
+  entries.sort(); // Sort entries alphabetically
+
+  // Rebuild the interface with entries correctly comma-separated
+  interfaceContent = `export interface ApiMethodMap {\n  ${entries.join('\n  ')}\n}`;
+  tsContent = tsContent.substring(0, startIndex) + interfaceContent + tsContent.substring(endIndex);
 }
 
 // Write the modified content back to the TypeScript file

@@ -16,7 +16,10 @@ export interface ApiHandler {
  * ApiMethodMap is used to define the types for each API method
  */
 export interface ApiMethodMap {
-  // Add entries for each API method
+  'poker-tables.getSeats': {
+    request: PokerTableGetSeatsPayload;
+    response: PokerTableGetSeatsOutput;
+  };
   signin: {
     request: SigninPayload;
     response: SigninOutput;
@@ -32,10 +35,6 @@ export interface ApiMethodMap {
   'users.create': {
     request: UsersCreatePayload;
     response: UsersCreateOutput;
-  };
-  'poker-tables.getSeats': {
-    request: PokerTableGetSeatsPayload;
-    response: PokerTableGetSeatsOutput;
   };
 }
 
