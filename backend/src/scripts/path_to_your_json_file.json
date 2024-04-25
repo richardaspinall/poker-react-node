@@ -1,6 +1,7 @@
 {
-  "handlerName": "PokerTablesGetSeats",
+  "handlerName": "PokerTableGetSeats",
   "domainName": "poker-tables",
+  "authRequired": true,
   "payload": {
     "properties": [
       {
@@ -31,7 +32,7 @@
             "name": "username",
             "type": "string",
             "allowEmpty": true,
-            "required": false
+            "required": true
           }
         ]
       }

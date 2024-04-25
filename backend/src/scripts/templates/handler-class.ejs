@@ -1,4 +1,3 @@
-import { ResultError, ResultSuccess } from '@infra/Result';
 import {
     <%= handlerName %>OutputSchema,
     <%= handlerName %>PayloadSchema,
@@ -10,16 +9,9 @@ import {
 } from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
 
 import { BaseHandler } from '../BaseHandler';
-import { PokerTableDoesNotExistError } from './errors/PokerTableDoesNotExistError';
 
-export class <%= handlerName %>Handler extends BaseHandler<<%= handlerName %>Payload, <%= handlerName %>Output> {
+export abstract class Abstract<%= handlerName %>Handler extends BaseHandler<<%= handlerName %>Payload, <%= handlerName %>Output> {
   constructor() {
-    super(<%= handlerName %>PayloadSchema, <%= handlerName %>OutputSchema, <%= handlerName %>ErrorCodes);
-  }
-
-  protected async getResult(payload: <%= handlerName %>Payload) {
-
-
-    return new ResultSuccess({ ok: true, seats: filteredSeats });
+    super(<%= handlerName %>PayloadSchema, <%= handlerName %>OutputSchema, <%= handlerName %>ErrorCodes<%= authRequired ? '' : ', false' %>);
   }
 }
