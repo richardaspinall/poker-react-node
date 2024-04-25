@@ -1,6 +1,7 @@
 {
   "handlerName": "PokerTableGetSeats",
   "domainName": "poker-tables",
+  "apiName": "getSeats",
   "authRequired": true,
   "payload": {
     "properties": [
