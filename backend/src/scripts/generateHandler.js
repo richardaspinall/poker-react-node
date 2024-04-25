@@ -27,25 +27,21 @@ function renderAndSave(templatePath, outputPath, data) {
 }
 
 // Generate handler
-renderAndSave(
-  'handler-class.ejs',
-  `../handlers/${schema.domainName}/output/Abstract${schema.handlerName}Handler.ts`,
-  schema,
-);
+renderAndSave('handler-class.ejs', `../handlers/${schema.domainName}/Abstract${schema.handlerName}Handler.ts`, schema);
 
 // Generate type definitions
-renderAndSave('type-defs.ejs', `../shared/api/${schema.domainName}/types/output/${schema.handlerName}.ts`, schema);
+renderAndSave('type-defs.ejs', `../shared/api/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
 
 // Generate validation schemas
 renderAndSave(
-  'validation-schema.ejs',
-  `../shared/api/${schema.domainName}/schemas/output/${schema.handlerName}Schema.ts`,
+  'validation-schemas.ejs',
+  `../shared/api/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
   schema,
 );
 
 // Generate error classes
 schema.errors.forEach((error) => {
-  renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/output/${error.classFile}`, error);
+  renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/${error.classFile}`, error);
 });
 
 // Generate test files
