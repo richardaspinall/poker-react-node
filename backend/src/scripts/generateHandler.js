@@ -14,42 +14,72 @@ function ensureDirectoryExistence(dirPath) {
   fs.mkdirSync(dirname);
 }
 
-// Function to render templates and write files
 function renderAndSave(templatePath, outputPath, data) {
   const fullPathNew = path.join(__dirname, outputPath);
   ensureDirectoryExistence(fullPathNew);
 
   const fullPath = path.join(__dirname, 'templates', templatePath);
-
   const template = fs.readFileSync(fullPath, 'utf8');
   const content = ejs.render(template, data);
   fs.writeFileSync(fullPathNew, content, 'utf8');
 }
 
-// Generate handler
-renderAndSave('handler-class.ejs', `../handlers/${schema.domainName}/Abstract${schema.handlerName}Handler.ts`, schema);
+// Paths
+const apiMethodFilePath = path.join(__dirname, '/path_to_your_json_file.json');
+const apiMethodMapFilePath = path.join(__dirname, '/APIMethodMap.json');
 
-// Generate type definitions
-renderAndSave('type-defs.ejs', `../shared/api/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
+try {
+  const apiMethodMap = JSON.parse(fs.readFileSync(apiMethodMapFilePath, 'utf8'));
+  const apiMethod = JSON.parse(fs.readFileSync(apiMethodFilePath, 'utf8'));
 
-// Generate validation schemas
-renderAndSave(
-  'validation-schemas.ejs',
-  `../shared/api/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
-  schema
-);
+  const newApiMethod = {
+    domainName: apiMethod.domainName,
+    handlerName: apiMethod.handlerName,
+    httpMethod: apiMethod.httpMethod,
+    apiName: apiMethod.apiName,
+    methodName: `${apiMethod.domainName}.${apiMethod.apiName}`,
+    requestType: `${apiMethod.handlerName}Payload`,
+    responseType: `${apiMethod.handlerName}Output`,
+  };
 
-// Generate error classes
-schema.errors.forEach((error) => {
-  renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/${error.classFile}`, error);
-});
+  // Find index of existing method if it exists
+  const index = apiMethodMap.apiMethods.findIndex((method) => method.methodName === newApiMethod.methodName);
 
-// Load JSON Schema
-const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/apiMethodMap.json', 'utf8'));
-// Generate type definitions
-renderAndSave('api-method-map.ejs', `./output/ApiMethodMap.ts`, apiMethodSchema);
+  if (index !== -1) {
+    // Update existing method
+    apiMethodMap.apiMethods[index] = newApiMethod;
+    console.log('API method updated in apiMethodMap.json');
+  } else {
+    // Add as new method
+    apiMethodMap.apiMethods.push(newApiMethod);
+    console.log('New API method added to apiMethodMap.json');
+  }
 
-// Generate test files
-// renderAndSave('test-file.ejs', `../handlers/output/${schema.handlerName}.test.ts`, schema);
+  // Always update the JSON file with new or updated method info
+  const updatedJson = JSON.stringify(apiMethodMap, null, 4);
+  fs.writeFileSync(apiMethodMapFilePath, updatedJson, 'utf8');
 
-console.log('TypeScript files generated successfully.');
+  // Render and save files
+  const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/apiMethodMap.json', 'utf8'));
+  renderAndSave('api-method-map.ejs', `./output/ApiMethodMap.ts`, apiMethodSchema);
+  renderAndSave('api-methods.ejs', `./output/ApiMethods.ts`, apiMethodSchema);
+
+  renderAndSave(
+    'handler-class.ejs',
+    `../handlers/${schema.domainName}/Abstract${schema.handlerName}Handler.ts`,
+    schema,
+  );
+  renderAndSave('type-defs.ejs', `../shared/api/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
+  renderAndSave(
+    'validation-schemas.ejs',
+    `../shared/api/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
+    schema,
+  );
+  schema.errors.forEach((error) => {
+    renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/${error.classFile}`, error);
+  });
+
+  console.log('TypeScript files generated successfully.');
+} catch (err) {
+  console.error('Error processing file:', err);
+}

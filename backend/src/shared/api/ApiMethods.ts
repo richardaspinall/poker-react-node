@@ -1,11 +1,6 @@
-export interface ApiMethodShape {
-  httpMethod: 'get' | 'post' | 'put' | 'delete' | 'patch';
-  path: string;
-  handler: string;
-  handlerName: string;
-}
+import { APIMethodShape } from './APIMethodShape';
 
-export const ApiMethods: { [key: string]: ApiMethodShape } = {
+export const ApiMethods: { [key: string]: APIMethodShape } = {
   signin: {
     httpMethod: 'post',
     path: 'signin',

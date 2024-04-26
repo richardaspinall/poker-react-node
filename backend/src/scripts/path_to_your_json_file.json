@@ -2,6 +2,7 @@
   "handlerName": "PokerTableGetSeats",
   "domainName": "poker-tables",
   "apiName": "getSeats",
+  "httpMethod": "POST",
   "authRequired": true,
   "payload": {
     "properties": [
