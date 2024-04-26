@@ -9,7 +9,6 @@ const apiMethodMapFilePath = path.join(__dirname, '/APIMethodMap.json');
 try {
   // Parse the JSON data
   const apiMethodMap = JSON.parse(fs.readFileSync(apiMethodMapFilePath, 'utf8'));
-
   const apiMethod = JSON.parse(fs.readFileSync(apiMethodFilePath, 'utf8'));
 
   // Define the new API method details
@@ -21,16 +20,23 @@ try {
     responseType: `${apiMethod.handlerName}Output`,
   };
 
-  // Append the new API method to the existing list
-  apiMethodMap.apiMethods.push(newApiMethod);
+  // Check if the API method already exists in the list
+  const methodExists = apiMethodMap.apiMethods.some((method) => method.methodName === newApiMethod.methodName);
 
-  // Convert the updated object back to JSON
-  const updatedJson = JSON.stringify(apiMethodMap, null, 4);
+  if (!methodExists) {
+    // Append the new API method to the existing list
+    apiMethodMap.apiMethods.push(newApiMethod);
 
-  // Write the updated JSON back to the file synchronously
-  fs.writeFileSync(apiMethodMapFilePath, updatedJson, 'utf8');
+    // Convert the updated object back to JSON
+    const updatedJson = JSON.stringify(apiMethodMap, null, 4);
 
-  console.log('Successfully updated apiMethodMap.json');
+    // Write the updated JSON back to the file synchronously
+    fs.writeFileSync(apiMethodMapFilePath, updatedJson, 'utf8');
+
+    console.log('Successfully added new API method to apiMethodMap.json');
+  } else {
+    console.log('API method already exists and was not added.');
+  }
 } catch (err) {
   console.error('Error processing file:', err);
 }

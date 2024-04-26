@@ -1,11 +1,11 @@
 {
-  "apiMethods": [
-    {
-      "domainName": "poker-tables",
-      "handlerName": "PokerTableGetSeats",
-      "methodName": "poker-tables.getSeats",
-      "requestType": "PokerTableGetSeatsPayload",
-      "responseType": "PokerTableGetSeatsOutput"
-    }
-  ]
+    "apiMethods": [
+        {
+            "domainName": "poker-tables",
+            "handlerName": "PokerTableGetSeats",
+            "methodName": "poker-tables.getSeats",
+            "requestType": "PokerTableGetSeatsPayload",
+            "responseType": "PokerTableGetSeatsOutput"
+        }
+    ]
 }
