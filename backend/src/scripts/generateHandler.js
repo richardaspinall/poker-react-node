@@ -34,10 +34,10 @@ try {
 
   const newApiMethod = {
     domainName: apiMethod.domainName,
+    apiVerb: apiMethod.apiVerb,
+    methodName: `${apiMethod.domainName}.${apiMethod.apiVerb}`,
     handlerName: apiMethod.handlerName,
     httpMethod: apiMethod.httpMethod,
-    apiName: apiMethod.apiName,
-    methodName: `${apiMethod.domainName}.${apiMethod.apiName}`,
     requestType: `${apiMethod.handlerName}Payload`,
     responseType: `${apiMethod.handlerName}Output`,
   };
@@ -61,8 +61,8 @@ try {
 
   // Render and save files
   const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/apiMethodMap.json', 'utf8'));
-  renderAndSave('api-method-map.ejs', `./output/ApiMethodMap.ts`, apiMethodSchema);
-  renderAndSave('api-methods.ejs', `./output/ApiMethods.ts`, apiMethodSchema);
+  renderAndSave('api-method-map.ejs', `../shared/api/APIMethodMap.ts`, apiMethodSchema);
+  renderAndSave('api-methods.ejs', `../shared/api/APIMethods.ts`, apiMethodSchema);
 
   renderAndSave(
     'handler-class.ejs',

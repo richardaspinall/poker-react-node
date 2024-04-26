@@ -1,10 +1,10 @@
-import { APIMethodShape } from './APIMethodShape';
+import { ApiMethodShape } from './APIMethodShape';
 
-export const ApiMethods: { [key: string]: APIMethodShape } = {
+export const ApiMethods: { [key: string]: ApiMethodShape } = {
   <% apiMethods.forEach(function(method) { %>
-    <%= method.apiName %>: {
+    <%= method.apiVerb %>: {
         httpMethod: '<%= method.httpMethod %>',
-        path: '<%= method.domainName %>.<%= method.apiName %>',
+        path: '<%= method.domainName %>.<%= method.apiVerb %>',
         handler: '../../handlers/<%= method.domainName %>/<%= method.handlerName %>Handler.ts',
         handlerName: '<%= method.handlerName %>Handler',
     },

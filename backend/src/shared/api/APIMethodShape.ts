@@ -1,4 +1,4 @@
-export interface APIMethodShape {
+export interface ApiMethodShape {
   httpMethod: 'get' | 'post' | 'put' | 'delete' | 'patch';
   path: string;
   handler: string;
