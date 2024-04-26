@@ -2,6 +2,8 @@ const fs = require('fs');
 const ejs = require('ejs');
 const path = require('path');
 
+const jsonFilePath = process.argv[2]; // The user must provide the path as an argument 'src/scripts/path_to_your_json_file.json'
+
 // Load JSON Schema
 const schema = JSON.parse(fs.readFileSync('src/scripts/path_to_your_json_file.json', 'utf8'));
 
