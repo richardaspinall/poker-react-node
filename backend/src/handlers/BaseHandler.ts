@@ -34,7 +34,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     validationSchema: Joi.ObjectSchema<TPayload>,
     outputValidationSchema: Joi.ObjectSchema<TOutput>,
     clientErrorCodes: { [key: string]: string },
-    requiresAuthentication: boolean = true
+    requiresAuthentication: boolean = true,
   ) {
     this.validationSchema = validationSchema;
     this.outputValidationSchema = outputValidationSchema;

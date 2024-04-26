@@ -17,7 +17,7 @@ export class InvalidResponsePayloadError extends BaseError {
     super(
       'invalid_response_payload',
       'There is a mismatch with what is actually returned and the associated OutputSchema for the handler. Ensure to only return what you have defined in the OutputSchema of the handler',
-      details
+      details,
     );
   }
 }
