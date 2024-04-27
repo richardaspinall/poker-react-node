@@ -8,14 +8,14 @@ import type { PokerTableJoinOutput, PokerTableJoinPayload } from './poker-tables
 import type { PokerTableLeaveOutput, PokerTableLeavePayload } from './poker-tables/types/PokerTableLeave';
 import type { UsersCreateOutput, UsersCreatePayload } from './users/types/UsersCreate';
 
-export interface ApiHandler {
+export interface APIHandler {
   runHandler(req: Request<any>, res: Response<BaseOutput>, next: NextFunction): any;
 }
 
 /**
- * ApiMethodMap is used to define the types for each API method
+ * APIMethodMap is used to define the types for each API method
  */
-export interface ApiMethodMap {
+export interface APIMethodMap {
   // Add entries for each API method
   signin: {
     request: SigninPayload;
@@ -39,4 +39,4 @@ export interface ApiMethodMap {
   };
 }
 
-export type ApiMethod = keyof ApiMethodMap;
+export type APIMethod = keyof APIMethodMap;

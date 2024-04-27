@@ -1,7 +1,8 @@
-import { ApiMethodShape, ApiMethods } from '../../shared/api/ApiMethods';
+import { APIMethodShape } from '../../shared/api/APIMethodShape';
+import { APIMethods } from '../../shared/api/APIMethodsNEW';
 
-export const routes: ApiMethodShape[] = Object.keys(ApiMethods).map((key) => {
-  const apiMethod = ApiMethods[key as keyof typeof ApiMethods];
+export const routes: APIMethodShape[] = Object.keys(APIMethods).map((key) => {
+  const apiMethod = APIMethods[key as keyof typeof APIMethods];
   return {
     httpMethod: apiMethod.httpMethod,
     path: `/actions/${apiMethod.path}`,
