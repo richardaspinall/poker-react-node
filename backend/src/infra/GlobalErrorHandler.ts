@@ -1,10 +1,10 @@
-import type { value NextFunction, value Request, value Response } from 'express';
+import type { NextFunction, Request, Response } from 'express';
 
-import { value IBaseError } from '@infra/BaseError';
-import { value BaseErrorCodes, value InternalError } from '@shared/api/BaseOutput';
+import { IBaseError } from '@infra/BaseError';
+import { BaseErrorCodes, InternalError } from '@shared/api/BaseOutput';
 
-import { value mapBaseErrorToAPIError } from '../handlers/helpers/mapBaseErrorToAPIError';
-import { value Logger } from '../utils/Logger';
+import { mapBaseErrorToAPIError } from '../handlers/helpers/mapBaseErrorToAPIError';
+import { Logger } from '../utils/Logger';
 
 abstract class BaseErrorHandler {
   abstract handleError(err: IBaseError, req: Request, res: Response, next: NextFunction): void;
