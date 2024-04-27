@@ -1,0 +1,17 @@
+import {
+    <%= handlerName %>OutputSchema,
+    <%= handlerName %>PayloadSchema,
+} from '@shared/api/<%= domainName %>/schemas/<%= handlerName %>Schemas';
+import {
+    <%= handlerName %>ErrorCodes,
+    <%= handlerName %>Output,
+    <%= handlerName %>Payload,
+} from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
+
+import { BaseHandler } from '../BaseHandler';
+
+export abstract class Abstract<%= handlerName %>Handler extends BaseHandler<<%= handlerName %>Payload, <%= handlerName %>Output> {
+  constructor() {
+    super(<%= handlerName %>PayloadSchema, <%= handlerName %>OutputSchema, <%= handlerName %>ErrorCodes<%= authRequired ? '' : ', false' %>);
+  }
+}
