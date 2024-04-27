@@ -3,7 +3,7 @@ import Joi from 'joi';
 
 import { IBaseError } from '@infra/BaseError';
 import { Result } from '@infra/Result';
-import type { APIHandler } from '@shared/api/APIMethodMapNEW';
+import type { APIHandler } from '@shared/api/APIMethodMap';
 import type { BaseOutput } from '@shared/api/BaseOutput';
 
 import { Logger } from '../utils/Logger';
