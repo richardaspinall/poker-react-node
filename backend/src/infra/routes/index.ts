@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 
-import { ApiHandler } from '@shared/api/ApiMethodMap';
+import { APIHandler } from '@shared/api/APIMethodMap';
 
 import { routes } from './routeConfig';
 
@@ -11,7 +11,7 @@ routes.forEach((route) => {
   import(route.handler)
     .then((module) => {
       const HandlerClass = module[route.handlerName];
-      const handlerInstance = new HandlerClass() as ApiHandler;
+      const handlerInstance = new HandlerClass() as APIHandler;
 
       // Define the primary route handler
       const routeHandler = async (req: Request, res: Response, next: NextFunction) => {
