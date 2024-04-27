@@ -2,11 +2,6 @@ const fs = require('fs');
 const ejs = require('ejs');
 const path = require('path');
 
-const jsonFilePath = process.argv[2]; // The user must provide the path as an argument 'src/scripts/path_to_your_json_file.json'
-
-// Load JSON Schema
-const schema = JSON.parse(fs.readFileSync('src/scripts/path_to_your_json_file.json', 'utf8'));
-
 function ensureDirectoryExistence(dirPath) {
   const dirname = path.dirname(dirPath);
   if (fs.existsSync(dirname)) {
@@ -27,21 +22,21 @@ function renderAndSave(templatePath, outputPath, data) {
 }
 
 // Paths
-const apiMethodFilePath = path.join(__dirname, '/path_to_your_json_file.json');
-const apiMethodMapFilePath = path.join(__dirname, '/APIMethodMap.json');
-
 try {
+  const apiMetaDataJSON = process.argv[2]; // The user must provide the path as an argument 'src/scripts/path_to_your_json_file.json'
+  const apiMethodMapFilePath = path.join(__dirname, '/APIMethodMap.json');
+
+  const schema = JSON.parse(fs.readFileSync(path.join(__dirname, `../shared/api/metadata/${apiMetaDataJSON}`), 'utf8'));
   const apiMethodMap = JSON.parse(fs.readFileSync(apiMethodMapFilePath, 'utf8'));
-  const apiMethod = JSON.parse(fs.readFileSync(apiMethodFilePath, 'utf8'));
 
   const newApiMethod = {
-    domainName: apiMethod.domainName,
-    apiVerb: apiMethod.apiVerb,
-    methodName: `${apiMethod.domainName}.${apiMethod.apiVerb}`,
-    handlerName: apiMethod.handlerName,
-    httpMethod: apiMethod.httpMethod,
-    requestType: `${apiMethod.handlerName}Payload`,
-    responseType: `${apiMethod.handlerName}Output`,
+    domainName: schema.domainName,
+    apiVerb: schema.apiVerb,
+    methodName: `${schema.domainName}.${schema.apiVerb}`,
+    handlerName: schema.handlerName,
+    httpMethod: schema.httpMethod,
+    requestType: `${schema.handlerName}Payload`,
+    responseType: `${schema.handlerName}Output`,
   };
 
   // Find index of existing method if it exists
