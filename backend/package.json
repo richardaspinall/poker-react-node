@@ -9,7 +9,8 @@
     "api_tests": "TEST_RUNNER=true jest --config jest.config.api.js --runInBand --detectOpenHandles $npm_config_file",
     "dev": "nodemon",
     "create-test-db": "DB_DATABASE=test_poker node src/db/create_dev_db.js",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "generate_handler": "node src/scripts/generateHandler.js $npm_config_metadata_file && prettier --write './src/shared/api/**/*.ts' './src/handlers/**/*.ts'"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +34,7 @@
     "chalk": "^4.1.0",
     "cors": "^2.8.5",
     "debug": "^4.3.4",
+    "ejs": "^3.1.10",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
