@@ -4,7 +4,7 @@ import { PokerTableGetSeatsOutput, PokerTableGetSeatsPayload } from '../types/Po
 
 export const PokerTableGetSeatsPayloadSchema = Joi.object<PokerTableGetSeatsPayload>({
   pokerTableName: Joi.string().required(),
-});
+}).unknown(false);
 
 export const PokerTableGetSeatsOutputSchema = Joi.object<PokerTableGetSeatsOutput>({
   ok: Joi.boolean().required(),
