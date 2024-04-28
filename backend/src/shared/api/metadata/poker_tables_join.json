@@ -1,13 +1,13 @@
 {
-  "handlerName": "PokerTablesGetSeats",
+  "handlerName": "PokerTablesJoin",
   "domainName": "poker-tables",
-  "apiVerb": "getSeats",
+  "apiVerb": "join",
   "httpMethod": "post",
-  "authRequired": false,
+  "authRequired": true,
   "payload": {
     "properties": [
       {
-        "name": "pokerTableName",
+        "name": "selectedSeatNumber",
         "type": "string",
         "required": true
       }
@@ -19,24 +19,6 @@
         "name": "ok",
         "type": "boolean",
         "required": true
-      },
-      {
-        "name": "seats",
-        "type": "array",
-        "required": true,
-        "items": [
-          {
-            "name": "seatNumber",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "username",
-            "type": "string",
-            "allowEmpty": true,
-            "required": true
-          }
-        ]
       }
     ]
   },
