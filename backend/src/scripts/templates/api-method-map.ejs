@@ -14,8 +14,7 @@ export interface APIMethodMap {
   '<%= method.methodName %>': {
     request: <%= method.requestType %>;
     response: <%= method.responseType %>;
-  };
-  <% }); %>
+  };<% }); %>
 }
 
 export type APIMethod = keyof APIMethodMap;
