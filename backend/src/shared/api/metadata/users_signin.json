@@ -1,0 +1,43 @@
+{
+    "handlerName": "UsersSignin",
+    "domainName": "users",
+    "apiVerb": "create",
+    "httpMethod": "post",
+    "authRequired": true,
+    "payload": {
+      "properties": [
+        {
+          "name": "username",
+          "type": "string",
+          "required": true
+        },
+        {
+            "name": "password",
+            "type": "string",
+            "required": true
+        }
+      ]
+    },
+    "output": {
+      "properties": [
+        {
+          "name": "ok",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    "errors": [
+      {
+        "errorName": "UsernameNotFoundError",
+        "errorCode": "username_not_found",
+        "message": "Username not found"
+      },
+      {
+        "errorName": "PasswordInvalidError",
+        "errorCode": "password_invalid",
+        "message": "Password is invalid"
+      }
+    ]
+  }
+  

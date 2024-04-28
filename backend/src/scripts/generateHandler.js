@@ -73,7 +73,7 @@ try {
     schema
   );
   schema.errors.forEach((error) => {
-    renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/${error.classFile}`, error);
+    renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/${error.errorName}.ts`, error);
   });
 
   console.log('TypeScript files generated successfully.');

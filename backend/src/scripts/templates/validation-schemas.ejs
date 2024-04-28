@@ -2,10 +2,6 @@ import Joi from 'joi';
 
 import { <%= handlerName %>Output, <%= handlerName %>Payload } from '../types/<%= handlerName %>';
 
-<!-- export const <%= handlerName %>PayloadSchema = Joi.object<<%= handlerName %>Payload>({<% payload.properties.forEach(function(prop, index) { %><%= 
-  prop.name %>: Joi.<%= prop.type %>()<%= !prop.required ? '.optional()' : '.required()' %><%= index < payload.properties.length - 1 ? ',' : '' %><% }); %>
-}); -->
-
 export const <%= handlerName %>PayloadSchema = Joi.object<<%= handlerName %>Payload>({<% payload.properties.forEach(function(prop, index) { 
   const nextProp = payload.properties[index + 1]; %><% if (prop.type === 'array') { %><%= 
     prop.name %>: Joi.array().items(<%
