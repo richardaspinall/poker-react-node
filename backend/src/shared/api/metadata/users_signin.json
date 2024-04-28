@@ -1,7 +1,7 @@
 {
     "handlerName": "UsersSignin",
     "domainName": "users",
-    "apiVerb": "create",
+    "apiVerb": "signin",
     "httpMethod": "post",
     "authRequired": true,
     "payload": {
