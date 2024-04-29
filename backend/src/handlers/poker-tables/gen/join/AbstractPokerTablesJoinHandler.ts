@@ -4,14 +4,11 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { PokerTablesJoinPayload, } from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
 
-import { AbstractPokerTablesJoinHandler } from './gen/joinAbstractPokerTablesJoinHandler';
+import { AbstractPokerTablesJoinHandler } from './gen/join/AbstractPokerTablesJoinHandler';
 
-import {SeatTakenError} from './gen/join/errors/SeatTakenError'
-
-import {PlayerAlreadySeatedError} from './gen/join/errors/PlayerAlreadySeatedError'
-
-import {PlayerNotFoundAtTableError} from './gen/join/errors/PlayerNotFoundAtTableError'
-
+import {SeatTakenError} from './gen/join/errors/SeatTakenError;'
+import {PlayerAlreadySeatedError} from './gen/join/errors/PlayerAlreadySeatedError;'
+import {PlayerNotFoundAtTableError} from './gen/join/errors/PlayerNotFoundAtTableError;'
 
 export class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
   protected async getResult(payload: PokerTablesJoinPayload) {

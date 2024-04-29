@@ -4,9 +4,9 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { PokerTablesGetSeatsPayload, } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
-import { AbstractPokerTablesGetSeatsHandler } from './gen/getSeats/AbstractPokerTablesGetSeatsHandler';
+import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
 
-import { PokerTableDoesNotExistError } from './gen/getSeats/errors/PokerTableDoesNotExistError';
+import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 
 export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
   protected async getResult(payload: PokerTablesGetSeatsPayload) {

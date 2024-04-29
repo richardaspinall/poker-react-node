@@ -5,7 +5,7 @@ export const APIMethods: { [key: string]: APIMethodShape } = {
     <%= method.apiVerb %>: {
         httpMethod: '<%= method.httpMethod %>',
         path: '<%= method.domainName %>.<%= method.apiVerb %>',
-        handler: '../../handlers/<%= method.domainName %>/<%= method.handlerName %>Handler.ts',
+        handler: '../../handlers/<%= method.domainName %>/<%= method.apiVerb %>/<%= method.handlerName %>Handler.ts',
         handlerName: '<%= method.handlerName %>Handler',
     },<% }) %>
 } as const;
