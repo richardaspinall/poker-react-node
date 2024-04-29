@@ -4,13 +4,13 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { <%= handlerName %>Payload, } from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
 
-import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
+import { Abstract<%= handlerName %>Handler } from './gen/Abstract<%= handlerName %>Handler';
 <% errors.forEach(function(error, index) { %>
   import {<%= error.errorName %> from './gen/errors/<%= error.errorName %>'
 <% }); %>
 
-export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
-  protected async getResult(payload: PokerTableGetSeatsPayload) {
+export class <%= handlerName %>Handler extends Abstract<%= handlerName %>Handler {
+  protected async getResult(payload: <%= handlerName %>Payload) {
     return new ResultSuccess();
   }
 }
