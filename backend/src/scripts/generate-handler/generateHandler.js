@@ -71,7 +71,7 @@ try {
   // AbstractHandler.ts
   renderAndSave(
     'handler-class.ejs',
-    `../../handlers/${schema.domainName}/gen/Abstract${schema.handlerName}Handler.ts`,
+    `../../handlers/${schema.domainName}/gen/${schema.apiVerb}/Abstract${schema.handlerName}Handler.ts`,
     schema,
   );
 
@@ -87,7 +87,11 @@ try {
 
   // Errors
   schema.errors.forEach((error) => {
-    renderAndSave('error-class.ejs', `../../handlers/${schema.domainName}/gen/errors/${error.errorName}.ts`, error);
+    renderAndSave(
+      'error-class.ejs',
+      `../../handlers/${schema.domainName}/gen/${schema.apiVerb}/errors/${error.errorName}.ts`,
+      error,
+    );
   });
 
   console.log('TypeScript files generated successfully.');
