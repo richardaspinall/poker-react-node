@@ -61,20 +61,30 @@ try {
   // Render and save files
   const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/apiMethodMap.json', 'utf8'));
 
+  // APIMethodMap.ts
   renderAndSave('api-method-map.ejs', `../shared/api/gen/APIMethodMap.ts`, apiMethodSchema);
+
+  // APIMethods.ts
   renderAndSave('api-methods.ejs', `../shared/api/gen/APIMethods.ts`, apiMethodSchema);
 
+  // AbstractHandler.ts
   renderAndSave(
     'handler-class.ejs',
     `../handlers/${schema.domainName}/gen/Abstract${schema.handlerName}Handler.ts`,
     schema,
   );
+
+  // Payload Output and Error Enum types
   renderAndSave('type-defs.ejs', `../shared/api/gen/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
+
+  // Payload and Output schema validation
   renderAndSave(
     'validation-schemas.ejs',
     `../shared/api/gen/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
     schema,
   );
+
+  // Errors
   schema.errors.forEach((error) => {
     renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/gen/errors/${error.errorName}.ts`, error);
   });
