@@ -8,7 +8,7 @@ import {
     <%= handlerName %>Payload,
 } from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
 
-import { BaseHandler } from '../BaseHandler';
+import { BaseHandler } from '../../BaseHandler';
 
 export abstract class Abstract<%= handlerName %>Handler extends BaseHandler<<%= handlerName %>Payload, <%= handlerName %>Output> {
   constructor() {
