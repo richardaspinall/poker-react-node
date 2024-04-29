@@ -52,6 +52,8 @@ try {
     console.log('New API method added to apiMethodMap.json');
   }
 
+  apiMethodMap.sort((a, b) => a.methodName.localeCompare(b.methodName));
+
   // Always update the JSON file with new or updated method info
   const updatedJson = JSON.stringify(apiMethodMap, null, 4);
   fs.writeFileSync(apiMethodMapFilePath, updatedJson, 'utf8');
