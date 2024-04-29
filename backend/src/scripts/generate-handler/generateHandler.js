@@ -71,7 +71,7 @@ try {
   // AbstractHandler.ts
   renderAndSave(
     'handler-class.ejs',
-    `../handlers/${schema.domainName}/gen/Abstract${schema.handlerName}Handler.ts`,
+    `../../handlers/${schema.domainName}/gen/Abstract${schema.handlerName}Handler.ts`,
     schema,
   );
 
