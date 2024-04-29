@@ -4,12 +4,10 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { PokerTablesLeavePayload, } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
 
-import { AbstractPokerTablesLeaveHandler } from './gen/leaveAbstractPokerTablesLeaveHandler';
+import { AbstractPokerTablesLeaveHandler } from './gen/AbstractPokerTablesLeaveHandler';
 
-import {PlayerNotFoundAtTableError} from './gen/leave/errors/PlayerNotFoundAtTableError'
-
-import {PokerTableDoesNotExistError} from './gen/leave/errors/PokerTableDoesNotExistError'
-
+import { PlayerNotFoundAtTableError } from './gen/errors/PlayerNotFoundAtTableError';
+import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 
 export class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
   protected async getResult(payload: PokerTablesLeavePayload) {
@@ -27,7 +25,7 @@ import {
   PokerTablesLeavePayload,
 } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
 
-import { BaseHandler } from '../../BaseHandler';
+import { BaseHandler } from '../../../BaseHandler';
 
 export abstract class AbstractPokerTablesLeaveHandler extends BaseHandler<
   PokerTablesLeavePayload,
