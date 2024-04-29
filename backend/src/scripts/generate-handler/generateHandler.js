@@ -61,7 +61,7 @@ try {
   fs.writeFileSync(apiMethodMapFilePath, updatedJson, 'utf8');
 
   // Render and save files
-  const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/generate-handler/apiMethodMap.json', 'utf8'));
+  const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/generate-handler/api_method_map.json', 'utf8'));
 
   // APIMethodMap.ts
   renderAndSave('api-method-map.ejs', `../../shared/api/gen/APIMethodMap.ts`, apiMethodSchema);
