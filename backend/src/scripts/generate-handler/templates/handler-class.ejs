@@ -1,0 +1,35 @@
+/* 
+!!!! Copy out the below for new or updated API
+
+import { ResultError, ResultSuccess } from '@infra/Result';
+import { <%= handlerName %>Payload, } from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
+
+import { Abstract<%= handlerName %>Handler } from './gen/Abstract<%= handlerName %>Handler';
+<% errors.forEach(function(error, index) { %>
+import {<%= error.errorName %>} from './gen/errors/<%= error.errorName %>'
+<% }); %>
+
+export class <%= handlerName %>Handler extends Abstract<%= handlerName %>Handler {
+  protected async getResult(payload: <%= handlerName %>Payload) {
+    return new ResultSuccess();
+  }
+}
+*/
+
+import {
+    <%= handlerName %>OutputSchema,
+    <%= handlerName %>PayloadSchema,
+} from '@shared/api/<%= domainName %>/schemas/<%= handlerName %>Schemas';
+import {
+    <%= handlerName %>ErrorCodes,
+    <%= handlerName %>Output,
+    <%= handlerName %>Payload,
+} from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
+
+import { BaseHandler } from '../../BaseHandler';
+
+export abstract class Abstract<%= handlerName %>Handler extends BaseHandler<<%= handlerName %>Payload, <%= handlerName %>Output> {
+  constructor() {
+    super(<%= handlerName %>PayloadSchema, <%= handlerName %>OutputSchema, <%= handlerName %>ErrorCodes<%= authRequired ? '' : ', false' %>);
+  }
+}

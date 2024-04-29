@@ -1,0 +1,42 @@
+{
+  "handlerName": "PokerTablesJoin",
+  "domainName": "poker-tables",
+  "apiVerb": "join",
+  "httpMethod": "post",
+  "authRequired": true,
+  "payload": {
+    "properties": [
+      {
+        "name": "selectedSeatNumber",
+        "type": "string",
+        "required": true
+      }
+    ]
+  },
+  "output": {
+    "properties": [
+      {
+        "name": "ok",
+        "type": "boolean",
+        "required": true
+      }
+    ]
+  },
+  "errors": [
+    {
+      "errorName": "SeatTakenError",
+      "errorCode": "seat_taken",
+      "message": "Seat is taken"
+    },
+    {
+      "errorName": "PlayerAlreadySeatedError",
+      "errorCode": "player_already_seated",
+      "message": "Player is already seated at the table"
+    },
+    {
+      "errorName": "PlayerNotFoundAtTableError",
+      "errorCode": "player_not_found_at_table",
+      "message": "Player is not seated at the table"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+import type { NextFunction, Request, Response } from 'express';
+import type { BaseOutput } from '../BaseOutput';
+
+<% apiMethods.forEach(function(method) { %>
+import type {<%= method.handlerName %>Output, <%= method.handlerName %>Payload  } from './<%= method.domainName %>/types/<%= method.handlerName %>';
+<% }); %>
+
+export interface APIHandler {
+  runHandler(req: Request<any>, res: Response<BaseOutput>, next: NextFunction): any;
+}
+
+export interface APIMethodMap {
+  <% apiMethods.forEach(function(method) { %>
+  '<%= method.methodName %>': {
+    request: <%= method.requestType %>;
+    response: <%= method.responseType %>;
+  };<% }); %>
+}
+
+export type APIMethod = keyof APIMethodMap;

@@ -66,6 +66,7 @@ Extension: humao.rest-client
     "chalk": "^4.1.0", // colors for logging (using specifically version 4 for typescript)
     "cors": "^2.8.5", // allows for frontend to make requests to different servers other than the original server hosting the app
     "debug": "^4.3.4", // for debug logging
+    "ejs": "^3.1.10", // for generating files using embeded js (generating handlers specificly)
     "eslint": "^8.57.0", // linting typescript
     "eslint-plugin-import": "^2.29.1", // linting typescript (plugin support like no default exports)
     "jest": "^29.7.0", // testing framework

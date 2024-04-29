@@ -1,0 +1,50 @@
+{
+  "handlerName": "ExampleHandler",
+  "domainName": "example",
+  "apiVerb": "getAll",
+  "httpMethod": "post",
+  "authRequired": false,
+  "payload": {
+    "properties": [
+      {
+        "name": "ExampleProperty",
+        "type": "string",
+        "required": true
+      }
+    ]
+  },
+  "output": {
+    "properties": [
+      {
+        "name": "ok",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "ExampleArray",
+        "type": "array",
+        "required": true,
+        "items": [
+          {
+            "name": "ExampleProperty",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "ExampleProperty",
+            "type": "string",
+            "allowEmpty": true,
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "errors": [
+    {
+      "errorName": "ExampleError",
+      "errorCode": "some_error_code",
+      "message": "Example error message"
+    }
+  ]
+}

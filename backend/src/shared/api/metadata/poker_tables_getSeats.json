@@ -1,0 +1,50 @@
+{
+  "handlerName": "PokerTablesGetSeats",
+  "domainName": "poker-tables",
+  "apiVerb": "getSeats",
+  "httpMethod": "post",
+  "authRequired": false,
+  "payload": {
+    "properties": [
+      {
+        "name": "pokerTableName",
+        "type": "string",
+        "required": true
+      }
+    ]
+  },
+  "output": {
+    "properties": [
+      {
+        "name": "ok",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "seats",
+        "type": "array",
+        "required": true,
+        "items": [
+          {
+            "name": "seatNumber",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "username",
+            "type": "string",
+            "allowEmpty": true,
+            "required": true
+          }
+        ]
+      }
+    ]
+  },
+  "errors": [
+    {
+      "errorName": "PokerTableDoesNotExistError",
+      "errorCode": "poker_table_does_not_exist",
+      "message": "The specified poker table does not exist."
+    }
+  ]
+}
