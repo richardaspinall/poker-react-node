@@ -24,7 +24,7 @@ function renderAndSave(templatePath, outputPath, data) {
 // Paths
 try {
   const apiMetaDataJSON = process.argv[2]; // The user must provide the path as an argument 'src/scripts/path_to_your_json_file.json'
-  const apiMethodMapFilePath = path.join(__dirname, '/APIMethodMap.json');
+  const apiMethodMapFilePath = path.join(__dirname, '/api_method_map.json');
 
   const schema = JSON.parse(
     fs.readFileSync(path.join(__dirname, `../../shared/api/metadata/${apiMetaDataJSON}`), 'utf8'),
@@ -61,13 +61,12 @@ try {
   fs.writeFileSync(apiMethodMapFilePath, updatedJson, 'utf8');
 
   // Render and save files
-  const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/generate-handler/api_method_map.json', 'utf8'));
 
   // APIMethodMap.ts
-  renderAndSave('api-method-map.ejs', `../../shared/api/gen/APIMethodMap.ts`, apiMethodSchema);
+  renderAndSave('api-method-map.ejs', `../../shared/api/gen/APIMethodMap.ts`, apiMethodMap);
 
   // APIMethods.ts
-  renderAndSave('api-methods.ejs', `../../shared/api/gen/APIMethods.ts`, apiMethodSchema);
+  renderAndSave('api-methods.ejs', `../../shared/api/gen/APIMethods.ts`, apiMethodMap);
 
   // AbstractHandler.ts
   renderAndSave(
