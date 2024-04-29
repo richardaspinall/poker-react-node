@@ -26,7 +26,9 @@ try {
   const apiMetaDataJSON = process.argv[2]; // The user must provide the path as an argument 'src/scripts/path_to_your_json_file.json'
   const apiMethodMapFilePath = path.join(__dirname, '/APIMethodMap.json');
 
-  const schema = JSON.parse(fs.readFileSync(path.join(__dirname, `../shared/api/metadata/${apiMetaDataJSON}`), 'utf8'));
+  const schema = JSON.parse(
+    fs.readFileSync(path.join(__dirname, `../../shared/api/metadata/${apiMetaDataJSON}`), 'utf8'),
+  );
   const apiMethodMap = JSON.parse(fs.readFileSync(apiMethodMapFilePath, 'utf8'));
 
   const newApiMethod = {
@@ -59,13 +61,13 @@ try {
   fs.writeFileSync(apiMethodMapFilePath, updatedJson, 'utf8');
 
   // Render and save files
-  const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/apiMethodMap.json', 'utf8'));
+  const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/generate-handler/apiMethodMap.json', 'utf8'));
 
   // APIMethodMap.ts
-  renderAndSave('api-method-map.ejs', `../shared/api/gen/APIMethodMap.ts`, apiMethodSchema);
+  renderAndSave('api-method-map.ejs', `../../shared/api/gen/APIMethodMap.ts`, apiMethodSchema);
 
   // APIMethods.ts
-  renderAndSave('api-methods.ejs', `../shared/api/gen/APIMethods.ts`, apiMethodSchema);
+  renderAndSave('api-methods.ejs', `../../shared/api/gen/APIMethods.ts`, apiMethodSchema);
 
   // AbstractHandler.ts
   renderAndSave(
@@ -75,18 +77,18 @@ try {
   );
 
   // Payload Output and Error Enum types
-  renderAndSave('type-defs.ejs', `../shared/api/gen/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
+  renderAndSave('type-defs.ejs', `../../shared/api/gen/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
 
   // Payload and Output schema validation
   renderAndSave(
     'validation-schemas.ejs',
-    `../shared/api/gen/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
+    `../../shared/api/gen/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
     schema,
   );
 
   // Errors
   schema.errors.forEach((error) => {
-    renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/gen/errors/${error.errorName}.ts`, error);
+    renderAndSave('error-class.ejs', `../../handlers/${schema.domainName}/gen/errors/${error.errorName}.ts`, error);
   });
 
   console.log('TypeScript files generated successfully.');

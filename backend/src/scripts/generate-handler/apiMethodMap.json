@@ -1,0 +1,13 @@
+{
+    "apiMethods": [
+        {
+            "domainName": "poker-tables",
+            "apiVerb": "join",
+            "methodName": "poker-tables.join",
+            "handlerName": "PokerTablesJoin",
+            "httpMethod": "post",
+            "requestType": "PokerTablesJoinPayload",
+            "responseType": "PokerTablesJoinOutput"
+        }
+    ]
+}
