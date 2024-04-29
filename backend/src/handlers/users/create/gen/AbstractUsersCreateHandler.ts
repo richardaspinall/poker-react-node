@@ -4,12 +4,10 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersCreatePayload, } from '@shared/api/gen/users/types/UsersCreate';
 
-import { AbstractUsersCreateHandler } from './gen/createAbstractUsersCreateHandler';
+import { AbstractUsersCreateHandler } from './gen/AbstractUsersCreateHandler';
 
-import {UsernameTakenError} from './gen/create/errors/UsernameTakenError'
-
-import {UsersCreateError} from './gen/create/errors/UsersCreateError'
-
+import { UsernameTakenError } from './gen/errors/UsernameTakenError';
+import { UsersCreateError } from './gen/errors/UsersCreateError';
 
 export class UsersCreateHandler extends AbstractUsersCreateHandler {
   protected async getResult(payload: UsersCreatePayload) {
@@ -20,7 +18,7 @@ export class UsersCreateHandler extends AbstractUsersCreateHandler {
 import { UsersCreateOutputSchema, UsersCreatePayloadSchema } from '@shared/api/gen/users/schemas/UsersCreateSchemas';
 import { UsersCreateErrorCodes, UsersCreateOutput, UsersCreatePayload } from '@shared/api/gen/users/types/UsersCreate';
 
-import { BaseHandler } from '../../BaseHandler';
+import { BaseHandler } from '../../../BaseHandler';
 
 export abstract class AbstractUsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutput> {
   constructor() {
