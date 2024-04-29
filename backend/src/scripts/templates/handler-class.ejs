@@ -1,3 +1,21 @@
+/* 
+!!!! Copy out the below for newly created API or updated
+
+import { ResultError, ResultSuccess } from '@infra/Result';
+import { <%= handlerName %>Payload, } from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
+
+import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
+<% errors.forEach(function(error, index) { %>
+  import {<%= error.errorName %> from './gen/errors/<%= error.errorName %>'
+<% }); %>
+
+export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
+  protected async getResult(payload: PokerTableGetSeatsPayload) {
+    return new ResultSuccess();
+  }
+}
+*/
+
 import {
     <%= handlerName %>OutputSchema,
     <%= handlerName %>PayloadSchema,
