@@ -23,7 +23,7 @@ class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
   protected async getResult(
     payload: SigninPayload,
     _user: string /* unused, used in other class methods */,
-    req: Request<SigninPayload>
+    req: Request<SigninPayload>,
   ) {
     // TODO: need to validate username. task: 86cv07w0c
     // console.log(payload);

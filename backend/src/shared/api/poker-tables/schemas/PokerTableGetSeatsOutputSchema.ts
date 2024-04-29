@@ -12,6 +12,6 @@ export const PokerTableGetSeatsOutputSchema = Joi.object<PokerTableGetSeatsOutpu
     Joi.object({
       seatNumber: Joi.string().required(),
       username: Joi.string().allow('').required(),
-    })
+    }),
   ),
 }).unknown(false);

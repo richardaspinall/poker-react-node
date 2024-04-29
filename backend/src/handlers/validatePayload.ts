@@ -17,7 +17,7 @@ const debug = Logger.newDebugger('APP:Validation');
  */
 export function validatePayload<TPayload>(
   validationSchema: Joi.ObjectSchema<TPayload>,
-  payload: any
+  payload: any,
 ): Result<TPayload> {
   const { error, value } = validationSchema.validate(payload, { abortEarly: false });
 
