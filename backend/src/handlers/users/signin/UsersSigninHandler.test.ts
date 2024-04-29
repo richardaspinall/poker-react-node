@@ -7,7 +7,7 @@ describe('signin', () => {
   it('should authenticate the user successfully with correct credentials', async () => {
     mockMySqlSelectSuccess();
 
-    const res = await apiTestNoCookie('/api/actions/signin', {
+    const res = await apiTestNoCookie('/api/actions/users.signin', {
       username: 'testuser',
       password: 'testpassword',
     });
@@ -17,7 +17,7 @@ describe('signin', () => {
   });
 
   it('should error when payload is invalid', async () => {
-    const res = await apiTestNoCookie('/api/actions/signin', {
+    const res = await apiTestNoCookie('/api/actions/users.signin', {
       username: '',
       password: '',
     });
@@ -29,7 +29,7 @@ describe('signin', () => {
   it('should respond with a password_invalid error when signing in with a password that is invalid', async () => {
     mockMySqlSelectSuccess();
 
-    const res = await apiTestNoCookie('/api/actions/signin', {
+    const res = await apiTestNoCookie('/api/actions/users.signin', {
       username: 'testuser',
       password: 'invalidpassword',
     });
@@ -41,7 +41,7 @@ describe('signin', () => {
   it('should respond with a username_not_found when signing in with a username that does not exist', async () => {
     mockMySqlSelectSuccessWithNoRows();
 
-    const res = await apiTestNoCookie('/api/actions/signin', {
+    const res = await apiTestNoCookie('/api/actions/users.signin', {
       username: 'invaliduser',
       password: 'invalidpasword',
     });
