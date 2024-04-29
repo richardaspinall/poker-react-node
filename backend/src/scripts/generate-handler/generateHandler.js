@@ -68,13 +68,6 @@ try {
   // APIMethods.ts
   renderAndSave('api-methods.ejs', `../../shared/api/gen/APIMethods.ts`, apiMethodMap);
 
-  // AbstractHandler.ts
-  renderAndSave(
-    'handler-class.ejs',
-    `../../handlers/${schema.domainName}/gen/${schema.apiVerb}/Abstract${schema.handlerName}Handler.ts`,
-    schema,
-  );
-
   // Payload Output and Error Enum types
   renderAndSave('type-defs.ejs', `../../shared/api/gen/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
 
@@ -85,11 +78,18 @@ try {
     schema,
   );
 
+  // AbstractHandler.ts
+  renderAndSave(
+    'handler-class.ejs',
+    `../../handlers/${schema.domainName}/${schema.apiVerb}/gen/Abstract${schema.handlerName}Handler.ts`,
+    schema,
+  );
+
   // Errors
   schema.errors.forEach((error) => {
     renderAndSave(
       'error-class.ejs',
-      `../../handlers/${schema.domainName}/gen/${schema.apiVerb}/errors/${error.errorName}.ts`,
+      `../../handlers/${schema.domainName}/${schema.apiVerb}/gen/errors/${error.errorName}.ts`,
       error,
     );
   });
