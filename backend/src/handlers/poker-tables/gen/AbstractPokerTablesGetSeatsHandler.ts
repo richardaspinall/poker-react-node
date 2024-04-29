@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { PokerTablesGetSeatsPayload, } from '@shared/api/poker-tables/types/PokerTablesGetSeats';
+import { PokerTablesGetSeatsPayload, } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
 import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
 
@@ -18,12 +18,12 @@ export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandl
 import {
   PokerTablesGetSeatsOutputSchema,
   PokerTablesGetSeatsPayloadSchema,
-} from '@shared/api/poker-tables/schemas/PokerTablesGetSeatsSchemas';
+} from '@shared/api/gen/poker-tables/schemas/PokerTablesGetSeatsSchemas';
 import {
   PokerTablesGetSeatsErrorCodes,
   PokerTablesGetSeatsOutput,
   PokerTablesGetSeatsPayload,
-} from '@shared/api/poker-tables/types/PokerTablesGetSeats';
+} from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
 import { BaseHandler } from '../../BaseHandler';
 

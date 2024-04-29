@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { UsersCreatePayload, } from '@shared/api/users/types/UsersCreate';
+import { UsersCreatePayload, } from '@shared/api/gen/users/types/UsersCreate';
 
 import { AbstractUsersCreateHandler } from './gen/AbstractUsersCreateHandler';
 
@@ -17,8 +17,8 @@ export class UsersCreateHandler extends AbstractUsersCreateHandler {
   }
 }
 */
-import { UsersCreateOutputSchema, UsersCreatePayloadSchema } from '@shared/api/users/schemas/UsersCreateSchemas';
-import { UsersCreateErrorCodes, UsersCreateOutput, UsersCreatePayload } from '@shared/api/users/types/UsersCreate';
+import { UsersCreateOutputSchema, UsersCreatePayloadSchema } from '@shared/api/gen/users/schemas/UsersCreateSchemas';
+import { UsersCreateErrorCodes, UsersCreateOutput, UsersCreatePayload } from '@shared/api/gen/users/types/UsersCreate';
 
 import { BaseHandler } from '../../BaseHandler';
 
