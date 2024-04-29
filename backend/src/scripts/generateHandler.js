@@ -58,22 +58,23 @@ try {
 
   // Render and save files
   const apiMethodSchema = JSON.parse(fs.readFileSync('src/scripts/apiMethodMap.json', 'utf8'));
-  renderAndSave('api-method-map.ejs', `../shared/api/APIMethodMap.ts`, apiMethodSchema);
-  renderAndSave('api-methods.ejs', `../shared/api/APIMethods.ts`, apiMethodSchema);
+
+  renderAndSave('api-method-map.ejs', `../shared/api/gen/APIMethodMap.ts`, apiMethodSchema);
+  renderAndSave('api-methods.ejs', `../shared/api/gen/APIMethods.ts`, apiMethodSchema);
 
   renderAndSave(
     'handler-class.ejs',
-    `../handlers/${schema.domainName}/Abstract${schema.handlerName}Handler.ts`,
-    schema
+    `../handlers/${schema.domainName}/gen/Abstract${schema.handlerName}Handler.ts`,
+    schema,
   );
-  renderAndSave('type-defs.ejs', `../shared/api/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
+  renderAndSave('type-defs.ejs', `../shared/api/gen/${schema.domainName}/types/${schema.handlerName}.ts`, schema);
   renderAndSave(
     'validation-schemas.ejs',
-    `../shared/api/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
-    schema
+    `../shared/api/gen/${schema.domainName}/schemas/${schema.handlerName}Schemas.ts`,
+    schema,
   );
   schema.errors.forEach((error) => {
-    renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/errors/${error.errorName}.ts`, error);
+    renderAndSave('error-class.ejs', `../handlers/${schema.domainName}/gen/errors/${error.errorName}.ts`, error);
   });
 
   console.log('TypeScript files generated successfully.');
