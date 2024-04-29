@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { PokerTablesLeavePayload, } from '@shared/api/poker-tables/types/PokerTablesLeave';
+import { PokerTablesLeavePayload, } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
 
 import { AbstractPokerTablesLeaveHandler } from './gen/AbstractPokerTablesLeaveHandler';
 
@@ -20,12 +20,12 @@ export class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
 import {
   PokerTablesLeaveOutputSchema,
   PokerTablesLeavePayloadSchema,
-} from '@shared/api/poker-tables/schemas/PokerTablesLeaveSchemas';
+} from '@shared/api/gen/poker-tables/schemas/PokerTablesLeaveSchemas';
 import {
   PokerTablesLeaveErrorCodes,
   PokerTablesLeaveOutput,
   PokerTablesLeavePayload,
-} from '@shared/api/poker-tables/types/PokerTablesLeave';
+} from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
 
 import { BaseHandler } from '../../BaseHandler';
 

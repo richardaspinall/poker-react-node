@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { <%= handlerName %>Payload, } from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
+import { <%= handlerName %>Payload, } from '@shared/api/gen/<%= domainName %>/types/<%= handlerName %>';
 
 import { Abstract<%= handlerName %>Handler } from './gen/Abstract<%= handlerName %>Handler';
 <% errors.forEach(function(error, index) { %>
@@ -19,12 +19,12 @@ export class <%= handlerName %>Handler extends Abstract<%= handlerName %>Handler
 import {
     <%= handlerName %>OutputSchema,
     <%= handlerName %>PayloadSchema,
-} from '@shared/api/<%= domainName %>/schemas/<%= handlerName %>Schemas';
+} from '@shared/api/gen/<%= domainName %>/schemas/<%= handlerName %>Schemas';
 import {
     <%= handlerName %>ErrorCodes,
     <%= handlerName %>Output,
     <%= handlerName %>Payload,
-} from '@shared/api/<%= domainName %>/types/<%= handlerName %>';
+} from '@shared/api/gen/<%= domainName %>/types/<%= handlerName %>';
 
 import { BaseHandler } from '../../BaseHandler';
 

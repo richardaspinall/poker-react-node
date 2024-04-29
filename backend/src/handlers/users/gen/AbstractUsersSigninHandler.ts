@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { UsersSigninPayload, } from '@shared/api/users/types/UsersSignin';
+import { UsersSigninPayload, } from '@shared/api/gen/users/types/UsersSignin';
 
 import { AbstractUsersSigninHandler } from './gen/AbstractUsersSigninHandler';
 
@@ -17,8 +17,8 @@ export class UsersSigninHandler extends AbstractUsersSigninHandler {
   }
 }
 */
-import { UsersSigninOutputSchema, UsersSigninPayloadSchema } from '@shared/api/users/schemas/UsersSigninSchemas';
-import { UsersSigninErrorCodes, UsersSigninOutput, UsersSigninPayload } from '@shared/api/users/types/UsersSignin';
+import { UsersSigninOutputSchema, UsersSigninPayloadSchema } from '@shared/api/gen/users/schemas/UsersSigninSchemas';
+import { UsersSigninErrorCodes, UsersSigninOutput, UsersSigninPayload } from '@shared/api/gen/users/types/UsersSignin';
 
 import { BaseHandler } from '../../BaseHandler';
 

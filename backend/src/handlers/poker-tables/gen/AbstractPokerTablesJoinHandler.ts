@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { PokerTablesJoinPayload, } from '@shared/api/poker-tables/types/PokerTablesJoin';
+import { PokerTablesJoinPayload, } from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
 
 import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
 
@@ -22,12 +22,12 @@ export class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
 import {
   PokerTablesJoinOutputSchema,
   PokerTablesJoinPayloadSchema,
-} from '@shared/api/poker-tables/schemas/PokerTablesJoinSchemas';
+} from '@shared/api/gen/poker-tables/schemas/PokerTablesJoinSchemas';
 import {
   PokerTablesJoinErrorCodes,
   PokerTablesJoinOutput,
   PokerTablesJoinPayload,
-} from '@shared/api/poker-tables/types/PokerTablesJoin';
+} from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
 
 import { BaseHandler } from '../../BaseHandler';
 
