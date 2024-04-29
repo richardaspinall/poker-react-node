@@ -4,11 +4,11 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersSigninPayload, } from '@shared/api/gen/users/types/UsersSignin';
 
-import { AbstractUsersSigninHandler } from './gen/AbstractUsersSigninHandler';
+import { AbstractUsersSigninHandler } from './gen/signinAbstractUsersSigninHandler';
 
-import {UsernameNotFoundError} from './gen/errors/UsernameNotFoundError'
+import {UsernameNotFoundError} from './gen/signin/errors/UsernameNotFoundError'
 
-import {PasswordInvalidError} from './gen/errors/PasswordInvalidError'
+import {PasswordInvalidError} from './gen/signin/errors/PasswordInvalidError'
 
 
 export class UsersSigninHandler extends AbstractUsersSigninHandler {

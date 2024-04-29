@@ -4,11 +4,11 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersCreatePayload, } from '@shared/api/gen/users/types/UsersCreate';
 
-import { AbstractUsersCreateHandler } from './gen/AbstractUsersCreateHandler';
+import { AbstractUsersCreateHandler } from './gen/createAbstractUsersCreateHandler';
 
-import {UsernameTakenError} from './gen/errors/UsernameTakenError'
+import {UsernameTakenError} from './gen/create/errors/UsernameTakenError'
 
-import {UsersCreateError} from './gen/errors/UsersCreateError'
+import {UsersCreateError} from './gen/create/errors/UsersCreateError'
 
 
 export class UsersCreateHandler extends AbstractUsersCreateHandler {
