@@ -4,17 +4,22 @@ import type { Request } from 'express';
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { SigninErrorCodes } from '@shared/signin/types/Signin';
 
-import { SigninOutput, SigninOutputSchema, SigninPayload, SigninPayloadSchema } from '../../shared/signin/types/Signin';
-import { UserService } from '../../users/UserService';
-import { Logger } from '../../utils/Logger';
-import { BaseHandler } from '../BaseHandler';
+import {
+  SigninOutput,
+  SigninOutputSchema,
+  SigninPayload,
+  SigninPayloadSchema,
+} from '../../../shared/signin/types/Signin';
+import { UserService } from '../../../users/UserService';
+import { Logger } from '../../../utils/Logger';
+import { BaseHandler } from '../../BaseHandler';
 
 export const router = express.Router();
 
 /**
  * SigninHandler signs in a user
  */
-class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
+class UsersSigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
   constructor() {
     super(SigninPayloadSchema, SigninOutputSchema, SigninErrorCodes, false);
   }
@@ -46,4 +51,4 @@ class SigninHandler extends BaseHandler<SigninPayload, SigninOutput> {
   }
 }
 
-export { SigninHandler };
+export { UsersSigninHandler };

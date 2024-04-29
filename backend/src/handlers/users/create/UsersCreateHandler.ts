@@ -7,8 +7,8 @@ import {
   UsersCreateOutputSchema,
   UsersCreatePayload,
   UsersCreatePayloadSchema,
-} from '../../shared/api/users/types/UsersCreate';
-import { BaseHandler } from '../BaseHandler';
+} from '../../../shared/api/users/types/UsersCreate';
+import { BaseHandler } from '../../BaseHandler';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB

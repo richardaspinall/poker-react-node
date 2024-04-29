@@ -1,6 +1,6 @@
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
 
-import { PasswordInvalidError } from '../handlers/signin/errors/PasswordInvalidError';
+import { PasswordInvalidError } from '../handlers/users/signin/gen/errors/PasswordInvalidError';
 import { UserRepository } from './UserRepository';
 
 // This file contains the UserService class which is responsible for managing users.

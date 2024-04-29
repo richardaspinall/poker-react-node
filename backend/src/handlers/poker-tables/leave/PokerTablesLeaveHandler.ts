@@ -6,15 +6,15 @@ import {
 } from '@shared/api/poker-tables/types/PokerTableLeave';
 import { PlayerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
-import { GameLobbyService } from '../../game-lobby-service';
+import { GameLobbyService } from '../../../game-lobby-service';
 import type {
   PokerTableLeaveOutput,
   PokerTableLeavePayload,
-} from '../../shared/api/poker-tables/types/PokerTableLeave';
-import { Rooms } from '../../sockets/Rooms';
-import { Logger } from '../../utils/Logger';
-import { BaseHandler } from '../BaseHandler';
-import { PokerTableDoesNotExistError } from './errors';
+} from '../../../shared/api/poker-tables/types/PokerTableLeave';
+import { Rooms } from '../../../sockets/Rooms';
+import { Logger } from '../../../utils/Logger';
+import { BaseHandler } from '../../BaseHandler';
+import { PokerTableDoesNotExistError } from '../errors';
 
 const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
 

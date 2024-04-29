@@ -1,7 +1,7 @@
 import { apiTestNoCookie } from '@tests/helpers/apiTest';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
 
-import { mockMySqlSelectSuccess, mockMySqlSelectSuccessWithNoRows } from '../../tests/mocks/dbMocks';
+import { mockMySqlSelectSuccess, mockMySqlSelectSuccessWithNoRows } from '../../../tests/mocks/dbMocks';
 
 describe('signin', () => {
   it('should authenticate the user successfully with correct credentials', async () => {

@@ -1,7 +1,7 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { PokerTablesGetSeatsPayload } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
-import { GameLobbyService } from '../../game-lobby-service';
+import { GameLobbyService } from '../../../game-lobby-service';
 import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
 import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 

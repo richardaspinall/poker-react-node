@@ -6,12 +6,15 @@ import {
 } from '@shared/api/poker-tables/types/PokerTableJoin';
 import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
-import { GameLobbyService } from '../../game-lobby-service';
-import type { PokerTableJoinOutput, PokerTableJoinPayload } from '../../shared/api/poker-tables/types/PokerTableJoin';
-import { Rooms } from '../../sockets/Rooms';
-import { Logger } from '../../utils/Logger';
-import { BaseHandler } from '../BaseHandler';
-import { PokerTableDoesNotExistError } from './errors';
+import { GameLobbyService } from '../../../game-lobby-service';
+import type {
+  PokerTableJoinOutput,
+  PokerTableJoinPayload,
+} from '../../../shared/api/poker-tables/types/PokerTableJoin';
+import { Rooms } from '../../../sockets/Rooms';
+import { Logger } from '../../../utils/Logger';
+import { BaseHandler } from '../../BaseHandler';
+import { PokerTableDoesNotExistError } from '../errors';
 
 const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 
