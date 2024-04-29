@@ -1,24 +1,12 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
-import {
-  PokerTableGetSeatsOutputSchema,
-  PokerTableGetSeatsPayloadSchema,
-} from '@shared/api/poker-tables/schemas/PokerTableGetSeatsOutputSchema';
-import {
-  PokerTableGetSeatsErrorCodes,
-  PokerTableGetSeatsOutput,
-  PokerTableGetSeatsPayload,
-} from '@shared/api/poker-tables/types/PokerTableGetSeats';
+import { PokerTablesGetSeatsPayload } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
 import { GameLobbyService } from '../../game-lobby-service';
-import { BaseHandler } from '../BaseHandler';
-import { PokerTableDoesNotExistError } from './errors/PokerTableDoesNotExistError';
+import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
+import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 
-export class PokerTablesGetSeatsHandler extends BaseHandler<PokerTableGetSeatsPayload, PokerTableGetSeatsOutput> {
-  constructor() {
-    super(PokerTableGetSeatsPayloadSchema, PokerTableGetSeatsOutputSchema, PokerTableGetSeatsErrorCodes, false);
-  }
-
-  protected async getResult(payload: PokerTableGetSeatsPayload) {
+export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
+  protected async getResult(payload: PokerTablesGetSeatsPayload) {
     const pokerTable = GameLobbyService.getPokerTable(payload.pokerTableName);
     if (!pokerTable) {
       return new ResultError(new PokerTableDoesNotExistError());
