@@ -1,4 +1,4 @@
-import { BaseOutput } from '../../BaseOutput';
+import { BaseOutput } from '../../../BaseOutput';
 
 export interface <%= handlerName %>Payload {<% if (payload.properties.length > 0) { payload.properties.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(prop) { %><%= printProperty(prop, 1) %><% }); } %>
 }
