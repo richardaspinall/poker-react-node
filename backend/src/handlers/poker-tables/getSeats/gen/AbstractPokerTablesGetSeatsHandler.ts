@@ -6,7 +6,7 @@ import { PokerTablesGetSeatsPayload, } from '@shared/api/gen/poker-tables/types/
 
 import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
 
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 
 export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
   protected async getResult(payload: PokerTablesGetSeatsPayload) {

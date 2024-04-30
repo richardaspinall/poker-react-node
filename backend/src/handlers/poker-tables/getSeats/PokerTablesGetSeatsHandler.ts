@@ -5,8 +5,8 @@ import {
 } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
 import { GameLobbyService } from '../../../game-lobby-service';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 
 class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
   protected async getResult(payload: PokerTablesGetSeatsPayload) {

@@ -6,7 +6,7 @@ import { <%= handlerName %>Payload, } from '@shared/api/gen/<%= domainName %>/ty
 
 import { Abstract<%= handlerName %>Handler } from './gen/Abstract<%= handlerName %>Handler';
 <% errors.forEach(function(error, index) { %>
-import { <%= error.errorName %> } from '../<%= domainName %>/gen/errors/<%= error.errorName %>';<% }); %>
+import { <%= error.errorName %> } from '../errors/gen/<%= error.errorName %>';<% }); %>
 
 export class <%= handlerName %>Handler extends Abstract<%= handlerName %>Handler {
   protected async getResult(payload: <%= handlerName %>Payload) {

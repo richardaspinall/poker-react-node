@@ -34,8 +34,8 @@
       "message": "Player is already seated at the table"
     },
     {
-      "errorName": "PlayerNotFoundAtTableError",
-      "errorCode": "player_not_found_at_table",
+      "errorName": "PlayerNotFoundAtPokerTableError",
+      "errorCode": "player_not_found_at_poker_table",
       "message": "Player is not seated at the table"
     },
     {

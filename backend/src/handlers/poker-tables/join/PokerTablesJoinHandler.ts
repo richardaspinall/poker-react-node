@@ -5,8 +5,8 @@ import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTa
 import { GameLobbyService } from '../../../game-lobby-service';
 import { Rooms } from '../../../sockets/Rooms';
 import { Logger } from '../../../utils/Logger';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 
 const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 

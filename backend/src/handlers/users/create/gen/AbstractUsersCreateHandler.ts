@@ -6,8 +6,8 @@ import { UsersCreatePayload, } from '@shared/api/gen/users/types/UsersCreate';
 
 import { AbstractUsersCreateHandler } from './gen/AbstractUsersCreateHandler';
 
-import { UsernameTakenError } from './gen/errors/UsernameTakenError';
-import { UsersCreateError } from './gen/errors/UsersCreateError';
+import { UsernameTakenError } from '../errors/gen/UsernameTakenError';
+import { UsersCreateError } from '../errors/gen/UsersCreateError';
 
 export class UsersCreateHandler extends AbstractUsersCreateHandler {
   protected async getResult(payload: UsersCreatePayload) {

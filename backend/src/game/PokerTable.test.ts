@@ -101,7 +101,7 @@ describe('PokerTable', () => {
       const res = pokerTable.removePlayer('seat-1', 'a1');
 
       expect(res.isOk()).toEqual(false);
-      expect(res.getError()?.code).toEqual('player_not_found_at_table');
+      expect(res.getError()?.code).toEqual('player_not_found_at_poker_table');
       expect(res.getError()?.message).toEqual('Player is not seated at the table');
     });
 

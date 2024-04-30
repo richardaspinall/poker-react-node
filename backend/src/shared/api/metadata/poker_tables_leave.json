@@ -25,7 +25,7 @@
   "errors": [
     {
       "errorName": "PlayerNotFoundAtTableError",
-      "errorCode": "player_not_found_at_table",
+      "errorCode": "player_not_found_at_poker_table",
       "message": "Player is not seated at the table"
     },
     {

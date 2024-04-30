@@ -2,9 +2,9 @@ import { ResultError, ResultSuccess } from '@infra/Result';
 import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { UsersCreatePayload } from '@shared/api/gen/users/types/UsersCreate';
 
+import { UsernameTakenError } from '../errors/gen/UsernameTakenError';
+import { UsersCreateError } from '../errors/gen/UsersCreateError';
 import { AbstractUsersCreateHandler } from './gen/AbstractUsersCreateHandler';
-import { UsernameTakenError } from './gen/errors/UsernameTakenError';
-import { UsersCreateError } from './gen/errors/UsersCreateError';
 
 /**
  * UsersCreateHandler is used to handle requests to create a new user for DB

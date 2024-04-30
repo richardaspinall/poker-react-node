@@ -6,9 +6,9 @@ import { UsersSigninOutput, UsersSigninPayload } from '@shared/api/gen/users/typ
 
 import { UserService } from '../../../users/UserService';
 import { Logger } from '../../../utils/Logger';
+import { PasswordInvalidError } from '../errors/gen/PasswordInvalidError';
+import { UsernameNotFoundError } from '../errors/gen/UsernameNotFoundError';
 import { AbstractUsersSigninHandler } from './gen/AbstractUsersSigninHandler';
-import { PasswordInvalidError } from './gen/errors/PasswordInvalidError';
-import { UsernameNotFoundError } from './gen/errors/UsernameNotFoundError';
 
 export const router = express.Router();
 

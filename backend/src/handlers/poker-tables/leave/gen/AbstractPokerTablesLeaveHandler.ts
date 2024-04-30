@@ -6,8 +6,8 @@ import { PokerTablesLeavePayload, } from '@shared/api/gen/poker-tables/types/Pok
 
 import { AbstractPokerTablesLeaveHandler } from './gen/AbstractPokerTablesLeaveHandler';
 
-import { PlayerNotFoundAtTableError } from './gen/errors/PlayerNotFoundAtTableError';
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
+import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 
 export class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
   protected async getResult(payload: PokerTablesLeavePayload) {

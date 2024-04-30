@@ -6,8 +6,8 @@ import { UsersSigninPayload, } from '@shared/api/gen/users/types/UsersSignin';
 
 import { AbstractUsersSigninHandler } from './gen/AbstractUsersSigninHandler';
 
-import { UsernameNotFoundError } from './gen/errors/UsernameNotFoundError';
-import { PasswordInvalidError } from './gen/errors/PasswordInvalidError';
+import { UsernameNotFoundError } from '../errors/gen/UsernameNotFoundError';
+import { PasswordInvalidError } from '../errors/gen/PasswordInvalidError';
 
 export class UsersSigninHandler extends AbstractUsersSigninHandler {
   protected async getResult(payload: UsersSigninPayload) {

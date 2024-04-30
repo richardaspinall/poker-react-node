@@ -5,8 +5,8 @@ import { PlayerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTabl
 import { GameLobbyService } from '../../../game-lobby-service';
 import { Rooms } from '../../../sockets/Rooms';
 import { Logger } from '../../../utils/Logger';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractPokerTablesLeaveHandler } from './gen/AbstractPokerTablesLeaveHandler';
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 
 const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
 

@@ -6,10 +6,10 @@ import { PokerTablesJoinPayload, } from '@shared/api/gen/poker-tables/types/Poke
 
 import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
 
-import { SeatTakenError } from './gen/errors/SeatTakenError';
-import { PlayerAlreadySeatedError } from './gen/errors/PlayerAlreadySeatedError';
-import { PlayerNotFoundAtTableError } from './gen/errors/PlayerNotFoundAtTableError';
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
+import { SeatTakenError } from '../errors/gen/SeatTakenError';
+import { PlayerAlreadySeatedError } from '../errors/gen/PlayerAlreadySeatedError';
+import { PlayerNotFoundAtPokerTableError } from '../errors/gen/PlayerNotFoundAtPokerTableError';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 
 export class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
   protected async getResult(payload: PokerTablesJoinPayload) {
