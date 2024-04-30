@@ -15,7 +15,7 @@ describe('poker-tables.leave', () => {
     GameLobbyService.createPokerTable('table_1', 2);
     mockMySqlSelectSessionSuccess('userone');
 
-    const res = await apiTest('/api/actions/poker-tables.leave', {
+    const res = await apiTest('/api/poker-tables.leave', {
       selectedSeatNumber: 1,
     });
 
@@ -30,10 +30,10 @@ describe('poker-tables.leave', () => {
     GameLobbyService.createPokerTable('table_1', 2);
     mockMySqlSelectSessionSuccess('userone');
 
-    await apiTest('/api/actions/poker-tables.join', {
+    await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
     });
-    const res = await apiTest('/api/actions/poker-tables.leave', {
+    const res = await apiTest('/api/poker-tables.leave', {
       selectedSeatNumber: 'seat-1',
     });
 
@@ -46,7 +46,7 @@ describe('poker-tables.leave', () => {
     GameLobbyService.createPokerTable('table_2', 2);
     mockMySqlSelectSessionSuccess('userone');
 
-    const res = await apiTest('/api/actions/poker-tables.leave', {
+    const res = await apiTest('/api/poker-tables.leave', {
       selectedSeatNumber: 'seat-2',
     });
 

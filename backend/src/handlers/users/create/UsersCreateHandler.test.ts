@@ -3,7 +3,7 @@ import { shutDownServer } from '@tests/helpers/shutDownServer';
 
 describe('users.create', () => {
   it('should error when payload is invalid', async () => {
-    const res = await apiTestNoCookie('/api/actions/users.create', {
+    const res = await apiTestNoCookie('/api/users.create', {
       username: '',
       password: 'abc123',
     });
@@ -13,7 +13,7 @@ describe('users.create', () => {
   });
 
   it('should create a user', async () => {
-    const res = await apiTestNoCookie('/api/actions/users.create', {
+    const res = await apiTestNoCookie('/api/users.create', {
       username: 'test',
       password: 'abc123',
     });
