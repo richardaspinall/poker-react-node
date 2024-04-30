@@ -12,7 +12,7 @@ describe('poker-tables.join', () => {
   it('should error when payload is invalid', async () => {
     mockMySqlSelectSessionSuccess('userone');
 
-    const res = await apiTest('/api/actions/poker-tables.join', {
+    const res = await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 1,
     });
 
@@ -27,7 +27,7 @@ describe('poker-tables.join', () => {
     GameLobbyService.createPokerTable('table_1', 2);
     mockMySqlSelectSessionSuccess('userone');
 
-    const res = await apiTest('/api/actions/poker-tables.join', {
+    const res = await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
     });
 
@@ -41,12 +41,12 @@ describe('poker-tables.join', () => {
     GameLobbyService.createPokerTable('table_1', 2);
 
     mockMySqlSelectSessionSuccess('userone');
-    await apiTest('/api/actions/poker-tables.join', {
+    await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
     });
 
     mockMySqlSelectSessionSuccess('usertwo');
-    const res = await apiTest('/api/actions/poker-tables.join', {
+    const res = await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
     });
 
@@ -57,7 +57,7 @@ describe('poker-tables.join', () => {
 
   // it('should error when the table doesnt exist', async () => {
   //   mockSendEventToRoomError();
-  //   const res = await request(httpServer).post('/api/actions/poker-tables.join').send({
+  //   const res = await request(httpServer).post('/api/poker-tables.join').send({
   //     table: 'table_doesnt_exist',
   //     selectedSeatNumber: 'seat-1',
   //     socketId: 'abc123',

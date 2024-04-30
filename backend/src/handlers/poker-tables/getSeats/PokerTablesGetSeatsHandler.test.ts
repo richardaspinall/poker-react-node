@@ -7,7 +7,7 @@ describe('poker-tables.getSeats', () => {
   it('should error when payload is invalid', async () => {
     mockMySqlSelectSessionSuccess('userone');
 
-    const res = await apiTest('/api/actions/poker-tables.getSeats', {
+    const res = await apiTest('/api/poker-tables.getSeats', {
       pokerTableName: 1,
     });
 
@@ -18,7 +18,7 @@ describe('poker-tables.getSeats', () => {
   it('should return table_does_not_exist', async () => {
     mockMySqlSelectSessionSuccess('userone');
 
-    const res = await apiTest('/api/actions/poker-tables.getSeats', {
+    const res = await apiTest('/api/poker-tables.getSeats', {
       pokerTableName: 'bad_table_name',
     });
 
@@ -29,7 +29,7 @@ describe('poker-tables.getSeats', () => {
   it('should return all seats for a table', async () => {
     mockMySqlSelectSessionSuccess('userone');
 
-    const res = await apiTest('/api/actions/poker-tables.getSeats', {
+    const res = await apiTest('/api/poker-tables.getSeats', {
       pokerTableName: 'table_1', // hardcoded table name in server
     });
 
