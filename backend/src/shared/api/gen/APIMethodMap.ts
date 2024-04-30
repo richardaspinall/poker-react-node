@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 
 import type { BaseOutput } from '../BaseOutput';
+import type { MathDivideOutput, MathDividePayload } from './math/types/MathDivide';
 import type { PokerTablesGetSeatsOutput, PokerTablesGetSeatsPayload } from './poker-tables/types/PokerTablesGetSeats';
 import type { PokerTablesJoinOutput, PokerTablesJoinPayload } from './poker-tables/types/PokerTablesJoin';
 import type { PokerTablesLeaveOutput, PokerTablesLeavePayload } from './poker-tables/types/PokerTablesLeave';
@@ -12,6 +13,10 @@ export interface APIHandler {
 }
 
 export interface APIMethodMap {
+  'math.divide': {
+    request: MathDividePayload;
+    response: MathDivideOutput;
+  };
   'poker-tables.getSeats': {
     request: PokerTablesGetSeatsPayload;
     response: PokerTablesGetSeatsOutput;

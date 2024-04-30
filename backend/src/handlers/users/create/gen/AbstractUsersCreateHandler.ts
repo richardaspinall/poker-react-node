@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { UsersCreatePayload, } from '@shared/api/gen/users/types/UsersCreate';
+import { UsersCreatePayload, UsersCreateOutput } from '@shared/api/gen/users/types/UsersCreate';
 
 import { AbstractUsersCreateHandler } from './gen/AbstractUsersCreateHandler';
 
@@ -11,7 +11,7 @@ import { UsersCreateError } from '../errors/gen/UsersCreateError';
 
 export class UsersCreateHandler extends AbstractUsersCreateHandler {
   protected async getResult(payload: UsersCreatePayload) {
-    return new ResultSuccess();
+    return new ResultSuccess<UsersCreateOutput>();
   }
 }
 */

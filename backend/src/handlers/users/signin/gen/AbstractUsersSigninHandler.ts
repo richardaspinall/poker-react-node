@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { UsersSigninPayload, } from '@shared/api/gen/users/types/UsersSignin';
+import { UsersSigninPayload, UsersSigninOutput } from '@shared/api/gen/users/types/UsersSignin';
 
 import { AbstractUsersSigninHandler } from './gen/AbstractUsersSigninHandler';
 
@@ -11,7 +11,7 @@ import { PasswordInvalidError } from '../errors/gen/PasswordInvalidError';
 
 export class UsersSigninHandler extends AbstractUsersSigninHandler {
   protected async getResult(payload: UsersSigninPayload) {
-    return new ResultSuccess();
+    return new ResultSuccess<UsersSigninOutput>();
   }
 }
 */

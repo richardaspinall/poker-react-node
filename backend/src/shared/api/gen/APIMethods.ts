@@ -1,6 +1,12 @@
 import { APIMethodShape } from '../APIMethodShape';
 
 export const APIMethods: { [key: string]: APIMethodShape } = {
+  divide: {
+    httpMethod: 'post',
+    path: 'math.divide',
+    handler: '../../handlers/math/divide/MathDivideHandler.ts',
+    handlerName: 'MathDivideHandler',
+  },
   getSeats: {
     httpMethod: 'post',
     path: 'poker-tables.getSeats',

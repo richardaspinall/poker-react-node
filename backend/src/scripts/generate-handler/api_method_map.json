@@ -1,6 +1,15 @@
 {
     "apiMethods": [
         {
+            "domainName": "math",
+            "apiVerb": "divide",
+            "methodName": "math.divide",
+            "handlerName": "MathDivide",
+            "httpMethod": "post",
+            "requestType": "MathDividePayload",
+            "responseType": "MathDivideOutput"
+        },
+        {
             "domainName": "poker-tables",
             "apiVerb": "getSeats",
             "methodName": "poker-tables.getSeats",

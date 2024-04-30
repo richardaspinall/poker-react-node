@@ -2,7 +2,7 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { PokerTablesJoinPayload, } from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
+import { PokerTablesJoinPayload, PokerTablesJoinOutput } from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
 
 import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
 
@@ -13,7 +13,7 @@ import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExis
 
 export class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
   protected async getResult(payload: PokerTablesJoinPayload) {
-    return new ResultSuccess();
+    return new ResultSuccess<PokerTablesJoinOutput>();
   }
 }
 */
