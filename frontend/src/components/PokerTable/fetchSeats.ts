@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { PokerTableGetSeatsPayload } from '../../../../backend/src/shared/api/poker-tables/types/PokerTableGetSeats';
+import { PokerTablesGetSeatsPayload } from '../../../../backend/src/shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 import apiCall from '../../fetch/apiCall';
 
 const fetchSeats = createAsyncThunk(
   'pokerTables/getState',
   // if you type your function argument here
-  async (payload: PokerTableGetSeatsPayload, thunkApi) => {
+  async (payload: PokerTablesGetSeatsPayload, thunkApi) => {
     try {
       const result = await apiCall.post('poker-tables.getSeats', payload);
       if (result?.ok) {
