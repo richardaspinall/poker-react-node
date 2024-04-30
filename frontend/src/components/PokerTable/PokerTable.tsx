@@ -22,7 +22,7 @@ export function PokerTable({}: PokerTableProps) {
   }, []);
 
   const seats = useSelector(selectSeats);
-  console.log('TEST', seats);
+
   return (
     <>
       <div id="poker-table">
