@@ -12,4 +12,5 @@ export enum PokerTablesJoinErrorCodes {
   SeatTakenError = 'seat_taken',
   PlayerAlreadySeatedError = 'player_already_seated',
   PlayerNotFoundAtTableError = 'player_not_found_at_table',
+  PokerTableDoesNotExistError = 'poker_table_does_not_exist',
 }

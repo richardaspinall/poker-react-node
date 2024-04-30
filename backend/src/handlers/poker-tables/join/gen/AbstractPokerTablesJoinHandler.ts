@@ -9,6 +9,7 @@ import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHan
 import { SeatTakenError } from './gen/errors/SeatTakenError';
 import { PlayerAlreadySeatedError } from './gen/errors/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtTableError } from './gen/errors/PlayerNotFoundAtTableError';
+import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
 
 export class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
   protected async getResult(payload: PokerTablesJoinPayload) {

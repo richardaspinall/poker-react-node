@@ -22,6 +22,6 @@ import { BaseHandler } from '../../../BaseHandler';
 
 export abstract class AbstractUsersSigninHandler extends BaseHandler<UsersSigninPayload, UsersSigninOutput> {
   constructor() {
-    super(UsersSigninPayloadSchema, UsersSigninOutputSchema, UsersSigninErrorCodes);
+    super(UsersSigninPayloadSchema, UsersSigninOutputSchema, UsersSigninErrorCodes, false);
   }
 }

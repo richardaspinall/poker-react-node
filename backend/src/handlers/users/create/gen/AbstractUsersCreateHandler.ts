@@ -22,6 +22,6 @@ import { BaseHandler } from '../../../BaseHandler';
 
 export abstract class AbstractUsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutput> {
   constructor() {
-    super(UsersCreatePayloadSchema, UsersCreateOutputSchema, UsersCreateErrorCodes);
+    super(UsersCreatePayloadSchema, UsersCreateOutputSchema, UsersCreateErrorCodes, false);
   }
 }

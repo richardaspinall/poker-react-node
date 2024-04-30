@@ -1,43 +1,42 @@
 {
-    "handlerName": "UsersCreate",
-    "domainName": "users",
-    "apiVerb": "create",
-    "httpMethod": "post",
-    "authRequired": true,
-    "payload": {
-      "properties": [
-        {
-          "name": "username",
-          "type": "string",
-          "required": true
-        },
-        {
-            "name": "password",
-            "type": "string",
-            "required": true
-        }
-      ]
-    },
-    "output": {
-      "properties": [
-        {
-          "name": "ok",
-          "type": "boolean",
-          "required": true
-        }
-      ]
-    },
-    "errors": [
+  "handlerName": "UsersCreate",
+  "domainName": "users",
+  "apiVerb": "create",
+  "httpMethod": "post",
+  "authRequired": false,
+  "payload": {
+    "properties": [
       {
-        "errorName": "UsernameTakenError",
-        "errorCode": "username_taken",
-        "message": "Username already taken"
+        "name": "username",
+        "type": "string",
+        "required": true
       },
       {
-        "errorName": "UsersCreateError",
-        "errorCode": "users_create_error",
-        "message": "User not created"
+        "name": "password",
+        "type": "string",
+        "required": true
       }
     ]
-  }
-  
+  },
+  "output": {
+    "properties": [
+      {
+        "name": "ok",
+        "type": "boolean",
+        "required": true
+      }
+    ]
+  },
+  "errors": [
+    {
+      "errorName": "UsernameTakenError",
+      "errorCode": "username_taken",
+      "message": "Username already taken"
+    },
+    {
+      "errorName": "UsersCreateError",
+      "errorCode": "users_create_error",
+      "message": "User not created"
+    }
+  ]
+}
