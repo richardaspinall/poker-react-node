@@ -3,9 +3,9 @@ import { apiTest } from '@tests/helpers/apiTest';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
 import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
 
-import { GameLobbyService } from '../../game-lobby-service';
-import { Rooms } from '../../sockets/Rooms';
-import { RoomNotFoundError } from '../../sockets/errors/RoomErrors';
+import { GameLobbyService } from '../../../game-lobby-service';
+import { Rooms } from '../../../sockets/Rooms';
+import { RoomNotFoundError } from '../../../sockets/errors/RoomErrors';
 
 describe('poker-tables.leave', () => {
   // TODO: need to add more unit tests for invalid requests and types
@@ -52,7 +52,7 @@ describe('poker-tables.leave', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('player_not_found_at_table');
+    expect(res.body.error.errorCode).toEqual('player_not_found_at_poker_table');
   });
 
   afterEach(() => {

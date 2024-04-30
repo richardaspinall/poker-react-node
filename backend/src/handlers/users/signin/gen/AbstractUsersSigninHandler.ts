@@ -2,16 +2,16 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { UsersSigninPayload, } from '@shared/api/gen/users/types/UsersSignin';
+import { UsersSigninPayload, UsersSigninOutput } from '@shared/api/gen/users/types/UsersSignin';
 
 import { AbstractUsersSigninHandler } from './gen/AbstractUsersSigninHandler';
 
-import { UsernameNotFoundError } from './gen/errors/UsernameNotFoundError';
-import { PasswordInvalidError } from './gen/errors/PasswordInvalidError';
+import { UsernameNotFoundError } from '../errors/gen/UsernameNotFoundError';
+import { PasswordInvalidError } from '../errors/gen/PasswordInvalidError';
 
 export class UsersSigninHandler extends AbstractUsersSigninHandler {
   protected async getResult(payload: UsersSigninPayload) {
-    return new ResultSuccess();
+    return new ResultSuccess<UsersSigninOutput>();
   }
 }
 */
@@ -22,6 +22,6 @@ import { BaseHandler } from '../../../BaseHandler';
 
 export abstract class AbstractUsersSigninHandler extends BaseHandler<UsersSigninPayload, UsersSigninOutput> {
   constructor() {
-    super(UsersSigninPayloadSchema, UsersSigninOutputSchema, UsersSigninErrorCodes);
+    super(UsersSigninPayloadSchema, UsersSigninOutputSchema, UsersSigninErrorCodes, false);
   }
 }

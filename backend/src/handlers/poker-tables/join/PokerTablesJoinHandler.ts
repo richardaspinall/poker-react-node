@@ -1,30 +1,20 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
-import {
-  PokerTableJoinErrorCodes,
-  PokerTableJoinOutputSchema,
-  PokerTableJoinPayloadSchema,
-} from '@shared/api/poker-tables/types/PokerTableJoin';
+import { PokerTablesJoinOutput, PokerTablesJoinPayload } from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
 import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
-import { GameLobbyService } from '../../game-lobby-service';
-import type { PokerTableJoinOutput, PokerTableJoinPayload } from '../../shared/api/poker-tables/types/PokerTableJoin';
-import { Rooms } from '../../sockets/Rooms';
-import { Logger } from '../../utils/Logger';
-import { BaseHandler } from '../BaseHandler';
-import { PokerTableDoesNotExistError } from './errors';
+import { GameLobbyService } from '../../../game-lobby-service';
+import { Rooms } from '../../../sockets/Rooms';
+import { Logger } from '../../../utils/Logger';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
+import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
 
 const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
 
 /**
  * PokerTableJoinHandler is used to handle requests to join a poker table
  */
-class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTableJoinOutput> {
-  // We pass the Joi schema to the parent class (BaseHandler) which is used to validate incoming payloads in the runHandler (in the parent class)
-  constructor() {
-    super(PokerTableJoinPayloadSchema, PokerTableJoinOutputSchema, PokerTableJoinErrorCodes);
-  }
-
-  protected async getResult(payload: PokerTableJoinPayload, username: string) {
+class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
+  protected async getResult(payload: PokerTablesJoinPayload, username: string) {
     const seatNumber = payload.selectedSeatNumber;
 
     const pokerTable = GameLobbyService.getPokerTable('table_1');
@@ -70,7 +60,7 @@ class PokerTablesJoinHandler extends BaseHandler<PokerTableJoinPayload, PokerTab
       }
     }
 
-    return new ResultSuccess<PokerTableJoinOutput>({ ok: true });
+    return new ResultSuccess<PokerTablesJoinOutput>({ ok: true });
   }
 }
 

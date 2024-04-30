@@ -3,8 +3,8 @@ import Joi from 'joi';
 
 import { IBaseError } from '@infra/BaseError';
 import { Result } from '@infra/Result';
-import type { APIHandler } from '@shared/api/APIMethodMap';
 import type { BaseOutput } from '@shared/api/BaseOutput';
+import type { APIHandler } from '@shared/api/gen/APIMethodMap';
 
 import { Logger } from '../utils/Logger';
 import { ErrorHandler } from './ErrorHandler';

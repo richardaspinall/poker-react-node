@@ -1,4 +1,4 @@
-import { useState, ChangeEvent, FormEvent, FocusEvent } from 'react';
+import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiCall from '../../../fetch/apiCall';
@@ -48,7 +48,7 @@ export function SigninForm() {
     event.preventDefault();
     const payload = { username: formData.username, password: formData.password };
 
-    const result = await apiCall.post('signin', payload);
+    const result = await apiCall.post('users.signin', payload);
 
     if (result.ok) {
       console.log(result.payload);

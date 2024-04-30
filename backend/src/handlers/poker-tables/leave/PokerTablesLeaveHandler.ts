@@ -1,32 +1,20 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
-import {
-  PokerTableLeaveErrorCodes,
-  pokerTableLeaveOutputSchema,
-  pokerTableLeavePayloadSchema,
-} from '@shared/api/poker-tables/types/PokerTableLeave';
+import { PokerTablesLeaveOutput, PokerTablesLeavePayload } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
 import { PlayerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
-import { GameLobbyService } from '../../game-lobby-service';
-import type {
-  PokerTableLeaveOutput,
-  PokerTableLeavePayload,
-} from '../../shared/api/poker-tables/types/PokerTableLeave';
-import { Rooms } from '../../sockets/Rooms';
-import { Logger } from '../../utils/Logger';
-import { BaseHandler } from '../BaseHandler';
-import { PokerTableDoesNotExistError } from './errors';
+import { GameLobbyService } from '../../../game-lobby-service';
+import { Rooms } from '../../../sockets/Rooms';
+import { Logger } from '../../../utils/Logger';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
+import { AbstractPokerTablesLeaveHandler } from './gen/AbstractPokerTablesLeaveHandler';
 
 const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
 
 /**
  * PokerTableLeaveHandler is used to handle requests to leave a poker table
  */
-class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerTableLeaveOutput> {
-  constructor() {
-    super(pokerTableLeavePayloadSchema, pokerTableLeaveOutputSchema, PokerTableLeaveErrorCodes);
-  }
-
-  protected async getResult(payload: PokerTableLeavePayload, username: string) {
+class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
+  protected async getResult(payload: PokerTablesLeavePayload, username: string) {
     const seatNumber = payload.selectedSeatNumber;
 
     const pokerTable = GameLobbyService.getPokerTable('table_1');
@@ -51,7 +39,7 @@ class PokerTablesLeaveHandler extends BaseHandler<PokerTableLeavePayload, PokerT
       debug(sendEvents.getError());
       return new ResultError(sendEvents.getError());
     }
-    return new ResultSuccess<PokerTableLeaveOutput>({ ok: true });
+    return new ResultSuccess<PokerTablesLeaveOutput>({ ok: true });
   }
 }
 

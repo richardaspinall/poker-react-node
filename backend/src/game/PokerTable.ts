@@ -1,11 +1,9 @@
 import { Result, ResultSuccess } from '@infra/Result';
 
-import {
-  PlayerAlreadySeatedError,
-  PlayerNotFoundAtPokerTableError,
-  SeatNotFoundError,
-  SeatTakenError,
-} from '../handlers/poker-tables/errors';
+import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundError';
+import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
+import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
+import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
 import { Seat } from './Seat';
 
 /* 

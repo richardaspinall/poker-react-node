@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from 'express';
 
-import { APIHandler } from '@shared/api/APIMethodMap';
+import { APIHandler } from '@shared/api/gen/APIMethodMap';
 
 import { routes } from './routeConfig';
 

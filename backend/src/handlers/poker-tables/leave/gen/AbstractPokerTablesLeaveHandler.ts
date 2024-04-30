@@ -2,16 +2,16 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { PokerTablesLeavePayload, } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
+import { PokerTablesLeavePayload, PokerTablesLeaveOutput } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
 
 import { AbstractPokerTablesLeaveHandler } from './gen/AbstractPokerTablesLeaveHandler';
 
-import { PlayerNotFoundAtTableError } from './gen/errors/PlayerNotFoundAtTableError';
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
+import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 
 export class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
   protected async getResult(payload: PokerTablesLeavePayload) {
-    return new ResultSuccess();
+    return new ResultSuccess<PokerTablesLeaveOutput>();
   }
 }
 */

@@ -2,15 +2,15 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { PokerTablesGetSeatsPayload, } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
+import { PokerTablesGetSeatsPayload, PokerTablesGetSeatsOutput } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
 import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
 
-import { PokerTableDoesNotExistError } from './gen/errors/PokerTableDoesNotExistError';
+import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 
 export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
   protected async getResult(payload: PokerTablesGetSeatsPayload) {
-    return new ResultSuccess();
+    return new ResultSuccess<PokerTablesGetSeatsOutput>();
   }
 }
 */

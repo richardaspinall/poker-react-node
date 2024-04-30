@@ -1,7 +1,7 @@
 import { Result, ResultError } from '@infra/Result';
 
 import { PokerTable } from '../game/PokerTable';
-import { PokerTableNameTakenError } from '../handlers/poker-tables/errors';
+import { PokerTableNameTakenError } from '../handlers/poker-tables/errors/PokerTableNameTakenError';
 import { Rooms } from '../sockets/Rooms';
 import { RoomNotCreatedError } from '../sockets/errors/RoomErrors';
 import { Logger } from '../utils/Logger';

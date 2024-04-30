@@ -23,7 +23,7 @@ describe('poker-tables.getSeats', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toBe('table_does_not_exist');
+    expect(res.body.error.errorCode).toBe('poker_table_does_not_exist');
   });
 
   it('should return all seats for a table', async () => {
