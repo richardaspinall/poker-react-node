@@ -1,58 +1,49 @@
 {
-    "apiMethods": [
-        {
-            "domainName": "math",
-            "apiVerb": "divide",
-            "methodName": "math.divide",
-            "handlerName": "MathDivide",
-            "httpMethod": "post",
-            "requestType": "MathDividePayload",
-            "responseType": "MathDivideOutput"
-        },
-        {
-            "domainName": "poker-tables",
-            "apiVerb": "getSeats",
-            "methodName": "poker-tables.getSeats",
-            "handlerName": "PokerTablesGetSeats",
-            "httpMethod": "post",
-            "requestType": "PokerTablesGetSeatsPayload",
-            "responseType": "PokerTablesGetSeatsOutput"
-        },
-        {
-            "domainName": "poker-tables",
-            "apiVerb": "join",
-            "methodName": "poker-tables.join",
-            "handlerName": "PokerTablesJoin",
-            "httpMethod": "post",
-            "requestType": "PokerTablesJoinPayload",
-            "responseType": "PokerTablesJoinOutput"
-        },
-        {
-            "domainName": "poker-tables",
-            "apiVerb": "leave",
-            "methodName": "poker-tables.leave",
-            "handlerName": "PokerTablesLeave",
-            "httpMethod": "post",
-            "requestType": "PokerTablesLeavePayload",
-            "responseType": "PokerTablesLeaveOutput"
-        },
-        {
-            "domainName": "users",
-            "apiVerb": "create",
-            "methodName": "users.create",
-            "handlerName": "UsersCreate",
-            "httpMethod": "post",
-            "requestType": "UsersCreatePayload",
-            "responseType": "UsersCreateOutput"
-        },
-        {
-            "domainName": "users",
-            "apiVerb": "signin",
-            "methodName": "users.signin",
-            "handlerName": "UsersSignin",
-            "httpMethod": "post",
-            "requestType": "UsersSigninPayload",
-            "responseType": "UsersSigninOutput"
-        }
-    ]
+  "apiMethods": [
+    {
+      "domainName": "poker-tables",
+      "apiVerb": "getSeats",
+      "methodName": "poker-tables.getSeats",
+      "handlerName": "PokerTablesGetSeats",
+      "httpMethod": "post",
+      "requestType": "PokerTablesGetSeatsPayload",
+      "responseType": "PokerTablesGetSeatsOutput"
+    },
+    {
+      "domainName": "poker-tables",
+      "apiVerb": "join",
+      "methodName": "poker-tables.join",
+      "handlerName": "PokerTablesJoin",
+      "httpMethod": "post",
+      "requestType": "PokerTablesJoinPayload",
+      "responseType": "PokerTablesJoinOutput"
+    },
+    {
+      "domainName": "poker-tables",
+      "apiVerb": "leave",
+      "methodName": "poker-tables.leave",
+      "handlerName": "PokerTablesLeave",
+      "httpMethod": "post",
+      "requestType": "PokerTablesLeavePayload",
+      "responseType": "PokerTablesLeaveOutput"
+    },
+    {
+      "domainName": "users",
+      "apiVerb": "create",
+      "methodName": "users.create",
+      "handlerName": "UsersCreate",
+      "httpMethod": "post",
+      "requestType": "UsersCreatePayload",
+      "responseType": "UsersCreateOutput"
+    },
+    {
+      "domainName": "users",
+      "apiVerb": "signin",
+      "methodName": "users.signin",
+      "handlerName": "UsersSignin",
+      "httpMethod": "post",
+      "requestType": "UsersSigninPayload",
+      "responseType": "UsersSigninOutput"
+    }
+  ]
 }
