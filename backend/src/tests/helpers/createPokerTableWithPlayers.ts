@@ -1,10 +1,12 @@
 import { createPokerTable } from '@tests/helpers/createPokerTable';
+import { mockGetSessionIdByUsername } from '@tests/mocks/db-mocks/sessions_users/mocks';
 import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
 
 import { Player } from '../../game/Player';
 
 export function createPokerTableWithPlayers(tableName: string, numberOfSeats: number) {
   mockSendEventToRoomSuccess();
+  mockGetSessionIdByUsername('session-1', 'a1');
   const pokerTable = createPokerTable(tableName, numberOfSeats);
   const players: Player[] = [];
 

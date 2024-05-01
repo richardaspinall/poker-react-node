@@ -15,7 +15,6 @@ export class Dealer {
       throw new Error('Players not seated');
     }
     const playerOneSessionIdOrError = await UserRepository.getSessionIdByUsername(playerOne);
-
     if (playerOneSessionIdOrError.isError()) {
       // debug(playerOneSessionIdOrError.getError());
       return;
