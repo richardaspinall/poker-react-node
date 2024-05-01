@@ -1,4 +1,5 @@
-import { CardCode, cardMap } from './cardMap';
+import { CardCode } from './CardCode';
+import { cardMap } from './cardMap';
 
 interface CardProps {
   cardCode: CardCode;

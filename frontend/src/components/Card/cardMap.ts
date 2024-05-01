@@ -1,3 +1,4 @@
+import { CardCode } from './CardCode';
 import {
   AceOfClubs,
   AceOfDiamonds,
@@ -52,61 +53,6 @@ import {
   TwoOfHearts,
   TwoOfSpades,
 } from './card-svgs';
-
-enum CardCode {
-  TwoOfClubs = '2C',
-  TwoOfDiamonds = '2D',
-  TwoOfHearts = '2H',
-  TwoOfSpades = '2S',
-  ThreeOfClubs = '3C',
-  ThreeOfDiamonds = '3D',
-  ThreeOfHearts = '3H',
-  ThreeOfSpades = '3S',
-  FourOfClubs = '4C',
-  FourOfDiamonds = '4D',
-  FourOfHearts = '4H',
-  FourOfSpades = '4S',
-  FiveOfClubs = '5C',
-  FiveOfDiamonds = '5D',
-  FiveOfHearts = '5H',
-  FiveOfSpades = '5S',
-  SixOfClubs = '6C',
-  SixOfDiamonds = '6D',
-  SixOfHearts = '6H',
-  SixOfSpades = '6S',
-  SevenOfClubs = '7C',
-  SevenOfDiamonds = '7D',
-  SevenOfHearts = '7H',
-  SevenOfSpades = '7S',
-  EightOfClubs = '8C',
-  EightOfDiamonds = '8D',
-  EightOfHearts = '8H',
-  EightOfSpades = '8S',
-  NineOfClubs = '9C',
-  NineOfDiamonds = '9D',
-  NineOfHearts = '9H',
-  NineOfSpades = '9S',
-  TenOfClubs = 'TC',
-  TenOfDiamonds = 'TD',
-  TenOfHearts = 'TH',
-  TenOfSpades = 'TS',
-  JackOfClubs = 'JC',
-  JackOfDiamonds = 'JD',
-  JackOfHearts = 'JH',
-  JackOfSpades = 'JS',
-  QueenOfClubs = 'QC',
-  QueenOfDiamonds = 'QD',
-  QueenOfHearts = 'QH',
-  QueenOfSpades = 'QS',
-  KingOfClubs = 'KC',
-  KingOfDiamonds = 'KD',
-  KingOfHearts = 'KH',
-  KingOfSpades = 'KS',
-  AceOfClubs = 'AC',
-  AceOfDiamonds = 'AD',
-  AceOfHearts = 'AH',
-  AceOfSpades = 'AS',
-}
 
 const cardMap = {
   [CardCode.TwoOfClubs]: TwoOfClubs,
@@ -163,4 +109,4 @@ const cardMap = {
   [CardCode.AceOfSpades]: AceOfSpades,
 };
 
-export { cardMap, CardCode };
+export { cardMap };

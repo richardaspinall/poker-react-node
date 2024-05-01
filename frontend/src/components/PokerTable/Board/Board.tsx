@@ -1,5 +1,5 @@
-import { Card } from '../../Cards/Card.tsx';
-import { CardCode } from '../../Cards/cardMap.ts';
+import { Card } from '../../Card/Card.tsx';
+import { CardCode } from '../../Card/CardCode.ts';
 
 type BoardProps = {};
 
