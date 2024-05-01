@@ -1,5 +1,6 @@
 import express from 'express';
 import type { Request } from 'express';
+import { UserRepository } from 'src/users/UserRepository';
 
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersSigninOutput, UsersSigninPayload } from '@shared/api/gen/users/types/UsersSignin';
@@ -36,6 +37,12 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
     } else {
       req.session.username = username;
       req.session.authenticated = true;
+
+      const res = await UserRepository.createUserSession(req.session.id, username);
+      if (res.isError()) {
+        Logger.error(res.getError().code);
+        return new ResultError(res.getError());
+      }
     }
 
     return new ResultSuccess<UsersSigninOutput>({ ok: true });

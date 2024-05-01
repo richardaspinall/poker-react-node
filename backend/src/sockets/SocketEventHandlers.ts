@@ -3,6 +3,7 @@ import { Socket } from 'socket.io';
 import { ClientToServerEvents, ServerToClientEvents } from '@shared/websockets/WebsocketEvents';
 
 import { Logger } from '../utils/Logger';
+import { Sockets } from './Sockets';
 
 const debug = Logger.newDebugger('APP:SocketEventHandlers');
 
@@ -19,6 +20,7 @@ export class SocketHandlers {
 
     socket.on('disconnect', (reason) => {
       debug('disconnected');
+      Sockets.removeSocket(socket.request.session.username);
       // Handle disconnection logic if needed
     });
   }

@@ -21,8 +21,7 @@ export class Sockets {
   private static socketMap = new Map<ClientId, Socket>();
 
   public static setUpSocket(socket: Socket) {
-    console.log(socket.request.session.username);
-    Sockets.addSocket(socket.request.session.username, socket); // TODO: Move to session id and username that is mapped in a table saved when signing in
+    Sockets.addSocket(socket.request.session.id, socket);
     SocketHandlers.setUpHandlers(socket);
   }
 
@@ -51,7 +50,9 @@ export class Sockets {
   }
 
   private static addSocket(clientId: ClientId, clientSocket: Socket) {
-    Sockets.socketMap.set(clientId, clientSocket);
+    if (clientId !== undefined) {
+      Sockets.socketMap.set(clientId, clientSocket);
+    }
 
     const joinRoomRes = Rooms.joinRoom('table_1', clientSocket);
     if (joinRoomRes.isError()) {
@@ -66,7 +67,7 @@ export class Sockets {
     }
   }
 
-  private static removeSocket(clientId: ClientId) {
+  public static removeSocket(clientId: ClientId) {
     Sockets.socketMap.delete(clientId);
   }
 }
