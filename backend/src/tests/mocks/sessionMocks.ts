@@ -10,8 +10,8 @@ export const mockMySqlSelectSessionSuccess = (username: string) => {
       await new ResultSuccess([
         {
           session_id: 'bcI-pLBR9KclcJ1iPAqSW_93mKMhM0pd',
-          session_data: `{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"username":"${username}","authenticated":true}`,
+          session_data: `{"cookie":{"originalMaxAge":null,"expires":null,"httpOnly":true,"path":"/"},"userId":1, "username":"${username}","authenticated":true}`,
         },
-      ] as RowDataPacket[])
+      ] as RowDataPacket[]),
   );
 };

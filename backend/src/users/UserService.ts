@@ -28,7 +28,7 @@ export class UserService {
 
     const user = userOrError.getValue();
 
-    return new ResultSuccess(user.getId());
+    return new ResultSuccess(user.getUserId());
   }
 
   static async getUserById(userId: number): Promise<Result<User>> {

@@ -3,6 +3,7 @@ import { PokerTablesJoinOutput, PokerTablesJoinPayload } from '@shared/api/gen/p
 import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../../game-lobby-service';
+import { Player } from '../../../game/Player';
 import { Rooms } from '../../../sockets/Rooms';
 import { UserService } from '../../../users/UserService';
 import { Logger } from '../../../utils/Logger';
@@ -33,7 +34,7 @@ class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
 
     const user = userOrError.getValue();
 
-    const joinRoom = pokerTable.addPlayer(seatNumber, user);
+    const joinRoom = pokerTable.addPlayer(seatNumber, new Player(user.getUserName(), user.getUserId()));
 
     if (joinRoom.isError()) {
       debug(joinRoom.getError());

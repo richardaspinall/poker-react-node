@@ -1,16 +1,16 @@
 import { createPokerTable } from '@tests/helpers/createPokerTable';
 import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
 
-import { User } from '../../users/User';
+import { Player } from '../../game/Player';
 
 export function createPokerTableWithPlayers(tableName: string, numberOfSeats: number) {
   mockSendEventToRoomSuccess();
   const pokerTable = createPokerTable(tableName, numberOfSeats);
-  const players: User[] = [];
+  const players: Player[] = [];
 
   for (let i = 0; i < numberOfSeats; i++) {
     const seatNumber = i + 1;
-    const user = new User('a' + seatNumber, 1234 + seatNumber);
+    const user = new Player('a' + seatNumber, 1234 + seatNumber);
 
     players.push(user);
     const res = pokerTable.addPlayer('seat-' + seatNumber, user);

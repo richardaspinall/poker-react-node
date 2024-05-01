@@ -2,7 +2,7 @@ import { createPokerTable } from '@tests/helpers/createPokerTable';
 import { createPokerTableWithPlayers } from '@tests/helpers/createPokerTableWithPlayers';
 import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
 
-import { User } from '../users/User';
+import { Player } from './Player';
 
 describe('PokerTable', () => {
   describe('addPlayer', () => {
@@ -11,15 +11,15 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const user = new User('testuser', 1234);
+      const user = new Player('testuser', 1234);
       const res = pokerTable.addPlayer('seat-1', user);
 
       expect(res.isOk()).toEqual(true);
     });
 
     it('should error when seat is already taken', () => {
-      const user = new User('testuser', 1234);
-      const userTwo = new User('testusertwo', 4321);
+      const user = new Player('testuser', 1234);
+      const userTwo = new Player('testusertwo', 4321);
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
@@ -37,7 +37,7 @@ describe('PokerTable', () => {
 
     it('should error when player is already sitting down', () => {
       mockSendEventToRoomSuccess();
-      const user = new User('testuser', 1234);
+      const user = new Player('testuser', 1234);
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
@@ -54,7 +54,7 @@ describe('PokerTable', () => {
     });
 
     it('should error when seat number does not exist', () => {
-      const user = new User('testuser', 1234);
+      const user = new Player('testuser', 1234);
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
@@ -87,7 +87,7 @@ describe('PokerTable', () => {
       const { pokerTable, players } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
       const player1 = players[0];
 
-      const res = pokerTable.removePlayer('seat-1', player1);
+      const res = pokerTable.removePlayer('seat-1', player1.getUserId());
 
       expect(res.isOk()).toEqual(true);
 
@@ -101,12 +101,11 @@ describe('PokerTable', () => {
 
     it('should error when the player is not already sitting at the table', () => {
       mockSendEventToRoomSuccess();
-      const user = new User('testuser', 1234);
       const pokerTableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(pokerTableName, numberOfSeats);
 
-      const res = pokerTable.removePlayer('seat-1', user);
+      const res = pokerTable.removePlayer('seat-1', 1234);
 
       expect(res.isOk()).toEqual(false);
       expect(res.getError()?.code).toEqual('player_not_found_at_poker_table');
@@ -119,7 +118,7 @@ describe('PokerTable', () => {
       const { pokerTable, players } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
       const player1 = players[0];
 
-      const res = pokerTable.removePlayer('seat-1', player1);
+      const res = pokerTable.removePlayer('seat-1', player1.getUserId());
 
       expect(res.isOk()).toEqual(true);
 

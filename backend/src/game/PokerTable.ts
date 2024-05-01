@@ -4,7 +4,7 @@ import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundE
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
-import { User } from '../users/User';
+import { Player } from './Player';
 import { Seat } from './Seat';
 
 /* 
@@ -34,9 +34,9 @@ export class PokerTable {
     return new ResultSuccess(newPokerTable);
   }
 
-  public addPlayer(seatNumber: string, user: User): Result<void> {
+  public addPlayer(seatNumber: string, player: Player): Result<void> {
     for (const seat of this.seats) {
-      if (seat.getUser()?.getUserName() === user.getUserName()) {
+      if (seat.getUser()?.getUserName() === player.getUserName()) {
         return Result.error(new PlayerAlreadySeatedError());
       }
     }
@@ -45,7 +45,7 @@ export class PokerTable {
         if (seat.isSeatTaken()) {
           return Result.error(new SeatTakenError());
         } else {
-          seat.assignUser(user);
+          seat.assignUser(player);
           return Result.success();
         }
       }
@@ -53,9 +53,9 @@ export class PokerTable {
     return Result.error(new SeatNotFoundError());
   }
 
-  public removePlayer(seatNumber: string, user: User): Result<void> {
+  public removePlayer(seatNumber: string, userId: number): Result<void> {
     for (const seat of this.seats) {
-      if (seat.getUser()?.getUserName() === user.getUserName() && seat.getSeatNumber() === seatNumber) {
+      if (seat.getUser()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
         seat.removeUser();
         return Result.success();
       }

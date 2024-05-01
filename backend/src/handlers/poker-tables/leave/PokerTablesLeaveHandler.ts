@@ -33,7 +33,7 @@ class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
 
     const user = userOrError.getValue();
 
-    const leaveRoom = pokerTable.removePlayer(seatNumber, user);
+    const leaveRoom = pokerTable.removePlayer(seatNumber, userId);
     if (leaveRoom.isError()) {
       debug(leaveRoom.getError());
       return new ResultError(leaveRoom.getError());

@@ -17,7 +17,7 @@ describe('UserRepository', () => {
       const userId = await UserRepository.createUser({ username: 'testuser', password: 'testpassword' });
 
       const user = await UserRepository.getUserById(userId.getValue());
-      expect(user.getValue().getId()).toEqual(1000);
+      expect(user.getValue().getUserId()).toEqual(1000);
       expect(user.getValue().getUserName()).toEqual('testuser');
     });
   });
@@ -37,7 +37,7 @@ describe('UserRepository', () => {
       mockMySqlSelectSuccess();
 
       const user = await UserRepository.getUserById(1000);
-      expect(user.getValue().getId()).toEqual(1000);
+      expect(user.getValue().getUserId()).toEqual(1000);
       expect(user.getValue().getUserName()).toEqual('testuser');
     });
 
