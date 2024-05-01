@@ -1,5 +1,6 @@
 import express from 'express';
 import type { Request } from 'express';
+import { User } from 'src/users/User';
 
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersSigninOutput, UsersSigninPayload } from '@shared/api/gen/users/types/UsersSignin';
@@ -26,6 +27,7 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
     // console.log(payload);
     const username = payload.username;
     const password = payload.password;
+
     const passwordOrError = await UserService.validatePassword(username, password);
 
     if (passwordOrError.isError()) {

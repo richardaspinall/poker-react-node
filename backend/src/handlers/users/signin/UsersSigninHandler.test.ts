@@ -11,7 +11,7 @@ import {
 } from '../../../tests/mocks/dbMocks';
 
 describe('signin', () => {
-  it('should authenticate the user successfully with correct credentials', async () => {
+  it.only('should authenticate the user successfully with correct credentials', async () => {
     mockMySqlInsertSuccess();
     mockMySqlDeleteSuccess();
     mockGetSessionIdByUsername(1, 'session-1');

@@ -7,6 +7,7 @@ import { Player } from './Player';
 describe('PokerTable', () => {
   describe('addPlayer', () => {
     it('should confirm a player has sat down', () => {
+      // TODO: need to mock the select response for sessions_users
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);

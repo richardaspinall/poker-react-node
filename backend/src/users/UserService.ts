@@ -9,6 +9,7 @@ export class UserService {
   // TODO: passwords should be hashed
   static async validatePassword(username: string, password: string): Promise<Result<boolean>> {
     const passwordOrError = await UserRepository.getPassword(username);
+
     if (passwordOrError.isError()) {
       return new ResultError(passwordOrError.getError());
     }
