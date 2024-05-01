@@ -4,6 +4,7 @@ import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundE
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
+import { GameService } from './GameService';
 import { Player } from './Player';
 import { Seat } from './Seat';
 
@@ -46,6 +47,10 @@ export class PokerTable {
           return Result.error(new SeatTakenError());
         } else {
           seat.assignPlayer(player);
+
+          // GameService.notifyPlayerAdded(this);
+          GameService.eventEmitter.emit('playerJoined', this);
+
           return Result.success();
         }
       }

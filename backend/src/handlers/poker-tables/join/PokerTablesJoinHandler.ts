@@ -56,20 +56,20 @@ class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
       return new ResultError(sendEvents.getError());
     }
 
-    const tableIsReady = pokerTable.isPokerTableReady();
+    // const tableIsReady = pokerTable.isPokerTableReady();
 
-    if (tableIsReady) {
-      const event = 'start_game';
-      const payload = {
-        tableName: 'table_1',
-      };
-      const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
+    // if (tableIsReady) {
+    //   const event = 'start_game';
+    //   const payload = {
+    //     tableName: 'table_1',
+    //   };
+    //   const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
 
-      if (sendEvents.isError()) {
-        debug(sendEvents.getError());
-        return new ResultError(sendEvents.getError());
-      }
-    }
+    //   if (sendEvents.isError()) {
+    //     debug(sendEvents.getError());
+    //     return new ResultError(sendEvents.getError());
+    //   }
+    // }
 
     return new ResultSuccess<PokerTablesJoinOutput>({ ok: true });
   }
