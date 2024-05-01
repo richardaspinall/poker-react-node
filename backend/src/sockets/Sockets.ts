@@ -21,7 +21,8 @@ export class Sockets {
   private static socketMap = new Map<ClientId, Socket>();
 
   public static setUpSocket(socket: Socket) {
-    Sockets.addSocket(socket.id, socket);
+    console.log(socket.request.session.username);
+    Sockets.addSocket(socket.request.session.username, socket); // TODO: Move to session id and username that is mapped in a table saved when signing in
     SocketHandlers.setUpHandlers(socket);
   }
 

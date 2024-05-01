@@ -18,13 +18,21 @@ export class SocketServer {
     return SocketServer.io;
   }
 
-  public static initialize(httpServer: HttpServer) {
+  public static initialize(httpServer: HttpServer, sessionMiddleware: any) {
     if (!SocketServer.io) {
       // Create the socket server with the event types for typing
       this.io = new IOServer<ClientToServerEvents, ServerToClientEvents>(httpServer, {
-        cors: { origin: '*' },
+        cors: {
+          origin: 'http://localhost:5173',
+          credentials: true,
+        },
       });
       Logger.info('Socket server initialized');
+
+      this.io.use((socket, next) => {
+        sessionMiddleware(socket.request, {}, next);
+      });
+
       this.io.on('connection', SocketServer.onConnection);
     } else {
       throw Error('Server already initialized');
