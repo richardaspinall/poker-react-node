@@ -1,10 +1,10 @@
 import express from 'express';
 import type { Request } from 'express';
-import { UserRepository } from 'src/users/UserRepository';
 
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersSigninOutput, UsersSigninPayload } from '@shared/api/gen/users/types/UsersSignin';
 
+import { UserRepository } from '../../../users/UserRepository';
 import { UserService } from '../../../users/UserService';
 import { Logger } from '../../../utils/Logger';
 import { PasswordInvalidError } from '../errors/gen/PasswordInvalidError';
