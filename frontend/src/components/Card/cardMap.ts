@@ -8,6 +8,8 @@ import {
   EightOfDiamonds,
   EightOfHearts,
   EightOfSpades,
+  FaceDownCard,
+  FaceDownCards,
   FiveOfClubs,
   FiveOfDiamonds,
   FiveOfHearts,
@@ -55,6 +57,8 @@ import {
 } from './card-svgs';
 
 const cardMap = {
+  [CardCode.FaceDownCard]: FaceDownCard,
+  [CardCode.FaceDownCards]: FaceDownCards,
   [CardCode.TwoOfClubs]: TwoOfClubs,
   [CardCode.TwoOfDiamonds]: TwoOfDiamonds,
   [CardCode.TwoOfHearts]: TwoOfHearts,

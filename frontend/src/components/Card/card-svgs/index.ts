@@ -38,6 +38,8 @@ import AceOfClubs from '../../../assets/cards/AC.svg';
 import AceOfDiamonds from '../../../assets/cards/AD.svg';
 import AceOfHearts from '../../../assets/cards/AH.svg';
 import AceOfSpades from '../../../assets/cards/AS.svg';
+import FaceDownCard from '../../../assets/cards/FacedownCard.svg';
+import FaceDownCards from '../../../assets/cards/FacedownCards.svg';
 import JackOfClubs from '../../../assets/cards/JC.svg';
 import JackOfDiamonds from '../../../assets/cards/JD.svg';
 import JackOfHearts from '../../../assets/cards/JH.svg';
@@ -104,4 +106,6 @@ export {
   QueenOfDiamonds,
   QueenOfHearts,
   QueenOfSpades,
+  FaceDownCards,
+  FaceDownCard,
 };

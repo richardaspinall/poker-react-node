@@ -1,4 +1,6 @@
 export enum CardCode {
+  FaceDownCards = 'FF',
+  FaceDownCard = 'FS',
   TwoOfClubs = '2C',
   TwoOfDiamonds = '2D',
   TwoOfHearts = '2H',
