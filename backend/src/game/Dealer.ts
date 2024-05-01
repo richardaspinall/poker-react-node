@@ -3,8 +3,6 @@ import { PokerTable } from './PokerTable';
 
 export class Dealer {
   public static dealCards(pokerTable: PokerTable) {
-    console.log('Dealing cards');
-
     const seats = pokerTable.getSeats();
     const playerOne = seats[0].username;
     const playerTwo = seats[1].username;

@@ -23,7 +23,7 @@ export class GameService {
   public static startGame(pokerTable: PokerTable) {
     const event = 'start_game';
     const payload = { tableName: 'table_1' };
-    console.log('Game started');
+
     const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
     // this.manageGameSession(); // Additional logic for managing the game session
 
