@@ -23,14 +23,13 @@ const app = express();
 // Session middleware configuration
 // TODO: edit the secret key with env var
 
-app.use(
-  session({
-    store: new SessionStore(),
-    secret: 'your-secret-key',
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+const sessionMiddleware = session({
+  store: new SessionStore(),
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+});
+app.use(sessionMiddleware);
 
 // For development only (CORS)
 const corsOptions = {
@@ -52,7 +51,7 @@ const httpServer = createServer(app);
 
 httpServer.listen(3000);
 
-SocketServer.initialize(httpServer);
+SocketServer.initialize(httpServer, sessionMiddleware);
 
 // Function to shut down the server (used in tests)
 async function shutDown(): Promise<void> {

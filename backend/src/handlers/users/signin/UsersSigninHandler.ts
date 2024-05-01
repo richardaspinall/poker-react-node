@@ -4,6 +4,7 @@ import type { Request } from 'express';
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersSigninOutput, UsersSigninPayload } from '@shared/api/gen/users/types/UsersSignin';
 
+import { UserRepository } from '../../../users/UserRepository';
 import { UserService } from '../../../users/UserService';
 import { Logger } from '../../../utils/Logger';
 import { PasswordInvalidError } from '../errors/gen/PasswordInvalidError';
@@ -36,6 +37,12 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
     } else {
       req.session.username = username;
       req.session.authenticated = true;
+
+      const res = await UserRepository.createUserSession(req.session.id, username);
+      if (res.isError()) {
+        Logger.error(res.getError().code);
+        return new ResultError(res.getError());
+      }
     }
 
     return new ResultSuccess<UsersSigninOutput>({ ok: true });

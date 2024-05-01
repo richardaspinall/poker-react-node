@@ -25,4 +25,10 @@ CREATE TABLE sessions (
   PRIMARY KEY (session_id)
 );
 
+CREATE TABLE sessions_users (
+  session_id varchar(255) NOT NULL,
+  username VARCHAR(20) NOT NULL,
+  PRIMARY KEY (session_id, username)
+);
+
 ALTER TABLE users AUTO_INCREMENT = 1000;

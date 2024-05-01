@@ -63,4 +63,14 @@ export class UserRepository {
     }
     return Result.success();
   }
+
+  static async createUserSession(sessionId: string, username: string): Promise<Result<void>> {
+    const res = await DB.insert('sessions_users', ['session_id', 'username'], [sessionId, username]);
+
+    if (res.isError()) {
+      console.log(res.getError());
+      return new ResultError(res.getError());
+    }
+    return Result.success();
+  }
 }

@@ -1,6 +1,7 @@
 import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { socket } from '../../../Socket';
 import apiCall from '../../../fetch/apiCall';
 import '../CreateAccount/CreateAccountForm.scss';
 
@@ -53,6 +54,8 @@ export function SigninForm() {
     if (result.ok) {
       console.log(result.payload);
       console.log('success');
+      socket.disconnect();
+      socket.connect();
       navigate('/play');
     } else {
       console.log('error');
