@@ -1,6 +1,7 @@
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
 
 import { PasswordInvalidError } from '../handlers/users/errors/gen/PasswordInvalidError';
+import { User } from './User';
 import { UserRepository } from './UserRepository';
 
 // This file contains the UserService class which is responsible for managing users.
@@ -17,5 +18,26 @@ export class UserService {
     }
 
     return new ResultError(new PasswordInvalidError());
+  }
+
+  static async getUserId(username: string): Promise<Result<number>> {
+    const userOrError = await UserRepository.getUserByUsername(username);
+    if (userOrError.isError()) {
+      return new ResultError(userOrError.getError());
+    }
+
+    const user = userOrError.getValue();
+
+    return new ResultSuccess(user.getId());
+  }
+
+  static async getUserById(userId: number): Promise<Result<User>> {
+    const userOrError = await UserRepository.getUserById(userId);
+
+    if (userOrError.isError()) {
+      return new ResultError(userOrError.getError());
+    }
+
+    return new ResultSuccess(userOrError.getValue());
   }
 }

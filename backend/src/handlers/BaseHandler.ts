@@ -42,12 +42,12 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     this.requiresAuthentication = requiresAuthentication;
   }
 
-  protected abstract getResult(payload: TPayload, user?: string, req?: Request<TPayload>): Promise<Result<any>>;
+  protected abstract getResult(payload: TPayload, userId?: number, req?: Request<TPayload>): Promise<Result<any>>;
 
   public async runHandler(req: Request<TPayload>, res: Response<BaseOutput>) {
-    let user = undefined;
+    let userId = undefined;
     if (this.requiresAuthentication) {
-      user = req.session.username;
+      userId = req.session.userId;
       const userAuthenticated = req.session.authenticated;
 
       if (!userAuthenticated) {
@@ -63,7 +63,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
       return this.handleError(new InvalidRequestPayloadError(error), res);
     }
 
-    const userParam = this.requiresAuthentication ? user : undefined;
+    const userParam = this.requiresAuthentication ? userId : undefined;
     const output = await this.getResult(payload.getValue(), userParam, this.requiresAuthentication ? undefined : req);
 
     if (output.isError()) {

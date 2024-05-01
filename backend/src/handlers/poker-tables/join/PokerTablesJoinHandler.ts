@@ -4,6 +4,7 @@ import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTa
 
 import { GameLobbyService } from '../../../game-lobby-service';
 import { Rooms } from '../../../sockets/Rooms';
+import { UserService } from '../../../users/UserService';
 import { Logger } from '../../../utils/Logger';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
@@ -14,7 +15,7 @@ const debug = Logger.newDebugger('APP:PokerTableJoinHandler');
  * PokerTableJoinHandler is used to handle requests to join a poker table
  */
 class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
-  protected async getResult(payload: PokerTablesJoinPayload, username: string) {
+  protected async getResult(payload: PokerTablesJoinPayload, userId: number) {
     const seatNumber = payload.selectedSeatNumber;
 
     const pokerTable = GameLobbyService.getPokerTable('table_1');
@@ -23,7 +24,16 @@ class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
       return new ResultError(new PokerTableDoesNotExistError());
     }
 
-    const joinRoom = pokerTable.addPlayer(seatNumber, username);
+    const userOrError = await UserService.getUserById(userId);
+
+    if (userOrError.isError()) {
+      //TODO: maybe throw exception?
+      return new ResultError(userOrError.getError());
+    }
+
+    const user = userOrError.getValue();
+
+    const joinRoom = pokerTable.addPlayer(seatNumber, user);
 
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
@@ -33,7 +43,7 @@ class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
     // Emit event to all clients connected that a player has sat down
     const event = 'player_joined';
     const playerJoinedEventPayload = {
-      username: username,
+      username: user.getUserName(),
       seatNumber: seatNumber,
     };
 

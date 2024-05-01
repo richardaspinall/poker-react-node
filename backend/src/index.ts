@@ -13,6 +13,7 @@ declare module 'http' {
   interface IncomingMessage {
     session: Session & {
       authenticated: boolean;
+      userId: number;
       username: string;
     };
   }

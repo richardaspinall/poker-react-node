@@ -41,6 +41,17 @@ export class UserRepository {
     return new ResultSuccess(user);
   }
 
+  static async getUserByUsername(username: string): Promise<Result<User>> {
+    const userOrError = await DB.select('users', ['username'], [username]);
+    if (userOrError.isError()) {
+      return new ResultError(userOrError.getError());
+    }
+    const userId = userOrError.getValue()[0].user_id;
+    const user = new User(username, userId);
+
+    return new ResultSuccess(user);
+  }
+
   static async getPassword(username: string): Promise<Result<string>> {
     const userOrError = await DB.select('users', ['username'], [username]);
     if (userOrError.isError()) {
