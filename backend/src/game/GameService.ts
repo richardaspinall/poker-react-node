@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 
 import { Rooms } from '../sockets/Rooms';
+import { Dealer } from './Dealer';
 import { PokerTable } from './PokerTable';
 
 export class GameService {
@@ -15,11 +16,11 @@ export class GameService {
   // Notifies when a player is added and checks if the table is ready
   public static notifyPlayerAdded(pokerTable: PokerTable) {
     if (pokerTable.isPokerTableReady()) {
-      GameService.startGame();
+      GameService.startGame(pokerTable);
     }
   }
 
-  public static startGame() {
+  public static startGame(pokerTable: PokerTable) {
     const event = 'start_game';
     const payload = { tableName: 'table_1' };
     console.log('Game started');
@@ -30,5 +31,7 @@ export class GameService {
       // debug(sendEvents.getError());
       throw sendEvents.getError();
     }
+
+    Dealer.dealCards(pokerTable);
   }
 }
