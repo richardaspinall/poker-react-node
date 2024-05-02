@@ -5,8 +5,8 @@ import { PokerTable } from './PokerTable';
 export class Dealer {
   public static async dealCards(pokerTable: PokerTable) {
     const seats = pokerTable.getSeats();
-    const playerOne = seats[0].username;
-    const playerTwo = seats[1].username;
+    const playerOne = seats[0].getPlayer()?.getUserName();
+    const playerTwo = seats[1].getPlayer()?.getUserName();
 
     const event = 'deal_cards';
     const payload = { cards: ['Ks', 'Qs'] };
