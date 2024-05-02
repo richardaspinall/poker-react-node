@@ -17,7 +17,7 @@ describe('UserRepository', () => {
       const userId = await UserRepository.createUser({ username: 'testuser', password: 'testpassword' });
 
       const user = await UserRepository.getUserById(userId.getValue());
-      console.log('TEST', user);
+
       expect(user.getValue().getUserId()).toEqual(1000);
       expect(user.getValue().getUserName()).toEqual('testuser');
     });

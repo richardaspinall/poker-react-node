@@ -11,7 +11,6 @@ require('dotenv').config();
 /**
  * MySql is responsible for managing the connection to the database and executing queries.
  */
-
 class MySql {
   private pool: Pool = {} as Pool;
 
