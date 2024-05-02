@@ -2,6 +2,7 @@ import { Sockets } from '../sockets/Sockets';
 import { UserRepository } from '../users/UserRepository';
 import { PokerTable } from './PokerTable';
 
+// TODO: tidy up this file
 export class Dealer {
   public static async dealCards(pokerTable: PokerTable) {
     const seats = pokerTable.getSeats();
@@ -14,11 +15,13 @@ export class Dealer {
     if (!playerOne || !playerTwo) {
       throw new Error('Players not seated');
     }
+
     const playerOneSessionIdOrError = await UserRepository.getSessionIdByUserId(playerOne);
     if (playerOneSessionIdOrError.isError()) {
       // debug(playerOneSessionIdOrError.getError());
       return;
     }
+
     const playerTwoSessionIdOrError = await UserRepository.getSessionIdByUserId(playerTwo);
     if (playerTwoSessionIdOrError.isError()) {
       // debug(playerTwoSessionIdOrError.getError());
