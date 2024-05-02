@@ -1,6 +1,5 @@
 import express from 'express';
 import type { Request } from 'express';
-import { User } from 'src/users/User';
 
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { UsersSigninOutput, UsersSigninPayload } from '@shared/api/gen/users/types/UsersSignin';
@@ -48,12 +47,12 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
       req.session.username = username;
       req.session.authenticated = true;
 
-      const sessionIdOrError = await UserRepository.getSessionIdByUsername(username);
+      const sessionIdOrError = await UserRepository.getSessionIdByUserId(userId);
 
       // This is when their is a session already (specifically when they were just in incognito)
       // TODO: need to work out what to actually do here with deleting a session when they have one..
       if (sessionIdOrError.isOk()) {
-        const deleteRes = await UserRepository.deleteUserSession(username);
+        const deleteRes = await UserRepository.deleteUserSession(userId);
 
         if (deleteRes.isError()) {
           Logger.error(deleteRes.getError().code);

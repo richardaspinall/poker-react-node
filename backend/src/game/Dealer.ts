@@ -5,8 +5,8 @@ import { PokerTable } from './PokerTable';
 export class Dealer {
   public static async dealCards(pokerTable: PokerTable) {
     const seats = pokerTable.getSeats();
-    const playerOne = seats[0].getPlayer()?.getUserName();
-    const playerTwo = seats[1].getPlayer()?.getUserName();
+    const playerOne = seats[0].getPlayer()?.getUserId();
+    const playerTwo = seats[1].getPlayer()?.getUserId();
 
     const event = 'deal_cards';
     const payload = { cards: ['Ks', 'Qs'] };
@@ -14,12 +14,12 @@ export class Dealer {
     if (!playerOne || !playerTwo) {
       throw new Error('Players not seated');
     }
-    const playerOneSessionIdOrError = await UserRepository.getSessionIdByUsername(playerOne);
+    const playerOneSessionIdOrError = await UserRepository.getSessionIdByUserId(playerOne);
     if (playerOneSessionIdOrError.isError()) {
       // debug(playerOneSessionIdOrError.getError());
       return;
     }
-    const playerTwoSessionIdOrError = await UserRepository.getSessionIdByUsername(playerTwo);
+    const playerTwoSessionIdOrError = await UserRepository.getSessionIdByUserId(playerTwo);
     if (playerTwoSessionIdOrError.isError()) {
       // debug(playerTwoSessionIdOrError.getError());
       return;
