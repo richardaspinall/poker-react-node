@@ -23,20 +23,21 @@ export class UserRepository {
       // TODO: should return User specific errors from here
       return new ResultError(userOrError.getError());
     }
-    const userId: number = userOrError.getValue()[0].user_id;
+    const userId = userOrError.getValue()[0].user_id as number;
 
     return new ResultSuccess(userId);
   }
 
   static async getUserById(id: number): Promise<Result<User>> {
-    const userOrError = await DB.select('users', ['user_id'], [id]);
-    if (userOrError.isError()) {
+    const userRowOrError = await DB.select('users', ['user_id'], [id]);
+    if (userRowOrError.isError()) {
       // TODO: should return User specific errors from here
-      return new ResultError(userOrError.getError());
+      return new ResultError(userRowOrError.getError());
     }
-    const username = userOrError.getValue()[0].username;
-    const userId = userOrError.getValue()[0].user_id;
-    const user = new User(username, userId);
+    const userId = userRowOrError.getValue()[0].user_id as number;
+    const username = userRowOrError.getValue()[0].username as string;
+
+    const user = new User(userId, username);
 
     return new ResultSuccess(user);
   }
@@ -46,8 +47,8 @@ export class UserRepository {
     if (userOrError.isError()) {
       return new ResultError(userOrError.getError());
     }
-    const userId = userOrError.getValue()[0].user_id;
-    const user = new User(username, userId);
+    const userId = userOrError.getValue()[0].user_id as number;
+    const user = new User(userId, username);
 
     return new ResultSuccess(user);
   }
@@ -62,7 +63,7 @@ export class UserRepository {
       return new ResultError(new UsernameNotFoundError());
     }
 
-    const password = userOrError.getValue()[0].password;
+    const password = userOrError.getValue()[0].password as string;
 
     return new ResultSuccess(password);
   }

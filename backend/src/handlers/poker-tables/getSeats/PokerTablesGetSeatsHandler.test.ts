@@ -31,7 +31,7 @@ describe('poker-tables.getSeats', () => {
 
   it('should return all seats for a table', async () => {
     mockMySqlSelectSessionSuccess('userone');
-    mockUserServiceGetUserByIdSuccess(new User('userone', 1));
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.getSeats', {
       pokerTableName: 'table_1', // hardcoded table name in server

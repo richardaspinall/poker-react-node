@@ -16,7 +16,7 @@ describe('poker-tables.leave', () => {
     jest.spyOn(Rooms, 'sendEventToRoom').mockImplementation(() => new ResultError(new RoomNotFoundError('table-1')));
     GameLobbyService.createPokerTable('table_1', 2);
     mockMySqlSelectSessionSuccess('userone');
-    mockUserServiceGetUserByIdSuccess(new User('userone', 1));
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.leave', {
       selectedSeatNumber: 1,
@@ -32,7 +32,7 @@ describe('poker-tables.leave', () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     GameLobbyService.createPokerTable('table_1', 2);
     mockMySqlSelectSessionSuccess('userone');
-    mockUserServiceGetUserByIdSuccess(new User('userone', 1));
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
@@ -49,7 +49,7 @@ describe('poker-tables.leave', () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-2'));
     GameLobbyService.createPokerTable('table_2', 2);
     mockMySqlSelectSessionSuccess('userone');
-    mockUserServiceGetUserByIdSuccess(new User('userone', 1));
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.leave', {
       selectedSeatNumber: 'seat-2',

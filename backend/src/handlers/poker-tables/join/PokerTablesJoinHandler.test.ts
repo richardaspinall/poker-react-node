@@ -13,7 +13,7 @@ describe('poker-tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
   it('should error when payload is invalid', async () => {
     mockMySqlSelectSessionSuccess('userone');
-    mockUserServiceGetUserByIdSuccess(new User('userone', 1));
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 1,
@@ -29,7 +29,7 @@ describe('poker-tables.join', () => {
     jest.spyOn(Rooms, 'createRoom').mockImplementation(() => new ResultSuccess('table-1'));
     GameLobbyService.createPokerTable('table_1', 2);
     mockMySqlSelectSessionSuccess('userone');
-    mockUserServiceGetUserByIdSuccess(new User('userone', 1));
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
@@ -45,13 +45,15 @@ describe('poker-tables.join', () => {
     GameLobbyService.createPokerTable('table_1', 2);
 
     mockMySqlSelectSessionSuccess('userone');
-    mockUserServiceGetUserByIdSuccess(new User('userone', 1));
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
+
     await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
     });
 
     mockMySqlSelectSessionSuccess('usertwo');
-    mockUserServiceGetUserByIdSuccess(new User('usertwo', 1));
+    mockUserServiceGetUserByIdSuccess(new User(2, 'usertwo'));
+
     const res = await apiTest('/api/poker-tables.join', {
       selectedSeatNumber: 'seat-1',
     });

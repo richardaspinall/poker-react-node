@@ -11,15 +11,15 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const user = new Player('testuser', 1234);
+      const user = new Player(1234, 'testuser');
       const res = pokerTable.addPlayer('seat-1', user);
 
       expect(res.isOk()).toEqual(true);
     });
 
     it('should error when seat is already taken', () => {
-      const user = new Player('testuser', 1234);
-      const userTwo = new Player('testusertwo', 4321);
+      const user = new Player(1234, 'testuser');
+      const userTwo = new Player(4321, 'testusertwo');
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
@@ -37,7 +37,7 @@ describe('PokerTable', () => {
 
     it('should error when player is already sitting down', () => {
       mockSendEventToRoomSuccess();
-      const user = new Player('testuser', 1234);
+      const user = new Player(1234, 'testuser');
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
@@ -54,7 +54,7 @@ describe('PokerTable', () => {
     });
 
     it('should error when seat number does not exist', () => {
-      const user = new Player('testuser', 1234);
+      const user = new Player(1234, 'testuser');
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);

@@ -34,7 +34,7 @@ class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
 
     const user = userOrError.getValue();
 
-    const joinRoom = pokerTable.addPlayer(seatNumber, new Player(user.getUserName(), user.getUserId()));
+    const joinRoom = pokerTable.addPlayer(seatNumber, new Player(user.getUserId(), user.getUserName()));
 
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
