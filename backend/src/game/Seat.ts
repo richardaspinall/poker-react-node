@@ -1,18 +1,41 @@
+import { User } from '../users/User';
+
 /**
  * Seat class to represent a seat at a poker table
  */
 export class Seat {
-  public seatNumber: string;
-  public username: string;
-  public isTaken: boolean;
+  private seatNumber: string;
+  private isTaken: boolean;
+  private user?: User;
 
-  public constructor(seatNumber: string, username: string, isTaken: boolean) {
+  public constructor(seatNumber: string, isTaken: boolean) {
     this.seatNumber = seatNumber;
-    this.username = username;
     this.isTaken = isTaken;
   }
 
-  public static createSeat(seatNumber: string, username: string = '', isTaken: boolean = false): Seat {
-    return new Seat(seatNumber, username, isTaken);
+  public static createSeat(seatNumber: string, isTaken: boolean = false): Seat {
+    return new Seat(seatNumber, isTaken);
+  }
+
+  public assignPlayer(user: User): void {
+    this.user = user;
+    this.isTaken = true;
+  }
+
+  public removePlayer(): void {
+    this.user = undefined;
+    this.isTaken = false;
+  }
+
+  public isSeatTaken(): boolean {
+    return this.isTaken;
+  }
+
+  public getPlayer(): User | undefined {
+    return this.user;
+  }
+
+  public getSeatNumber(): string {
+    return this.seatNumber;
   }
 }

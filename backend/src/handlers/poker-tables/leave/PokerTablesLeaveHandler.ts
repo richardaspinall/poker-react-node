@@ -4,6 +4,7 @@ import { PlayerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTabl
 
 import { GameLobbyService } from '../../../game-lobby-service';
 import { Rooms } from '../../../sockets/Rooms';
+import { UserService } from '../../../users/UserService';
 import { Logger } from '../../../utils/Logger';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractPokerTablesLeaveHandler } from './gen/AbstractPokerTablesLeaveHandler';
@@ -14,7 +15,7 @@ const debug = Logger.newDebugger('APP:PokerTableLeaveHandler');
  * PokerTableLeaveHandler is used to handle requests to leave a poker table
  */
 class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
-  protected async getResult(payload: PokerTablesLeavePayload, username: string) {
+  protected async getResult(payload: PokerTablesLeavePayload, userId: number) {
     const seatNumber = payload.selectedSeatNumber;
 
     const pokerTable = GameLobbyService.getPokerTable('table_1');
@@ -22,7 +23,17 @@ class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
       return new ResultError(new PokerTableDoesNotExistError());
     }
 
-    const leaveRoom = pokerTable.removePlayer(seatNumber, username);
+    const userOrError = await UserService.getUserById(userId);
+
+    if (userOrError.isError()) {
+      //TODO: maybe throw exception?
+
+      return new ResultError(userOrError.getError());
+    }
+
+    const user = userOrError.getValue();
+
+    const leaveRoom = pokerTable.removePlayer(seatNumber, userId);
     if (leaveRoom.isError()) {
       debug(leaveRoom.getError());
       return new ResultError(leaveRoom.getError());
@@ -31,7 +42,7 @@ class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
     // Emit event to all clients connected that a player has sat down
     const event = 'player_left';
     const playerLeftEventPayload = {
-      username: username,
+      username: user.getUserName(),
       seatNumber: seatNumber,
     };
     const sendEvents = Rooms.sendEventToRoom<PlayerLeftEvent>('table_1', event, playerLeftEventPayload);

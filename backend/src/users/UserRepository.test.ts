@@ -17,14 +17,16 @@ describe('UserRepository', () => {
       const userId = await UserRepository.createUser({ username: 'testuser', password: 'testpassword' });
 
       const user = await UserRepository.getUserById(userId.getValue());
-      expect(user.getValue().getId()).toEqual(1000);
-      expect(user.getValue().getName()).toEqual('testuser');
+
+      expect(user.getValue().getUserId()).toEqual(1000);
+      expect(user.getValue().getUserName()).toEqual('testuser');
     });
   });
 
   describe('createUser', () => {
-    it('should create a user', async () => {
+    it('should return a duplicate entry', async () => {
       mockMySqlInsertDuplicateError('users');
+
       const userOrError = await UserRepository.createUser({ username: 'testuser', password: 'testpassword' });
 
       expect(userOrError.getError().code).toEqual('duplicate_entry');
@@ -37,14 +39,16 @@ describe('UserRepository', () => {
       mockMySqlSelectSuccess();
 
       const user = await UserRepository.getUserById(1000);
-      expect(user.getValue().getId()).toEqual(1000);
-      expect(user.getValue().getName()).toEqual('testuser');
+
+      expect(user.getValue().getUserId()).toEqual(1000);
+      expect(user.getValue().getUserName()).toEqual('testuser');
     });
 
     it('should return a select error', async () => {
       mockMySqlSelectError('users');
 
       const user = await UserRepository.getUserById(1000);
+
       expect(user.getError().code).toEqual('select_failed');
       expect(user.getError().message).toEqual('Selection failed to: users');
     });

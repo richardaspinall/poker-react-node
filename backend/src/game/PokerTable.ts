@@ -4,6 +4,7 @@ import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundE
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
+import { Player } from './Player';
 import { Seat } from './Seat';
 
 /* 
@@ -33,19 +34,18 @@ export class PokerTable {
     return new ResultSuccess(newPokerTable);
   }
 
-  public addPlayer(seatNumber: string, username: string): Result<void> {
+  public addPlayer(seatNumber: string, player: Player): Result<void> {
     for (const seat of this.seats) {
-      if (seat.username === username) {
+      if (seat.getPlayer()?.getUserName() === player.getUserName()) {
         return Result.error(new PlayerAlreadySeatedError());
       }
     }
     for (const seat of this.seats) {
-      if (seat.seatNumber == seatNumber) {
-        if (seat.isTaken) {
+      if (seat.getSeatNumber() == seatNumber) {
+        if (seat.isSeatTaken()) {
           return Result.error(new SeatTakenError());
         } else {
-          seat.username = username;
-          seat.isTaken = true;
+          seat.assignPlayer(player);
           return Result.success();
         }
       }
@@ -53,14 +53,14 @@ export class PokerTable {
     return Result.error(new SeatNotFoundError());
   }
 
-  public removePlayer(seatNumber: string, username: string): Result<void> {
+  public removePlayer(seatNumber: string, userId: number): Result<void> {
     for (const seat of this.seats) {
-      if (seat.username === username && seat.seatNumber === seatNumber) {
-        seat.username = '';
-        seat.isTaken = false;
+      if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
+        seat.removePlayer();
         return Result.success();
       }
     }
+
     return Result.error(new PlayerNotFoundAtPokerTableError());
   }
 
@@ -68,7 +68,7 @@ export class PokerTable {
     const availableSeats = [];
 
     for (const seat of this.seats) {
-      if (seat.isTaken === false) {
+      if (seat.isSeatTaken() === false) {
         availableSeats.push(seat);
       }
     }
@@ -85,7 +85,7 @@ export class PokerTable {
 
   public isPokerTableReady(): boolean {
     for (const seat of this.seats) {
-      if (seat.username == '') {
+      if (seat.getPlayer() === undefined) {
         return false;
       }
     }

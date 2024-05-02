@@ -30,7 +30,7 @@ class MySql {
     });
   }
 
-  async select(table: string, whereClause: string[] = [], params: any[] = []): Promise<Result<RowDataPacket[]>> {
+  async select(table: string, whereClause: string[] = [], params: unknown[] = []): Promise<Result<RowDataPacket[]>> {
     const where =
       whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';
     const query = `SELECT * FROM ${table} ${where}`;
@@ -43,7 +43,7 @@ class MySql {
     }
   }
 
-  async insert(table: string, columns: string[], params: any[]): Promise<Result<void>> {
+  async insert(table: string, columns: string[], params: unknown[]): Promise<Result<void>> {
     const placeholders = columns.map(() => '?').join(', ');
     const query = `INSERT INTO ${table} (${columns.join(', ')}) VALUES (${placeholders})`;
     try {
@@ -64,9 +64,9 @@ class MySql {
   async update(
     table: string,
     columns: string[],
-    params: any[],
+    params: unknown[],
     whereClause: string[] = [],
-    whereParams: any[] = []
+    whereParams: unknown[] = [],
   ): Promise<Result<void>> {
     const set = columns.map((column) => `${column} = ?`).join(', ');
     const where =
@@ -81,7 +81,7 @@ class MySql {
     }
   }
 
-  async delete(table: string, whereClause: string[] = [], params: any[] = []): Promise<Result<void>> {
+  async delete(table: string, whereClause: string[] = [], params: unknown[] = []): Promise<Result<void>> {
     const where =
       whereClause.length > 0 ? `WHERE ${whereClause.map((condition) => `${condition} = ?`).join(' AND ')}` : '';
     const query = `DELETE FROM ${table} ${where}`;

@@ -19,7 +19,7 @@ export const router = express.Router();
 class UsersSigninHandler extends AbstractUsersSigninHandler {
   protected async getResult(
     payload: UsersSigninPayload,
-    _user: string /* unused, used in other class methods */,
+    _userId: number /* unused, used in other class methods */,
     req: Request<UsersSigninPayload>,
   ) {
     // TODO: need to validate username. task: 86cv07w0c
@@ -32,13 +32,21 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
       return new ResultError(passwordOrError.getError());
     }
 
+    const userIdOrError = await UserService.getUserId(username);
+    if (userIdOrError.isError()) {
+      return new ResultError(userIdOrError.getError());
+    }
+
+    const userId = userIdOrError.getValue();
+
     if (req.session.authenticated) {
       Logger.info('User already authenticated');
     } else {
+      req.session.userId = userId;
       req.session.username = username;
       req.session.authenticated = true;
 
-      const res = await UserRepository.createUserSession(req.session.id, username);
+      const res = await UserRepository.createUserSession(userId, req.session.id);
       if (res.isError()) {
         Logger.error(res.getError().code);
         return new ResultError(res.getError());

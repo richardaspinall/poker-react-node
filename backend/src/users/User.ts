@@ -1,17 +1,17 @@
 export class User {
-  private name: string;
-  private id: string;
+  private userId: number;
+  private username: string;
 
-  constructor(name: string, id: string) {
-    this.name = name;
-    this.id = id;
+  constructor(userId: number, username: string) {
+    this.userId = userId;
+    this.username = username;
   }
 
-  public getName(): string {
-    return this.name;
+  public getUserId(): number {
+    return this.userId;
   }
 
-  public getId(): string {
-    return this.id;
+  public getUserName(): string {
+    return this.username;
   }
 }

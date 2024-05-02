@@ -1,6 +1,9 @@
 import { apiTest } from '@tests/helpers/apiTest';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
 import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
+import { mockUserServiceGetUserByIdSuccess } from '@tests/mocks/userServiceMocks';
+
+import { User } from '../../../users/User';
 
 describe('poker-tables.getSeats', () => {
   // TODO: need to add more unit tests for invalid requests and types
@@ -28,6 +31,7 @@ describe('poker-tables.getSeats', () => {
 
   it('should return all seats for a table', async () => {
     mockMySqlSelectSessionSuccess('userone');
+    mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.getSeats', {
       pokerTableName: 'table_1', // hardcoded table name in server
