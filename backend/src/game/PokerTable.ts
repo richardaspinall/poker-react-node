@@ -36,7 +36,7 @@ export class PokerTable {
 
   public addPlayer(seatNumber: string, player: Player): Result<void> {
     for (const seat of this.seats) {
-      if (seat.getUser()?.getUserName() === player.getUserName()) {
+      if (seat.getPlayer()?.getUserName() === player.getUserName()) {
         return Result.error(new PlayerAlreadySeatedError());
       }
     }
@@ -45,7 +45,7 @@ export class PokerTable {
         if (seat.isSeatTaken()) {
           return Result.error(new SeatTakenError());
         } else {
-          seat.assignUser(player);
+          seat.assignPlayer(player);
           return Result.success();
         }
       }
@@ -55,8 +55,8 @@ export class PokerTable {
 
   public removePlayer(seatNumber: string, userId: number): Result<void> {
     for (const seat of this.seats) {
-      if (seat.getUser()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
-        seat.removeUser();
+      if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
+        seat.removePlayer();
         return Result.success();
       }
     }
@@ -85,7 +85,7 @@ export class PokerTable {
 
   public isPokerTableReady(): boolean {
     for (const seat of this.seats) {
-      if (seat.getUser() === undefined) {
+      if (seat.getPlayer() === undefined) {
         return false;
       }
     }

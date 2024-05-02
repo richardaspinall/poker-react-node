@@ -17,12 +17,12 @@ export class Seat {
     return new Seat(seatNumber, isTaken);
   }
 
-  public assignUser(user: User): void {
+  public assignPlayer(user: User): void {
     this.user = user;
     this.isTaken = true;
   }
 
-  public removeUser(): void {
+  public removePlayer(): void {
     this.user = undefined;
     this.isTaken = false;
   }
@@ -31,7 +31,7 @@ export class Seat {
     return this.isTaken;
   }
 
-  public getUser(): User | undefined {
+  public getPlayer(): User | undefined {
     return this.user;
   }
 
