@@ -46,7 +46,7 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
       req.session.username = username;
       req.session.authenticated = true;
 
-      const res = await UserRepository.createUserSession(req.session.id, username);
+      const res = await UserRepository.createUserSession(userId, req.session.id);
       if (res.isError()) {
         Logger.error(res.getError().code);
         return new ResultError(res.getError());

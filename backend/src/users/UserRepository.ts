@@ -75,8 +75,8 @@ export class UserRepository {
     return Result.success();
   }
 
-  static async createUserSession(sessionId: string, username: string): Promise<Result<void>> {
-    const res = await DB.insert('sessions_users', ['session_id', 'username'], [sessionId, username]);
+  static async createUserSession(user_id: number, sessionId: string): Promise<Result<void>> {
+    const res = await DB.insert('sessions_users', ['user_id', 'session_id'], [user_id, sessionId]);
 
     if (res.isError()) {
       console.log(res.getError());

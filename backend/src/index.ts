@@ -6,8 +6,8 @@ import { createServer } from 'http';
 import { GlobalErrorHandler } from '@infra/GlobalErrorHandler';
 import { router } from '@infra/routes';
 
+import { SessionStore } from './infra/SessionStore';
 import { SocketServer } from './sockets/SocketServer';
-import { SessionStore } from './users/SessionStore';
 
 declare module 'http' {
   interface IncomingMessage {
