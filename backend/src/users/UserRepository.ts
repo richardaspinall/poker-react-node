@@ -80,7 +80,6 @@ export class UserRepository {
     const res = await DB.insert('users_sessions', ['user_id', 'session_id'], [user_id, sessionId]);
 
     if (res.isError()) {
-      console.log(res.getError());
       return new ResultError(res.getError());
     }
     return Result.success();

@@ -51,18 +51,18 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
       // This is when their is a session already (specifically when they were just in incognito)
       // TODO: need to work out what to actually do here with deleting a session when they have one..
       if (sessionIdOrError.isOk()) {
-        const deleteRes = await UserRepository.deleteUserSession(userId);
+        const deleteUserSessionOrError = await UserRepository.deleteUserSession(userId);
 
-        if (deleteRes.isError()) {
-          Logger.error(deleteRes.getError().code);
-          return new ResultError(deleteRes.getError());
+        if (deleteUserSessionOrError.isError()) {
+          Logger.error(deleteUserSessionOrError.getError().code);
+          return new ResultError(deleteUserSessionOrError.getError());
         }
       }
 
-      const res = await UserRepository.createUserSession(userId, req.session.id);
-      if (res.isError()) {
-        Logger.error(res.getError().code);
-        return new ResultError(res.getError());
+      const createUserSessionOrError = await UserRepository.createUserSession(userId, req.session.id);
+      if (createUserSessionOrError.isError()) {
+        Logger.error(createUserSessionOrError.getError().code);
+        return new ResultError(createUserSessionOrError.getError());
       }
     }
 
