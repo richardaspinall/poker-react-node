@@ -4,9 +4,6 @@ import { ResultSuccess } from '@infra/Result';
 
 import { MySqLInstance } from '../../../../db/my-sql';
 
-// import { DBInsertDuplicateError, DBInsertError } from '../../db/errors/DBInsertErrors';
-// import { DBSelectError } from '../../db/errors/DBSelectErrors';
-
 export const mockGetSessionIdByUsername = (userId: number, sessionId: string) => {
   jest
     .spyOn(MySqLInstance, 'select')
