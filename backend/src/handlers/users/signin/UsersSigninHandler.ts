@@ -46,10 +46,23 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
       req.session.username = username;
       req.session.authenticated = true;
 
-      const res = await UserRepository.createUserSession(userId, req.session.id);
-      if (res.isError()) {
-        Logger.error(res.getError().code);
-        return new ResultError(res.getError());
+      const sessionIdOrError = await UserRepository.getSessionIdByUserId(userId);
+
+      // This is when their is a session already (specifically when they were just in incognito)
+      // TODO: need to work out what to actually do here with deleting a session when they have one..
+      if (sessionIdOrError.isOk()) {
+        const deleteUserSessionOrError = await UserRepository.deleteUserSession(userId);
+
+        if (deleteUserSessionOrError.isError()) {
+          Logger.error(deleteUserSessionOrError.getError().code);
+          return new ResultError(deleteUserSessionOrError.getError());
+        }
+      }
+
+      const createUserSessionOrError = await UserRepository.createUserSession(userId, req.session.id);
+      if (createUserSessionOrError.isError()) {
+        Logger.error(createUserSessionOrError.getError().code);
+        return new ResultError(createUserSessionOrError.getError());
       }
     }
 

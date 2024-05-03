@@ -80,9 +80,31 @@ export class UserRepository {
     const res = await DB.insert('users_sessions', ['user_id', 'session_id'], [user_id, sessionId]);
 
     if (res.isError()) {
-      console.log(res.getError());
       return new ResultError(res.getError());
     }
     return Result.success();
+  }
+
+  static async deleteUserSession(user_id: number): Promise<Result<void>> {
+    const res = await DB.delete('users_sessions', ['user_id'], [user_id]);
+    if (res.isError()) {
+      return new ResultError(res.getError());
+    }
+    return Result.success();
+  }
+
+  static async getSessionIdByUserId(user_id: number): Promise<Result<string>> {
+    const userOrError = await DB.select('users_sessions', ['user_id'], [user_id]);
+
+    if (userOrError.isError()) {
+      return new ResultError(userOrError.getError());
+    }
+
+    if (userOrError.getValue().length === 0) {
+      return new ResultError(new UsernameNotFoundError());
+    }
+    const sessionId = userOrError.getValue()[0].session_id;
+
+    return new ResultSuccess(sessionId);
   }
 }
