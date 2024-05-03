@@ -12,6 +12,7 @@ import {
 describe('signin', () => {
   it('should authenticate the user successfully with correct credentials', async () => {
     mockMySqlInsertSuccess();
+    mockMySqlSelectSuccess();
 
     const res = await apiTestNoCookie('/api/users.signin', {
       username: 'testuser',
