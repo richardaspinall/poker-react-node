@@ -4,7 +4,6 @@ import { mockGetSessionIdByUsername } from '@tests/mocks/db-mocks/users-sessions
 import { mockUserRepositoryGetPasswordSuccess } from '@tests/mocks/userRepositoryMocks';
 
 import {
-  mockMySqlDeleteSuccess,
   mockMySqlInsertSuccess,
   mockMySqlSelectSuccess,
   mockMySqlSelectSuccessWithNoRows,
@@ -13,9 +12,6 @@ import {
 describe('signin', () => {
   it.only('should authenticate the user successfully with correct credentials', async () => {
     mockMySqlInsertSuccess();
-    mockMySqlDeleteSuccess();
-    mockGetSessionIdByUsername(1, 'session-1');
-    mockUserRepositoryGetPasswordSuccess();
 
     const res = await apiTestNoCookie('/api/users.signin', {
       username: 'testuser',
