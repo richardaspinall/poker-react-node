@@ -20,6 +20,7 @@ export class GameService {
     }
   }
 
+  // TODO: for now we should do all Rooms or sockets related logic in the GameService (so need to remove from Dealer.dealCards and get back cards to send to the sockets)
   public static startGame(pokerTable: PokerTable) {
     const event = 'start_game';
     const payload = { tableName: 'table_1' };
