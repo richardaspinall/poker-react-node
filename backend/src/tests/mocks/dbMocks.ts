@@ -20,6 +20,10 @@ export const mockMySqlInsertSuccess = () => {
   jest.spyOn(MySqLInstance, 'insert').mockImplementation(async () => await Result.success());
 };
 
+export const mockMySqlDeleteSuccess = () => {
+  jest.spyOn(MySqLInstance, 'delete').mockImplementation(async () => await Result.success());
+};
+
 export const mockMySqlSelectError = (table: string) => {
   jest.spyOn(MySqLInstance, 'select').mockImplementation(async () => await new ResultError(new DBSelectError(table)));
 };
@@ -29,7 +33,7 @@ export const mockMySqlSelectSuccess = () => {
     .spyOn(MySqLInstance, 'select')
     .mockImplementation(
       async () =>
-        await new ResultSuccess([{ user_id: 1000, username: 'testuser', password: 'testpassword' }] as RowDataPacket[])
+        await new ResultSuccess([{ user_id: 1000, username: 'testuser', password: 'testpassword' }] as RowDataPacket[]),
     );
 };
 
