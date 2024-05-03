@@ -10,7 +10,7 @@ import {
 } from '../../../tests/mocks/dbMocks';
 
 describe('signin', () => {
-  it.only('should authenticate the user successfully with correct credentials', async () => {
+  it('should authenticate the user successfully with correct credentials', async () => {
     mockMySqlInsertSuccess();
 
     const res = await apiTestNoCookie('/api/users.signin', {

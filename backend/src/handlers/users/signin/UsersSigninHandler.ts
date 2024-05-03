@@ -26,7 +26,6 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
     // console.log(payload);
     const username = payload.username;
     const password = payload.password;
-
     const passwordOrError = await UserService.validatePassword(username, password);
 
     if (passwordOrError.isError()) {
