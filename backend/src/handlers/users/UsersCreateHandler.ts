@@ -16,10 +16,7 @@ class UsersCreateHandler extends BaseHandler<UsersCreatePayload, UsersCreateOutp
     super(usersCreateSchema, UsersCreateErrorCodes, false);
   }
 
-  public async getResult(
-    payload: UsersCreatePayload,
-    res: Response<UsersCreateOutput>
-  ) {
+  public async getResult(payload: UsersCreatePayload,res: Response<UsersCreateOutput>) {
     const username = payload.username;
     const password = payload.password;
     // basic credential validation eg length and character for both
