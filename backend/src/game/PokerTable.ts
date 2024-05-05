@@ -47,7 +47,7 @@ export class PokerTable {
         } else {
           seat.assignPlayer(player);
 
-          GameService.eventEmitter.emit('playerJoined', this);
+          GameService.eventEmitter.emit('playerJoined', this, player, seatNumber);
 
           return Result.success();
         }
