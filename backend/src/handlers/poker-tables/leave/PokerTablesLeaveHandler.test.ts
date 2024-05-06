@@ -19,7 +19,7 @@ describe('poker-tables.leave', () => {
     mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.leave', {
-      selectedSeatNumber: 1,
+      selectedSeatNumber: 'seat-1',
     });
 
     expect(res.body.ok).toEqual(false);
@@ -35,10 +35,10 @@ describe('poker-tables.leave', () => {
     mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     await apiTest('/api/poker-tables.join', {
-      selectedSeatNumber: 'seat-1',
+      selectedSeatNumber: 1,
     });
     const res = await apiTest('/api/poker-tables.leave', {
-      selectedSeatNumber: 'seat-1',
+      selectedSeatNumber: 1,
     });
 
     expect(res.statusCode).toEqual(200);
@@ -52,7 +52,7 @@ describe('poker-tables.leave', () => {
     mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.leave', {
-      selectedSeatNumber: 'seat-2',
+      selectedSeatNumber: '2',
     });
 
     expect(res.statusCode).toEqual(200);

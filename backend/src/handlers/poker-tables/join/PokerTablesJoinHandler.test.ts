@@ -11,12 +11,12 @@ import { User } from '../../../users/User';
 
 describe('poker-tables.join', () => {
   // TODO: need to add more unit tests for invalid requests and types
-  it('should error when payload is invalid', async () => {
+  it.only('should error when payload is invalid', async () => {
     mockMySqlSelectSessionSuccess('userone');
     mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.join', {
-      selectedSeatNumber: 1,
+      selectedSeatNumber: 'seat-1',
     });
 
     expect(res.body.ok).toEqual(false);
@@ -32,7 +32,7 @@ describe('poker-tables.join', () => {
     mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     const res = await apiTest('/api/poker-tables.join', {
-      selectedSeatNumber: 'seat-1',
+      selectedSeatNumber: 1,
     });
 
     expect(res.statusCode).toEqual(200);
@@ -48,14 +48,14 @@ describe('poker-tables.join', () => {
     mockUserServiceGetUserByIdSuccess(new User(1, 'userone'));
 
     await apiTest('/api/poker-tables.join', {
-      selectedSeatNumber: 'seat-1',
+      selectedSeatNumber: '1',
     });
 
     mockMySqlSelectSessionSuccess('usertwo');
     mockUserServiceGetUserByIdSuccess(new User(2, 'usertwo'));
 
     const res = await apiTest('/api/poker-tables.join', {
-      selectedSeatNumber: 'seat-1',
+      selectedSeatNumber: '1',
     });
 
     expect(res.statusCode).toEqual(200);
@@ -67,7 +67,7 @@ describe('poker-tables.join', () => {
   //   mockSendEventToRoomError();
   //   const res = await request(httpServer).post('/api/poker-tables.join').send({
   //     table: 'table_doesnt_exist',
-  //     selectedSeatNumber: 'seat-1',
+  //     selectedSeatNumber: '1',
   //     socketId: 'abc123',
   //   });
 

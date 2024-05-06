@@ -12,7 +12,7 @@ describe('PokerTable', () => {
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
       const user = new Player(1234, 'testuser');
-      const res = pokerTable.addPlayer('seat-1', user);
+      const res = pokerTable.addPlayer(1, user);
 
       expect(res.isOk()).toEqual(true);
     });
@@ -24,11 +24,11 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const a1SitsSeat1 = pokerTable.addPlayer('seat-1', user);
+      const a1SitsSeat1 = pokerTable.addPlayer(1, user);
 
       expect(a1SitsSeat1.isOk()).toEqual(true);
 
-      const b1SitsSeat1 = pokerTable.addPlayer('seat-1', userTwo);
+      const b1SitsSeat1 = pokerTable.addPlayer(1, userTwo);
 
       expect(b1SitsSeat1.isOk()).toEqual(false);
       expect(b1SitsSeat1.getError()?.code).toEqual('seat_taken');
@@ -42,11 +42,11 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const a1SitsSeat1 = pokerTable.addPlayer('seat-1', user);
+      const a1SitsSeat1 = pokerTable.addPlayer(1, user);
 
       expect(a1SitsSeat1.isOk()).toEqual(true);
 
-      const a1SitsSeat2 = pokerTable.addPlayer('seat-2', user);
+      const a1SitsSeat2 = pokerTable.addPlayer(2, user);
 
       expect(a1SitsSeat2.isOk()).toEqual(false);
       expect(a1SitsSeat2.getError()?.code).toEqual('player_already_seated');
@@ -59,7 +59,7 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
 
-      const res = pokerTable.addPlayer('seat-3', user);
+      const res = pokerTable.addPlayer(3, user);
 
       expect(res.isOk()).toEqual(false);
       expect(res.getError()?.code).toEqual('SEAT_NOT_FOUND');
@@ -87,13 +87,13 @@ describe('PokerTable', () => {
       const { pokerTable, players } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
       const player1 = players[0];
 
-      const res = pokerTable.removePlayer('seat-1', player1.getUserId());
+      const res = pokerTable.removePlayer(1, player1.getUserId());
 
       expect(res.isOk()).toEqual(true);
 
       const availableSeats = pokerTable.getAvailableSeats();
-      const seat1IsAvailable = availableSeats.some((seat) => seat.getSeatNumber() === 'seat-1');
-      const seat2IsAvailable = availableSeats.some((seat) => seat.getSeatNumber() === 'seat-2');
+      const seat1IsAvailable = availableSeats.some((seat) => seat.getSeatNumber() === 1);
+      const seat2IsAvailable = availableSeats.some((seat) => seat.getSeatNumber() === 2);
 
       expect(seat1IsAvailable).toBe(true);
       expect(seat2IsAvailable).toBe(false);
@@ -105,7 +105,7 @@ describe('PokerTable', () => {
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(pokerTableName, numberOfSeats);
 
-      const res = pokerTable.removePlayer('seat-1', 1234);
+      const res = pokerTable.removePlayer(1, 1234);
 
       expect(res.isOk()).toEqual(false);
       expect(res.getError()?.code).toEqual('player_not_found_at_poker_table');
@@ -118,7 +118,7 @@ describe('PokerTable', () => {
       const { pokerTable, players } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
       const player1 = players[0];
 
-      const res = pokerTable.removePlayer('seat-1', player1.getUserId());
+      const res = pokerTable.removePlayer(1, player1.getUserId());
 
       expect(res.isOk()).toEqual(true);
 
@@ -137,8 +137,8 @@ describe('PokerTable', () => {
       const availableSeats = pokerTable.getAvailableSeats();
 
       expect(availableSeats.length).toEqual(2);
-      expect(availableSeats[0].getSeatNumber()).toEqual('seat-1');
-      expect(availableSeats[1].getSeatNumber()).toEqual('seat-2');
+      expect(availableSeats[0].getSeatNumber()).toEqual(1);
+      expect(availableSeats[1].getSeatNumber()).toEqual(2);
     });
 
     it('should return an empty array when there are no seats available', () => {

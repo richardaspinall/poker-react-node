@@ -19,10 +19,9 @@ export class PokerTable {
     this.name = name;
 
     const seatsArray = [];
-    const seatString = 'seat-';
     let seatNumber = 1;
     for (let i = 0; i < numberOfSeats; i++) {
-      const newSeat = Seat.createSeat(seatString + seatNumber);
+      const newSeat = Seat.createSeat(seatNumber);
       seatsArray.push(newSeat);
       seatNumber++;
     }
@@ -34,14 +33,14 @@ export class PokerTable {
     return new ResultSuccess(newPokerTable);
   }
 
-  public addPlayer(seatNumber: string, player: Player): Result<void> {
+  public addPlayer(seatNumber: number, player: Player): Result<void> {
     for (const seat of this.seats) {
       if (seat.getPlayer()?.getUserName() === player.getUserName()) {
         return Result.error(new PlayerAlreadySeatedError());
       }
     }
     for (const seat of this.seats) {
-      if (seat.getSeatNumber() == seatNumber) {
+      if (seat.getSeatNumber() === seatNumber) {
         if (seat.isSeatTaken()) {
           return Result.error(new SeatTakenError());
         } else {
@@ -53,7 +52,7 @@ export class PokerTable {
     return Result.error(new SeatNotFoundError());
   }
 
-  public removePlayer(seatNumber: string, userId: number): Result<void> {
+  public removePlayer(seatNumber: number, userId: number): Result<void> {
     for (const seat of this.seats) {
       if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
         seat.removePlayer();

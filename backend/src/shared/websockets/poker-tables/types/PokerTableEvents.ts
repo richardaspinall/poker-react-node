@@ -1,11 +1,11 @@
 export type PlayerJoinedEvent = {
   username: string;
-  seatNumber: string;
+  seatNumber: number;
 };
 
 export type PlayerLeftEvent = {
   username: string;
-  seatNumber: string;
+  seatNumber: number;
 };
 
 export interface PokerTableEvents {
