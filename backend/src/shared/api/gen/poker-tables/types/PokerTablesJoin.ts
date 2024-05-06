@@ -1,7 +1,7 @@
 import { BaseOutput } from '../../../BaseOutput';
 
 export interface PokerTablesJoinPayload {
-  selectedSeatNumber: string;
+  selectedSeatNumber: number;
 }
 
 export interface PokerTablesJoinOutput extends BaseOutput {

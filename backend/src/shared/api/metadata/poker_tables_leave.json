@@ -8,7 +8,7 @@
     "properties": [
       {
         "name": "selectedSeatNumber",
-        "type": "string",
+        "type": "number",
         "required": true
       }
     ]

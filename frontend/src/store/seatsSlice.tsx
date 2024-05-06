@@ -7,7 +7,7 @@ import {
 import fetchSeats from '../components/PokerTable/fetchSeats';
 
 type Seat = {
-  seatNumber: string;
+  seatNumber: number;
   username?: string;
 };
 
@@ -22,17 +22,17 @@ interface SeatsSlice {
 const initialState: SeatsSlice = {
   value: [
     {
-      seatNumber: 'seat-1',
+      seatNumber: 1,
     },
     {
-      seatNumber: 'seat-2',
+      seatNumber: 2,
     },
   ],
   loading: false,
   error: null,
 };
 
-function updateSeats(seats: Seat[], seatNumber: string, username: string | undefined = undefined) {
+function updateSeats(seats: Seat[], seatNumber: number, username: string | undefined = undefined) {
   const seatIndex = seats.findIndex((seat) => seat.seatNumber === seatNumber);
 
   if (seatIndex !== -1) {

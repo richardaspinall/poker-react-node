@@ -13,7 +13,7 @@ export function createPokerTableWithPlayers(tableName: string, numberOfSeats: nu
     const user = new Player(1234 + seatNumber, 'a' + seatNumber);
 
     players.push(user);
-    const res = pokerTable.addPlayer('seat-' + seatNumber, user);
+    const res = pokerTable.addPlayer(seatNumber, user);
 
     if (res.isError()) {
       throw new Error(res.getError().message);

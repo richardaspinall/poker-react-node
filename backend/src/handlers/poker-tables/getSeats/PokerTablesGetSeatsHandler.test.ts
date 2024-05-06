@@ -42,11 +42,11 @@ describe('poker-tables.getSeats', () => {
       ok: true,
       seats: [
         {
-          seatNumber: 'seat-1',
+          seatNumber: 1,
           username: '',
         },
         {
-          seatNumber: 'seat-2',
+          seatNumber: 2,
           username: '',
         },
       ],

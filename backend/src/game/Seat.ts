@@ -4,16 +4,16 @@ import { User } from '../users/User';
  * Seat class to represent a seat at a poker table
  */
 export class Seat {
-  private seatNumber: string;
+  private seatNumber: number;
   private isTaken: boolean;
   private user?: User;
 
-  public constructor(seatNumber: string, isTaken: boolean) {
+  public constructor(seatNumber: number, isTaken: boolean) {
     this.seatNumber = seatNumber;
     this.isTaken = isTaken;
   }
 
-  public static createSeat(seatNumber: string, isTaken: boolean = false): Seat {
+  public static createSeat(seatNumber: number, isTaken: boolean = false): Seat {
     return new Seat(seatNumber, isTaken);
   }
 
@@ -35,7 +35,7 @@ export class Seat {
     return this.user;
   }
 
-  public getSeatNumber(): string {
+  public getSeatNumber(): number {
     return this.seatNumber;
   }
 }
