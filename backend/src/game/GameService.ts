@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 
 import { ResultError } from '@infra/Result';
+import { DealCardsEvent, GameEvent } from '@shared/websockets/game/types/GameEvents';
 import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { Player } from '../game/Player';
@@ -23,7 +24,7 @@ export class GameService {
   }
 
   // Notifies when a player is added and checks if the table is ready
-  public static onPlayerJoined(pokerTable: PokerTable, player: Player, seatNumber: string) {
+  public static onPlayerJoined(pokerTable: PokerTable, player: Player, seatNumber: number) {
     // Emit event to all clients connected that a player has sat down
     const event = 'player_joined';
     const playerJoinedEventPayload = {
@@ -43,18 +44,17 @@ export class GameService {
     }
   }
 
-  // TODO: for now we should do all Rooms or sockets related logic in the GameService (so need to remove from Dealer.dealCards and get back cards to send to the sockets)
-  // There should be a Game.startGame which is actually called from onPlayerJoined
   public static async startGame(pokerTable: PokerTable) {
-    const event = 'start_game';
+    const event = GameEvent.START_GAME;
     const payload = { tableName: pokerTable.getName() };
 
     const sendEvents = Rooms.sendEventToRoom(pokerTable.getName(), event, payload);
 
     if (sendEvents.isError()) {
-      // debug(sendEvents.getError());
       throw sendEvents.getError();
     }
+
+    Dealer.newGame(pokerTable);
 
     Dealer.dealCards(pokerTable);
 
@@ -69,11 +69,11 @@ export class GameService {
           throw playerSessionIdOrError.getError();
         }
 
-        const dealCardsEvent = 'deal_cards';
+        const dealCardsEvent = GameEvent.DEAL_CARDS;
 
         const payload = { cards: player.getCards() };
 
-        Sockets.sendEventToClient(playerSessionIdOrError.getValue(), dealCardsEvent, payload);
+        Sockets.sendEventToClient<DealCardsEvent>(playerSessionIdOrError.getValue(), dealCardsEvent, payload);
       }
     });
   }

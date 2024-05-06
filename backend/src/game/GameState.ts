@@ -1,5 +1,12 @@
 import { Card } from './Deck';
 
+export enum Round {
+  preFlop = 'pre-flop',
+  flop = 'flop',
+  turn = 'turn',
+  river = 'river',
+}
+
 /*
  * GameState is responsible for the state of a poker game
  */
@@ -10,7 +17,7 @@ export class GameState {
   private pot: number;
   private currentBet: number;
   private playerToActIndex: number;
-  private roundState: string;
+  private roundState: Round;
   private communityCards: Card[];
 
   constructor(dealerPosition: number, smallBlind: number, bigBlind: number) {
@@ -21,7 +28,7 @@ export class GameState {
     this.pot = 0;
     this.currentBet = 0;
     this.playerToActIndex = 0;
-    this.roundState = 'pre-flop';
+    this.roundState = Round.preFlop;
     this.communityCards = [];
   }
 
@@ -39,7 +46,11 @@ export class GameState {
   public updateCurrentPlayerIndex(playerToActIndex: number) {
     this.playerToActIndex = playerToActIndex;
   }
-  public updateRoundState(roundState: string) {
+
+  public getRound() {
+    return this.roundState;
+  }
+  public updateRound(roundState: Round) {
     this.roundState = roundState;
   }
 }

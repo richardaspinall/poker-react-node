@@ -4,6 +4,7 @@ import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundE
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
+import { Game } from './Game';
 import { GameService } from './GameService';
 import { Player } from './Player';
 import { Seat } from './Seat';
@@ -15,6 +16,8 @@ import { Seat } from './Seat';
 export class PokerTable {
   private name: string;
   private seats: Seat[];
+  private dealerPosition: number;
+  private game?: Game;
 
   private constructor(name: string, numberOfSeats: number) {
     this.name = name;
@@ -27,11 +30,21 @@ export class PokerTable {
       seatNumber++;
     }
     this.seats = seatsArray;
+
+    this.dealerPosition = Math.floor(Math.random() * numberOfSeats);
   }
 
   public static createPokerTable(pokerTableName: string, numberOfSeats: number): Result<PokerTable> {
     const newPokerTable = new PokerTable(pokerTableName, numberOfSeats);
     return new ResultSuccess(newPokerTable);
+  }
+
+  public addGame(game: Game) {
+    this.game = game;
+  }
+
+  public getGame(): Game | undefined {
+    return this.game;
   }
 
   public addPlayer(seatNumber: number, player: Player): Result<void> {
@@ -93,5 +106,9 @@ export class PokerTable {
       }
     }
     return true;
+  }
+
+  public getDealerPosition(): number {
+    return this.dealerPosition;
   }
 }

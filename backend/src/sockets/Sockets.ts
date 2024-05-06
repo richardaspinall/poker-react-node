@@ -25,7 +25,7 @@ export class Sockets {
     SocketHandlers.setUpHandlers(socket);
   }
 
-  public static sendEventToClient(clientId: ClientId, event: string, payload: any): Result<void> {
+  public static sendEventToClient<TPayload>(clientId: ClientId, event: string, payload: TPayload): Result<void> {
     const res = Sockets.getSocket(clientId);
 
     if (res.isError()) {
