@@ -35,20 +35,33 @@ export default function Seat({ seatNumber, userName, chipCount, cards }: SeatPro
     }
   }, [seatNumber]);
 
+  // Define a function to render the cards if the user is in the hand
+  const renderUserCards = () => {
+    if (myUsername === userName && cards?.[0]) {
+      return (
+        <>
+          <Card cardCode={cards[0].shortCode} />
+          <Card cardCode={cards[1].shortCode} />
+        </>
+      );
+    }
+    return null;
+  };
+
+  // Define a function to render the username or "Empty" if it's not available
+  const renderUsername = () => {
+    if (userName && userName !== myUsername) {
+      return userName;
+    } else if (userName !== myUsername) {
+      return 'Empty';
+    }
+  };
   // TODO: below we need to see if the other users are in the game (to show the backs of cards)
   return (
     <div>
       <button className="seat" id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
-        {myUsername === userName && cards?.[0] ? (
-          <>
-            <Card cardCode={cards[0].shortCode} />
-            <Card cardCode={cards[1].shortCode} />
-          </>
-        ) : userName ? (
-          userName
-        ) : (
-          'Empty'
-        )}
+        {renderUserCards()}
+        {renderUsername()}
       </button>
       <button onClick={playerLeave}>Leave Seat {seatNumber}</button>
     </div>
