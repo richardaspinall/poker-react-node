@@ -1,4 +1,4 @@
-import { CardCode } from './CardCode';
+import { CardCode } from '../../../../backend/src/shared/game/types/Deck';
 import { cardMap } from './cardMap';
 
 interface CardProps {

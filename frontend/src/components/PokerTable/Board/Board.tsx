@@ -1,5 +1,5 @@
+import { CardCode } from '../../../../../backend/src/shared/game/types/Deck.ts';
 import { Card } from '../../Card/Card.tsx';
-import { CardCode } from '../../Card/CardCode.ts';
 
 type BoardProps = {};
 

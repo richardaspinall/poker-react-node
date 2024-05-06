@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 
-import { Card as CardType } from '../../../../../backend/src/shared/game/types/Deck';
+import { CardCode, Card as CardType } from '../../../../../backend/src/shared/game/types/Deck';
 import apiCall from '../../../fetch/apiCall';
 import { selectUsername } from '../../../store/selectors.ts';
 import { Card } from '../../Card/Card.tsx';
@@ -56,12 +56,24 @@ export default function Seat({ seatNumber, userName, chipCount, cards }: SeatPro
       return 'Empty';
     }
   };
+
+  // const renderFaceDownCards = () => {
+  //   if (userName && userName !== myUsername) {
+  //     return (
+  //       <>
+  //         <Card cardCode={CardCode.FaceDownCard} />
+  //         <Card cardCode={CardCode.FaceDownCard} />
+  //       </>
+  //     );
+  //   }
+  // };
   // TODO: below we need to see if the other users are in the game (to show the backs of cards)
   return (
     <div>
       <button className="seat" id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
         {renderUserCards()}
-        {renderUsername()}
+        {/* {renderUsername()} */}
+        {/* {renderFaceDownCards()} */}
       </button>
       <button onClick={playerLeave}>Leave Seat {seatNumber}</button>
     </div>
