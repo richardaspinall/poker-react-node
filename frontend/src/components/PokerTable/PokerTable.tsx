@@ -16,7 +16,6 @@ export function PokerTable({}: PokerTableProps) {
   const dispatch: AppDispatch = useDispatch();
 
   useSubscribeToGameEvents(); // Subscribe to socket events like player joined and player left
-
   useEffect(() => {
     dispatch(fetchSeats({ pokerTableName: 'table_1' })); // getTable state from server
   }, []);

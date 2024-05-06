@@ -4,11 +4,13 @@ import { configureStore } from '@reduxjs/toolkit';
 
 import holeCardsReducer from './holeCardsSlice';
 import seatsReducer from './seatsSlice';
+import usernameReducer from './usernameSlice';
 
 const store = configureStore({
   reducer: {
     seats: seatsReducer,
     holeCards: holeCardsReducer,
+    username: usernameReducer,
   },
 });
 

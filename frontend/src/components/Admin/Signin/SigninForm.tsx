@@ -1,8 +1,10 @@
 import { ChangeEvent, FocusEvent, FormEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { socket } from '../../../Socket';
 import apiCall from '../../../fetch/apiCall';
+import { setUsername } from '../../../store/usernameSlice';
 import '../CreateAccount/CreateAccountForm.scss';
 
 interface FormData {
@@ -12,6 +14,7 @@ interface FormData {
 }
 
 export function SigninForm() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -50,12 +53,13 @@ export function SigninForm() {
     const payload = { username: formData.username, password: formData.password };
 
     const result = await apiCall.post('users.signin', payload);
-
+    console.log(payload.username);
     if (result.ok) {
       console.log(result.payload);
       console.log('success');
       socket.disconnect();
       socket.connect();
+      dispatch(setUsername(payload.username));
       navigate('/play');
     } else {
       console.log('error');

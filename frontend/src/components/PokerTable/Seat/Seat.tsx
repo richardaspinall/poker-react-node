@@ -1,7 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
 import { Card as CardType } from '../../../../../backend/src/shared/game/types/Deck';
 import apiCall from '../../../fetch/apiCall';
+import { selectUsername } from '../../../store/selectors.ts';
 import { Card } from '../../Card/Card.tsx';
 
 type SeatProps = {
@@ -12,6 +14,8 @@ type SeatProps = {
 };
 
 export default function Seat({ seatNumber, userName, chipCount, cards }: SeatProps) {
+  const myUsername = useSelector(selectUsername);
+
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber };
 
@@ -30,11 +34,10 @@ export default function Seat({ seatNumber, userName, chipCount, cards }: SeatPro
       console.log(result?.error);
     }
   }, [seatNumber]);
-
   return (
     <div>
       <button className="seat" id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
-        {cards?.[0] ? (
+        {myUsername === userName && cards?.[0] ? (
           <>
             <Card cardCode={cards[0].shortCode} />
             <Card cardCode={cards[1].shortCode} />

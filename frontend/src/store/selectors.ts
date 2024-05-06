@@ -15,3 +15,10 @@ export const selectHoleCards = createSelector(
     return { ...holeCards };
   }
 );
+
+export const selectUsername = createSelector(
+  (state: RootState) => state.username, // This is the input selector
+  (username) => {
+    return username.value;
+  }
+);

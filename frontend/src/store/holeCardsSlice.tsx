@@ -9,8 +9,6 @@ interface HoleCardsSlice {
   error: SerializedError | null;
 }
 
-// this is our state for the seats
-// a slice of the state pie
 const initialState: HoleCardsSlice = {
   value: [],
   loading: false,
