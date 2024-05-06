@@ -27,7 +27,7 @@
         "items": [
           {
             "name": "seatNumber",
-            "type": "string",
+            "type": "number",
             "required": true
           },
           {

@@ -7,7 +7,7 @@ export interface PokerTablesGetSeatsPayload {
 export interface PokerTablesGetSeatsOutput extends BaseOutput {
   ok: boolean;
   seats: {
-    seatNumber: string;
+    seatNumber: number;
     username: string;
   }[];
 }
