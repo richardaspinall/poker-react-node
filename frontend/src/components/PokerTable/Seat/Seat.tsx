@@ -34,6 +34,8 @@ export default function Seat({ seatNumber, userName, chipCount, cards }: SeatPro
       console.log(result?.error);
     }
   }, [seatNumber]);
+
+  // TODO: below we need to see if the other users are in the game (to show the backs of cards)
   return (
     <div>
       <button className="seat" id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
