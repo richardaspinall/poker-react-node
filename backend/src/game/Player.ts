@@ -1,5 +1,5 @@
+import { Card } from '../shared/game/types/Deck';
 import { User } from '../users/User';
-import { Card } from './Deck';
 
 export class Player extends User {
   private cards: Card[] = [];

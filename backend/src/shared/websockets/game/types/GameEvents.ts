@@ -1,4 +1,4 @@
-import { Card } from '../../../../game/Deck';
+import { Card } from '../../../game/types/Deck';
 
 export enum GameEvent {
   START_GAME = 'start_game',

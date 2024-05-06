@@ -20,10 +20,9 @@ export class GameService {
   // Initializes any necessary listeners or setup required for the Dealer
   public static initialize() {
     GameService.eventEmitter.on('playerJoined', GameService.onPlayerJoined);
-    // Setup can be expanded as needed
   }
 
-  // Notifies when a player is added and checks if the table is ready
+  // Notifies when a player is added and starts game if the table is ready
   public static onPlayerJoined(pokerTable: PokerTable, player: Player, seatNumber: number) {
     // Emit event to all clients connected that a player has sat down
     const event = 'player_joined';
@@ -32,13 +31,14 @@ export class GameService {
       seatNumber: seatNumber,
     };
 
-    const sendEvents = Rooms.sendEventToRoom<PlayerJoinedEvent>('table_1', event, playerJoinedEventPayload);
+    const sendEvents = Rooms.sendEventToRoom<PlayerJoinedEvent>(pokerTable.getName(), event, playerJoinedEventPayload);
 
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return new ResultError(sendEvents.getError());
     }
 
+    // TODO: will eventually have this be from its own api method "player is ready"
     if (pokerTable.isPokerTableReady()) {
       GameService.startGame(pokerTable);
     }

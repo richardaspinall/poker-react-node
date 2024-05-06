@@ -1,4 +1,6 @@
-import { Deck, Suit, createCardsInSuit } from './Deck';
+import { Suit } from '@shared/game/types/Deck';
+
+import { Deck, createCardsInSuit } from './Deck';
 
 describe('Deck', () => {
   describe('getCards', () => {

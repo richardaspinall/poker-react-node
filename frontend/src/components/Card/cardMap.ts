@@ -113,4 +113,8 @@ const cardMap = {
   [CardCode.AceOfSpades]: AceOfSpades,
 };
 
-export { cardMap };
+const newMap = {
+  ['AS']: AceOfSpades,
+};
+
+export { cardMap, newMap };

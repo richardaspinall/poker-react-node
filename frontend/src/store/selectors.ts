@@ -8,3 +8,10 @@ export const selectSeats = createSelector(
     return { ...seats };
   }
 );
+
+export const selectHoleCards = createSelector(
+  (state: RootState) => state.holeCards, // This is the input selector
+  (holeCards) => {
+    return { ...holeCards };
+  }
+);

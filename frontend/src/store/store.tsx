@@ -2,11 +2,13 @@ import { useDispatch } from 'react-redux';
 
 import { configureStore } from '@reduxjs/toolkit';
 
+import holeCardsReducer from './holeCardsSlice';
 import seatsReducer from './seatsSlice';
 
 const store = configureStore({
   reducer: {
     seats: seatsReducer,
+    holeCards: holeCardsReducer,
   },
 });
 

@@ -1,4 +1,4 @@
-import { Card } from './Deck';
+import { Card } from '../shared/game/types/Deck';
 
 export enum Round {
   preFlop = 'pre-flop',
