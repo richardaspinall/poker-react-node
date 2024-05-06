@@ -5,6 +5,8 @@ import { PlayerJoinedEvent } from '@shared/websockets/poker-tables/types/PokerTa
 
 import { Player } from '../game/Player';
 import { Rooms } from '../sockets/Rooms';
+import { Sockets } from '../sockets/Sockets';
+import { UserRepository } from '../users/UserRepository';
 import { Logger } from '../utils/Logger';
 import { Dealer } from './Dealer';
 import { PokerTable } from './PokerTable';
@@ -43,12 +45,11 @@ export class GameService {
 
   // TODO: for now we should do all Rooms or sockets related logic in the GameService (so need to remove from Dealer.dealCards and get back cards to send to the sockets)
   // There should be a Game.startGame which is actually called from onPlayerJoined
-  public static startGame(pokerTable: PokerTable) {
+  public static async startGame(pokerTable: PokerTable) {
     const event = 'start_game';
     const payload = { tableName: pokerTable.getName() };
 
     const sendEvents = Rooms.sendEventToRoom(pokerTable.getName(), event, payload);
-    // this.manageGameSession(); // Additional logic for managing the game session
 
     if (sendEvents.isError()) {
       // debug(sendEvents.getError());
@@ -56,5 +57,24 @@ export class GameService {
     }
 
     Dealer.dealCards(pokerTable);
+
+    const seats = pokerTable.getSeats();
+
+    seats.forEach(async (seat) => {
+      const player = seat.getPlayer();
+      if (player) {
+        const playerSessionIdOrError = await UserRepository.getSessionIdByUserId(player.getUserId());
+        if (playerSessionIdOrError.isError()) {
+          debug(playerSessionIdOrError.getError());
+          throw playerSessionIdOrError.getError();
+        }
+
+        const dealCardsEvent = 'deal_cards';
+
+        const payload = { cards: player.getCards() };
+
+        Sockets.sendEventToClient(playerSessionIdOrError.getValue(), dealCardsEvent, payload);
+      }
+    });
   }
 }
