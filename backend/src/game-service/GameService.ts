@@ -6,15 +6,16 @@ import { GameEvent } from '@shared/websockets/game/types/GameEvents';
 import { Dealer } from '../game/Dealer';
 import { Player } from '../game/Player';
 import { PokerTable } from '../game/PokerTable';
+import { Seat } from '../game/Seat';
 import { Rooms } from '../sockets/Rooms';
 import { Sockets } from '../sockets/Sockets';
-import { UserRepository } from '../users/UserRepository';
+import { UserService } from '../users/UserService';
 import { Logger } from '../utils/Logger';
 
 const debug = Logger.newDebugger('APP:GameService');
 
 export class GameService {
-  public static eventEmitter = new EventEmitter();
+  public static readonly eventEmitter = new EventEmitter();
 
   // Initializes any necessary listeners or setup required for the Dealer
   public static initialize() {
@@ -43,7 +44,9 @@ export class GameService {
     }
   }
 
-  public static async startGame(pokerTable: PokerTable) {
+  private static async startGame(pokerTable: PokerTable) {
+    Dealer.newGame(pokerTable);
+
     const event = GameEvent.START_GAME;
     const payload = { tableName: pokerTable.getName() };
 
@@ -53,26 +56,26 @@ export class GameService {
       throw sendEvents.getError();
     }
 
-    Dealer.newGame(pokerTable);
+    this.dealCards(pokerTable);
+  }
 
+  private static async dealCards(pokerTable: PokerTable) {
     Dealer.dealCards(pokerTable);
 
     const seats = pokerTable.getSeats();
 
+    this.sendHoleCardsToPlayers(seats);
+  }
+
+  private static async sendHoleCardsToPlayers(seats: Seat[]) {
     seats.forEach(async (seat) => {
       const player = seat.getPlayer();
       if (player) {
-        const playerSessionIdOrError = await UserRepository.getSessionIdByUserId(player.getUserId());
-        if (playerSessionIdOrError.isError()) {
-          debug(playerSessionIdOrError.getError());
-          throw playerSessionIdOrError.getError();
-        }
-
+        const sessionId = await UserService.getSessionId(player);
         const dealCardsEvent = GameEvent.DEAL_CARDS;
-
         const payload = { cards: player.getCards() };
 
-        Sockets.sendEventToClient(playerSessionIdOrError.getValue(), dealCardsEvent, payload);
+        Sockets.sendEventToClient(sessionId, dealCardsEvent, payload);
       }
     });
   }
