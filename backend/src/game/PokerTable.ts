@@ -40,7 +40,7 @@ export class PokerTable {
 
   public addPlayer(seatNumber: number, player: Player): Result<void> {
     for (const seat of this.seats) {
-      if (seat.getPlayer()?.getUserName() === player.getUserName()) {
+      if (seat.getPlayer()?.getUsername() === player.getUsername()) {
         return Result.error(new PlayerAlreadySeatedError());
       }
     }

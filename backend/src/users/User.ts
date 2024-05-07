@@ -11,7 +11,7 @@ export class User {
     return this.userId;
   }
 
-  public getUserName(): string {
+  public getUsername(): string {
     return this.username;
   }
 }

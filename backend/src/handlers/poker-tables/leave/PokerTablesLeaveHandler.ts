@@ -42,7 +42,7 @@ class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
     // Emit event to all clients connected that a player has sat down
     const event = PokerTableEvent.PLAYER_LEFT;
     const playerLeftEventPayload = {
-      username: user.getUserName(),
+      username: user.getUsername(),
       seatNumber: seatNumber,
     };
     const sendEvents = Rooms.sendEventToRoom('table_1', event, playerLeftEventPayload);

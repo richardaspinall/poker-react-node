@@ -8,7 +8,7 @@ describe('createPokerTable', () => {
 
     expect(pokerTable.getName()).toEqual('table_1');
     expect(pokerTable.getAvailableSeats().length).toEqual(0);
-    expect(player1.getUserName()).toEqual('a1');
-    expect(player2.getUserName()).toEqual('a2');
+    expect(player1.getUsername()).toEqual('a1');
+    expect(player2.getUsername()).toEqual('a2');
   });
 });
