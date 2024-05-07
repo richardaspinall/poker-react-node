@@ -1,10 +1,13 @@
 import { createPokerTable } from '@tests/helpers/createPokerTable';
 import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
+import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
+import { mockSendEventToSocketSuccess } from '@tests/mocks/socketMocks';
 
 import { Player } from '../../game/Player';
 
 export function createPokerTableWithPlayers(tableName: string, numberOfSeats: number) {
   mockSendEventToRoomSuccess();
+  mockSendEventToSocketSuccess();
   const pokerTable = createPokerTable(tableName, numberOfSeats);
   const players: Player[] = [];
 
@@ -13,6 +16,7 @@ export function createPokerTableWithPlayers(tableName: string, numberOfSeats: nu
     const user = new Player(1234 + seatNumber, 'a' + seatNumber);
 
     players.push(user);
+    mockMySqlSelectSessionSuccess(user.getUsername());
     const res = pokerTable.addPlayer(seatNumber, user);
 
     if (res.isError()) {

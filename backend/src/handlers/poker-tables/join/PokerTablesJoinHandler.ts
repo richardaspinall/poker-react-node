@@ -1,11 +1,8 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { PokerTablesJoinOutput, PokerTablesJoinPayload } from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
-import { GameEvent } from '@shared/websockets/game/types/GameEvents';
-import { PokerTableEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../../game-lobby-service';
 import { Player } from '../../../game/Player';
-import { Rooms } from '../../../sockets/Rooms';
 import { UserService } from '../../../users/UserService';
 import { Logger } from '../../../utils/Logger';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
@@ -40,36 +37,6 @@ class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
     if (joinRoom.isError()) {
       debug(joinRoom.getError());
       return new ResultError(joinRoom.getError());
-    }
-
-    // Emit event to all clients connected that a player has sat down
-    const event = PokerTableEvent.PLAYER_JOINED;
-    const playerJoinedEventPayload = {
-      username: user.getUsername(),
-      seatNumber: seatNumber,
-    };
-
-    // TODO: maybe shouldn't happen here
-    const sendEvents = Rooms.sendEventToRoom('table_1', event, playerJoinedEventPayload);
-
-    if (sendEvents.isError()) {
-      debug(sendEvents.getError());
-      return new ResultError(sendEvents.getError());
-    }
-
-    const tableIsReady = pokerTable.isPokerTableReady();
-
-    if (tableIsReady) {
-      const event = GameEvent.START_GAME;
-      const payload = {
-        tableName: 'table_1',
-      };
-      const sendEvents = Rooms.sendEventToRoom('table_1', event, payload);
-
-      if (sendEvents.isError()) {
-        debug(sendEvents.getError());
-        return new ResultError(sendEvents.getError());
-      }
     }
 
     return new ResultSuccess<PokerTablesJoinOutput>({ ok: true });

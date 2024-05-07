@@ -1,8 +1,11 @@
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
 
 import { PasswordInvalidError } from '../handlers/users/errors/gen/PasswordInvalidError';
+import { Logger } from '../utils/Logger';
 import { User } from './User';
 import { UserRepository } from './UserRepository';
+
+const debug = Logger.newDebugger('APP:UserService');
 
 // This file contains the UserService class which is responsible for managing users.
 export class UserService {
@@ -39,5 +42,16 @@ export class UserService {
     }
 
     return new ResultSuccess(userOrError.getValue());
+  }
+
+  public static async getSessionId(user: User) {
+    const sessionIdOrError = await UserRepository.getSessionIdByUserId(user.getUserId());
+
+    if (sessionIdOrError.isError()) {
+      debug(sessionIdOrError.getError());
+      throw sessionIdOrError.getError();
+    }
+
+    return sessionIdOrError.getValue();
   }
 }
