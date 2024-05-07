@@ -1,5 +1,5 @@
+import { CardShortCode } from '../../../../../backend/src/shared/game/types/CardShortCode';
 import { Card } from '../../Card/Card.tsx';
-import { CardCode } from '../../Card/CardCode.ts';
 
 type BoardProps = {};
 
@@ -7,15 +7,15 @@ function Board({}: BoardProps) {
   return (
     <div id="board-area">
       <div id="flop-area"></div>
-      <Card cardCode={CardCode.AceOfSpades} />
-      <Card cardCode={CardCode.KingOfSpades} />
-      <Card cardCode={CardCode.QueenOfSpades} />
+      <Card cardShortCode={CardShortCode.AceOfSpades} />
+      <Card cardShortCode={CardShortCode.KingOfSpades} />
+      <Card cardShortCode={CardShortCode.QueenOfSpades} />
       <div className="vl"></div>
       <div id="turn-area"></div>
-      <Card cardCode={CardCode.JackOfSpades} />
+      <Card cardShortCode={CardShortCode.JackOfSpades} />
       <div className="vl"></div>
       <div id="river-area"></div>
-      <Card cardCode={CardCode.TenOfSpades} />
+      <Card cardShortCode={CardShortCode.TenOfSpades} />
     </div>
   );
 }
