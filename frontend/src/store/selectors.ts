@@ -11,7 +11,14 @@ export const selectSeats = createSelector(
 
 export const selectUsername = createSelector(
   (state: RootState) => state.userProfile, // This is the input selector
-  (userProfule) => {
-    return userProfule.value.username;
+  (userProfile) => {
+    return userProfile.value;
+  }
+);
+
+export const selectHoleCards = createSelector(
+  (state: RootState) => state.holeCards, // This is the input selector
+  (holeCards) => {
+    return { ...holeCards };
   }
 );

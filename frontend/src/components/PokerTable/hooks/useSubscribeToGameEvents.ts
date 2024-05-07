@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { useSocket } from '../../../hooks/useSocket';
 import { addUser, removeUser } from '../../../store/seatsSlice';
+import { setHoleCards } from '../../../store/slices/holeCardsSlice';
 
 /*
  * This hook uses the subscribeToEvent function from useSocket to add events to
@@ -30,10 +31,17 @@ export function useSubscribeToGameEvents() {
       console.log('Starting Game');
     });
 
+    const subscribeToDealGame = subscribeToEvent('deal_cards', (payload) => {
+      console.log('Dealing cards');
+
+      dispatch(setHoleCards(payload));
+    });
+
     return () => {
       subscribeToPlayerJoined();
       subscribeToPlayerLeft();
       subscribeToStartGame();
+      subscribeToDealGame();
     };
   }, [dispatch, subscribeToEvent]);
 }
