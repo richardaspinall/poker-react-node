@@ -1,14 +1,22 @@
 import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 
+import { Card as CardType } from '../../../../../backend/src/shared/game/types/Card';
+import { CardShortCode } from '../../../../../backend/src/shared/game/types/CardShortCode';
 import apiCall from '../../../fetch/apiCall';
+import { selectUsername } from '../../../store/selectors.ts';
+import { Card } from '../../Card/Card.tsx';
 
 type SeatProps = {
   seatNumber: number;
-  userName?: string;
   chipCount: number;
+  username?: string;
+  cards?: CardType[];
 };
 
-export default function Seat({ seatNumber, userName, chipCount }: SeatProps) {
+export default function Seat({ seatNumber, username, chipCount, cards }: Readonly<SeatProps>) {
+  const myUsername = useSelector(selectUsername);
+
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber };
 
@@ -28,10 +36,33 @@ export default function Seat({ seatNumber, userName, chipCount }: SeatProps) {
     }
   }, [seatNumber]);
 
+  // Define a function to render the cards if the user is in the hand
+  // TODO: will need to update this to show the cards if the user is actually in the hand
+  const renderSeatDisplay = () => {
+    if (myUsername === username && cards?.[0]) {
+      return (
+        <>
+          <Card cardShortCode={cards[0].cardShortCode} />
+          <Card cardShortCode={cards[1].cardShortCode} />
+        </>
+      );
+    } else if (username && cards?.[0]) {
+      return (
+        <>
+          <Card cardShortCode={CardShortCode.FaceDownCard} />
+          <Card cardShortCode={CardShortCode.FaceDownCard} />
+        </>
+      );
+    } else if (username) {
+      return username;
+    }
+    return 'Empty';
+  };
+
   return (
     <div>
       <button className="seat" id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
-        {userName ? userName : 'Empty'}
+        {renderSeatDisplay()}
       </button>
       <button onClick={playerLeave}>Leave Seat {seatNumber}</button>
     </div>

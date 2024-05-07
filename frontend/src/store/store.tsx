@@ -3,12 +3,14 @@ import { useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
 import seatsReducer from './seatsSlice';
+import holeCardsReducer from './slices/holeCardsSlice';
 import userProfileReducer from './slices/userProfileSlice';
 
 const store = configureStore({
   reducer: {
     seats: seatsReducer,
     userProfile: userProfileReducer,
+    holeCards: holeCardsReducer,
   },
 });
 
