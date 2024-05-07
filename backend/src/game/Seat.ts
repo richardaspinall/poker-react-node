@@ -1,4 +1,4 @@
-import { User } from '../users/User';
+import { Player } from './Player';
 
 /**
  * Seat class to represent a seat at a poker table
@@ -6,9 +6,9 @@ import { User } from '../users/User';
 export class Seat {
   private seatNumber: number;
   private isTaken: boolean;
-  private user?: User;
+  private user?: Player;
 
-  public constructor(seatNumber: number, isTaken: boolean) {
+  private constructor(seatNumber: number, isTaken: boolean) {
     this.seatNumber = seatNumber;
     this.isTaken = isTaken;
   }
@@ -17,7 +17,7 @@ export class Seat {
     return new Seat(seatNumber, isTaken);
   }
 
-  public assignPlayer(user: User): void {
+  public assignPlayer(user: Player): void {
     this.user = user;
     this.isTaken = true;
   }
@@ -31,7 +31,7 @@ export class Seat {
     return this.isTaken;
   }
 
-  public getPlayer(): User | undefined {
+  public getPlayer(): Player | undefined {
     return this.user;
   }
 
