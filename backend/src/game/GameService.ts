@@ -31,7 +31,7 @@ export class GameService {
       seatNumber: seatNumber,
     };
 
-    const sendEvents = Rooms.sendEventToRoom<PlayerJoinedEvent>(pokerTable.getName(), event, playerJoinedEventPayload);
+    const sendEvents = Rooms.sendEventToRoom(pokerTable.getName(), event, playerJoinedEventPayload);
 
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
@@ -73,7 +73,7 @@ export class GameService {
 
         const payload = { cards: player.getCards() };
 
-        Sockets.sendEventToClient<DealCardsEvent>(playerSessionIdOrError.getValue(), dealCardsEvent, payload);
+        Sockets.sendEventToClient(playerSessionIdOrError.getValue(), dealCardsEvent, payload);
       }
     });
   }

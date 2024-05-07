@@ -2,6 +2,7 @@ import { Socket } from 'socket.io';
 
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
 
+import { ServerToClientEventParams, ServerToClientEvents } from '../shared/websockets/WebsocketEvents';
 import { Logger } from '../utils/Logger';
 import { Rooms } from './Rooms';
 import { SocketHandlers } from './SocketEventHandlers';
@@ -25,7 +26,11 @@ export class Sockets {
     SocketHandlers.setUpHandlers(socket);
   }
 
-  public static sendEventToClient<TPayload>(clientId: ClientId, event: string, payload: TPayload): Result<void> {
+  public static sendEventToClient<E extends keyof ServerToClientEvents>(
+    clientId: ClientId,
+    event: E,
+    payload: ServerToClientEventParams<E>,
+  ): Result<void> {
     const res = Sockets.getSocket(clientId);
 
     if (res.isError()) {

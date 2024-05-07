@@ -45,7 +45,7 @@ class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
       username: user.getUserName(),
       seatNumber: seatNumber,
     };
-    const sendEvents = Rooms.sendEventToRoom<PlayerLeftEvent>('table_1', event, playerLeftEventPayload);
+    const sendEvents = Rooms.sendEventToRoom('table_1', event, playerLeftEventPayload);
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return new ResultError(sendEvents.getError());
