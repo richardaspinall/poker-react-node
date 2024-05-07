@@ -1,6 +1,6 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { PokerTablesLeaveOutput, PokerTablesLeavePayload } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
-import { PlayerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
+import { PokerTableEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../../game-lobby-service';
 import { Rooms } from '../../../sockets/Rooms';
@@ -40,12 +40,12 @@ class PokerTablesLeaveHandler extends AbstractPokerTablesLeaveHandler {
     }
 
     // Emit event to all clients connected that a player has sat down
-    const event = 'player_left';
+    const event = PokerTableEvent.PLAYER_LEFT;
     const playerLeftEventPayload = {
       username: user.getUserName(),
       seatNumber: seatNumber,
     };
-    const sendEvents = Rooms.sendEventToRoom<PlayerLeftEvent>('table_1', event, playerLeftEventPayload);
+    const sendEvents = Rooms.sendEventToRoom('table_1', event, playerLeftEventPayload);
     if (sendEvents.isError()) {
       debug(sendEvents.getError());
       return new ResultError(sendEvents.getError());

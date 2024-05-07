@@ -1,6 +1,7 @@
 import { Socket } from 'socket.io';
 
 import { Result, ResultError, ResultSuccess } from '@infra/Result';
+import { ServerToClientEventParams, ServerToClientEvents } from '@shared/websockets/WebsocketEvents';
 
 import { SocketServer } from './SocketServer';
 import { RoomAlreadyExistsError, RoomNotFoundError } from './errors/RoomErrors';
@@ -33,7 +34,11 @@ export class Rooms {
     return Result.success();
   }
 
-  public static sendEventToRoom<TPayload>(roomId: RoomId, event: string, payload: TPayload): Result<void> {
+  public static sendEventToRoom<E extends keyof ServerToClientEvents>(
+    roomId: RoomId,
+    event: E,
+    payload: ServerToClientEventParams<E>,
+  ): Result<void> {
     const roomRes = this.getRoom(roomId);
     if (roomRes.isError()) {
       return Result.error(roomRes.getError());
