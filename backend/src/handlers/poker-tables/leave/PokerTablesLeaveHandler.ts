@@ -1,6 +1,5 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { PokerTablesLeaveOutput, PokerTablesLeavePayload } from '@shared/api/gen/poker-tables/types/PokerTablesLeave';
-import { PlayerLeftEvent } from '@shared/websockets/poker-tables/types/PokerTableEvents';
 
 import { GameLobbyService } from '../../../game-lobby-service';
 import { Rooms } from '../../../sockets/Rooms';
