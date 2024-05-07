@@ -1,4 +1,6 @@
-import { Deck, Suit, createCardsInSuit } from './Deck';
+import { Suit } from '@shared/game/types/Suit';
+
+import { Deck, createCardsInSuit } from './Deck';
 
 describe('Deck', () => {
   describe('getCards', () => {
@@ -27,7 +29,7 @@ describe('Deck', () => {
 
       it('has each shortCode', async () => {
         for (let index = 0; index < expectedRanks.length; index++) {
-          expect(cards[index].shortCode).toBe(expectedRanks[index] + Suit.Hearts[0]);
+          expect(cards[index].cardShortCode).toBe(expectedRanks[index] + Suit.Hearts[0]);
         }
       });
     });
@@ -46,7 +48,7 @@ describe('Deck', () => {
 
       it('has each shortCode', async () => {
         for (let index = 0; index < expectedRanks.length; index++) {
-          expect(cards[index].shortCode).toBe(expectedRanks[index] + Suit.Clubs[0]);
+          expect(cards[index].cardShortCode).toBe(expectedRanks[index] + Suit.Clubs[0]);
         }
       });
     });
@@ -65,7 +67,7 @@ describe('Deck', () => {
 
       it('has each shortCode', async () => {
         for (let index = 0; index < expectedRanks.length; index++) {
-          expect(cards[index].shortCode).toBe(expectedRanks[index] + Suit.Diamonds[0]);
+          expect(cards[index].cardShortCode).toBe(expectedRanks[index] + Suit.Diamonds[0]);
         }
       });
     });
@@ -84,7 +86,7 @@ describe('Deck', () => {
 
       it('has each shortCode', async () => {
         for (let index = 0; index < expectedRanks.length; index++) {
-          expect(cards[index].shortCode).toBe(expectedRanks[index] + Suit.Spades[0]);
+          expect(cards[index].cardShortCode).toBe(expectedRanks[index] + Suit.Spades[0]);
         }
       });
     });
@@ -115,7 +117,7 @@ describe('Deck', () => {
       });
 
       it('with a shortcode', async () => {
-        expect(card).toHaveProperty('shortCode');
+        expect(card).toHaveProperty('cardShortCode');
       });
     });
 

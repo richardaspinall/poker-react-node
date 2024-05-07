@@ -1,21 +1,10 @@
-type ShortCode = string;
+import { Card } from '@shared/game/types/Card';
+import { CardShortCode } from '@shared/game/types/CardShortCode';
+import { Suit } from '@shared/game/types/Suit';
 
 interface IDeck {
   draw(amount: number): Card[];
   getCards(): Card[];
-}
-
-export type Card = {
-  suit: Suit;
-  rank: string;
-  shortCode: ShortCode;
-};
-
-export enum Suit {
-  Clubs = 'Clubs',
-  Diamonds = 'Diamonds',
-  Hearts = 'Hearts',
-  Spades = 'Spades',
 }
 
 /**
@@ -76,8 +65,8 @@ export function createCardsInSuit(suit: Suit): Card[] {
 
   // `suit[0] is the first letter of the suit
   for (const rank of ranks) {
-    const shortCode = `${rank}${suit[0]}`;
-    result.push({ suit: suit, rank: rank, shortCode });
+    const cardShortCode = `${rank}${suit[0]}` as CardShortCode;
+    result.push({ suit: suit, rank: rank, cardShortCode });
   }
 
   return result;

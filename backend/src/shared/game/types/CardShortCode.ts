@@ -1,4 +1,4 @@
-export enum CardCode {
+export enum CardShortCode {
   FaceDownCards = 'FF',
   FaceDownCard = 'FS',
   TwoOfClubs = '2C',
@@ -33,10 +33,10 @@ export enum CardCode {
   NineOfDiamonds = '9D',
   NineOfHearts = '9H',
   NineOfSpades = '9S',
-  TenOfClubs = 'TC',
-  TenOfDiamonds = 'TD',
-  TenOfHearts = 'TH',
-  TenOfSpades = 'TS',
+  TenOfClubs = '10C',
+  TenOfDiamonds = '10D',
+  TenOfHearts = '10H',
+  TenOfSpades = '10S',
   JackOfClubs = 'JC',
   JackOfDiamonds = 'JD',
   JackOfHearts = 'JH',

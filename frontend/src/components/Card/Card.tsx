@@ -1,12 +1,12 @@
-import { CardCode } from './CardCode';
+import { CardShortCode } from '../../../../backend/src/shared/game/types/CardShortCode';
 import { cardMap } from './cardMap';
 
 interface CardProps {
-  cardCode: CardCode;
+  cardShortCode: CardShortCode;
 }
 
-export function Card({ cardCode }: Readonly<CardProps>) {
-  const CardSVG = cardMap[cardCode];
+export function Card({ cardShortCode }: Readonly<CardProps>) {
+  const CardSVG = cardMap[cardShortCode];
 
   return (
     <div className="card">
