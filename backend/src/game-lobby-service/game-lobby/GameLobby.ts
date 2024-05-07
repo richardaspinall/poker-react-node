@@ -1,3 +1,4 @@
+import { GameService } from '../../game-service/GameService';
 import { PokerTable } from '../../game/PokerTable';
 
 type PokerTablesRecord = Record<string, PokerTable>;
@@ -8,6 +9,10 @@ type PokerTablesRecord = Record<string, PokerTable>;
 export class GameLobby {
   // TODO: This would be a database eventually
   private pokerTables: PokerTablesRecord = {};
+
+  constructor() {
+    GameService.initialize();
+  }
 
   public addPokerTable(pokerTable: PokerTable) {
     this.pokerTables[pokerTable.getName()] = pokerTable;
