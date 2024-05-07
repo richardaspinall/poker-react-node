@@ -1,11 +1,13 @@
 import { createPokerTable } from '@tests/helpers/createPokerTable';
 import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
 import { mockMySqlSelectSessionSuccess } from '@tests/mocks/sessionMocks';
+import { mockSendEventToSocketSuccess } from '@tests/mocks/socketMocks';
 
 import { Player } from '../../game/Player';
 
 export function createPokerTableWithPlayers(tableName: string, numberOfSeats: number) {
   mockSendEventToRoomSuccess();
+  mockSendEventToSocketSuccess();
   const pokerTable = createPokerTable(tableName, numberOfSeats);
   const players: Player[] = [];
 

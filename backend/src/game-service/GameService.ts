@@ -6,7 +6,6 @@ import { GameEvent } from '@shared/websockets/game/types/GameEvents';
 import { Dealer } from '../game/Dealer';
 import { Player } from '../game/Player';
 import { PokerTable } from '../game/PokerTable';
-import { Seat } from '../game/Seat';
 import { Rooms } from '../sockets/Rooms';
 import { Sockets } from '../sockets/Sockets';
 import { UserService } from '../users/UserService';
@@ -62,12 +61,12 @@ export class GameService {
   private static async dealCards(pokerTable: PokerTable) {
     Dealer.dealCards(pokerTable);
 
-    const seats = pokerTable.getSeats();
-
-    this.sendHoleCardsToPlayers(seats);
+    this.sendHoleCardsToPlayers(pokerTable);
   }
 
-  private static async sendHoleCardsToPlayers(seats: Seat[]) {
+  private static async sendHoleCardsToPlayers(pokerTable: PokerTable) {
+    const seats = pokerTable.getSeats();
+
     seats.forEach(async (seat) => {
       const player = seat.getPlayer();
       if (player) {
@@ -75,7 +74,11 @@ export class GameService {
         const dealCardsEvent = GameEvent.DEAL_CARDS;
         const payload = { cards: player.getCards() };
 
-        Sockets.sendEventToClient(sessionId, dealCardsEvent, payload);
+        const sendEvents = Sockets.sendEventToClient(sessionId, dealCardsEvent, payload);
+
+        if (sendEvents.isError()) {
+          throw sendEvents.getError();
+        }
       }
     });
   }
