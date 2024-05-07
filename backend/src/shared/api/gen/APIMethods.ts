@@ -25,6 +25,12 @@ export const APIMethods: { [key: string]: APIMethodShape } = {
     handler: '../../handlers/users/create/UsersCreateHandler.ts',
     handlerName: 'UsersCreateHandler',
   },
+  getProfile: {
+    httpMethod: 'post',
+    path: 'users.getProfile',
+    handler: '../../handlers/users/getProfile/UsersGetProfileHandler.ts',
+    handlerName: 'UsersGetProfileHandler',
+  },
   signin: {
     httpMethod: 'post',
     path: 'users.signin',

@@ -1,0 +1,25 @@
+{
+  "handlerName": "UsersGetProfile",
+  "domainName": "users",
+  "apiVerb": "getProfile",
+  "httpMethod": "post",
+  "authRequired": true,
+  "payload": {
+    "properties": []
+  },
+  "output": {
+    "properties": [
+      {
+        "name": "ok",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "username",
+        "type": "string",
+        "required": true
+      }
+    ]
+  },
+  "errors": []
+}
