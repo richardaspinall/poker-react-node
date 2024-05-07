@@ -18,6 +18,7 @@ export class GameService {
 
   // Initializes any necessary listeners or setup required for the Dealer
   public static initialize() {
+    console.log('GameService initialized');
     GameService.eventEmitter.on('playerJoined', GameService.onPlayerJoined);
   }
 
