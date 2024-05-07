@@ -2,6 +2,7 @@ import { createPokerTable } from '@tests/helpers/createPokerTable';
 import { createPokerTableWithPlayers } from '@tests/helpers/createPokerTableWithPlayers';
 import { mockSendEventToRoomSuccess } from '@tests/mocks/roomMocks';
 
+import { Game } from './Game';
 import { Player } from './Player';
 
 describe('PokerTable', () => {
@@ -150,6 +151,19 @@ describe('PokerTable', () => {
 
       expect(availableSeats.length).toEqual(0);
       expect(availableSeats).toEqual([]);
+    });
+  });
+
+  describe('getGame', () => {
+    it('should return the game', () => {
+      const pokerTableName = 'table_1';
+      const numberOfSeats = 2;
+      const { pokerTable } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
+      pokerTable.addGame(new Game(0, 10, 20));
+
+      const game = pokerTable.getGame();
+
+      expect(game).toBeInstanceOf(Game);
     });
   });
 

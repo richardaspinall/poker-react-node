@@ -19,7 +19,7 @@ describe('UserRepository', () => {
       const user = await UserRepository.getUserById(userId.getValue());
 
       expect(user.getValue().getUserId()).toEqual(1000);
-      expect(user.getValue().getUserName()).toEqual('testuser');
+      expect(user.getValue().getUsername()).toEqual('testuser');
     });
   });
 
@@ -41,7 +41,7 @@ describe('UserRepository', () => {
       const user = await UserRepository.getUserById(1000);
 
       expect(user.getValue().getUserId()).toEqual(1000);
-      expect(user.getValue().getUserName()).toEqual('testuser');
+      expect(user.getValue().getUsername()).toEqual('testuser');
     });
 
     it('should return a select error', async () => {

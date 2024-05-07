@@ -19,7 +19,7 @@ class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
 
     const filteredSeats = seats.map((seat) => ({
       seatNumber: seat.getSeatNumber(),
-      username: seat.getPlayer()?.getUserName() ?? '',
+      username: seat.getPlayer()?.getUsername() ?? '',
     }));
 
     return new ResultSuccess<PokerTablesGetSeatsOutput>({ ok: true, seats: filteredSeats });

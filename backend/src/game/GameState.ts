@@ -1,18 +1,88 @@
+import { Card } from '../shared/game/types/Card';
+
+export enum Round {
+  preFlop = 'pre-flop',
+  flop = 'flop',
+  turn = 'turn',
+  river = 'river',
+}
+
 /*
  * GameState is responsible for the state of a poker game
  */
 export class GameState {
-  constructor(
-    private players = [],
-    // private deck = new Deck(),
-    private communityCards = [],
-    private pot = 0,
-    private currentBet = 0,
-    private currentPlayerIndex = 0,
-    private roundState = 'pre-flop',
-    private smallBlind = 1,
-    private bigBlind = 2
-  ) {}
+  private dealerPosition: number;
+  private smallBlind: number;
+  private bigBlind: number;
+  private pot: number;
+  private currentBet: number;
+  private playerToActIndex: number;
+  private roundState: Round;
+  private communityCards: Card[];
+
+  constructor(dealerPosition: number, smallBlind: number, bigBlind: number) {
+    this.dealerPosition = dealerPosition;
+    this.smallBlind = smallBlind;
+    this.bigBlind = bigBlind;
+
+    this.pot = 0;
+    this.currentBet = 0;
+    this.playerToActIndex = 0;
+    this.roundState = Round.preFlop;
+    this.communityCards = [];
+  }
 
   // Methods to update the game state
+
+  public updateCommunityCards(communityCards: Card[]) {
+    this.communityCards = communityCards;
+  }
+
+  public updatePot(pot: number) {
+    this.pot = pot;
+  }
+
+  public updateCurrentBet(currentBet: number) {
+    this.currentBet = currentBet;
+  }
+
+  public updateCurrentPlayerIndex(playerToActIndex: number) {
+    this.playerToActIndex = playerToActIndex;
+  }
+
+  public getRound() {
+    return this.roundState;
+  }
+
+  public updateRound(roundState: Round) {
+    this.roundState = roundState;
+  }
+
+  public getDealerPosition() {
+    return this.dealerPosition;
+  }
+
+  public getSmallBlind() {
+    return this.smallBlind;
+  }
+
+  public getBigBlind() {
+    return this.bigBlind;
+  }
+
+  public getPot() {
+    return this.pot;
+  }
+
+  public getCurrentBet() {
+    return this.currentBet;
+  }
+
+  public getPlayerToActIndex() {
+    return this.playerToActIndex;
+  }
+
+  public getCommunityCards() {
+    return this.communityCards;
+  }
 }
