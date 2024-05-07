@@ -103,4 +103,8 @@ export class PokerTable {
     }
     return true;
   }
+
+  public getDealerPosition(): number {
+    return this.dealerPosition;
+  }
 }
