@@ -3,10 +3,12 @@ import { useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
 import seatsReducer from './seatsSlice';
+import userProfileReducer from './slices/userProfileSlice';
 
 const store = configureStore({
   reducer: {
     seats: seatsReducer,
+    userProfile: userProfileReducer,
   },
 });
 
