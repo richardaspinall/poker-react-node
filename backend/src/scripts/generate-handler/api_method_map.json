@@ -38,6 +38,15 @@
         },
         {
             "domainName": "users",
+            "apiVerb": "getProfile",
+            "methodName": "users.getProfile",
+            "handlerName": "UsersGetProfile",
+            "httpMethod": "post",
+            "requestType": "UsersGetProfilePayload",
+            "responseType": "UsersGetProfileOutput"
+        },
+        {
+            "domainName": "users",
             "apiVerb": "signin",
             "methodName": "users.signin",
             "handlerName": "UsersSignin",
