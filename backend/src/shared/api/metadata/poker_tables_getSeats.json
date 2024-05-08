@@ -10,6 +10,25 @@
         "name": "pokerTableName",
         "type": "string",
         "required": true
+      },
+      {
+        "name": "profile",
+        "type": "object",
+        "required": true,
+        "properties": [
+          {
+            "name": "name",
+            "type": "string",
+            "required": true
+          },
+          { "name": "email", "type": "string", "required": true },
+          {
+            "name": "phone",
+            "type": "string",
+            "required": true
+          },
+          { "name": "address", "type": "string", "required": true }
+        ]
       }
     ]
   },
@@ -21,22 +40,63 @@
         "required": true
       },
       {
+        "name": "profile",
+        "type": "object",
+        "required": true,
+        "properties": [
+          {
+            "name": "name",
+            "type": "string",
+            "required": true
+          },
+          { "name": "email", "type": "string", "required": true },
+          {
+            "name": "phone",
+            "type": "string",
+            "required": true
+          },
+          { "name": "address", "type": "string", "required": true }
+        ]
+      },
+      {
         "name": "seats",
         "type": "array",
         "required": true,
-        "items": [
-          {
-            "name": "seatNumber",
-            "type": "number",
-            "required": true
-          },
-          {
-            "name": "username",
-            "type": "string",
-            "allowEmpty": true,
-            "required": true
-          }
-        ]
+        "items": {
+          "type": "object",
+          "properties": [
+            {
+              "name": "seatNumber",
+              "type": "number",
+              "required": true
+            },
+            {
+              "name": "username",
+              "type": "string",
+              "allowEmpty": true,
+              "required": true
+            },
+            {
+              "name": "profile",
+              "type": "object",
+              "required": true,
+              "properties": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "required": true
+                },
+                { "name": "email", "type": "string", "required": true },
+                {
+                  "name": "phone",
+                  "type": "string",
+                  "required": true
+                },
+                { "name": "address", "type": "string", "required": true }
+              ]
+            }
+          ]
+        }
       }
     ]
   },
