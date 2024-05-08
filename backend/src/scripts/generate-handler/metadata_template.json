@@ -24,19 +24,21 @@
         "name": "ExampleArray",
         "type": "array",
         "required": true,
-        "items": [
-          {
-            "name": "ExampleProperty",
-            "type": "string",
-            "required": true
-          },
-          {
-            "name": "ExampleProperty",
-            "type": "string",
-            "allowEmpty": true,
-            "required": true
-          }
-        ]
+        "items": {
+          "type": "object",
+          "properties": [
+            {
+              "name": "ExampleProperty",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "ExampleProperty2",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
       }
     ]
   },
