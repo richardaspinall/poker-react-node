@@ -31,7 +31,14 @@ export enum <%= handlerName %>ErrorCodes {<% errors.forEach(function(error, inde
   if (Array.isArray(type)) {
     return type.map(t => printType(t, level)).join(' | ');
   } else if (typeof type === 'object') {
-    return '{' + type.properties.sort((a, b) => a.name.localeCompare(b.name)).map(prop => printProperty(prop, level)).join('') + '\n' + '  '.repeat(level - 1) + '}';
+    if (type.type === 'array') {
+      return printType(type.items, level) + '[]';
+    } else if (type.type === 'object') {
+      var indent = '  '.repeat(level);
+      var properties = type.properties.sort((a, b) => a.name.localeCompare(b.name)).map(prop => printProperty(prop, level + 1)).join('');
+      return '{' + properties + '\n' + indent + '}';
+    }
+    return type.type;
   }
   return type;
 } %>
