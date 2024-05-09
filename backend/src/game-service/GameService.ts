@@ -3,7 +3,6 @@ import { EventEmitter } from 'events';
 import { ResultError } from '@infra/Result';
 import { GameEvent } from '@shared/websockets/game/types/GameEvents';
 
-import { Dealer } from '../game/Dealer';
 import { Player } from '../game/Player';
 import { PokerTable } from '../game/PokerTable';
 import { Rooms } from '../sockets/Rooms';
@@ -19,6 +18,9 @@ export class GameService {
   // Initializes any necessary listeners or setup required for the Dealer
   public static initialize() {
     GameService.eventEmitter.on('playerJoined', GameService.onPlayerJoined);
+    GameService.eventEmitter.on('sendHoleCards', GameService.onSendHoleCards);
+    GameService.eventEmitter.on('notifyPlayerToAct', GameService.onNotifyPlayerToAct);
+    GameService.eventEmitter.on('startGame', GameService.onStartGame);
   }
 
   // Notifies when a player is added and starts game if the table is ready
@@ -36,16 +38,9 @@ export class GameService {
       debug(sendEvents.getError());
       return new ResultError(sendEvents.getError());
     }
-
-    // TODO: will eventually have this be from its own api method "player is ready"
-    if (pokerTable.isPokerTableReady()) {
-      GameService.startGame(pokerTable);
-    }
   }
 
-  private static async startGame(pokerTable: PokerTable) {
-    Dealer.newGame(pokerTable);
-
+  private static async onStartGame(pokerTable: PokerTable) {
     const event = GameEvent.START_GAME;
     const payload = { tableName: pokerTable.getName() };
 
@@ -54,56 +49,23 @@ export class GameService {
     if (sendEvents.isError()) {
       throw sendEvents.getError();
     }
-
-    this.dealCards(pokerTable);
-
-    this.notifyPlayerToAct(pokerTable);
   }
 
-  private static async dealCards(pokerTable: PokerTable) {
-    Dealer.dealCards(pokerTable);
+  private static async onSendHoleCards(player: Player) {
+    const sessionId = await UserService.getSessionId(player);
+    const payload = { cards: player.getCards() };
 
-    this.sendHoleCardsToPlayers(pokerTable);
-  }
+    const sendEvents = Sockets.sendEventToClient(sessionId, GameEvent.DEAL_CARDS, payload);
 
-  private static async sendHoleCardsToPlayers(pokerTable: PokerTable) {
-    const seats = pokerTable.getSeats();
-
-    seats.forEach(async (seat) => {
-      const player = seat.getPlayer();
-      if (player) {
-        const sessionId = await UserService.getSessionId(player);
-        const dealCardsEvent = GameEvent.DEAL_CARDS;
-        const payload = { cards: player.getCards() };
-
-        const sendEvents = Sockets.sendEventToClient(sessionId, dealCardsEvent, payload);
-
-        if (sendEvents.isError()) {
-          throw sendEvents.getError();
-        }
-      }
-    });
-  }
-
-  private static async notifyPlayerToAct(pokerTable: PokerTable) {
-    const game = pokerTable.getGame();
-    if (!game) {
-      throw new Error('Game not found');
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
     }
+  }
 
-    const seatToAct = game.getGameState().getSeatToAct();
-    const seats = pokerTable.getSeats();
+  private static async onNotifyPlayerToAct(pokerTableName: string, seatToAct: number) {
+    const payload = { seatToAct };
 
-    const seat = seats.find((seat) => seat.getSeatNumber() === seatToAct);
-
-    if (!seat) {
-      throw new Error(`Seat not found: ${seatToAct}`);
-    }
-
-    const event = GameEvent.SEAT_TO_ACT;
-    const payload = { seatToAct: seat.getSeatNumber() };
-
-    const sendEvents = Rooms.sendEventToRoom(pokerTable.getName(), event, payload);
+    const sendEvents = Rooms.sendEventToRoom(pokerTableName, GameEvent.SEAT_TO_ACT, payload);
 
     if (sendEvents.isError()) {
       throw sendEvents.getError();
