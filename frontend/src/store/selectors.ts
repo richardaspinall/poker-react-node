@@ -12,7 +12,7 @@ export const selectSeats = createSelector(
 export const selectUsername = createSelector(
   (state: RootState) => state.userProfile, // This is the input selector
   (userProfile) => {
-    return userProfile.value;
+    return userProfile.value?.username;
   }
 );
 

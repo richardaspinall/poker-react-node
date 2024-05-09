@@ -15,7 +15,7 @@ const fetchUserProfile = createAsyncThunk(
         console.log('error', result?.error);
       }
 
-      return result.username;
+      return result.profile;
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
