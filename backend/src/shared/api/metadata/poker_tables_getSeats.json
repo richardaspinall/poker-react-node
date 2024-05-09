@@ -31,6 +31,12 @@
               "name": "seatNumber",
               "type": "number",
               "required": true
+            },
+            {
+              "name": "username",
+              "type": "string",
+              "allowEmpty": true,
+              "required": true
             }
           ]
         }
