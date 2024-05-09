@@ -1,4 +1,4 @@
-import { GameService } from '../game-service';
+import { GameEmitter } from '../game-emitter';
 import { Game } from './Game';
 import { PokerTable } from './PokerTable';
 
@@ -21,7 +21,7 @@ export class Dealer {
       pokerTable.getGame()?.getGameState().updateSeatToAct(pokerTable.getDealerPosition());
     }
 
-    GameService.eventEmitter.emit('startGame', pokerTable);
+    GameEmitter.eventEmitter.emit('startGame', pokerTable);
 
     Dealer.dealCards(pokerTable);
     Dealer.startTurn(pokerTable);
@@ -41,7 +41,7 @@ export class Dealer {
       const player = seat.getPlayer();
       if (player) {
         player.setCards(deck.draw(2));
-        GameService.eventEmitter.emit('sendHoleCards', player);
+        GameEmitter.eventEmitter.emit('sendHoleCards', player.getUserId(), player.getCards());
       }
     });
   }
@@ -61,6 +61,6 @@ export class Dealer {
       throw new Error(`Seat not found: ${seatToAct}`);
     }
 
-    GameService.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
+    GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
   }
 }

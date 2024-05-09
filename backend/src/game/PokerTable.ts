@@ -1,6 +1,6 @@
 import { Result, ResultSuccess } from '@infra/Result';
 
-import { GameService } from '../game-service';
+import { GameEmitter } from '../game-emitter';
 import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundError';
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
@@ -53,7 +53,7 @@ export class PokerTable {
         } else {
           seat.assignPlayer(player);
 
-          GameService.eventEmitter.emit('playerJoined', this, player, seatNumber);
+          GameEmitter.eventEmitter.emit('playerJoined', this.getName(), player.getUsername(), seatNumber);
 
           if (this.isPokerTableReady()) {
             Dealer.newGame(this);

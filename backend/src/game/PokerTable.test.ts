@@ -8,6 +8,8 @@ import { Player } from './Player';
 describe('PokerTable', () => {
   describe('addPlayer', () => {
     it('should confirm a player has sat down', () => {
+      mockSendEventToRoomSuccess();
+
       const tableName = 'table_1';
       const numberOfSeats = 2;
       const pokerTable = createPokerTable(tableName, numberOfSeats);
@@ -19,6 +21,8 @@ describe('PokerTable', () => {
     });
 
     it('should error when seat is already taken', () => {
+      mockSendEventToRoomSuccess();
+
       const user = new Player(1234, 'testuser');
       const userTwo = new Player(4321, 'testusertwo');
       const tableName = 'table_1';
