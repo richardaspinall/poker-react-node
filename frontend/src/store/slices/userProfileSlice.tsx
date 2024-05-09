@@ -2,8 +2,11 @@ import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { fetchUserProfile } from '../../pages/thunks/fetchUserProfile';
 
+interface UserProfile {
+  username: string;
+}
 interface UserProfileSlice {
-  value?: string;
+  value?: UserProfile;
   loading: boolean;
   error: SerializedError | null;
 }
@@ -22,7 +25,7 @@ export const userProfileSlice = createSlice({
   name: 'userprofile',
   initialState,
   reducers: {
-    setUserProfile: (state, action: PayloadAction<string>) => {
+    setUserProfile: (state, action: PayloadAction<UserProfile>) => {
       state.value = action.payload;
     },
   },

@@ -6,5 +6,5 @@ export const UsersGetProfilePayloadSchema = Joi.object<UsersGetProfilePayload>({
 
 export const UsersGetProfileOutputSchema = Joi.object<UsersGetProfileOutput>({
   ok: Joi.boolean().required(),
-  username: Joi.string().required(),
+  profile: Joi.object({ username: Joi.string().required() }).required(),
 }).unknown(false);

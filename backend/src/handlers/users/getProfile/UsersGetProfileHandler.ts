@@ -14,7 +14,9 @@ export class UsersGetProfileHandler extends AbstractUsersGetProfileHandler {
 
     const payload = {
       ok: true,
-      username: userOrError.getValue().getUsername(),
+      profile: {
+        username: userOrError.getValue().getUsername(),
+      },
     };
     return new ResultSuccess<UsersGetProfileOutput>(payload);
   }
