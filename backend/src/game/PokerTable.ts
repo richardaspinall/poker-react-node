@@ -31,7 +31,7 @@ export class PokerTable {
     }
     this.seats = seatsArray;
 
-    this.dealerPosition = Math.floor(Math.random() * numberOfSeats);
+    this.dealerPosition = Math.floor(Math.random() * numberOfSeats + 1);
   }
 
   public static createPokerTable(pokerTableName: string, numberOfSeats: number): Result<PokerTable> {
@@ -72,7 +72,7 @@ export class PokerTable {
     return Result.error(new PlayerNotFoundAtPokerTableError());
   }
 
-  public addGame(game: Game) {
+  public addGame(game: Game): void {
     this.game = game;
   }
 
@@ -110,5 +110,15 @@ export class PokerTable {
 
   public getDealerPosition(): number {
     return this.dealerPosition;
+  }
+
+  public getPlayerCount(): number {
+    let count = 0;
+    for (const seat of this.seats) {
+      if (seat.isSeatTaken()) {
+        count++;
+      }
+    }
+    return count;
   }
 }

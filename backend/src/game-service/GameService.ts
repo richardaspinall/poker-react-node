@@ -56,6 +56,8 @@ export class GameService {
     }
 
     this.dealCards(pokerTable);
+
+    this.notifyPlayerToAct(pokerTable);
   }
 
   private static async dealCards(pokerTable: PokerTable) {
@@ -81,5 +83,30 @@ export class GameService {
         }
       }
     });
+  }
+
+  private static async notifyPlayerToAct(pokerTable: PokerTable) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+
+    const seatToAct = game.getGameState().getSeatToAct();
+    const seats = pokerTable.getSeats();
+
+    const seat = seats.find((seat) => seat.getSeatNumber() === seatToAct);
+
+    if (!seat) {
+      throw new Error(`Seat not found: ${seatToAct}`);
+    }
+
+    const event = GameEvent.SEAT_TO_ACT;
+    const payload = { seatToAct: seat.getSeatNumber() };
+
+    const sendEvents = Rooms.sendEventToRoom(pokerTable.getName(), event, payload);
+
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
+    }
   }
 }

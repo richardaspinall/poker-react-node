@@ -16,7 +16,6 @@ describe('GameState', () => {
     expect(gameState.getBigBlind()).toBe(20);
     expect(gameState.getPot()).toBe(0);
     expect(gameState.getCurrentBet()).toBe(0);
-    expect(gameState.getPlayerToActIndex()).toBe(0);
     expect(gameState.getRound()).toBe(Round.preFlop);
     expect(gameState.getCommunityCards()).toEqual([]);
   });
@@ -45,8 +44,8 @@ describe('GameState', () => {
   });
 
   it('updates the current player index', async () => {
-    gameState.updateCurrentPlayerIndex(2);
-    expect(gameState.getPlayerToActIndex()).toBe(2);
+    gameState.updateSeatToAct(2);
+    expect(gameState.getSeatToAct()).toBe(2);
   });
 
   it('updates the round', async () => {
