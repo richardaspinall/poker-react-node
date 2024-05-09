@@ -14,13 +14,31 @@ export enum <%= handlerName %>ErrorCodes {<% errors.forEach(function(error, inde
   var indent = '  '.repeat(level);
   var result = `\n${indent}${prop.name}${!prop.required ? '?' : ''}:`;
   if (prop.type === 'array') {
+    result += ' ' + printType(prop.items, level + 1) + '[];';
+  } else if (prop.type === 'object') {
     result += ' {';
-    prop.items.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(item, index, array) {
-      result += printProperty(item, level + 1);
+    prop.properties.sort((a, b) => a.name.localeCompare(b.name)).forEach(function(subProp) {
+      result += printProperty(subProp, level + 1);
     });
-    result += `\n${indent}}[];`; 
+    result += `\n${indent}};`;
   } else {
     result += ` ${prop.type};`;
   }
   return result;
+} %>
+
+<% function printType(type, level) {
+  if (Array.isArray(type)) {
+    return type.map(t => printType(t, level)).join(' | ');
+  } else if (typeof type === 'object') {
+    if (type.type === 'array') {
+      return printType(type.items, level) + '[]';
+    } else if (type.type === 'object') {
+      var indent = '  '.repeat(level);
+      var properties = type.properties.sort((a, b) => a.name.localeCompare(b.name)).map(prop => printProperty(prop, level + 1)).join('');
+      return '{' + properties + '\n' + indent + '}';
+    }
+    return type.type;
+  }
+  return type;
 } %>

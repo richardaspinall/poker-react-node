@@ -2,38 +2,60 @@ import Joi from 'joi';
 
 import { <%= handlerName %>Output, <%= handlerName %>Payload } from '../types/<%= handlerName %>';
 
-export const <%= handlerName %>PayloadSchema = Joi.object<<%= handlerName %>Payload>({<% payload.properties.forEach(function(prop, index) { 
-  const nextProp = payload.properties[index + 1]; %><% if (prop.type === 'array') { %><%= 
-    prop.name %>: Joi.array().items(<%
-    if (prop.items[0] && prop.items[0].type === 'array') { %>
-      Joi.array().items(<% prop.items[0].items.forEach(function(item, itemIndex) { %>
-        Joi.object({<%= item.name %>: Joi.<%= item.type %>()<%= !item.required ? '.optional()' : '.required()' %><%- item.allowEmpty ? ".allow('')" : '' %><%= itemIndex < prop.items[0].items.length - 1 ? ',' : '' %>})<%= itemIndex < prop.items[0].items.length - 1 ? ',' : '' %><% }); %>
-      )
-    <% } else { %>
-      Joi.object({<% prop.items.forEach(function(item, itemIndex) { %>
-        <%= item.name %>: Joi.<%= item.type %>()<%= !item.required ? '.optional()' : '.required()' %><%- item.allowEmpty ? ".allow('')" : '' %><%= itemIndex < prop.items.length - 1 ? ',' : '' %><% }); %>
-      })<%= prop.items.length > 0 ? ',' : '' %>
-    <% } %>
-    )<%= !prop.required ? '.optional()' : '.required()' %><%= nextProp ? ',' : '' %><% 
-  } else { %><%= 
-    prop.name %>: Joi.<%= prop.type %>()<%= !prop.required ? '.optional()' : '.required()' %><%- prop.allowEmpty ? ".allow('')" : '' %><%= nextProp ? ',' : '' %><% 
-  } %><% }); %>
+export const <%= handlerName %>PayloadSchema = Joi.object<<%= handlerName %>Payload>({<%
+  function renderProperties(properties) { 
+    properties.forEach(function(prop, index) { 
+      const nextProp = properties[index + 1]; 
+      if (prop.type === 'array') { %><%= prop.name %>: Joi.array().items(<%
+        if (prop.items.type === 'array') { %><%= renderArrayItems(prop.items) %><%
+        } else if (prop.items.type === 'object') { %>Joi.object({<%= renderProperties(prop.items.properties) %>})<%
+        } else { %>Joi.<%= prop.items.type %>()<%= !prop.items.required ? '.optional()' : '.required()' %><%- prop.items.allowEmpty ? ".allow('')" : '' %><%
+        } %>)<%= !prop.required ? '.optional()' : '.required()' %><%= nextProp ? ',' : '' %><%
+      } else if (prop.type === 'object') { %><%= prop.name %>: Joi.object({<%= renderProperties(prop.properties) %>})<%= !prop.required ? '.optional()' : '.required()' %><%= nextProp ? ',' : '' %><%
+      } else { %><%= prop.name %>: Joi.<%= prop.type %>()<%= !prop.required ? '.optional()' : '.required()' %><%- prop.allowEmpty ? ".allow('')" : '' %><%= nextProp ? ',' : '' %><%
+      }
+    });
+  }
+
+  function renderArrayItems(items) {
+    if (items.type === 'array') {
+      return `Joi.array().items(${renderArrayItems(items.items)})`;
+    } else if (items.type === 'object') {
+      return `Joi.object({${renderProperties(items.properties)}})`;
+    } else {
+      return `Joi.${items.type}()${!items.required ? '.optional()' : '.required()'}${items.allowEmpty ? ".allow('')" : ''}`;
+    }
+  }
+
+  renderProperties(payload.properties);
+%>
 }).unknown(false);
 
-export const <%= handlerName %>OutputSchema = Joi.object<<%= handlerName %>Output>({<% output.properties.forEach(function(prop, index) { 
-  const nextProp = output.properties[index + 1]; %><% if (prop.type === 'array') { %><%= 
-    prop.name %>: Joi.array().items(<%
-    if (prop.items[0] && prop.items[0].type === 'array') { %>
-      Joi.array().items(<% prop.items[0].items.forEach(function(item, itemIndex) { %>
-        Joi.object({<%= item.name %>: Joi.<%= item.type %>()<%= !item.required ? '.optional()' : '.required()' %><%- item.allowEmpty ? ".allow('')" : '' %><%= itemIndex < prop.items[0].items.length - 1 ? ',' : '' %>})<%= itemIndex < prop.items[0].items.length - 1 ? ',' : '' %><% }); %>
-      )
-    <% } else { %>
-      Joi.object({<% prop.items.forEach(function(item, itemIndex) { %>
-        <%= item.name %>: Joi.<%= item.type %>()<%= !item.required ? '.optional()' : '.required()' %><%- item.allowEmpty ? ".allow('')" : '' %><%= itemIndex < prop.items.length - 1 ? ',' : '' %><% }); %>
-      })<%= prop.items.length > 0 ? ',' : '' %>
-    <% } %>
-    )<%= !prop.required ? '.optional()' : '.required()' %><%= nextProp ? ',' : '' %><% 
-  } else { %><%= 
-    prop.name %>: Joi.<%= prop.type %>()<%= !prop.required ? '.optional()' : '.required()' %><%- prop.allowEmpty ? ".allow('')" : '' %><%= nextProp ? ',' : '' %><% 
-  } %><% }); %>
+export const <%= handlerName %>OutputSchema = Joi.object<<%= handlerName %>Output>({<%
+  function renderProperties(properties) { 
+    properties.forEach(function(prop, index) { 
+      const nextProp = properties[index + 1]; 
+      if (prop.type === 'array') { %><%= prop.name %>: Joi.array().items(<%
+        if (prop.items.type === 'array') { %><%= renderArrayItems(prop.items) %><%
+        } else if (prop.items.type === 'object') { %>Joi.object({<%= renderProperties(prop.items.properties) %>})<%
+        } else { %>Joi.<%= prop.items.type %>()<%= !prop.items.required ? '.optional()' : '.required()' %><%- prop.items.allowEmpty ? ".allow('')" : '' %><%
+        } %>)<%= !prop.required ? '.optional()' : '.required()' %><%= nextProp ? ',' : '' %><%
+      } else if (prop.type === 'object') { %><%= prop.name %>: Joi.object({<%= renderProperties(prop.properties) %>})<%= !prop.required ? '.optional()' : '.required()' %><%= nextProp ? ',' : '' %><%
+      } else { %><%= prop.name %>: Joi.<%= prop.type %>()<%= !prop.required ? '.optional()' : '.required()' %><%- prop.allowEmpty ? ".allow('')" : '' %><%= nextProp ? ',' : '' %><%
+      }
+    });
+  }
+
+  function renderArrayItems(items) {
+    if (items.type === 'array') {
+      return `Joi.array().items(${renderArrayItems(items.items)})`;
+    } else if (items.type === 'object') {
+      return `Joi.object({${renderProperties(items.properties)}})`;
+    } else {
+      return `Joi.${items.type}()${!items.required ? '.optional()' : '.required()'}${items.allowEmpty ? ".allow('')" : ''}`;
+    }
+  }
+
+  renderProperties(output.properties);
+%>
 }).unknown(false);

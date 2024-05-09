@@ -21,22 +21,41 @@
         "required": true
       },
       {
-        "name": "ExampleArray",
-        "type": "array",
+        "name": "ExampleObject",
+        "type": "object",
         "required": true,
-        "items": [
+        "properties": [
           {
             "name": "ExampleProperty",
             "type": "string",
             "required": true
           },
           {
-            "name": "ExampleProperty",
-            "type": "string",
-            "allowEmpty": true,
+            "name": "ExampleProperty2",
+            "type": "number",
             "required": true
           }
         ]
+      },
+      {
+        "name": "ExampleArray",
+        "type": "array",
+        "required": true,
+        "items": {
+          "type": "object",
+          "properties": [
+            {
+              "name": "ExampleProperty",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "ExampleProperty2",
+              "type": "number",
+              "required": true
+            }
+          ]
+        }
       }
     ]
   },
