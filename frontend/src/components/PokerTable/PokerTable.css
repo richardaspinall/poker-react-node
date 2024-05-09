@@ -155,8 +155,8 @@ body {
   background-color: #d8d8d8;
 }
 
-/* TODO: Turn indicator */
-/* #seat-1:before {
+/* Turn indicator */
+.acting-seat:before {
   content: ' ';
   z-index: 1;
 
@@ -167,7 +167,7 @@ body {
   border: 4px solid;
   border-radius: 100%;
   border-color: #ffe700;
-} */
+}
 
 #seat-1 {
   /* TODO: using seat 9s positioning until implementation of */

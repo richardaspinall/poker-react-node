@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
 import seatsReducer from './seatsSlice';
+import actingSeatSlice from './slices/actingSeatSlice';
 import holeCardsReducer from './slices/holeCardsSlice';
 import userProfileReducer from './slices/userProfileSlice';
 
@@ -11,6 +12,7 @@ const store = configureStore({
     seats: seatsReducer,
     userProfile: userProfileReducer,
     holeCards: holeCardsReducer,
+    seatToAct: actingSeatSlice,
   },
 });
 

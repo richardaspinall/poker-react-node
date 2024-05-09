@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectHoleCards, selectSeats } from '../../store/selectors.ts';
+import { selectActingSeat, selectHoleCards, selectSeats } from '../../store/selectors.ts';
 import { AppDispatch } from '../../store/store.tsx';
 import Actions from './Actions/Actions';
 import Board from './Board/Board';
@@ -23,6 +23,7 @@ export function PokerTable({}: PokerTableProps) {
 
   const seats = useSelector(selectSeats);
   const holeCards = useSelector(selectHoleCards);
+  const actingSeat = useSelector(selectActingSeat);
 
   return (
     <>
@@ -36,6 +37,7 @@ export function PokerTable({}: PokerTableProps) {
             username={seat.username}
             chipCount={1000}
             cards={holeCards.value}
+            isActingSeat={seat.seatNumber === actingSeat}
           />
         ))}
       </div>

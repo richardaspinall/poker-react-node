@@ -12,9 +12,10 @@ type SeatProps = {
   chipCount: number;
   username?: string;
   cards?: CardType[];
+  isActingSeat?: boolean;
 };
 
-export default function Seat({ seatNumber, username, chipCount, cards }: Readonly<SeatProps>) {
+export default function Seat({ seatNumber, username, chipCount, cards, isActingSeat }: Readonly<SeatProps>) {
   const myUsername = useSelector(selectUsername);
 
   const onPlayerSit = useCallback(async () => {
@@ -61,7 +62,12 @@ export default function Seat({ seatNumber, username, chipCount, cards }: Readonl
 
   return (
     <div>
-      <button className="seat" id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
+      <button
+        className={`seat ${isActingSeat ? 'acting-seat' : ''}`}
+        id={`seat-${seatNumber}`}
+        data-chip-count={chipCount}
+        onClick={onPlayerSit}
+      >
         {renderSeatDisplay()}
       </button>
       <button onClick={playerLeave}>Leave Seat {seatNumber}</button>

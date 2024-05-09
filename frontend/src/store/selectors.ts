@@ -22,3 +22,10 @@ export const selectHoleCards = createSelector(
     return { ...holeCards };
   }
 );
+
+export const selectActingSeat = createSelector(
+  (state: RootState) => state.seatToAct.value, // This is the input selector
+  (seatToAct) => {
+    return seatToAct;
+  }
+);

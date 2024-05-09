@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { useSocket } from '../../../hooks/useSocket';
 import { addUser, removeUser } from '../../../store/seatsSlice';
+import { setActingSeat } from '../../../store/slices/actingSeatSlice';
 import { setHoleCards } from '../../../store/slices/holeCardsSlice';
 
 /*
@@ -19,12 +20,12 @@ export function useSubscribeToGameEvents() {
     const subscribeToPlayerJoined = subscribeToEvent('player_joined', (payload) => {
       console.log('Player sat down');
 
-      dispatch(addUser({ username: payload.username, seatNumber: payload.seatNumber }));
+      dispatch(addUser(payload));
     });
     const subscribeToPlayerLeft = subscribeToEvent('player_left', (payload) => {
       console.log('Player left the table');
 
-      dispatch(removeUser({ username: payload.username, seatNumber: payload.seatNumber }));
+      dispatch(removeUser(payload));
     });
 
     const subscribeToStartGame = subscribeToEvent('start_game', () => {
@@ -37,11 +38,18 @@ export function useSubscribeToGameEvents() {
       dispatch(setHoleCards(payload));
     });
 
+    const subscribeToSeatToAct = subscribeToEvent('seat_to_act', (payload) => {
+      console.log('Seat to act');
+
+      dispatch(setActingSeat(payload));
+    });
+
     return () => {
       subscribeToPlayerJoined();
       subscribeToPlayerLeft();
       subscribeToStartGame();
       subscribeToDealGame();
+      subscribeToSeatToAct();
     };
   }, [dispatch, subscribeToEvent]);
 }

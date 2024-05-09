@@ -14,8 +14,12 @@ export type DealCardsEvent = {
   cards: Card[];
 };
 
+export type SeatToActEvent = {
+  seatToAct: number;
+};
+
 export interface GameEvents {
   start_game: (payload: StartGameEvent) => void;
   deal_cards: (payload: DealCardsEvent) => void;
-  seat_to_act: (payload: { seatToAct: number }) => void;
+  seat_to_act: (payload: SeatToActEvent) => void;
 }
