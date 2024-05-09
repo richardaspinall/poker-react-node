@@ -16,7 +16,7 @@ export class GameState {
   private bigBlind: number;
   private pot: number;
   private currentBet: number;
-  private playerToActIndex: number;
+  private seatToAct: number;
   private roundState: Round;
   private communityCards: Card[];
 
@@ -27,7 +27,7 @@ export class GameState {
 
     this.pot = 0;
     this.currentBet = 0;
-    this.playerToActIndex = 0;
+    this.seatToAct = 0;
     this.roundState = Round.preFlop;
     this.communityCards = [];
   }
@@ -46,8 +46,8 @@ export class GameState {
     this.currentBet = currentBet;
   }
 
-  public updateCurrentPlayerIndex(playerToActIndex: number) {
-    this.playerToActIndex = playerToActIndex;
+  public updateSeatToAct(seatToAct: number) {
+    this.seatToAct = seatToAct;
   }
 
   public getRound() {
@@ -78,8 +78,8 @@ export class GameState {
     return this.currentBet;
   }
 
-  public getPlayerToActIndex() {
-    return this.playerToActIndex;
+  public getSeatToAct() {
+    return this.seatToAct;
   }
 
   public getCommunityCards() {

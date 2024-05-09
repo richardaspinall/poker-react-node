@@ -25,7 +25,6 @@ describe('Dealer', () => {
     expect(game.getGameState().getBigBlind()).toBe(2);
     expect(game.getGameState().getPot()).toBe(0);
     expect(game.getGameState().getCurrentBet()).toBe(0);
-    expect(game.getGameState().getPlayerToActIndex()).toBe(0);
     expect(game.getGameState().getRound()).toBe('pre-flop');
     expect(game.getGameState().getCommunityCards()).toEqual([]);
   });

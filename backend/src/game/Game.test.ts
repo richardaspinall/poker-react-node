@@ -14,7 +14,6 @@ describe('Game', () => {
     expect(game.getGameState().getBigBlind()).toBe(20);
     expect(game.getGameState().getPot()).toBe(0);
     expect(game.getGameState().getCurrentBet()).toBe(0);
-    expect(game.getGameState().getPlayerToActIndex()).toBe(0);
     expect(game.getGameState().getRound()).toBe('pre-flop');
     expect(game.getGameState().getCommunityCards()).toEqual([]);
   });

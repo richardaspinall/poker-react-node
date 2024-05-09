@@ -7,6 +7,18 @@ export class Dealer {
     const bigBlind = smallBlind * 2;
 
     pokerTable.addGame(new Game(pokerTable.getDealerPosition(), smallBlind, bigBlind));
+
+    const playerCount = pokerTable.getPlayerCount();
+
+    // Dealer position is always the first player to act when there are 3 or less players
+    if (playerCount > 3) {
+      pokerTable
+        .getGame()
+        ?.getGameState()
+        .updateSeatToAct(pokerTable.getDealerPosition() + 3);
+    } else {
+      pokerTable.getGame()?.getGameState().updateSeatToAct(pokerTable.getDealerPosition());
+    }
   }
 
   public static dealCards(pokerTable: PokerTable) {
