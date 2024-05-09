@@ -4,7 +4,9 @@ export interface UsersGetProfilePayload {}
 
 export interface UsersGetProfileOutput extends BaseOutput {
   ok: boolean;
-  username: string;
+  profile: {
+    username: string;
+  };
 }
 
 export enum UsersGetProfileErrorCodes {}

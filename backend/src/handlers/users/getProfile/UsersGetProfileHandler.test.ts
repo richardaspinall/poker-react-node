@@ -16,7 +16,9 @@ describe('getProfile', () => {
     expect(res.body.ok).toEqual(true);
     expect(res.body).toEqual({
       ok: true,
-      username: 'userone',
+      profile: {
+        username: 'userone',
+      },
     });
   });
 

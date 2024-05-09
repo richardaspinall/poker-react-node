@@ -15,9 +15,16 @@
         "required": true
       },
       {
-        "name": "username",
-        "type": "string",
-        "required": true
+        "name": "profile",
+        "type": "object",
+        "required": true,
+        "properties": [
+          {
+            "name": "username",
+            "type": "string",
+            "required": true
+          }
+        ]
       }
     ]
   },
