@@ -2,22 +2,20 @@
 # With the REST Client extension in vscode, the below requests will show an option 
 # to send the request as a curl command. 
 
-### should pass:
+### !!!! This will error with `not_authed` if you have not used the `signin.http` test-request first
 
-POST http://localhost:3000/api/actions/poker-tables.join
+POST http://localhost:3000/api/poker-tables.join
 content-type: application/json
 
 {
-    "selectedSeatNumber": "seat-1",
-    "socketId": "abc123"
+    "selectedSeatNumber": 1
 }
 
-### should error with Invalid request payload and error_details:
+### !!!! This will error with `not_authed` if you have not used the `signin.http` test-request first
 
-POST http://localhost:3000/api/actions/poker-tables.join
+POST http://localhost:3000/api/poker-tables.join
 content-type: application/json
 
 {
-    "selectedSeatNumber": 1234,
-    "socketId": "abc123"
+    "selectedSeatNumber": 1234
 }

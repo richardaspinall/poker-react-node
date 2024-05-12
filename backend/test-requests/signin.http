@@ -2,19 +2,19 @@
 # With the REST Client extension in vscode, the below requests will show an option 
 # to send the request as a curl command. 
 
-### should return method_not_implemented
+### should sign in
 
-POST http://localhost:3000/api/actions/signin
+POST http://localhost:3000/api/users.signin
 content-type: application/json
 
 {
     "username": "richard",
-    "password": "abc123"
+    "password": "testpassword"
 }
 
-### should error with Invalid request payload and error_details:
+### should error with invalid_request_payload and error_details:
 
-POST http://localhost:3000/api/actions/signin
+POST http://localhost:3000/api/users.signin
 content-type: application/json
 
 {
