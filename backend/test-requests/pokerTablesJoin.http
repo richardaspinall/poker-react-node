@@ -4,7 +4,7 @@
 
 ### !!!! This will error with `not_authed` if you have not used the `signin.http` test-request first
 
-POST http://localhost:3000/api/poker-tables.join
+POST http://localhost:3000/api/actions/poker-tables.join
 content-type: application/json
 
 {
