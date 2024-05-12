@@ -44,8 +44,8 @@ export class UserService {
     return new ResultSuccess(userOrError.getValue());
   }
 
-  public static async getSessionId(user: User) {
-    const sessionIdOrError = await UserRepository.getSessionIdByUserId(user.getUserId());
+  public static async getSessionId(userId: number) {
+    const sessionIdOrError = await UserRepository.getSessionIdByUserId(userId);
 
     if (sessionIdOrError.isError()) {
       debug(sessionIdOrError.getError());
