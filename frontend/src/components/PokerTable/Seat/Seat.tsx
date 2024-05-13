@@ -16,7 +16,7 @@ type SeatProps = {
 };
 
 export default function Seat({ seatNumber, username, chipCount, cards, isActingSeat }: Readonly<SeatProps>) {
-  const myUsername = useSelector(selectUsername);
+  const selfUsername = useSelector(selectUsername);
 
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber };
@@ -40,7 +40,7 @@ export default function Seat({ seatNumber, username, chipCount, cards, isActingS
   // Define a function to render the cards if the user is in the hand
   // TODO: will need to update this to show the cards if the user is actually in the hand
   const renderSeatDisplay = () => {
-    if (myUsername === username && cards?.[0]) {
+    if (selfUsername === username && cards?.[0]) {
       return (
         <>
           <Card cardShortCode={cards[0].cardShortCode} />

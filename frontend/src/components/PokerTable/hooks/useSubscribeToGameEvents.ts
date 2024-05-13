@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useSocket } from '../../../hooks/useSocket';
-import { addUser, removeUser } from '../../../store/seatsSlice';
 import { setActingSeat } from '../../../store/slices/actingSeatSlice';
 import { setHoleCards } from '../../../store/slices/holeCardsSlice';
+import { addUser, removeUser } from '../../../store/slices/seatsSlice';
 
 /*
  * This hook uses the subscribeToEvent function from useSocket to add events to

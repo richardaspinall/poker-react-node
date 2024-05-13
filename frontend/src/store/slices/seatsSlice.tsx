@@ -3,8 +3,8 @@ import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 import {
   PlayerJoinedEvent,
   PlayerLeftEvent,
-} from '../../../backend/src/shared/websockets/poker-tables/types/PokerTableEvents';
-import fetchSeats from '../components/PokerTable/fetchSeats';
+} from '../../../../backend/src/shared/websockets/poker-tables/types/PokerTableEvents';
+import fetchSeats from '../../components/PokerTable/fetchSeats';
 
 type Seat = {
   seatNumber: number;
