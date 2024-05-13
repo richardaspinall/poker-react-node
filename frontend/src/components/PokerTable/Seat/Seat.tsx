@@ -70,7 +70,7 @@ export default function Seat({ seatNumber, username, chipCount, cards, isActingS
       >
         {renderSeatDisplay()}
       </button>
-      {myUsername === username ? <button onClick={playerLeave}>Leave seat</button> : null}
+      {selfUsername === username ? <button onClick={playerLeave}>Leave seat</button> : null}
     </div>
   );
 }
