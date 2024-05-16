@@ -32,6 +32,10 @@ export function useSubscribeToGameEvents() {
       console.log('Starting Game');
     });
 
+    const subscribeToEndGame = subscribeToEvent('end_game', () => {
+      console.log('Ending Game');
+    });
+
     const subscribeToDealGame = subscribeToEvent('deal_cards', (payload) => {
       console.log('Dealing cards');
 
@@ -44,10 +48,16 @@ export function useSubscribeToGameEvents() {
       dispatch(setActingSeat(payload));
     });
 
+    const subscribeToPlayerFolded = subscribeToEvent('player_folded', () => {
+      console.log('Player Folded');
+    });
+
     return () => {
       subscribeToPlayerJoined();
       subscribeToPlayerLeft();
+      subscribeToPlayerFolded();
       subscribeToStartGame();
+      subscribeToEndGame();
       subscribeToDealGame();
       subscribeToSeatToAct();
     };

@@ -50,6 +50,18 @@ export class GameState {
     this.seatToAct = seatToAct;
   }
 
+  public updateDealerPosition(dealerPosition: number) {
+    this.dealerPosition = dealerPosition;
+  }
+
+  public updateSmallBlind(smallBlind: number) {
+    this.smallBlind = smallBlind;
+  }
+
+  public updateBigBlind(bigBlind: number) {
+    this.bigBlind = bigBlind;
+  }
+
   public getRound() {
     return this.roundState;
   }

@@ -14,7 +14,9 @@ export class GameEmitter {
 
   public static initialize() {
     GameEmitter.eventEmitter.on('playerJoined', GameEmitter.onPlayerJoined);
+    GameEmitter.eventEmitter.on('playerFolded', GameEmitter.onPlayerFolded);
     GameEmitter.eventEmitter.on('startGame', GameEmitter.onStartGame);
+    GameEmitter.eventEmitter.on('endGame', GameEmitter.onEndGame);
     GameEmitter.eventEmitter.on('notifyPlayerToAct', GameEmitter.onNotifyPlayerToAct);
     GameEmitter.eventEmitter.on('sendHoleCards', GameEmitter.onSendHoleCards);
   }
@@ -33,11 +35,30 @@ export class GameEmitter {
     }
   }
 
+  private static onPlayerFolded(pokerTableName: string, username: string, seatNumber: number) {
+    const payload = {
+      username,
+      seatNumber,
+    };
+    const sendEvents = Rooms.sendEventToRoom(pokerTableName, PokerTableEvent.PLAYER_JOINED, payload);
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
+    }
+  }
+
   private static async onStartGame(pokerTable: PokerTable) {
     const payload = { tableName: pokerTable.getName() };
 
     const sendEvents = Rooms.sendEventToRoom(pokerTable.getName(), GameEvent.START_GAME, payload);
 
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
+    }
+  }
+
+  private static async onEndGame(pokerTable: PokerTable) {
+    const payload = { tableName: pokerTable.getName() };
+    const sendEvents = Rooms.sendEventToRoom(pokerTable.getName(), GameEvent.END_GAME, payload);
     if (sendEvents.isError()) {
       throw sendEvents.getError();
     }

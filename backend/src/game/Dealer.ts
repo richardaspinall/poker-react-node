@@ -1,5 +1,6 @@
 import { GameEmitter } from '../game-emitter';
 import { Game } from './Game';
+import { Player } from './Player';
 import { PokerTable } from './PokerTable';
 
 export class Dealer {
@@ -27,6 +28,19 @@ export class Dealer {
     Dealer.startTurn(pokerTable);
   }
 
+  public static endGame(pokerTable: PokerTable) {
+    // pokerTable.removeGame(pokerTable);
+    
+    const seats = pokerTable.getSeats();
+    seats.forEach((seat) => {
+      const player = seat.getPlayer();
+      if (player) {
+        player.foldCards();
+      }
+    });
+    GameEmitter.eventEmitter.emit('endGame', pokerTable);
+  }
+
   public static dealCards(pokerTable: PokerTable) {
     const game = pokerTable.getGame();
     if (!game) {
@@ -46,6 +60,10 @@ export class Dealer {
     });
   }
 
+  public static foldCards(player: Player) {
+    player.foldCards();
+  }
+
   public static startTurn(pokerTable: PokerTable) {
     const game = pokerTable.getGame();
     if (!game) {
@@ -63,4 +81,34 @@ export class Dealer {
 
     GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
   }
+
+  public static updateTurn(pokerTable: PokerTable) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+    let currentDealerPosition = game.getGameState().getDealerPosition();
+    game.getGameState().updateDealerPosition(currentDealerPosition + 1);
+
+    let currentSmallBlind = game.getGameState().getSmallBlind();
+    game.getGameState().updateSmallBlind(currentSmallBlind + 1);
+    
+    let currentBigBlind = game.getGameState().getBigBlind();
+    game.getGameState().updateBigBlind(currentBigBlind + 1);
+    
+    let currentSeatToAct = game.getGameState().getSeatToAct();
+    let seatToAct = currentSeatToAct + 1;
+    game.getGameState().updateCurrentBet(currentSeatToAct);
+
+    const seats = pokerTable.getSeats();
+    const seat = seats.find((seat) => seat.getSeatNumber() === seatToAct);
+    if (!seat) {
+      throw new Error(`Seat not found: ${seatToAct}`);
+    }
+  
+    GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
+  }
 }
+
+
+

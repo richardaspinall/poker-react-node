@@ -1,6 +1,6 @@
 export enum PokerTableEvent {
   PLAYER_JOINED = 'player_joined',
-  PLAYER_LEFT = 'player_left',
+  PLAYER_LEFT = 'player_left'
 }
 
 export type PlayerJoinedEvent = {

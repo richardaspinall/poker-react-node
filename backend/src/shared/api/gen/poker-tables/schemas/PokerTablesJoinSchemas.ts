@@ -7,5 +7,5 @@ export const PokerTablesJoinPayloadSchema = Joi.object<PokerTablesJoinPayload>({
 }).unknown(false);
 
 export const PokerTablesJoinOutputSchema = Joi.object<PokerTablesJoinOutput>({ ok: Joi.boolean().required() }).unknown(
-  false,
+  false
 );

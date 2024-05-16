@@ -15,4 +15,8 @@ export class Player extends User {
   public getCards(): Card[] {
     return this.cards;
   }
+
+  public foldCards(): void {
+    this.cards = [];
+  }
 }

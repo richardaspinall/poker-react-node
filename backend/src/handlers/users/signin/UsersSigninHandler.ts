@@ -20,7 +20,7 @@ class UsersSigninHandler extends AbstractUsersSigninHandler {
   protected async getResult(
     payload: UsersSigninPayload,
     _userId: number /* unused, used in other class methods */,
-    req: Request<UsersSigninPayload>,
+    req: Request<UsersSigninPayload>
   ) {
     // TODO: need to validate username. task: 86cv07w0c
     // console.log(payload);
