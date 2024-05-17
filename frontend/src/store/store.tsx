@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 
 import { configureStore } from '@reduxjs/toolkit';
 
-import actingSeatSlice from './slices/actingSeatSlice';
+import gameStateSlice from './slices/gameStateSlice';
 import holeCardsReducer from './slices/holeCardsSlice';
 import seatsReducer from './slices/seatsSlice';
 import userProfileReducer from './slices/userProfileSlice';
@@ -12,7 +12,7 @@ const store = configureStore({
     seats: seatsReducer,
     userProfile: userProfileReducer,
     holeCards: holeCardsReducer,
-    seatToAct: actingSeatSlice,
+    gameStateSlice: gameStateSlice,
   },
 });
 
