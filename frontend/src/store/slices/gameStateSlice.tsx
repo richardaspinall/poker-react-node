@@ -43,7 +43,7 @@ export const gameStateSlice = createSlice({
       })
       .addCase(fetchGameState.rejected, (gameStateSlice, action) => {
         gameStateSlice.loading = false;
-        gameStateSlice.error = action.error;
+        gameStateSlice.error = action.payload || { message: action.error.message };
       });
   },
 });

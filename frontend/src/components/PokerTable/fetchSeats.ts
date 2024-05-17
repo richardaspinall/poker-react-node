@@ -4,7 +4,7 @@ import { PokerTablesGetSeatsPayload } from '../../../../backend/src/shared/api/g
 import apiCall from '../../fetch/apiCall';
 
 const fetchSeats = createAsyncThunk(
-  'pokerTables/getState',
+  'pokerTables/getSeats',
   // if you type your function argument here
   async (payload: PokerTablesGetSeatsPayload, thunkApi) => {
     try {

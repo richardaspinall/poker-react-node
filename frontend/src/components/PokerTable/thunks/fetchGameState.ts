@@ -4,7 +4,7 @@ import { GamesGetGameStatePayload } from '../../../../../backend/src/shared/api/
 import apiCall from '../../../fetch/apiCall';
 
 const fetchGameState = createAsyncThunk(
-  'pokerTables/getState',
+  'games/getGameState',
   // if you type your function argument here
   async (payload: GamesGetGameStatePayload, thunkApi) => {
     try {
@@ -14,7 +14,8 @@ const fetchGameState = createAsyncThunk(
       if (ok) {
         console.log(result);
       } else {
-        console.log('error', result?.error);
+        console.log('error', result?.error?.errorCode);
+        throw result?.error;
       }
 
       return gameState;
