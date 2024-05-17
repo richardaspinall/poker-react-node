@@ -10,15 +10,14 @@ const fetchGameState = createAsyncThunk(
     try {
       const result = await apiCall.post('games.getGameState', payload);
 
-      const { ok, ...gameState } = result; // TODO: maybe it's better to have the GamesGetGameStatePayload be {ok: boolean, payload: ...}
-      if (ok) {
+      if (result.ok) {
         console.log(result);
       } else {
-        console.log('error', result?.error?.errorCode);
-        throw result?.error;
+        console.log('error', result.error?.errorCode);
+        throw result.error;
       }
 
-      return gameState;
+      return result.payload;
     } catch (error) {
       return thunkApi.rejectWithValue(error);
     }
