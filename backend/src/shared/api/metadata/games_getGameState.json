@@ -21,65 +21,72 @@
         "required": true
       },
       {
-        "name": "dealerPosition",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "smallBlind",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "bigBlind",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "pot",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "currentBet",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "seatToAct",
-        "type": "number",
-        "required": true
-      },
-      {
-        "name": "roundState",
-        "type": "string",
-        "required": true
-      },
-      {
-        "name": "communityCards",
-        "type": "array",
+        "name": "payload",
+        "type": "object",
         "required": true,
-        "items": {
-          "type": "object",
-          "properties": [
-            {
-              "name": "suit",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "rank",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "cardShortCode",
-              "type": "string",
-              "required": true
+        "properties": [
+          {
+            "name": "dealerPosition",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "smallBlind",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "bigBlind",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "pot",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "currentBet",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "seatToAct",
+            "type": "number",
+            "required": true
+          },
+          {
+            "name": "roundState",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "communityCards",
+            "type": "array",
+            "required": true,
+            "items": {
+              "type": "object",
+              "properties": [
+                {
+                  "name": "suit",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "rank",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "cardShortCode",
+                  "type": "string",
+                  "required": true
+                }
+              ],
+              "allowEmpty": true
             }
-          ],
-          "allowEmpty": true
-        }
+          }
+        ]
       }
     ]
   },
