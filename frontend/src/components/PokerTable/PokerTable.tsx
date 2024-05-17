@@ -11,8 +11,7 @@ import Seat from './Seat/Seat';
 import fetchSeats from './fetchSeats.ts';
 import { useSubscribeToGameEvents } from './hooks/useSubscribeToGameEvents.ts';
 
-type PokerTableProps = {};
-export function PokerTable({}: PokerTableProps) {
+export function PokerTable() {
   const dispatch: AppDispatch = useDispatch();
 
   useSubscribeToGameEvents(); // Subscribe to socket events like player joined and player left
