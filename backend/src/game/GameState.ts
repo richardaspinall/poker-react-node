@@ -11,14 +11,14 @@ export enum Round {
  * GameState is responsible for the state of a poker game
  */
 export class GameState {
-  private dealerPosition: number;
-  private smallBlind: number;
-  private bigBlind: number;
-  private pot: number;
-  private currentBet: number;
-  private seatToAct: number;
-  private roundState: Round;
-  private communityCards: Card[];
+  public dealerPosition: number;
+  public smallBlind: number;
+  public bigBlind: number;
+  public pot: number;
+  public currentBet: number;
+  public seatToAct: number;
+  public roundState: Round;
+  public communityCards: Card[];
 
   constructor(dealerPosition: number, smallBlind: number, bigBlind: number) {
     this.dealerPosition = dealerPosition;
