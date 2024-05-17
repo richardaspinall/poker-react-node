@@ -2,6 +2,7 @@ import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { GameState } from '../../../../backend/src/shared/game/types/GameState.ts';
 import { SeatToActEvent } from '../../../../backend/src/shared/websockets/game/types/GameEvents.ts';
+import fetchGameState from '../../components/PokerTable/thunks/fetchGameState';
 
 interface GameStateSlice {
   value: GameState | null;
@@ -26,26 +27,25 @@ export const gameStateSlice = createSlice({
       if (state.value === null) {
         console.log('GameState is null, cannot set acting seat.');
         // TODO: Maybe dispatch another action to handle the error?
-        state.value = { seatToAct: action.payload.seatToAct };
         return;
       }
       state.value.seatToAct = action.payload.seatToAct;
     },
   },
-  //   extraReducers: (builder) => {
-  //     builder
-  //       .addCase(gameStateSlice.pending, (gameStateSlice) => {
-  //         gameStateSlice.loading = true;
-  //       })
-  //       .addCase(gameStateSlice.fulfilled, (gameStateSlice, action) => {
-  //         gameStateSlice.loading = false;
-  //         gameStateSlice.value = action.payload;
-  //       })
-  //       .addCase(gameStateSlice.rejected, (gameStateSlice, action) => {
-  //         gameStateSlice.loading = false;
-  //         gameStateSlice.error = action.error;
-  //       });
-  //   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchGameState.pending, (gameStateSlice) => {
+        gameStateSlice.loading = true;
+      })
+      .addCase(fetchGameState.fulfilled, (gameStateSlice, action) => {
+        gameStateSlice.loading = false;
+        gameStateSlice.value = action.payload;
+      })
+      .addCase(fetchGameState.rejected, (gameStateSlice, action) => {
+        gameStateSlice.loading = false;
+        gameStateSlice.error = action.error;
+      });
+  },
 });
 
 export const { setActingSeat } = gameStateSlice.actions;
