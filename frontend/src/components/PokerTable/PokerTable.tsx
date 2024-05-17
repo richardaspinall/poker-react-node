@@ -8,9 +8,9 @@ import Board from './Board/Board';
 import './PokerTable.css';
 import Pot from './Pot/Pot';
 import Seat from './Seat/Seat';
-import fetchSeats from './fetchSeats.ts';
 import { useSubscribeToGameEvents } from './hooks/useSubscribeToGameEvents.ts';
 import fetchGameState from './thunks/fetchGameState.ts';
+import fetchSeats from './thunks/fetchSeats.ts';
 
 export function PokerTable() {
   const dispatch: AppDispatch = useDispatch();

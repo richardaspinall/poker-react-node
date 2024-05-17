@@ -4,7 +4,7 @@ import {
   PlayerJoinedEvent,
   PlayerLeftEvent,
 } from '../../../../backend/src/shared/websockets/poker-tables/types/PokerTableEvents';
-import fetchSeats from '../../components/PokerTable/fetchSeats';
+import fetchSeats from '../../components/PokerTable/thunks/fetchSeats';
 
 type Seat = {
   seatNumber: number;

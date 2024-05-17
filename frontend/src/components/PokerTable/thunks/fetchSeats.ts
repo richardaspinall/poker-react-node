@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { PokerTablesGetSeatsPayload } from '../../../../backend/src/shared/api/gen/poker-tables/types/PokerTablesGetSeats';
-import apiCall from '../../fetch/apiCall';
+import { PokerTablesGetSeatsPayload } from '../../../../../backend/src/shared/api/gen/poker-tables/types/PokerTablesGetSeats';
+import apiCall from '../../../fetch/apiCall';
 
 const fetchSeats = createAsyncThunk(
   'pokerTables/getSeats',
