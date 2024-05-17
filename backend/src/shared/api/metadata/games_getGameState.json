@@ -1,0 +1,93 @@
+{
+  "handlerName": "GamesGetGameState",
+  "domainName": "games",
+  "apiVerb": "getGameState",
+  "httpMethod": "post",
+  "authRequired": false,
+  "payload": {
+    "properties": [
+      {
+        "name": "pokerTableName",
+        "type": "string",
+        "required": true
+      }
+    ]
+  },
+  "output": {
+    "properties": [
+      {
+        "name": "ok",
+        "type": "boolean",
+        "required": true
+      },
+      {
+        "name": "dealerPosition",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "smallBlind",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "bigBlind",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "pot",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "currentBet",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "seatToAct",
+        "type": "number",
+        "required": true
+      },
+      {
+        "name": "roundState",
+        "type": "string",
+        "required": true
+      },
+      {
+        "name": "communityCards",
+        "type": "array",
+        "required": true,
+        "items": {
+          "type": "object",
+          "properties": [
+            {
+              "name": "suit",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "rank",
+              "type": "string",
+              "required": true
+            },
+            {
+              "name": "cardShortCode",
+              "type": "string",
+              "required": true
+            }
+          ],
+          "allowEmpty": true
+        }
+      }
+    ]
+  },
+  "errors": [
+    {
+      "errorName": "PokerTableDoesNotExistError",
+      "errorCode": "poker_table_does_not_exist",
+      "message": "The specified poker table does not exist."
+    }
+  ]
+}

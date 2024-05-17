@@ -1,6 +1,15 @@
 {
     "apiMethods": [
         {
+            "domainName": "games",
+            "apiVerb": "getGameState",
+            "methodName": "games.getGameState",
+            "handlerName": "GamesGetGameState",
+            "httpMethod": "post",
+            "requestType": "GamesGetGameStatePayload",
+            "responseType": "GamesGetGameStateOutput"
+        },
+        {
             "domainName": "poker-tables",
             "apiVerb": "getSeats",
             "methodName": "poker-tables.getSeats",
