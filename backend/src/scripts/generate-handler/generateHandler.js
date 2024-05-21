@@ -91,13 +91,9 @@ try {
   });
 
   // Concrete handler creation only if it doesn't exist!
-  const specificFilePath = path.join(__dirname, '../../path/to/your/specificFile.ts');
-  if (!fs.existsSync(specificFilePath)) {
-    renderAndSave(
-      'concrete-handler.ejs',
-      `../../handlers/${schema.domainName}/${schema.apiVerb}/${schema.handlerName}Handler.ts`,
-      schema,
-    );
+  const handlerFilePath = `../../handlers/${schema.domainName}/${schema.apiVerb}/${schema.handlerName}Handler.ts`;
+  if (!fs.existsSync(path.join(__dirname, handlerFilePath))) {
+    renderAndSave('concrete-handler.ejs', handlerFilePath, schema);
   } else {
     console.log('Skipping as concrete handler already exists');
   }
