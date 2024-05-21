@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 
 import type { BaseOutput } from '../BaseOutput';
+import type { PlayersBetOutput, PlayersBetPayload } from './players/types/PlayersBet';
 import type { PokerTablesGetSeatsOutput, PokerTablesGetSeatsPayload } from './poker-tables/types/PokerTablesGetSeats';
 import type { PokerTablesJoinOutput, PokerTablesJoinPayload } from './poker-tables/types/PokerTablesJoin';
 import type { PokerTablesLeaveOutput, PokerTablesLeavePayload } from './poker-tables/types/PokerTablesLeave';
@@ -13,6 +14,10 @@ export interface APIHandler {
 }
 
 export interface APIMethodMap {
+  'players.bet': {
+    request: PlayersBetPayload;
+    response: PlayersBetOutput;
+  };
   'poker-tables.getSeats': {
     request: PokerTablesGetSeatsPayload;
     response: PokerTablesGetSeatsOutput;
