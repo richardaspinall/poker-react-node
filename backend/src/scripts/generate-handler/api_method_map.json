@@ -28,6 +28,24 @@
             "responseType": "GamesGetGameStateOutput"
         },
         {
+            "domainName": "players",
+            "apiVerb": "bet",
+            "methodName": "players.bet",
+            "handlerName": "PlayersCall",
+            "httpMethod": "post",
+            "requestType": "PlayersCallPayload",
+            "responseType": "PlayersCallOutput"
+        },
+        {
+            "domainName": "players",
+            "apiVerb": "call",
+            "methodName": "players.call",
+            "handlerName": "PlayersCall",
+            "httpMethod": "post",
+            "requestType": "PlayersCallPayload",
+            "responseType": "PlayersCallOutput"
+        },
+        {
             "domainName": "poker-tables",
             "apiVerb": "getSeats",
             "methodName": "poker-tables.getSeats",
