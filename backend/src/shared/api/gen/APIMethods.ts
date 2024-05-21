@@ -7,6 +7,12 @@ export const APIMethods: { [key: string]: APIMethodShape } = {
     handler: '../../handlers/games/getGameState/GamesGetGameStateHandler.ts',
     handlerName: 'GamesGetGameStateHandler',
   },
+  check: {
+    httpMethod: 'post',
+    path: 'players.check',
+    handler: '../../handlers/players/check/PlayersCheckHandler.ts',
+    handlerName: 'PlayersCheckHandler',
+  },
   getSeats: {
     httpMethod: 'post',
     path: 'poker-tables.getSeats',

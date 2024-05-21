@@ -10,6 +10,15 @@
             "responseType": "GamesGetGameStateOutput"
         },
         {
+            "domainName": "players",
+            "apiVerb": "check",
+            "methodName": "players.check",
+            "handlerName": "PlayersCheck",
+            "httpMethod": "post",
+            "requestType": "PlayersCheckPayload",
+            "responseType": "PlayersCheckOutput"
+        },
+        {
             "domainName": "poker-tables",
             "apiVerb": "getSeats",
             "methodName": "poker-tables.getSeats",
