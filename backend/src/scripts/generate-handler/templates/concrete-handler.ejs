@@ -1,0 +1,12 @@
+import { ResultError, ResultSuccess } from '@infra/Result';
+import { <%= handlerName %>Payload, <%= handlerName %>Output } from '@shared/api/gen/<%= domainName %>/types/<%= handlerName %>';
+
+import { Abstract<%= handlerName %>Handler } from './gen/Abstract<%= handlerName %>Handler';
+<% errors.forEach(function(error, index) { %>
+import { <%= error.errorName %> } from '../errors/gen/<%= error.errorName %>';<% }); %>
+
+export class <%= handlerName %>Handler extends Abstract<%= handlerName %>Handler {
+  protected async getResult(payload: <%= handlerName %>Payload) {
+    return new ResultSuccess<<%= handlerName %>Output>();
+  }
+}

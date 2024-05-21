@@ -7,7 +7,7 @@
   "payload": {
     "properties": [
       {
-        "name": "ExampleProperty",
+        "name": "exampleProperty",
         "type": "string",
         "required": true
       }
@@ -21,41 +21,41 @@
         "required": true
       },
       {
-        "name": "ExampleObject",
+        "name": "payload",
         "type": "object",
         "required": true,
         "properties": [
           {
-            "name": "ExampleProperty",
+            "name": "exampleProperty",
             "type": "string",
             "required": true
           },
           {
-            "name": "ExampleProperty2",
+            "name": "exampleProperty2",
             "type": "number",
             "required": true
+          },
+          {
+            "name": "exampleArray",
+            "type": "array",
+            "required": true,
+            "items": {
+              "type": "object",
+              "properties": [
+                {
+                  "name": "exampleProperty",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "exampleProperty2",
+                  "type": "number",
+                  "required": true
+                }
+              ]
+            }
           }
         ]
-      },
-      {
-        "name": "ExampleArray",
-        "type": "array",
-        "required": true,
-        "items": {
-          "type": "object",
-          "properties": [
-            {
-              "name": "ExampleProperty",
-              "type": "string",
-              "required": true
-            },
-            {
-              "name": "ExampleProperty2",
-              "type": "number",
-              "required": true
-            }
-          ]
-        }
       }
     ]
   },

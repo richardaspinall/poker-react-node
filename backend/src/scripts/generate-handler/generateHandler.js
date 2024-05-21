@@ -80,7 +80,7 @@ try {
 
   // AbstractHandler.ts
   renderAndSave(
-    'handler-class.ejs',
+    'abstract-handler.ejs',
     `../../handlers/${schema.domainName}/${schema.apiVerb}/gen/Abstract${schema.handlerName}Handler.ts`,
     schema,
   );
@@ -89,6 +89,14 @@ try {
   schema.errors.forEach((error) => {
     renderAndSave('error-class.ejs', `../../handlers/${schema.domainName}/errors/gen/${error.errorName}.ts`, error);
   });
+
+  // Concrete handler creation only if it doesn't exist!
+  const handlerFilePath = `../../handlers/${schema.domainName}/${schema.apiVerb}/${schema.handlerName}Handler.ts`;
+  if (!fs.existsSync(path.join(__dirname, handlerFilePath))) {
+    renderAndSave('concrete-handler.ejs', handlerFilePath, schema);
+  } else {
+    console.log('Skipping as concrete handler already exists');
+  }
 
   console.log('TypeScript files generated successfully.');
 } catch (err) {
