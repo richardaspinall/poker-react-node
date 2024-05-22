@@ -1,6 +1,12 @@
 import { APIMethodShape } from '../APIMethodShape';
 
 export const APIMethods: { [key: string]: APIMethodShape } = {
+  check: {
+    httpMethod: 'post',
+    path: 'games.check',
+    handler: '../../handlers/games/check/GamesCheckHandler.ts',
+    handlerName: 'GamesCheckHandler',
+  },
   getGameState: {
     httpMethod: 'post',
     path: 'games.getGameState',

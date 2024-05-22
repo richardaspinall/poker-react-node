@@ -1,0 +1,48 @@
+{
+    "handlerName": "GamesCheck",
+    "domainName": "games",
+    "apiVerb": "check",
+    "httpMethod": "post",
+    "authRequired": true,
+    "payload": {
+      "properties": [
+        {
+          "name": "pokerTableName",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "selectedSeatNumber",
+          "type": "number",
+          "required": true
+        }
+      ]
+    },
+    "output": {
+      "properties": [
+        {
+          "name": "ok",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    "errors": [
+      {
+        "errorName": "PlayerNotFoundAtTableError",
+        "errorCode": "player_not_found_at_poker_table",
+        "message": "Player is not seated at the table"
+      },
+      {
+        "errorName": "PokerTableDoesNotExistError",
+        "errorCode": "poker_table_does_not_exist",
+        "message": "Table does not exist"
+      },
+      {
+        "errorName": "NotActivePlayerError",
+        "errorCode": "player_not_active_player",
+        "message": "Player is not active player"
+      }
+    ]
+  }
+  
