@@ -27,6 +27,14 @@ export interface APIMethodMap {
     request: GamesGetGameStatePayload;
     response: GamesGetGameStateOutput;
   };
+  'players.bet': {
+    request: PlayersCallPayload;
+    response: PlayersCallOutput;
+  };
+  'players.call': {
+    request: PlayersCallPayload;
+    response: PlayersCallOutput;
+  };
   'poker-tables.getSeats': {
     request: PokerTablesGetSeatsPayload;
     response: PokerTablesGetSeatsOutput;
