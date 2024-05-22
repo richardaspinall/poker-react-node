@@ -1,6 +1,12 @@
 import { APIMethodShape } from '../APIMethodShape';
 
 export const APIMethods: { [key: string]: APIMethodShape } = {
+  fold: {
+    httpMethod: 'post',
+    path: 'games.fold',
+    handler: '../../handlers/games/fold/GamesFoldHandler.ts',
+    handlerName: 'GamesFoldHandler',
+  },
   getSeats: {
     httpMethod: 'post',
     path: 'poker-tables.getSeats',

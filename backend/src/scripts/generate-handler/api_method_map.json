@@ -1,6 +1,15 @@
 {
     "apiMethods": [
         {
+            "domainName": "games",
+            "apiVerb": "fold",
+            "methodName": "games.fold",
+            "handlerName": "GamesFold",
+            "httpMethod": "post",
+            "requestType": "GamesFoldPayload",
+            "responseType": "GamesFoldOutput"
+        },
+        {
             "domainName": "poker-tables",
             "apiVerb": "getSeats",
             "methodName": "poker-tables.getSeats",
