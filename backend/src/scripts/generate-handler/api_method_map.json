@@ -1,15 +1,6 @@
 {
     "apiMethods": [
         {
-            "domainName": "players",
-            "apiVerb": "bet",
-            "methodName": "players.bet",
-            "handlerName": "PlayersBet",
-            "httpMethod": "post",
-            "requestType": "PlayersBetPayload",
-            "responseType": "PlayersBetOutput"
-        },
-        {
             "domainName": "poker-tables",
             "apiVerb": "getSeats",
             "methodName": "poker-tables.getSeats",
