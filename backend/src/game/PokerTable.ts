@@ -88,7 +88,7 @@ export class PokerTable {
         }
         if (player){
           Dealer.foldCards(player);
-          GameEmitter.eventEmitter.emit('playerFolded', this.getName(), player.getUsername(), seatNumber);
+          GameEmitter.eventEmitter.emit('foldCards', this.getName(), player.getUsername(), seatNumber);
           if (this.playersRemaining()){
             Dealer.updateTurn(this);
             return Result.success();

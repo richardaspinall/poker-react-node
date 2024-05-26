@@ -48,14 +48,14 @@ export function useSubscribeToGameEvents() {
       dispatch(setActingSeat(payload));
     });
 
-    const subscribeToPlayerFolded = subscribeToEvent('player_folded', () => {
-      console.log('Player Folded');
+    const subscribeToFoldCards = subscribeToEvent('fold_cards', () => {
+      console.log('Folding cards');
     });
 
     return () => {
       subscribeToPlayerJoined();
       subscribeToPlayerLeft();
-      subscribeToPlayerFolded();
+      subscribeToFoldCards();
       subscribeToStartGame();
       subscribeToEndGame();
       subscribeToDealGame();

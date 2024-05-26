@@ -5,7 +5,7 @@ export enum GameEvent {
   END_GAME = 'end_game',
   DEAL_CARDS = 'deal_cards',
   SEAT_TO_ACT = 'seat_to_act',
-  PLAYER_FOLDED = 'player_folded',
+  FOLD_CARDS = 'fold_cards',
 }
 
 export type StartGameEvent = {
@@ -24,7 +24,7 @@ export type SeatToActEvent = {
   seatToAct: number;
 };
 
-export type PlayerFoldedEvent = {
+export type FoldCardsEvent = {
   username: string;
   seatNumber: number;
 };
@@ -34,5 +34,5 @@ export interface GameEvents {
   end_game: (payload: EndGameEvent) => void;
   deal_cards: (payload: DealCardsEvent) => void;
   seat_to_act: (payload: SeatToActEvent) => void;
-  player_folded: (payload: PlayerFoldedEvent) => void;
+  fold_cards: (payload: FoldCardsEvent) => void;
 }
