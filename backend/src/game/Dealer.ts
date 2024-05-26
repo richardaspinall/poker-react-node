@@ -87,25 +87,15 @@ export class Dealer {
     if (!game) {
       throw new Error('Game not found');
     }
-    let currentDealerPosition = game.getGameState().getDealerPosition();
-    game.getGameState().updateDealerPosition(currentDealerPosition + 1);
-
-    let currentSmallBlind = game.getGameState().getSmallBlind();
-    game.getGameState().updateSmallBlind(currentSmallBlind + 1);
-    
-    let currentBigBlind = game.getGameState().getBigBlind();
-    game.getGameState().updateBigBlind(currentBigBlind + 1);
-    
-    let currentSeatToAct = game.getGameState().getSeatToAct();
-    let seatToAct = currentSeatToAct + 1;
-    game.getGameState().updateCurrentBet(currentSeatToAct);
 
     const seats = pokerTable.getSeats();
-    const seat = seats.find((seat) => seat.getSeatNumber() === seatToAct);
+    let currentSeatToAct = game.getGameState().getSeatToAct();
+    let nextSeatToAct = (currentSeatToAct % seats.length) + 1;
+    game.getGameState().updateSeatToAct(currentSeatToAct);
+    const seat = seats.find((seat) => seat.getSeatNumber() === nextSeatToAct);
     if (!seat) {
-      throw new Error(`Seat not found: ${seatToAct}`);
+      throw new Error(`Seat not found: ${nextSeatToAct}`);
     }
-  
     GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
   }
 }
