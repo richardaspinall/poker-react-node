@@ -81,8 +81,7 @@ export class PokerTable {
     for (const seat of this.seats) {
       if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
         const player = seat.getPlayer();
-        console.log(`player ${JSON.stringify(player)}`);
-        const playerCards = player?.getCards;
+        const playerCards = player?.getCards();
         if (!(playerCards && playerCards.length > 0)){
           return Result.error(new PlayerAlreadyFolded());
         }
@@ -97,7 +96,6 @@ export class PokerTable {
           return Result.error(new PlayerNotFoundAtPokerTableError());
         }
         
-
         Dealer.endGame(this);
       }
     }
@@ -146,10 +144,10 @@ export class PokerTable {
     for (const seat of this.seats) {
       const playerCards = seat.getPlayer()?.getCards();
       if (playerCards && playerCards.length > 0) {
-        count ++;
+        count++;
       }
     }
-    if (count > 1){
+    if (count > 0){
       return true;
     }
 
