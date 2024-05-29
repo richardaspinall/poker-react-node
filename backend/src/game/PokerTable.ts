@@ -4,6 +4,7 @@ import { GameEmitter } from '../game-emitter';
 import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundError';
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
+import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
 import { Dealer } from './Dealer';
 import { Game } from './Game';
@@ -76,6 +77,32 @@ export class PokerTable {
     return Result.error(new PlayerNotFoundAtPokerTableError());
   }
 
+  public foldPlayer(seatNumber: number, userId: number): Result<void> {
+    for (const seat of this.seats) {
+      if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
+        const player = seat.getPlayer();
+        const playerCards = player?.getCards();
+        if (!(playerCards && playerCards.length > 0)){
+          return Result.error(new PlayerAlreadyFolded());
+        }
+        if (player){
+          Dealer.foldCards(player);
+          GameEmitter.eventEmitter.emit('foldCards', this.getName(), player.getUsername(), seatNumber);
+          if (this.playersRemaining()){
+            Dealer.updateTurn(this);
+            return Result.success();
+          }
+        } else {
+          return Result.error(new PlayerNotFoundAtPokerTableError());
+        }
+
+        // End game logic here
+      }
+    }
+
+    return Result.error(new PlayerNotFoundAtPokerTableError());
+  }
+
   public addGame(game: Game): void {
     this.game = game;
   }
@@ -110,6 +137,21 @@ export class PokerTable {
       }
     }
     return true;
+  }
+
+  public playersRemaining(): boolean {
+    let count = 0;
+    for (const seat of this.seats) {
+      const playerCards = seat.getPlayer()?.getCards();
+      if (playerCards && playerCards.length > 0) {
+        count++;
+      }
+    }
+    if (count > 0){
+      return true;
+    }
+
+    return false;
   }
 
   public getDealerPosition(): number {

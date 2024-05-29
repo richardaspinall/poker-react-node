@@ -38,6 +38,10 @@ export function useSubscribeToGameEvents() {
       dispatch(setHoleCards(payload));
     });
 
+    const subscribeToFoldCards = subscribeToEvent('fold_cards', () => {
+      console.log('Folding cards');
+    });
+
     const subscribeToSeatToAct = subscribeToEvent('seat_to_act', (payload) => {
       console.log('Seat to act');
 
@@ -49,6 +53,7 @@ export function useSubscribeToGameEvents() {
       subscribeToPlayerLeft();
       subscribeToStartGame();
       subscribeToDealGame();
+      subscribeToFoldCards();
       subscribeToSeatToAct();
     };
   }, [dispatch, subscribeToEvent]);

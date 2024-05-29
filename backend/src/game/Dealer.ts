@@ -1,5 +1,6 @@
 import { GameEmitter } from '../game-emitter';
 import { Game } from './Game';
+import { Player } from './Player';
 import { PokerTable } from './PokerTable';
 
 export class Dealer {
@@ -46,6 +47,10 @@ export class Dealer {
     });
   }
 
+  public static foldCards(player: Player) {
+    player.foldCards();
+  }
+
   public static startTurn(pokerTable: PokerTable) {
     const game = pokerTable.getGame();
     if (!game) {
@@ -61,6 +66,24 @@ export class Dealer {
       throw new Error(`Seat not found: ${seatToAct}`);
     }
 
+    GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
+    
+  }
+
+  public static updateTurn(pokerTable: PokerTable) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+
+    const seats = pokerTable.getSeats();
+    let currentSeatToAct = game.getGameState().getSeatToAct();
+    let nextSeatToAct = (currentSeatToAct % seats.length) + 1;
+    game.getGameState().updateSeatToAct(currentSeatToAct);
+    const seat = seats.find((seat) => seat.getSeatNumber() === nextSeatToAct);
+    if (!seat) {
+      throw new Error(`Seat not found: ${nextSeatToAct}`);
+    }
     GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
   }
 }
