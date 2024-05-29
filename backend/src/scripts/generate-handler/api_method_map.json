@@ -11,6 +11,15 @@
         },
         {
             "domainName": "games",
+            "apiVerb": "fold",
+            "methodName": "games.fold",
+            "handlerName": "GamesFold",
+            "httpMethod": "post",
+            "requestType": "GamesFoldPayload",
+            "responseType": "GamesFoldOutput"
+        },
+        {
+            "domainName": "games",
             "apiVerb": "getGameState",
             "methodName": "games.getGameState",
             "handlerName": "GamesGetGameState",
