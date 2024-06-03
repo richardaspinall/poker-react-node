@@ -85,15 +85,16 @@ export class PokerTable {
         if (!(playerCards && playerCards.length > 0)){
           return Result.error(new PlayerAlreadyFolded());
         }
-        if (player){
-          Dealer.foldCards(player);
-          GameEmitter.eventEmitter.emit('foldCards', this.getName(), player.getUsername(), seatNumber);
-          if (this.playersRemaining()){
-            Dealer.updateTurn(this);
-            return Result.success();
-          }
-        } else {
+
+        if (!player){
           return Result.error(new PlayerNotFoundAtPokerTableError());
+        }
+          
+        Dealer.foldCards(player);
+        GameEmitter.eventEmitter.emit('foldCards', this.getName(), player.getUsername(), seatNumber);
+        if (this.playersRemaining()){
+          Dealer.updateTurn(this);
+          return Result.success();
         }
 
         // End game logic here

@@ -39,7 +39,9 @@ export class GameEmitter {
       username,
       seatNumber,
     };
+
     const sendEvents = Rooms.sendEventToRoom(pokerTableName, GameEvent.FOLD_CARDS, payload);
+    
     if (sendEvents.isError()) {
       throw sendEvents.getError();
     }

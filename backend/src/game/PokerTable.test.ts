@@ -179,6 +179,7 @@ describe('PokerTable', () => {
       const player1 = players[0];
       pokerTable.foldPlayer(1, player1.getUserId());
       const player1Cards = player1.getCards();
+      
       expect(player1Cards.length).toEqual(0);
     });
   });
