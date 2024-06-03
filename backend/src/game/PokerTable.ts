@@ -5,6 +5,7 @@ import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundE
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
 import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
+import { PokerTableDoesNotExistError } from '../handlers/games/errors/gen/PokerTableDoesNotExistError';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
 import { Dealer } from './Dealer';
 import { Game } from './Game';
@@ -78,8 +79,17 @@ export class PokerTable {
   }
 
   public foldPlayer(seatNumber: number, userId: number): Result<void> {
+    const game = this.getGame();
+    if (!game) {
+      return Result.error(new PokerTableDoesNotExistError());
+    }
+
     for (const seat of this.seats) {
-      if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
+      if (
+        seat.getPlayer()?.getUserId() === userId &&
+        seat.getSeatNumber() === seatNumber &&
+        game.getGameState().getSeatToAct() === seatNumber
+      ) {
         const player = seat.getPlayer();
         const playerCards = player?.getCards();
         if (!(playerCards && playerCards.length > 0)){
