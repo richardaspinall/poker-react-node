@@ -10,11 +10,6 @@
           "name": "pokerTableName",
           "type": "string",
           "required": true
-        },
-        {
-          "name": "selectedSeatNumber",
-          "type": "number",
-          "required": true
         }
       ]
     },
