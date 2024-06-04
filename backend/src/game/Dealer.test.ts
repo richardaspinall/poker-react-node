@@ -3,16 +3,19 @@ import { createPokerTableWithPlayers } from '@tests/helpers/createPokerTableWith
 import { Dealer } from './Dealer';
 import { Game } from './Game';
 import { PokerTable } from './PokerTable';
+import { Player } from './Player';
 
 describe('Dealer', () => {
   let newPokerTable: PokerTable;
+  let newPlayers: Player[];
 
   beforeEach(() => {
     const pokerTableName = 'table_1';
     const numberOfSeats = 2;
-    const { pokerTable } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
+    const { pokerTable, players } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
 
     newPokerTable = pokerTable;
+    newPlayers = players;
   });
 
   it('should create a new game', () => {
@@ -40,6 +43,16 @@ describe('Dealer', () => {
       if (player) {
         expect(player.getCards().length).toBe(2);
       }
+    });
+  });
+
+  describe('foldPlayer', () => {
+    it('should return empty cards for folded player', () => {
+      const player2 = newPlayers[1];
+      Dealer.foldCards(newPokerTable, player2.getUserId());
+      const player2Cards = player2.getCards();
+      
+      expect(player2Cards.length).toEqual(0);
     });
   });
 });

@@ -4,8 +4,6 @@ import { GameEmitter } from '../game-emitter';
 import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundError';
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
-import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
-import { PokerTableDoesNotExistError } from '../handlers/games/errors/gen/PokerTableDoesNotExistError';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
 import { Dealer } from './Dealer';
 import { Game } from './Game';
@@ -72,42 +70,6 @@ export class PokerTable {
       if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
         seat.removePlayer();
         return Result.success();
-      }
-    }
-
-    return Result.error(new PlayerNotFoundAtPokerTableError());
-  }
-
-  public foldPlayer(seatNumber: number, userId: number): Result<void> {
-    const game = this.getGame();
-    if (!game) {
-      return Result.error(new PokerTableDoesNotExistError());
-    }
-
-    for (const seat of this.seats) {
-      if (
-        seat.getPlayer()?.getUserId() === userId &&
-        seat.getSeatNumber() === seatNumber &&
-        game.getGameState().getSeatToAct() === seatNumber
-      ) {
-        const player = seat.getPlayer();
-        const playerCards = player?.getCards();
-        if (!(playerCards && playerCards.length > 0)){
-          return Result.error(new PlayerAlreadyFolded());
-        }
-
-        if (!player){
-          return Result.error(new PlayerNotFoundAtPokerTableError());
-        }
-          
-        Dealer.foldCards(player);
-        GameEmitter.eventEmitter.emit('foldCards', this.getName(), player.getUsername(), seatNumber);
-        if (this.playersRemaining()){
-          Dealer.updateTurn(this);
-          return Result.success();
-        }
-
-        // End game logic here
       }
     }
 

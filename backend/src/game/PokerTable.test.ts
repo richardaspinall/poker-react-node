@@ -171,19 +171,6 @@ describe('PokerTable', () => {
     });
   });
 
-  describe('foldPlayer', () => {
-    it('should return empty cards for folded player', () => {
-      const pokerTableName = 'table_1';
-      const numberOfSeats = 2;
-      const { pokerTable, players } = createPokerTableWithPlayers(pokerTableName, numberOfSeats);
-      const player1 = players[0];
-      pokerTable.foldPlayer(1, player1.getUserId());
-      const player1Cards = player1.getCards();
-      
-      expect(player1Cards.length).toEqual(0);
-    });
-  });
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
