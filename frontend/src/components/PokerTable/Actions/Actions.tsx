@@ -8,16 +8,16 @@ function Actions({}: ActionsProps) {
         <input id="bet-input" value="1000"></input>
       </div> */}
       <div>
-        <button className="action-buttons" id="fold-action-button">
+        <button className="action-buttons" id="fold-action-button" aria-label="Fold">
           Fold
         </button>
-        <button className="action-buttons" id="check-action-button">
+        <button className="action-buttons" id="check-action-button" aria-label="Check">
           Check
         </button>
-        <button className="action-buttons" id="call-action-button">
+        <button className="action-buttons" id="call-action-button" aria-label="Call">
           Call
         </button>
-        <button className="action-buttons" id="raise-action-button">
+        <button className="action-buttons" id="raise-action-button" aria-label="Bet">
           Bet
         </button>
       </div>
