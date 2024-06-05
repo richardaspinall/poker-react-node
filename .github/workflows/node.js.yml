@@ -26,3 +26,4 @@ jobs:
         run: npm run install:all
       - run: npm run unit_tests
       - run: npm run api_tests
+      - run: npm run fe_tests
