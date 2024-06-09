@@ -3,3 +3,4 @@
 
 npm run unit_tests
 npm run api_tests
+npm run fe_tests
