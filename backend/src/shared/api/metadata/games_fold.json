@@ -42,6 +42,11 @@
         "errorName": "PlayerAlreadyFolded",
         "errorCode": "player_already_folded",
         "message": "Player already folded"
+      },
+      {
+        "errorName": "GameDoesNotExist",
+        "errorCode": "game_does_not_exist",
+        "message": "Game does not exist"
       }
     ]
   }

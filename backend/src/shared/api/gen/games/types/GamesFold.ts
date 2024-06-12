@@ -13,4 +13,5 @@ export enum GamesFoldErrorCodes {
   NotPlayersTurn = 'not_players_turn',
   PokerTableDoesNotExistError = 'poker_table_does_not_exist',
   PlayerAlreadyFolded = 'player_already_folded',
+  GameDoesNotExist = 'game_does_not_exist',
 }

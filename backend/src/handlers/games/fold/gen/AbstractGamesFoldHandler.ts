@@ -10,6 +10,7 @@ import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableE
 import { NotPlayersTurn } from '../errors/gen/NotPlayersTurn';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { PlayerAlreadyFolded } from '../errors/gen/PlayerAlreadyFolded';
+import { GameDoesNotExist } from '../errors/gen/GameDoesNotExist';
 import { AbstractGamesFoldHandler } from './gen/AbstractGamesFoldHandler';
 
 export class GamesFoldHandler extends AbstractGamesFoldHandler {

@@ -2,7 +2,7 @@ import { Result } from '../infra/Result';
 import { GameEmitter } from '../game-emitter';
 import { Game } from './Game';
 import { PokerTable } from './PokerTable';
-import { PokerTableDoesNotExistError } from '../handlers/games/errors/gen/PokerTableDoesNotExistError';
+import { GameDoesNotExist } from '../handlers/games/errors/gen/GameDoesNotExist';
 import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
 import { NotPlayersTurn } from '../handlers/games/errors/gen/NotPlayersTurn';
@@ -54,7 +54,7 @@ export class Dealer {
   public static foldCards(pokerTable: PokerTable, userId: number) {
     const game = pokerTable.getGame();
     if (!game) {
-      return Result.error(new PokerTableDoesNotExistError());
+      return Result.error(new GameDoesNotExist());
     }
 
     const seats = pokerTable.getSeats();
