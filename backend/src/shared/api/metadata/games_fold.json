@@ -29,6 +29,11 @@
         "message": "Player is not seated at the table"
       },
       {
+        "errorName": "NotPlayersTurn",
+        "errorCode": "not_players_turn",
+        "message": "It is not your turn"
+      },
+      {
         "errorName": "PokerTableDoesNotExistError",
         "errorCode": "poker_table_does_not_exist",
         "message": "Table does not exist"

@@ -7,6 +7,7 @@ import { GamesFoldPayload, GamesFoldOutput } from '@shared/api/gen/games/types/G
 
 
 import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
+import { NotPlayersTurn } from '../errors/gen/NotPlayersTurn';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { PlayerAlreadyFolded } from '../errors/gen/PlayerAlreadyFolded';
 import { AbstractGamesFoldHandler } from './gen/AbstractGamesFoldHandler';

@@ -5,6 +5,7 @@ import { PokerTable } from './PokerTable';
 import { PokerTableDoesNotExistError } from '../handlers/games/errors/gen/PokerTableDoesNotExistError';
 import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
+import { NotPlayersTurn } from '../handlers/games/errors/gen/NotPlayersTurn';
 
 export class Dealer {
   public static newGame(pokerTable: PokerTable) {
@@ -58,7 +59,11 @@ export class Dealer {
 
     const seats = pokerTable.getSeats();
     for (const seat of seats) {
-      if (seat.getPlayer()?.getUserId() === userId && game.getGameState().getSeatToAct() === seat.getSeatNumber()) {
+      if (seat.getPlayer()?.getUserId() === userId) {
+        if (!(game.getGameState().getSeatToAct() === seat.getSeatNumber())){
+          return Result.error(new NotPlayersTurn());
+        }
+
         const player = seat.getPlayer();
         const playerCards = player?.getCards();
         if (!(playerCards && playerCards.length > 0)){
