@@ -48,11 +48,22 @@ describe('Dealer', () => {
 
   describe('foldPlayer', () => {
     it('should return empty cards for folded player', () => {
-      const player2 = newPlayers[1];
-      Dealer.foldCards(newPokerTable, player2.getUserId());
-      const player2Cards = player2.getCards();
-      
-      expect(player2Cards.length).toEqual(0);
+      let player;
+      const game = newPokerTable.getGame() as Game;
+      const seatToAct = game.getGameState().getSeatToAct();
+
+      const seats = newPokerTable.getSeats();
+
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player){
+            Dealer.foldCards(newPokerTable, player.getUserId());            
+            const playerCards = player.getCards();
+            expect(playerCards.length).toEqual(0);
+          }
+        }
+      });
     });
   });
 });
