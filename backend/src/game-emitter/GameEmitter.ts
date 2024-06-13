@@ -14,6 +14,7 @@ export class GameEmitter {
 
   public static initialize() {
     GameEmitter.eventEmitter.on('playerJoined', GameEmitter.onPlayerJoined);
+    GameEmitter.eventEmitter.on('foldCards', GameEmitter.onFoldCards);
     GameEmitter.eventEmitter.on('startGame', GameEmitter.onStartGame);
     GameEmitter.eventEmitter.on('notifyPlayerToAct', GameEmitter.onNotifyPlayerToAct);
     GameEmitter.eventEmitter.on('sendHoleCards', GameEmitter.onSendHoleCards);
@@ -28,6 +29,19 @@ export class GameEmitter {
 
     const sendEvents = Rooms.sendEventToRoom(pokerTableName, PokerTableEvent.PLAYER_JOINED, payload);
 
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
+    }
+  }
+
+  private static onFoldCards(pokerTableName: string, username: string, seatNumber: number) {
+    const payload = {
+      username,
+      seatNumber,
+    };
+
+    const sendEvents = Rooms.sendEventToRoom(pokerTableName, GameEvent.FOLD_CARDS, payload);
+    
     if (sendEvents.isError()) {
       throw sendEvents.getError();
     }

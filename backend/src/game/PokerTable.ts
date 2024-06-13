@@ -112,6 +112,21 @@ export class PokerTable {
     return true;
   }
 
+  public playersRemaining(): boolean {
+    let count = 0;
+    for (const seat of this.seats) {
+      const playerCards = seat.getPlayer()?.getCards();
+      if (playerCards && playerCards.length > 0) {
+        count++;
+      }
+    }
+    if (count > 0){
+      return true;
+    }
+
+    return false;
+  }
+
   public getDealerPosition(): number {
     return this.dealerPosition;
   }

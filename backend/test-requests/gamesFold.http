@@ -1,0 +1,13 @@
+# Usage:
+# With the REST Client extension in vscode, the below requests will show an option 
+# to send the request as a curl command. 
+
+### !!!! This will error with `not_authed` if you have not used the `signin.http` test-request first
+
+POST http://localhost:3000/api/games.fold
+content-type: application/json
+
+{
+    "pokerTableName": "table_1",
+    "selectedSeatNumber": 1
+}

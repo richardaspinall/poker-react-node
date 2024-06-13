@@ -10,11 +10,6 @@
           "name": "pokerTableName",
           "type": "string",
           "required": true
-        },
-        {
-          "name": "selectedSeatNumber",
-          "type": "number",
-          "required": true
         }
       ]
     },
@@ -34,6 +29,11 @@
         "message": "Player is not seated at the table"
       },
       {
+        "errorName": "NotPlayersTurn",
+        "errorCode": "not_players_turn",
+        "message": "It is not your turn"
+      },
+      {
         "errorName": "PokerTableDoesNotExistError",
         "errorCode": "poker_table_does_not_exist",
         "message": "Table does not exist"
@@ -42,6 +42,11 @@
         "errorName": "PlayerAlreadyFolded",
         "errorCode": "player_already_folded",
         "message": "Player already folded"
+      },
+      {
+        "errorName": "GameDoesNotExist",
+        "errorCode": "game_does_not_exist",
+        "message": "Game does not exist"
       }
     ]
   }
