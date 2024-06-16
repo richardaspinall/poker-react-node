@@ -1,23 +1,27 @@
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
 
 import { Card as CardType } from '../../../../../backend/src/shared/game/types/Card';
 import { CardShortCode } from '../../../../../backend/src/shared/game/types/CardShortCode';
 import apiCall from '../../../fetch/apiCall';
-import { selectUsername } from '../../../store/selectors.ts';
 import { Card } from '../../Card/Card.tsx';
 
 type SeatProps = {
   seatNumber: number;
   chipCount: number;
-  username?: string;
+  myUsername?: string;
+  seatUsername?: string;
   cards?: CardType[];
   isActingSeat?: boolean;
 };
 
-export default function Seat({ seatNumber, username, chipCount, cards, isActingSeat }: Readonly<SeatProps>) {
-  const selfUsername = useSelector(selectUsername);
-
+export default function Seat({
+  seatNumber,
+  myUsername,
+  seatUsername,
+  chipCount,
+  cards,
+  isActingSeat,
+}: Readonly<SeatProps>) {
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber };
 
@@ -40,22 +44,22 @@ export default function Seat({ seatNumber, username, chipCount, cards, isActingS
   // Define a function to render the cards if the user is in the hand
   // TODO: will need to update this to show the cards if the user is actually in the hand
   const renderSeatDisplay = () => {
-    if (selfUsername === username && cards?.[0]) {
+    if (myUsername === seatUsername && cards?.[0]) {
       return (
         <>
           <Card cardShortCode={cards[0].cardShortCode} />
           <Card cardShortCode={cards[1].cardShortCode} />
         </>
       );
-    } else if (username && cards?.[0]) {
+    } else if (seatUsername && cards?.[0]) {
       return (
         <>
           <Card cardShortCode={CardShortCode.FaceDownCard} />
           <Card cardShortCode={CardShortCode.FaceDownCard} />
         </>
       );
-    } else if (username) {
-      return username;
+    } else if (seatUsername) {
+      return seatUsername;
     }
     return 'Empty';
   };
@@ -70,7 +74,7 @@ export default function Seat({ seatNumber, username, chipCount, cards, isActingS
       >
         {renderSeatDisplay()}
       </button>
-      {selfUsername === username ? <button onClick={playerLeave}>Leave seat</button> : null}
+      {myUsername === seatUsername ? <button onClick={playerLeave}>Leave seat</button> : null}
     </div>
   );
 }
