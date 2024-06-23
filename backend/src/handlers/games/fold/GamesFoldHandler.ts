@@ -1,7 +1,8 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { GamesFoldOutput, GamesFoldPayload } from '@shared/api/gen/games/types/GamesFold';
-import { Dealer } from '../../../game/Dealer';
+
 import { GameLobbyService } from '../../../game-lobby-service';
+import { Dealer } from '../../../game/Dealer';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractGamesFoldHandler } from './gen/AbstractGamesFoldHandler';
 
