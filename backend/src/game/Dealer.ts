@@ -153,9 +153,7 @@ export class Dealer {
         seat?.updateSeatAction(playerAction);
         break;
       case 'call':
-        if (actionRank[playerAction] > actionRank[gameAction]){
-          pokerTable.getGame()?.getGameState().updateGameAction(playerAction);
-        }
+        pokerTable.getGame()?.getGameState().updateGameAction(playerAction);
         seat?.updateSeatAction(playerAction);
         break;
       case 'bet':
