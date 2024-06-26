@@ -19,6 +19,8 @@ export class GameState {
   private seatToAct: number;
   private roundState: Round;
   private communityCards: Card[];
+  private gameAction: string;
+  private lastRaisedBy: number;
 
   constructor(dealerPosition: number, smallBlind: number, bigBlind: number) {
     this.dealerPosition = dealerPosition;
@@ -30,6 +32,8 @@ export class GameState {
     this.seatToAct = 0;
     this.roundState = Round.preFlop;
     this.communityCards = [];
+    this.gameAction = '';
+    this.lastRaisedBy = 0;
   }
 
   // Methods to update the game state
@@ -48,6 +52,14 @@ export class GameState {
 
   public updateSeatToAct(seatToAct: number) {
     this.seatToAct = seatToAct;
+  }
+
+  public updateGameAction(gameAction: string) {
+    this.gameAction = gameAction;
+  }
+
+  public updateLastRaisedBy(lastRaisedBy: number) {
+    this.lastRaisedBy = lastRaisedBy;
   }
 
   public getRound() {
@@ -84,5 +96,13 @@ export class GameState {
 
   public getCommunityCards() {
     return this.communityCards;
+  }
+
+  public getGameAction() {
+    return this.gameAction;
+  }
+
+  public getLastRaisedBy() {
+    return this.lastRaisedBy;
   }
 }

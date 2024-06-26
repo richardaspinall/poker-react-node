@@ -19,4 +19,5 @@ export class Player extends User {
   public foldCards(): void {
     this.cards = [];
   }
+
 }

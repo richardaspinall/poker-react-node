@@ -14,4 +14,5 @@ export class User {
   public getUsername(): string {
     return this.username;
   }
+
 }
