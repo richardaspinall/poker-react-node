@@ -2,6 +2,15 @@
     "apiMethods": [
         {
             "domainName": "games",
+            "apiVerb": "call",
+            "methodName": "games.call",
+            "handlerName": "GamesCall",
+            "httpMethod": "post",
+            "requestType": "GamesCallPayload",
+            "responseType": "GamesCallOutput"
+        },
+        {
+            "domainName": "games",
             "apiVerb": "check",
             "methodName": "games.check",
             "handlerName": "GamesCheck",
