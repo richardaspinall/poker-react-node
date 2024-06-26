@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
 
 import type { BaseOutput } from '../BaseOutput';
+import type { GamesBetOutput, GamesBetPayload } from './games/types/GamesBet';
 import type { GamesCallOutput, GamesCallPayload } from './games/types/GamesCall';
 import type { GamesCheckOutput, GamesCheckPayload } from './games/types/GamesCheck';
 import type { GamesFoldOutput, GamesFoldPayload } from './games/types/GamesFold';
@@ -17,6 +18,10 @@ export interface APIHandler {
 }
 
 export interface APIMethodMap {
+  'games.bet': {
+    request: GamesBetPayload;
+    response: GamesBetOutput;
+  };
   'games.call': {
     request: GamesCallPayload;
     response: GamesCallOutput;

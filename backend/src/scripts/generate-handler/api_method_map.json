@@ -2,6 +2,15 @@
     "apiMethods": [
         {
             "domainName": "games",
+            "apiVerb": "bet",
+            "methodName": "games.bet",
+            "handlerName": "GamesBet",
+            "httpMethod": "post",
+            "requestType": "GamesBetPayload",
+            "responseType": "GamesBetOutput"
+        },
+        {
+            "domainName": "games",
             "apiVerb": "call",
             "methodName": "games.call",
             "handlerName": "GamesCall",

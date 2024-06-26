@@ -1,0 +1,53 @@
+{
+    "handlerName": "GamesBet",
+    "domainName": "games",
+    "apiVerb": "bet",
+    "httpMethod": "post",
+    "authRequired": true,
+    "payload": {
+      "properties": [
+        {
+          "name": "pokerTableName",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "betAmount",
+          "type": "number",
+          "required": true
+        }
+      ]
+    },
+    "output": {
+      "properties": [
+        {
+          "name": "ok",
+          "type": "boolean",
+          "required": true
+        }
+      ]
+    },
+    "errors": [
+      {
+        "errorName": "PlayerNotFoundAtTableError",
+        "errorCode": "player_not_found_at_poker_table",
+        "message": "Player is not seated at the table"
+      },
+      {
+        "errorName": "NotPlayersTurn",
+        "errorCode": "not_players_turn",
+        "message": "It is not your turn"
+      },
+      {
+        "errorName": "PokerTableDoesNotExistError",
+        "errorCode": "poker_table_does_not_exist",
+        "message": "Table does not exist"
+      },
+      {
+        "errorName": "GameDoesNotExist",
+        "errorCode": "game_does_not_exist",
+        "message": "Game does not exist"
+      }
+    ]
+  }
+  
