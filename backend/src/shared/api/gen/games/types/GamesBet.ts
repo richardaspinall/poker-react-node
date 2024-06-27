@@ -1,7 +1,7 @@
 import { BaseOutput } from '../../../BaseOutput';
 
 export interface GamesBetPayload {
-  betAmount: number;
+  amount: number;
   pokerTableName: string;
 }
 
