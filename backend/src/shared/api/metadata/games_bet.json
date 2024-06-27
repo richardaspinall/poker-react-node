@@ -12,7 +12,7 @@
           "required": true
         },
         {
-          "name": "betAmount",
+          "name": "amount",
           "type": "number",
           "required": true
         }
