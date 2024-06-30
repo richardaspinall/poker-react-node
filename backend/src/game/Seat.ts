@@ -3,16 +3,19 @@ import { Player } from './Player';
 /**
  * Seat class to represent a seat at a poker table
  */
+
+export type SeatAction = 'initial' | 'fold' | 'check' | 'call' | 'bet' | 'raise';
+
 export class Seat {
   private seatNumber: number;
   private isTaken: boolean;
   private user?: Player;
-  private seatAction: string;
+  private seatAction: SeatAction;
 
   private constructor(seatNumber: number, isTaken: boolean, seatAction: string) {
     this.seatNumber = seatNumber;
     this.isTaken = isTaken;
-    this.seatAction = seatAction;
+    this.seatAction = 'check';
   }
 
   public static createSeat(seatNumber: number, isTaken: boolean = false, seatAction = ''): Seat {
@@ -41,11 +44,11 @@ export class Seat {
     return this.seatNumber;
   }
 
-  public getSeatAction(): string {
+  public getSeatAction(): SeatAction {
     return this.seatAction;
   }
 
-  public updateSeatAction(seatAction: string){
+  public updateSeatAction(seatAction: SeatAction){
     this.seatAction = seatAction;
   }
 }
