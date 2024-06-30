@@ -5,8 +5,9 @@ import { PokerTable } from './PokerTable';
 import { GameDoesNotExist } from '../handlers/games/errors/gen/GameDoesNotExist';
 import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
+import { PlayerActionInvalid } from '../handlers/games/errors/gen/PlayerActionInvalid';
+import { GameActionInvalid } from '../handlers/games/errors/gen/GameActionInvalid';
 import { NotPlayersTurn } from '../handlers/games/errors/gen/NotPlayersTurn';
-import { GameState } from './GameState';
 
 export class Dealer {
   public static newGame(pokerTable: PokerTable) {
@@ -105,51 +106,52 @@ export class Dealer {
   public static updateTurn(pokerTable: PokerTable, nextSeatToAct: number) {
     const game = pokerTable.getGame();
     if (!game) {
-      throw new Error('Game not found');
+      return Result.error(new GameDoesNotExist());
     }
 
-    const seats = pokerTable.getSeats();
-    const currentSeatToAct = game.getGameState().getSeatToAct();
-    const nextSeatToAct = (currentSeatToAct % seats.length) + 1;
-    game.getGameState().updateSeatToAct(currentSeatToAct);
-    const seat = seats.find((seat) => seat.getSeatNumber() === nextSeatToAct);
-    if (!seat) {
-      throw new Error(`Seat not found: ${nextSeatToAct}`);
-    }
-    
-    GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
+    game.getGameState().updateSeatToAct(nextSeatToAct);
+    GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), nextSeatToAct);
   }
 
   public static actionHandler(pokerTable: PokerTable, playerAction: string, playerBet: number, userid: number){
     const game = pokerTable.getGame();
     if (!game) {
-      throw new Error('Game not found');
+      return Result.error(new GameDoesNotExist());
     }
 
     const gameAction = pokerTable.getGame()?.getGameState().getGameAction();
+    if (gameAction === undefined){
+      return Result.error(new GameDoesNotExist());
+    }
+
     const lastRaisedBy = pokerTable.getGame()?.getGameState().getLastRaisedBy();
-    // const currentSeatToAct = game.getGameState().getSeatToAct();
+    const currentSeatToAct = game.getGameState().getSeatToAct();
     const seats = pokerTable.getSeats();
     const seat = seats.find((seat) => seat.getPlayer()?.getUserId() === userid);
 
     let actionRank = {
+      'initial': -1,
       'fold' : 0,
       'check' : 1,
       'call': 2,
       'bet':3,
-      'raise': 4,
-      'reraise': 5
+      'raise': 4
+      // 'reraise': 5
     }
+
     switch (playerAction){
       case 'fold':
         this.foldCards(pokerTable, userid);
         seat?.updateSeatAction(playerAction);
         break;
+      // do we need to discern between call and check when comparing? 
+      // do we need to check they are allowed to check iunstead of call or will front end do that?
       case 'check':
         if (actionRank[gameAction] > 2){
-          throw new Error('Invalid action');
+          return Result.error(new GameActionInvalid());
         }
 
+        // since it will be check or call do we need to update game action?
         seat?.updateSeatAction(playerAction);
         break;
       case 'call':
@@ -157,84 +159,52 @@ export class Dealer {
         seat?.updateSeatAction(playerAction);
         break;
       case 'bet':
-        if (actionRank[playerAction] > actionRank[gameAction]){
-          pokerTable.getGame()?.getGameState().updateGameAction(playerAction);
-          pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
+        if (actionRank[gameAction] >  3){
+          return Result.error(new PlayerActionInvalid());
         }
+        pokerTable.getGame()?.getGameState().updateGameAction(playerAction);
+        pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
+        
         seat?.updateSeatAction(playerAction);
         break;
       case 'raise':
-        if (actionRank[playerAction] > actionRank[gameAction]){
-          pokerTable.getGame()?.getGameState().updateGameAction(playerAction);
-          pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
+        if (actionRank[gameAction] < 3){
+          return Result.error(new PlayerActionInvalid());
         }
+
+        pokerTable.getGame()?.getGameState().updateGameAction(playerAction);
+        pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
+        pokerTable.getGame()?.getGameState().updateLastRaisedBy(currentSeatToAct);
         seat?.updateSeatAction(playerAction);
-        // update action on player
-        // update current game bet
-        // update current game lastraisedby
         break;
     }
-
-
-    // Update game action - call/check/raise/reraise
-    switch (gameAction){
-      case 'reraise':
-        if (playerAction === 'reraise'){
-          game.getGameState().updateLastRaisedBy(currentSeatToAct);
-        }
-        break;
-      case 'raise':
-        if (playerAction === 'reraise'){
-          game.getGameState().updateLastRaisedBy(currentSeatToAct);
-          game.getGameState().updateGameAction(playerAction);
-        }
-        break;
-      case 'bet':
-        if (playerAction === 'raise'){
-          game.getGameState().updateLastRaisedBy(currentSeatToAct);
-          game.getGameState().updateGameAction(playerAction);
-        }
-        break;
-      case 'call':
-        if (playerAction === 'bet'){
-          game.getGameState().updateLastRaisedBy(currentSeatToAct);
-          game.getGameState().updateGameAction(playerAction);
-        }
-        break;
-      case 'check':
-        if (playerAction === 'bet'){
-          game.getGameState().updateLastRaisedBy(currentSeatToAct);
-          game.getGameState().updateGameAction(playerAction);
-        }
-        break;
-    }
-
-
-    // update bet
-
-
 
     // check for next player
-    
-  
+    // if next player action is not fold and game action is not matching then it is their turn
     for (let i = currentSeatToAct; i < seats.length; i++){
       let nextSeatToAct = (currentSeatToAct % seats.length) + 1;
-      // get seats action
-      let seatNumber = seats.getSeatNumber;
-    }
-      
+      const seat = seats.find((seat) => seat.getSeatNumber() === nextSeatToAct);
+      const seatAction = seat?.getSeatAction();
+      if (seatAction === undefined){
+        // return Result.error(new GameDoesNotExist());
+        throw new Error('Invalid Seat Action');
+      }
 
-      if (seat.getPlayer()?.getUserAction() !== 'fold') {
-
-        if (!(game.getGameState().getSeatToAct() === seat.getSeatNumber())){
-          return Result.error(new NotPlayersTurn());
+      if (actionRank[seatAction] > 0){
+        if (actionRank[seatAction] !== actionRank[gameAction]){
+          this.updateTurn(pokerTable, nextSeatToAct);
+          return Result.success();
+        } else {
+          // Handle multiple raises
+          if (seatAction === 'raise' && seat?.getSeatNumber() !== lastRaisedBy){
             this.updateTurn(pokerTable, nextSeatToAct);
+            return Result.success();
+          }
         }
       }
-    
+    }
 
-
-
-
+    game.startNextRound();
+    return Result.success();
   }
 }
