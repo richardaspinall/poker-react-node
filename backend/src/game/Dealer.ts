@@ -102,7 +102,7 @@ export class Dealer {
     
   }
 
-  public static updateTurn(pokerTable: PokerTable) {
+  public static updateTurn(pokerTable: PokerTable, nextSeatToAct: number) {
     const game = pokerTable.getGame();
     if (!game) {
       throw new Error('Game not found');
@@ -228,6 +228,7 @@ export class Dealer {
 
         if (!(game.getGameState().getSeatToAct() === seat.getSeatNumber())){
           return Result.error(new NotPlayersTurn());
+            this.updateTurn(pokerTable, nextSeatToAct);
         }
       }
     
