@@ -4,22 +4,18 @@ import { Player } from './Player';
  * Seat class to represent a seat at a poker table
  */
 
-export type SeatAction = 'initial' | 'fold' | 'check' | 'call' | 'bet' | 'raise';
-
 export class Seat {
   private seatNumber: number;
   private isTaken: boolean;
   private user?: Player;
-  private seatAction: SeatAction;
 
-  private constructor(seatNumber: number, isTaken: boolean, seatAction: string) {
+  private constructor(seatNumber: number, isTaken: boolean) {
     this.seatNumber = seatNumber;
     this.isTaken = isTaken;
-    this.seatAction = 'check';
   }
 
-  public static createSeat(seatNumber: number, isTaken: boolean = false, seatAction = ''): Seat {
-    return new Seat(seatNumber, isTaken, seatAction);
+  public static createSeat(seatNumber: number, isTaken: boolean = false): Seat {
+    return new Seat(seatNumber, isTaken);
   }
 
   public assignPlayer(user: Player): void {
@@ -44,11 +40,4 @@ export class Seat {
     return this.seatNumber;
   }
 
-  public getSeatAction(): SeatAction {
-    return this.seatAction;
-  }
-
-  public updateSeatAction(seatAction: SeatAction){
-    this.seatAction = seatAction;
-  }
 }
