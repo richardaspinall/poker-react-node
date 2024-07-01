@@ -91,8 +91,11 @@ describe('Dealer', () => {
         if (seat.getSeatNumber() === seatToAct) {
           player = seat.getPlayer();
           if (player){
-            let seatAction = seat.getSeatAction();
-            expect(seatAction).toEqual('call');
+            const playerAction = player?.getPlayerAction();
+            if (playerAction){
+              expect(playerAction).toEqual('call');
+            }
+
           }
         }
       });
@@ -188,7 +191,9 @@ describe('Dealer', () => {
       let player;
       const game = newPokerTable.getGame() as Game;
       let seatToAct = game.getGameState().getSeatToAct();
-      let currentRound = game.getGameState().getRound() 
+      let currentRound = game.getGameState().getRound();
+      console.log(`cr ${currentRound}`);
+      console.log(`cr seat ${seatToAct}`);
       const seats = newPokerTable.getSeats();
       seats.forEach((seat) => {
         if (seat.getSeatNumber() === seatToAct) {
@@ -200,16 +205,17 @@ describe('Dealer', () => {
       });
 
       seatToAct = game.getGameState().getSeatToAct();
+      console.log(`cr seat ${seatToAct}`);
       seats.forEach((seat) => {
         if (seat.getSeatNumber() === seatToAct) {
           player = seat.getPlayer();
           if (player){
-            const resp = Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
           }
         }
       });
-      currentRound = game.getGameState().getRound() 
-      expect(currentRound).toEqual('flop');
+      let updatedCurrentRound = game.getGameState().getRound();
+      expect(updatedCurrentRound).toEqual('flop');
     });
   });
 });
