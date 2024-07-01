@@ -7,7 +7,7 @@ export enum Round {
   river = 'river',
 }
 
-export type GameAction = 'initial' | 'fold' | 'check' | 'call' | 'bet' | 'raise';
+export type CurrentAction = 'initial' | 'fold' | 'check' | 'call' | 'bet' | 'raise';
 
 /*
  * GameState is responsible for the state of a poker game
@@ -21,7 +21,7 @@ export class GameState {
   private seatToAct: number;
   private roundState: Round;
   private communityCards: Card[];
-  private gameAction: GameAction;
+  private currentAction: CurrentAction;
   private lastRaisedBy: number;
 
   constructor(dealerPosition: number, smallBlind: number, bigBlind: number) {
@@ -34,7 +34,7 @@ export class GameState {
     this.seatToAct = 0;
     this.roundState = Round.preFlop;
     this.communityCards = [];
-    this.gameAction = 'initial';
+    this.currentAction = 'initial';
     this.lastRaisedBy = 0;
   }
 
@@ -56,8 +56,8 @@ export class GameState {
     this.seatToAct = seatToAct;
   }
 
-  public updateGameAction(gameAction: GameAction) {
-    this.gameAction = gameAction;
+  public updateCurrentAction(currentAction: CurrentAction) {
+    this.currentAction = currentAction;
   }
 
   public updateLastRaisedBy(lastRaisedBy: number) {
@@ -100,8 +100,8 @@ export class GameState {
     return this.communityCards;
   }
 
-  public getGameAction() {
-    return this.gameAction;
+  public getCurrentAction() {
+    return this.currentAction;
   }
 
   public getLastRaisedBy() {
