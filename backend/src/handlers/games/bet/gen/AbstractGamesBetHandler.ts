@@ -7,9 +7,9 @@ import { GamesBetPayload, GamesBetOutput } from '@shared/api/gen/games/types/Gam
 
 
 import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
-import { NotPlayersTurn } from '../errors/gen/NotPlayersTurn';
+import { NotPlayersTurnError } from '../errors/gen/NotPlayersTurnError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
-import { GameDoesNotExist } from '../errors/gen/GameDoesNotExist';
+import { GameDoesNotExistError } from '../errors/gen/GameDoesNotExistError';
 import { AbstractGamesBetHandler } from './gen/AbstractGamesBetHandler';
 
 export class GamesBetHandler extends AbstractGamesBetHandler {

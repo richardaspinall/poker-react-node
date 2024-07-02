@@ -1,7 +1,7 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
 import { GamesCheckOutput, GamesCheckPayload } from '@shared/api/gen/games/types/GamesCheck';
 
-import { NotActivePlayerError } from '../errors/gen/NotActivePlayerError';
+import { NotPlayersTurnError } from '../errors/gen/NotPlayersTurnError';
 import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractGamesCheckHandler } from './gen/AbstractGamesCheckHandler';

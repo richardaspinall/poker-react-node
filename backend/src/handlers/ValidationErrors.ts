@@ -2,13 +2,13 @@ import { BaseError } from '@infra/BaseError';
 
 export class InvalidPayloadError extends BaseError {
   constructor(details: any) {
-    super('invalid_payload', 'Invalid payload', details);
+    super('INVALID_PAYLOAD', 'Invalid payload', details);
   }
 }
 
 export class InvalidRequestPayloadError extends BaseError {
   constructor(details: any) {
-    super('invalid_request_payload', 'Invalid request payload', details);
+    super('INVALID_REQUEST_PAYLOAD', 'Invalid request payload', details);
   }
 }
 

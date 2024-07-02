@@ -21,7 +21,7 @@
     },
     {
       "errorName": "InvalidRequestPayload",
-      "errorCode": "invalid_request_payload",
+      "errorCode": "INVALID_REQUEST_PAYLOAD",
       "message": "The request payload is invalid.",
       "classFile": "InvalidRequestPayloadError.ts"
     }

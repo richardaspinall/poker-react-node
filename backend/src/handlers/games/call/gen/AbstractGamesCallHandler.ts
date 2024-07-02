@@ -7,9 +7,9 @@ import { GamesCallPayload, GamesCallOutput } from '@shared/api/gen/games/types/G
 
 
 import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
-import { NotPlayersTurn } from '../errors/gen/NotPlayersTurn';
+import { NotPlayersTurnError } from '../errors/gen/NotPlayersTurnError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
-import { GameDoesNotExist } from '../errors/gen/GameDoesNotExist';
+import { GameDoesNotExistError } from '../errors/gen/GameDoesNotExistError';
 import { AbstractGamesCallHandler } from './gen/AbstractGamesCallHandler';
 
 export class GamesCallHandler extends AbstractGamesCallHandler {

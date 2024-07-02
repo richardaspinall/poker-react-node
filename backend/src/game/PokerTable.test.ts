@@ -36,7 +36,7 @@ describe('PokerTable', () => {
       const b1SitsSeat1 = pokerTable.addPlayer(1, userTwo);
 
       expect(b1SitsSeat1.isOk()).toEqual(false);
-      expect(b1SitsSeat1.getError()?.code).toEqual('seat_taken');
+      expect(b1SitsSeat1.getError()?.code).toEqual('SEAT_TAKEN');
       expect(b1SitsSeat1.getError()?.message).toEqual('Seat is taken');
     });
 
@@ -54,7 +54,7 @@ describe('PokerTable', () => {
       const a1SitsSeat2 = pokerTable.addPlayer(2, user);
 
       expect(a1SitsSeat2.isOk()).toEqual(false);
-      expect(a1SitsSeat2.getError()?.code).toEqual('player_already_seated');
+      expect(a1SitsSeat2.getError()?.code).toEqual('PLAYER_ALREADY_SEATED');
       expect(a1SitsSeat2.getError()?.message).toEqual('Player is already seated at the table');
     });
 
@@ -113,8 +113,8 @@ describe('PokerTable', () => {
       const res = pokerTable.removePlayer(1, 1234);
 
       expect(res.isOk()).toEqual(false);
-      expect(res.getError()?.code).toEqual('player_not_found_at_poker_table');
-      expect(res.getError()?.message).toEqual('Player is not seated at the table');
+      expect(res.getError()?.code).toEqual('PLAYER_NOT_FOUND_AT_TABLE');
+      expect(res.getError()?.message).toEqual('The player is not seated at the table');
     });
 
     it('should return the available seat', () => {

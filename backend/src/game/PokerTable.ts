@@ -3,7 +3,7 @@ import { Result, ResultSuccess } from '@infra/Result';
 import { GameEmitter } from '../game-emitter';
 import { SeatNotFoundError } from '../handlers/poker-tables/errors/SeatNotFoundError';
 import { PlayerAlreadySeatedError } from '../handlers/poker-tables/errors/gen/PlayerAlreadySeatedError';
-import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
+import { PlayerNotFoundAtTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtTableError';
 import { SeatTakenError } from '../handlers/poker-tables/errors/gen/SeatTakenError';
 import { Dealer } from './Dealer';
 import { Game } from './Game';
@@ -73,7 +73,7 @@ export class PokerTable {
       }
     }
 
-    return Result.error(new PlayerNotFoundAtPokerTableError());
+    return Result.error(new PlayerNotFoundAtTableError());
   }
 
   public addGame(game: Game): void {

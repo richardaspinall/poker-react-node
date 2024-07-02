@@ -9,11 +9,6 @@ export const PokerTablesGetSeatsPayloadSchema = Joi.object<PokerTablesGetSeatsPa
 export const PokerTablesGetSeatsOutputSchema = Joi.object<PokerTablesGetSeatsOutput>({
   ok: Joi.boolean().required(),
   seats: Joi.array()
-    .items(
-      Joi.object({
-        seatNumber: Joi.number().required(),
-        username: Joi.string().required().allow(''),
-      }),
-    )
+    .items(Joi.object({ seatNumber: Joi.number().required(), username: Joi.string().required().allow('') }))
     .required(),
 }).unknown(false);

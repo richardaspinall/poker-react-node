@@ -28,6 +28,6 @@ export interface GamesGetGameStateOutput extends BaseOutput {
 }
 
 export enum GamesGetGameStateErrorCodes {
-  PokerTableDoesNotExistError = 'poker_table_does_not_exist',
-  GameStateDoesNotExistError = 'game_state_does_not_exist',
+  PokerTableDoesNotExistError = 'POKER_TABLE_DOES_NOT_EXIST',
+  GameStateDoesNotExistError = 'GAME_STATE_DOES_NOT_EXIST',
 }

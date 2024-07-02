@@ -33,7 +33,7 @@ describe('signin', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('invalid_request_payload');
+    expect(res.body.error.errorCode).toEqual('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should respond with a password_invalid error when signing in with a password that is invalid', async () => {
@@ -48,7 +48,7 @@ describe('signin', () => {
     expect(res.body.ok).toEqual(false);
   });
 
-  it('should respond with a username_not_found when signing in with a username that does not exist', async () => {
+  it('should respond with a USERNAME_NOT_FOUND when signing in with a username that does not exist', async () => {
     mockMySqlSelectSuccessWithNoRows();
 
     const res = await apiTestNoCookie('/api/users.signin', {
@@ -58,7 +58,7 @@ describe('signin', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('username_not_found');
+    expect(res.body.error.errorCode).toEqual('USERNAME_NOT_FOUND');
   });
 
   afterEach(() => {

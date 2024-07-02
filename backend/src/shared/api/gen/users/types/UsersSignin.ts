@@ -10,6 +10,6 @@ export interface UsersSigninOutput extends BaseOutput {
 }
 
 export enum UsersSigninErrorCodes {
-  UsernameNotFoundError = 'username_not_found',
-  PasswordInvalidError = 'password_invalid',
+  UsernameNotFoundError = 'USERNAME_NOT_FOUND',
+  PasswordInvalidError = 'PASSWORD_INVALID',
 }

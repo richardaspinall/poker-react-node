@@ -9,8 +9,8 @@ export interface PokerTablesJoinOutput extends BaseOutput {
 }
 
 export enum PokerTablesJoinErrorCodes {
-  SeatTakenError = 'seat_taken',
-  PlayerAlreadySeatedError = 'player_already_seated',
-  PlayerNotFoundAtPokerTableError = 'player_not_found_at_poker_table',
-  PokerTableDoesNotExistError = 'poker_table_does_not_exist',
+  SeatTakenError = 'SEAT_TAKEN',
+  PlayerAlreadySeatedError = 'PLAYER_ALREADY_SEATED',
+  PlayerNotFoundAtTableError = 'PLAYER_NOT_FOUND_AT_TABLE',
+  PokerTableDoesNotExistError = 'POKER_TABLE_DOES_NOT_EXIST',
 }

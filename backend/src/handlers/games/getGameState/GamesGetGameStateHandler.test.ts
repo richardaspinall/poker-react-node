@@ -11,7 +11,7 @@ describe('games.getGameState', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toBe('invalid_request_payload');
+    expect(res.body.error.errorCode).toBe('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should return method_not_implemented', async () => {
@@ -22,7 +22,7 @@ describe('games.getGameState', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toBe('game_state_does_not_exist');
+    expect(res.body.error.errorCode).toBe('GAME_STATE_DOES_NOT_EXIST');
   });
 
   // TODO: need to add more unit tests for actual game state response

@@ -35,7 +35,7 @@ describe('validatePayload', () => {
       someNumber: 'one two three',
     };
     const result = validatePayload(joiSchema, payload);
-    expect(result.getError().code).toBe('invalid_payload');
+    expect(result.getError().code).toBe('INVALID_PAYLOAD');
   });
 
   it('should return an error when a required field is missing', () => {
@@ -43,6 +43,6 @@ describe('validatePayload', () => {
       someString: 'Hello World',
     };
     const result = validatePayload(joiSchema, payload);
-    expect(result.getError().code).toBe('invalid_payload');
+    expect(result.getError().code).toBe('INVALID_PAYLOAD');
   });
 });

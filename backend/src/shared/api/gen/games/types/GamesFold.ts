@@ -9,9 +9,9 @@ export interface GamesFoldOutput extends BaseOutput {
 }
 
 export enum GamesFoldErrorCodes {
-  PlayerNotFoundAtTableError = 'player_not_found_at_poker_table',
-  NotPlayersTurn = 'not_players_turn',
-  PokerTableDoesNotExistError = 'poker_table_does_not_exist',
-  PlayerAlreadyFolded = 'player_already_folded',
-  GameDoesNotExist = 'game_does_not_exist',
+  PlayerAlreadyFoldedError = 'PLAYER_ALREADY_FOLDED',
+  PlayerNotFoundAtTableError = 'PLAYER_NOT_FOUND_AT_TABLE',
+  NotPlayersTurnError = 'NOT_PLAYERS_TURN',
+  PokerTableDoesNotExistError = 'POKER_TABLE_DOES_NOT_EXIST',
+  GameDoesNotExistError = 'GAME_DOES_NOT_EXIST',
 }
