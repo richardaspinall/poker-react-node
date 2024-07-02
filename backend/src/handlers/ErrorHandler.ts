@@ -12,7 +12,7 @@ export class ErrorHandler {
   static handleError(error: IBaseError, clientErrorCodes: { [key: string]: string }, res: Response) {
     if (
       this.isValidErrorCode(error.code, clientErrorCodes) ||
-      error.code === 'invalid_request_payload' ||
+      error.code === 'INVALID_REQUEST_PAYLOAD' ||
       error.code === 'not_authed'
     ) {
       return res.send({

@@ -15,7 +15,7 @@ describe('poker-tables.getSeats', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toBe('invalid_request_payload');
+    expect(res.body.error.errorCode).toBe('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should return table_does_not_exist', async () => {

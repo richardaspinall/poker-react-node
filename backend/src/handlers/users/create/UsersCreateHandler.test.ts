@@ -9,7 +9,7 @@ describe('users.create', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('invalid_request_payload');
+    expect(res.body.error.errorCode).toEqual('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should create a user', async () => {

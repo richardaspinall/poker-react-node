@@ -11,7 +11,7 @@ describe('games.getGameState', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toBe('invalid_request_payload');
+    expect(res.body.error.errorCode).toBe('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should return method_not_implemented', async () => {

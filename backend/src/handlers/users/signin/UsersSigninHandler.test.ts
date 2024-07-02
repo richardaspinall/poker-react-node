@@ -33,7 +33,7 @@ describe('signin', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('invalid_request_payload');
+    expect(res.body.error.errorCode).toEqual('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should respond with a password_invalid error when signing in with a password that is invalid', async () => {
