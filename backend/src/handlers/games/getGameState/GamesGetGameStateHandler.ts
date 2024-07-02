@@ -1,16 +1,36 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { GamesGetGameStateOutput, GamesGetGameStatePayload } from '@shared/api/gen/games/types/GamesGetGameState';
 
+import { GameLobbyService } from '../../../game-lobby-service';
+import { Dealer } from '../../../game/Dealer';
+import { GameStateDoesNotExistError } from '../errors/gen/GameStateDoesNotExistError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractGamesGetGameStateHandler } from './gen/AbstractGamesGetGameStateHandler';
 
 export class GamesGetGameStateHandler extends AbstractGamesGetGameStateHandler {
-  protected async getResult(payload: GamesGetGameStatePayload) {
-    return new ResultError(new MethodNotImplementedError());
+  protected async getResult(payload: GamesGetGameStatePayload, userId: number) {
+    const pokerTable = GameLobbyService.getPokerTable(payload.pokerTableName);
+    if (!pokerTable) {
+      return new ResultError(new PokerTableDoesNotExistError());
+    }
 
-    // 1. After generating the handler, create a PR returning the above
-    // 2. Then implement the handler when the above PR is merged and use the below
-    // return new ResultSuccess<GamesGetGameStateOutput>();
+    const gameState = pokerTable.getGame()?.getGameState().toJson();
+
+    if (!gameState) {
+      return new ResultError(new GameStateDoesNotExistError());
+    }
+
+    // TODO: perhaps in future we have own endpoint and make the getGameStateHandler not authentication needed
+    const playersHoleCards = Dealer.getPlayersHoleCards(pokerTable, userId);
+
+    const resp = {
+      ok: true,
+      payload: {
+        ...gameState,
+        playersHoleCards: playersHoleCards,
+      },
+    };
+
+    return new ResultSuccess<GamesGetGameStateOutput>(resp);
   }
 }

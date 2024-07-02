@@ -2,6 +2,7 @@ import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { Card } from '../../../../backend/src/shared/game/types/Card';
 import { DealCardsEvent } from '../../../../backend/src/shared/websockets/game/types/GameEvents';
+import fetchGameState from '../../components/PokerTable/thunks/fetchGameState';
 
 interface HoleCardsSlice {
   value: Card[];
@@ -27,21 +28,21 @@ export const holeCardsSlice = createSlice({
       state.value = action.payload.cards;
     },
   },
-  //   extraReducers: (builder) => {
-  //     builder
-  //       .addCase(fetchCards.pending, (holeCardsSlice) => {
-  //         holeCardsSlice.loading = true;
-  //       })
-  //       .addCase(fetchCards.fulfilled, (holeCardsSlice, action) => {
-  //         holeCardsSlice.loading = false;
-  //         holeCardsSlice.value = action.payload;
-  //       })
-  //       .addCase(fetchCards.rejected, (holeCardsSlice, action) => {
-  //         holeCardsSlice.loading = false;
-  //         // Assigning the error message to the state
-  //         holeCardsSlice.error = action.error;
-  //       });
-  //   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchGameState.pending, (holeCardsSlice) => {
+        holeCardsSlice.loading = true;
+      })
+      .addCase(fetchGameState.fulfilled, (holeCardsSlice, action) => {
+        holeCardsSlice.loading = false;
+        holeCardsSlice.value = action.payload.playersHoleCards as Card[];
+      })
+      .addCase(fetchGameState.rejected, (holeCardsSlice, action) => {
+        holeCardsSlice.loading = false;
+        // Assigning the error message to the state
+        holeCardsSlice.error = action.error;
+      });
+  },
 });
 
 export const { setHoleCards } = holeCardsSlice.actions;

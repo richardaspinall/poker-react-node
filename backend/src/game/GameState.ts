@@ -85,4 +85,17 @@ export class GameState {
   public getCommunityCards() {
     return this.communityCards;
   }
+
+  public toJson() {
+    return {
+      dealerPosition: this.dealerPosition,
+      smallBlind: this.smallBlind,
+      bigBlind: this.bigBlind,
+      pot: this.pot,
+      currentBet: this.currentBet,
+      seatToAct: this.seatToAct,
+      roundState: this.roundState,
+      communityCards: this.communityCards,
+    };
+  }
 }

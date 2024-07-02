@@ -3,7 +3,7 @@
   "domainName": "games",
   "apiVerb": "getGameState",
   "httpMethod": "post",
-  "authRequired": false,
+  "authRequired": true,
   "payload": {
     "properties": [
       {
@@ -85,6 +85,32 @@
               ],
               "allowEmpty": true
             }
+          },
+          {
+            "name": "playersHoleCards",
+            "type": "array",
+            "required": true,
+            "items": {
+              "type": "object",
+              "properties": [
+                {
+                  "name": "suit",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "rank",
+                  "type": "string",
+                  "required": true
+                },
+                {
+                  "name": "cardShortCode",
+                  "type": "string",
+                  "required": true
+                }
+              ],
+              "allowEmpty": true
+            }
           }
         ]
       }
@@ -95,6 +121,11 @@
       "errorName": "PokerTableDoesNotExistError",
       "errorCode": "poker_table_does_not_exist",
       "message": "The specified poker table does not exist."
+    },
+    {
+      "errorName": "GameStateDoesNotExistError",
+      "errorCode": "game_state_does_not_exist",
+      "message": "The game state does not exist for the specified poker table."
     }
   ]
 }

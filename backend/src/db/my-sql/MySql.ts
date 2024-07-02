@@ -39,6 +39,7 @@ class MySql {
 
       return new ResultSuccess(rows);
     } catch (error) {
+      console.log('ERROR:', error);
       return new ResultError(new DBSelectError(table));
     }
   }
