@@ -15,6 +15,11 @@ export interface GamesGetGameStateOutput extends BaseOutput {
     }[];
     currentBet: number;
     dealerPosition: number;
+    playersHoleCards: {
+      cardShortCode: string;
+      rank: string;
+      suit: string;
+    }[];
     pot: number;
     roundState: string;
     seatToAct: number;
@@ -24,4 +29,5 @@ export interface GamesGetGameStateOutput extends BaseOutput {
 
 export enum GamesGetGameStateErrorCodes {
   PokerTableDoesNotExistError = 'poker_table_does_not_exist',
+  GameStateDoesNotExistError = 'game_state_does_not_exist',
 }

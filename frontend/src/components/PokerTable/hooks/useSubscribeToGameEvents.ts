@@ -5,6 +5,8 @@ import { useSocket } from '../../../hooks/useSocket';
 import { setActingSeat } from '../../../store/slices/gameStateSlice';
 import { setHoleCards } from '../../../store/slices/holeCardsSlice';
 import { addUser, removeUser } from '../../../store/slices/seatsSlice';
+import { AppDispatch } from '../../../store/store.tsx';
+import fetchGameState from '../thunks/fetchGameState';
 
 /*
  * This hook uses the subscribeToEvent function from useSocket to add events to
@@ -13,7 +15,7 @@ import { addUser, removeUser } from '../../../store/slices/seatsSlice';
  * TODO: We may want to split this into multiple hooks if the number of events grows.
  */
 export function useSubscribeToGameEvents() {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { subscribeToEvent } = useSocket();
 
   useEffect(() => {
@@ -28,12 +30,16 @@ export function useSubscribeToGameEvents() {
       dispatch(removeUser(payload));
     });
 
-    const subscribeToStartGame = subscribeToEvent('start_game', () => {
+    const subscribeToStartGame = subscribeToEvent('start_game', (payload) => {
       console.log('Starting Game');
+
+      // TODO: should we send the game state  along with `start_game` event
+      dispatch(fetchGameState({ pokerTableName: payload.tableName }));
     });
 
     const subscribeToDealGame = subscribeToEvent('deal_cards', (payload) => {
       console.log('Dealing cards');
+      console.log('payload', payload);
 
       dispatch(setHoleCards(payload));
     });
@@ -44,7 +50,7 @@ export function useSubscribeToGameEvents() {
 
     const subscribeToSeatToAct = subscribeToEvent('seat_to_act', (payload) => {
       console.log('Seat to act');
-
+      console.log('payload', payload);
       dispatch(setActingSeat(payload));
     });
 

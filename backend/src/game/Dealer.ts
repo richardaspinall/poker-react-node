@@ -1,11 +1,13 @@
-import { Result } from '../infra/Result';
+import { Card } from '@shared/game/types/Card';
+
 import { GameEmitter } from '../game-emitter';
-import { Game } from './Game';
-import { PokerTable } from './PokerTable';
 import { GameDoesNotExist } from '../handlers/games/errors/gen/GameDoesNotExist';
+import { NotPlayersTurn } from '../handlers/games/errors/gen/NotPlayersTurn';
 import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
 import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
-import { NotPlayersTurn } from '../handlers/games/errors/gen/NotPlayersTurn';
+import { Result } from '../infra/Result';
+import { Game } from './Game';
+import { PokerTable } from './PokerTable';
 
 export class Dealer {
   public static newGame(pokerTable: PokerTable) {
@@ -60,23 +62,23 @@ export class Dealer {
     const seats = pokerTable.getSeats();
     for (const seat of seats) {
       if (seat.getPlayer()?.getUserId() === userId) {
-        if (!(game.getGameState().getSeatToAct() === seat.getSeatNumber())){
+        if (!(game.getGameState().getSeatToAct() === seat.getSeatNumber())) {
           return Result.error(new NotPlayersTurn());
         }
 
         const player = seat.getPlayer();
         const playerCards = player?.getCards();
-        if (!(playerCards && playerCards.length > 0)){
+        if (!(playerCards && playerCards.length > 0)) {
           return Result.error(new PlayerAlreadyFolded());
         }
 
-        if (!player){
+        if (!player) {
           return Result.error(new PlayerNotFoundAtPokerTableError());
         }
-          
+
         player.foldCards();
         GameEmitter.eventEmitter.emit('foldCards', pokerTable.getName(), player.getUsername(), seat.getSeatNumber());
-        if (pokerTable.playersRemaining()){
+        if (pokerTable.playersRemaining()) {
           Dealer.updateTurn(pokerTable);
           return Result.success();
         }
@@ -103,7 +105,6 @@ export class Dealer {
     }
 
     GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
-    
   }
 
   public static updateTurn(pokerTable: PokerTable) {
@@ -120,7 +121,17 @@ export class Dealer {
     if (!seat) {
       throw new Error(`Seat not found: ${nextSeatToAct}`);
     }
-    
+
     GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
+  }
+
+  public static getPlayersHoleCards(pokerTable: PokerTable, userId: number): Card[] {
+    const seats = pokerTable.getSeats();
+    for (const seat of seats) {
+      if (seat.getPlayer()?.getUserId() === userId) {
+        return seat.getPlayer()?.getCards() || [];
+      }
+    }
+    return [];
   }
 }
