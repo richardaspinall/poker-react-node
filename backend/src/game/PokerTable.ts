@@ -78,6 +78,7 @@ export class PokerTable {
 
   public addGame(game: Game): void {
     this.game = game;
+    this.dealerPosition = game.getGameState().getDealerPosition();
   }
 
   public getGame(): Game | undefined {
@@ -120,7 +121,7 @@ export class PokerTable {
         count++;
       }
     }
-    if (count > 0){
+    if (count > 1) {
       return true;
     }
 

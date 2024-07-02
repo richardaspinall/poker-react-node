@@ -14,7 +14,8 @@ export class Dealer {
     const smallBlind = 1;
     const bigBlind = smallBlind * 2;
 
-    pokerTable.addGame(new Game(pokerTable.getDealerPosition(), smallBlind, bigBlind));
+    const nextSeatToAct = (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1;
+    pokerTable.addGame(new Game(nextSeatToAct, smallBlind, bigBlind));
 
     const playerCount = pokerTable.getPlayerCount();
 
@@ -23,9 +24,9 @@ export class Dealer {
       pokerTable
         .getGame()
         ?.getGameState()
-        .updateSeatToAct(pokerTable.getDealerPosition() + 3);
+        .updateSeatToAct(nextSeatToAct + 3);
     } else {
-      pokerTable.getGame()?.getGameState().updateSeatToAct(pokerTable.getDealerPosition());
+      pokerTable.getGame()?.getGameState().updateSeatToAct(nextSeatToAct);
     }
 
     GameEmitter.eventEmitter.emit('startGame', pokerTable);
@@ -77,16 +78,18 @@ export class Dealer {
         }
 
         player.foldCards();
-        GameEmitter.eventEmitter.emit('foldCards', pokerTable.getName(), player.getUsername(), seat.getSeatNumber());
-        if (pokerTable.playersRemaining()) {
-          Dealer.updateTurn(pokerTable);
-          return Result.success();
-        }
 
-        // End game logic here
+        GameEmitter.eventEmitter.emit('foldCards', pokerTable.getName(), player.getUsername(), seat.getSeatNumber());
       }
     }
-    return Result.error(new PlayerNotFoundAtPokerTableError());
+
+    if (pokerTable.playersRemaining()) {
+      Dealer.updateTurn(pokerTable);
+    } else {
+      Dealer.newGame(pokerTable);
+    }
+
+    return Result.success();
   }
 
   public static startTurn(pokerTable: PokerTable) {
@@ -116,7 +119,7 @@ export class Dealer {
     const seats = pokerTable.getSeats();
     const currentSeatToAct = game.getGameState().getSeatToAct();
     const nextSeatToAct = (currentSeatToAct % seats.length) + 1;
-    game.getGameState().updateSeatToAct(currentSeatToAct);
+    game.getGameState().updateSeatToAct(nextSeatToAct);
     const seat = seats.find((seat) => seat.getSeatNumber() === nextSeatToAct);
     if (!seat) {
       throw new Error(`Seat not found: ${nextSeatToAct}`);
