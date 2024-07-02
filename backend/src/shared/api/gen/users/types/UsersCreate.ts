@@ -10,6 +10,6 @@ export interface UsersCreateOutput extends BaseOutput {
 }
 
 export enum UsersCreateErrorCodes {
-  UsernameTakenError = 'username_taken',
-  UsersCreateError = 'users_create_error',
+  UsernameTakenError = 'USERNAME_TAKEN',
+  UsersCreateError = 'USERS_CREATE_ERROR',
 }

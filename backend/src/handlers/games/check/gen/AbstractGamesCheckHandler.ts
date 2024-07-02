@@ -7,8 +7,9 @@ import { GamesCheckPayload, GamesCheckOutput } from '@shared/api/gen/games/types
 
 
 import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
+import { NotPlayersTurnError } from '../errors/gen/NotPlayersTurnError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
-import { NotActivePlayerError } from '../errors/gen/NotActivePlayerError';
+import { GameDoesNotExistError } from '../errors/gen/GameDoesNotExistError';
 import { AbstractGamesCheckHandler } from './gen/AbstractGamesCheckHandler';
 
 export class GamesCheckHandler extends AbstractGamesCheckHandler {

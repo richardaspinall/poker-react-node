@@ -6,11 +6,11 @@ import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { GamesFoldPayload, GamesFoldOutput } from '@shared/api/gen/games/types/GamesFold';
 
 
+import { PlayerAlreadyFoldedError } from '../errors/gen/PlayerAlreadyFoldedError';
 import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
-import { NotPlayersTurn } from '../errors/gen/NotPlayersTurn';
+import { NotPlayersTurnError } from '../errors/gen/NotPlayersTurnError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
-import { PlayerAlreadyFolded } from '../errors/gen/PlayerAlreadyFolded';
-import { GameDoesNotExist } from '../errors/gen/GameDoesNotExist';
+import { GameDoesNotExistError } from '../errors/gen/GameDoesNotExistError';
 import { AbstractGamesFoldHandler } from './gen/AbstractGamesFoldHandler';
 
 export class GamesFoldHandler extends AbstractGamesFoldHandler {

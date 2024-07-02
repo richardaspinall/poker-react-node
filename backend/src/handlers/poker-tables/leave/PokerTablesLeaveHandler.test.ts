@@ -57,7 +57,7 @@ describe('poker-tables.leave', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('player_not_found_at_poker_table');
+    expect(res.body.error.errorCode).toEqual('PLAYER_NOT_FOUND_AT_TABLE');
   });
 
   afterEach(() => {

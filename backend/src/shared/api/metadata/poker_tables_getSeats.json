@@ -46,8 +46,8 @@
   "errors": [
     {
       "errorName": "PokerTableDoesNotExistError",
-      "errorCode": "poker_table_does_not_exist",
-      "message": "The specified poker table does not exist."
+      "errorCode": "POKER_TABLE_DOES_NOT_EXIST",
+      "message": "The poker table does not exist"
     }
   ]
 }

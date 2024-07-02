@@ -2,18 +2,23 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
+import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { PokerTablesJoinPayload, PokerTablesJoinOutput } from '@shared/api/gen/poker-tables/types/PokerTablesJoin';
 
-import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
 
 import { SeatTakenError } from '../errors/gen/SeatTakenError';
 import { PlayerAlreadySeatedError } from '../errors/gen/PlayerAlreadySeatedError';
-import { PlayerNotFoundAtPokerTableError } from '../errors/gen/PlayerNotFoundAtPokerTableError';
+import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
+import { AbstractPokerTablesJoinHandler } from './gen/AbstractPokerTablesJoinHandler';
 
 export class PokerTablesJoinHandler extends AbstractPokerTablesJoinHandler {
   protected async getResult(payload: PokerTablesJoinPayload) {
-    return new ResultSuccess<PokerTablesJoinOutput>();
+    return new ResultError(new MethodNotImplementedError());
+
+    // 1. After generating the handler, create a PR returning the above
+    // 2. Then implement the handler when the above PR is merged and use the below
+    // return new ResultSuccess<PokerTablesJoinOutput>();
   }
 }
 */

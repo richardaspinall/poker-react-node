@@ -9,6 +9,6 @@ export interface PokerTablesLeaveOutput extends BaseOutput {
 }
 
 export enum PokerTablesLeaveErrorCodes {
-  PlayerNotFoundAtTableError = 'player_not_found_at_poker_table',
-  PokerTableDoesNotExistError = 'poker_table_does_not_exist',
+  PlayerNotFoundAtTableError = 'PLAYER_NOT_FOUND_AT_TABLE',
+  PokerTableDoesNotExistError = 'POKER_TABLE_DOES_NOT_EXIST',
 }

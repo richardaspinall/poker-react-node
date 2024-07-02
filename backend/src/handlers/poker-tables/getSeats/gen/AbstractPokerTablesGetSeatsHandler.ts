@@ -2,15 +2,20 @@
 !!!! Copy out the below for new or updated API
 
 import { ResultError, ResultSuccess } from '@infra/Result';
+import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { PokerTablesGetSeatsPayload, PokerTablesGetSeatsOutput } from '@shared/api/gen/poker-tables/types/PokerTablesGetSeats';
 
-import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
 
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
+import { AbstractPokerTablesGetSeatsHandler } from './gen/AbstractPokerTablesGetSeatsHandler';
 
 export class PokerTablesGetSeatsHandler extends AbstractPokerTablesGetSeatsHandler {
   protected async getResult(payload: PokerTablesGetSeatsPayload) {
-    return new ResultSuccess<PokerTablesGetSeatsOutput>();
+    return new ResultError(new MethodNotImplementedError());
+
+    // 1. After generating the handler, create a PR returning the above
+    // 2. Then implement the handler when the above PR is merged and use the below
+    // return new ResultSuccess<PokerTablesGetSeatsOutput>();
   }
 }
 */

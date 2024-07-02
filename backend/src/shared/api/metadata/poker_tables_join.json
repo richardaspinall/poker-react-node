@@ -25,23 +25,23 @@
   "errors": [
     {
       "errorName": "SeatTakenError",
-      "errorCode": "seat_taken",
+      "errorCode": "SEAT_TAKEN",
       "message": "Seat is taken"
     },
     {
       "errorName": "PlayerAlreadySeatedError",
-      "errorCode": "player_already_seated",
+      "errorCode": "PLAYER_ALREADY_SEATED",
       "message": "Player is already seated at the table"
     },
     {
-      "errorName": "PlayerNotFoundAtPokerTableError",
-      "errorCode": "player_not_found_at_poker_table",
-      "message": "Player is not seated at the table"
+      "errorName": "PlayerNotFoundAtTableError",
+      "errorCode": "PLAYER_NOT_FOUND_AT_TABLE",
+      "message": "The player is not seated at the table"
     },
     {
       "errorName": "PokerTableDoesNotExistError",
-      "errorCode": "poker_table_does_not_exist",
-      "message": "Poker table does not exist"
+      "errorCode": "POKER_TABLE_DOES_NOT_EXIST",
+      "message": "The poker table does not exist"
     }
   ]
 }

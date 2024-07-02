@@ -25,18 +25,23 @@
   "errors": [
     {
       "errorName": "PlayerNotFoundAtTableError",
-      "errorCode": "player_not_found_at_poker_table",
-      "message": "Player is not seated at the table"
+      "errorCode": "PLAYER_NOT_FOUND_AT_TABLE",
+      "message": "The player is not seated at the table"
+    },
+    {
+      "errorName": "NotPlayersTurnError",
+      "errorCode": "NOT_PLAYERS_TURN",
+      "message": "It is not the players turn"
     },
     {
       "errorName": "PokerTableDoesNotExistError",
-      "errorCode": "poker_table_does_not_exist",
-      "message": "Table does not exist"
+      "errorCode": "POKER_TABLE_DOES_NOT_EXIST",
+      "message": "The poker table does not exist"
     },
     {
-      "errorName": "NotActivePlayerError",
-      "errorCode": "player_not_active_player",
-      "message": "Player is not active player"
+      "errorName": "GameDoesNotExistError",
+      "errorCode": "GAME_DOES_NOT_EXIST",
+      "message": "The game does not exist"
     }
   ]
 }

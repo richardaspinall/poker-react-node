@@ -2,8 +2,8 @@ import { ResultError, ResultSuccess } from '@infra/Result';
 import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { GamesBetOutput, GamesBetPayload } from '@shared/api/gen/games/types/GamesBet';
 
-import { GameDoesNotExist } from '../errors/gen/GameDoesNotExist';
-import { NotPlayersTurn } from '../errors/gen/NotPlayersTurn';
+import { GameDoesNotExistError } from '../errors/gen/GameDoesNotExistError';
+import { NotPlayersTurnError } from '../errors/gen/NotPlayersTurnError';
 import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractGamesBetHandler } from './gen/AbstractGamesBetHandler';

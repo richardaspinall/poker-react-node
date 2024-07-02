@@ -30,13 +30,13 @@
   "errors": [
     {
       "errorName": "UsernameTakenError",
-      "errorCode": "username_taken",
-      "message": "Username already taken"
+      "errorCode": "USERNAME_TAKEN",
+      "message": "Username is already taken"
     },
     {
       "errorName": "UsersCreateError",
-      "errorCode": "users_create_error",
-      "message": "User not created"
+      "errorCode": "USERS_CREATE_ERROR",
+      "message": "User was not created"
     }
   ]
 }

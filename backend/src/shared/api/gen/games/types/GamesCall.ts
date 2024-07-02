@@ -9,8 +9,8 @@ export interface GamesCallOutput extends BaseOutput {
 }
 
 export enum GamesCallErrorCodes {
-  PlayerNotFoundAtTableError = 'player_not_found_at_poker_table',
-  NotPlayersTurn = 'not_players_turn',
-  PokerTableDoesNotExistError = 'poker_table_does_not_exist',
-  GameDoesNotExist = 'game_does_not_exist',
+  PlayerNotFoundAtTableError = 'PLAYER_NOT_FOUND_AT_TABLE',
+  NotPlayersTurnError = 'NOT_PLAYERS_TURN',
+  PokerTableDoesNotExistError = 'POKER_TABLE_DOES_NOT_EXIST',
+  GameDoesNotExistError = 'GAME_DOES_NOT_EXIST',
 }

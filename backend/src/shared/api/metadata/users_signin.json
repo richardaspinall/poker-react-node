@@ -30,12 +30,12 @@
   "errors": [
     {
       "errorName": "UsernameNotFoundError",
-      "errorCode": "username_not_found",
-      "message": "Username not found"
+      "errorCode": "USERNAME_NOT_FOUND",
+      "message": "Username was not found"
     },
     {
       "errorName": "PasswordInvalidError",
-      "errorCode": "password_invalid",
+      "errorCode": "PASSWORD_INVALID",
       "message": "Password is invalid"
     }
   ]

@@ -1,10 +1,10 @@
 import { Card } from '@shared/game/types/Card';
 
 import { GameEmitter } from '../game-emitter';
-import { GameDoesNotExist } from '../handlers/games/errors/gen/GameDoesNotExist';
-import { NotPlayersTurn } from '../handlers/games/errors/gen/NotPlayersTurn';
-import { PlayerAlreadyFolded } from '../handlers/games/errors/gen/PlayerAlreadyFolded';
-import { PlayerNotFoundAtPokerTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtPokerTableError';
+import { GameDoesNotExistError } from '../handlers/games/errors/gen/GameDoesNotExistError';
+import { NotPlayersTurnError } from '../handlers/games/errors/gen/NotPlayersTurnError';
+import { PlayerAlreadyFoldedError } from '../handlers/games/errors/gen/PlayerAlreadyFoldedError';
+import { PlayerNotFoundAtTableError } from '../handlers/poker-tables/errors/gen/PlayerNotFoundAtTableError';
 import { Result } from '../infra/Result';
 import { Game } from './Game';
 import { PokerTable } from './PokerTable';
@@ -57,24 +57,24 @@ export class Dealer {
   public static foldCards(pokerTable: PokerTable, userId: number) {
     const game = pokerTable.getGame();
     if (!game) {
-      return Result.error(new GameDoesNotExist());
+      return Result.error(new GameDoesNotExistError());
     }
 
     const seats = pokerTable.getSeats();
     for (const seat of seats) {
       if (seat.getPlayer()?.getUserId() === userId) {
         if (!(game.getGameState().getSeatToAct() === seat.getSeatNumber())) {
-          return Result.error(new NotPlayersTurn());
+          return Result.error(new NotPlayersTurnError());
         }
 
         const player = seat.getPlayer();
         const playerCards = player?.getCards();
         if (!(playerCards && playerCards.length > 0)) {
-          return Result.error(new PlayerAlreadyFolded());
+          return Result.error(new PlayerAlreadyFoldedError());
         }
 
         if (!player) {
-          return Result.error(new PlayerNotFoundAtPokerTableError());
+          return Result.error(new PlayerNotFoundAtTableError());
         }
 
         player.foldCards();

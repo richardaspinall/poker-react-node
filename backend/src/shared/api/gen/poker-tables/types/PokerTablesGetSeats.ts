@@ -13,5 +13,5 @@ export interface PokerTablesGetSeatsOutput extends BaseOutput {
 }
 
 export enum PokerTablesGetSeatsErrorCodes {
-  PokerTableDoesNotExistError = 'poker_table_does_not_exist',
+  PokerTableDoesNotExistError = 'POKER_TABLE_DOES_NOT_EXIST',
 }
