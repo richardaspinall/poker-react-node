@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useSocket } from '../../../hooks/useSocket';
-import { setActingSeat } from '../../../store/slices/actingSeatSlice';
+import { setActingSeat } from '../../../store/slices/gameStateSlice';
 import { setHoleCards } from '../../../store/slices/holeCardsSlice';
 import { addUser, removeUser } from '../../../store/slices/seatsSlice';
 
