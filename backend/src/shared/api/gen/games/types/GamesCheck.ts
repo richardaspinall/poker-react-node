@@ -2,7 +2,6 @@ import { BaseOutput } from '../../../BaseOutput';
 
 export interface GamesCheckPayload {
   pokerTableName: string;
-  selectedSeatNumber: number;
 }
 
 export interface GamesCheckOutput extends BaseOutput {
