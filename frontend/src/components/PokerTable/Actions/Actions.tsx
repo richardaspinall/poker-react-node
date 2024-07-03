@@ -8,7 +8,7 @@ type ActionsProps = {
   bigBlind?: number;
 };
 
-const MAX_AMOUNT = 1000;
+const MAX_AMOUNT = 100000;
 
 function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
   const [betAmount, setBetAmount] = useState(bigBlind);
