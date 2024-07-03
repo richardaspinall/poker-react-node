@@ -59,33 +59,28 @@
 .chip-index-3 {
   top: -15px;
 }
-
 .chip-index-4 {
   top: -20px;
 }
-
 .chip-index-5 {
   top: -25px;
 }
-
 .chip-index-6 {
   top: -30px;
 }
-
 .chip-index-7 {
   top: -35px;
 }
-
 .chip-index-8 {
   top: -40px;
 }
-
 .chip-index-9 {
   top: -45px;
 }
 /* Add more rules as needed */
 
 /* App.css */
+/* TODO: can I change this to a flex box */
 .chip-display {
   position: relative; /* Change this to relative */
   width: 60px; /* Adjust width to match chip size */
