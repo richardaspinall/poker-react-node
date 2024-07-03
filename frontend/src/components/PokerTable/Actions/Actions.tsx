@@ -4,10 +4,15 @@ import apiCall from '../../../fetch/apiCall';
 
 type ActionsProps = {
   isMyTurn: boolean;
+  bigBlind?: number;
 };
 
-function Actions({ isMyTurn }: ActionsProps) {
-  const [betAmount, setBetAmount] = useState(1000);
+const MAX_AMOUNT = 1000;
+
+function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
+  const [betAmount, setBetAmount] = useState(bigBlind);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [allIn, setAllIn] = useState(false);
 
   const fold = useCallback(async () => {
     const payload = { pokerTableName: 'table_1' };
@@ -37,6 +42,18 @@ function Actions({ isMyTurn }: ActionsProps) {
   }, []);
 
   const bet = useCallback(async () => {
+    if (betAmount < bigBlind) {
+      // Do something with the error
+      setErrorMessage(`Minimum bet amount is ${bigBlind}`);
+      setBetAmount(bigBlind);
+      return;
+    } else if (betAmount > MAX_AMOUNT) {
+      setErrorMessage(`Maximum bet amount is ${MAX_AMOUNT}`); // TODO: this will be all their chips
+      setBetAmount(MAX_AMOUNT);
+      return;
+    }
+    setErrorMessage('');
+
     const payload = { pokerTableName: 'table_1', amount: betAmount };
 
     const result = await apiCall.post('games.bet', payload);
@@ -46,8 +63,34 @@ function Actions({ isMyTurn }: ActionsProps) {
     }
   }, [betAmount]);
 
+  const snapToNearest = (value: number, increment: number) => {
+    return Math.round(value / increment) * increment;
+  };
+
   const handleBetInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBetAmount(Number(event.target.value));
+    const value = Number(event.target.value);
+    const snappedValue = snapToNearest(value, bigBlind);
+
+    if (snappedValue === MAX_AMOUNT) {
+      setAllIn(true);
+    } else {
+      setAllIn(false);
+    }
+
+    setBetAmount(snappedValue);
+    setErrorMessage('');
+  };
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
+    setBetAmount(value);
+
+    if (value === MAX_AMOUNT) {
+      setAllIn(true);
+    } else {
+      setAllIn(false);
+    }
+    setErrorMessage('');
   };
 
   return (
@@ -57,15 +100,20 @@ function Actions({ isMyTurn }: ActionsProps) {
           <div className="slidecontainer">
             <input
               type="range"
-              min="0"
-              max="10000"
+              min={bigBlind}
+              max="1000"
               value={betAmount}
               className="slider"
               id="myRange"
               onChange={handleBetInputChange}
             ></input>
-            <input id="bet-input" value={betAmount} onChange={handleBetInputChange}></input>
+            <input id="bet-input" min={bigBlind} max="10000" value={betAmount} onChange={handleInputChange}></input>
           </div>
+          {errorMessage && (
+            <div className="error-message" style={{ color: 'red' }}>
+              {errorMessage}
+            </div>
+          )}
           <button className="action-buttons" id="fold-action-button" aria-label="Fold" onClick={fold}>
             Fold
           </button>
@@ -76,7 +124,7 @@ function Actions({ isMyTurn }: ActionsProps) {
             Call
           </button>
           <button className="action-buttons" id="raise-action-button" aria-label="Bet" onClick={bet}>
-            Bet
+            {allIn ? 'All In' : 'Bet'}
           </button>
         </div>
       )}
