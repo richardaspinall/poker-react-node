@@ -1,0 +1,94 @@
+/* Chip.css */
+.chip {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin: 5px;
+  position: absolute; /* Change this to absolute */
+  text-align: center;
+  line-height: 50px;
+  font-weight: bold;
+  color: white;
+  border: 2px solid black; /* Add black border */
+}
+
+.chip-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chip-1 {
+  left: 200px;
+  background-color: red;
+}
+
+.chip-5 {
+  left: 150px;
+  background-color: blue;
+}
+
+.chip-10 {
+  left: 100px;
+  background-color: green;
+}
+
+.chip-50 {
+  left: 50px;
+  background-color: grey;
+}
+
+.chip-100 {
+  background-color: gold;
+}
+
+/* Add more styles for other denominations if needed */
+
+/* Add stacking offset based on index */
+.chip-index-0 {
+  top: 0;
+}
+.chip-index-1 {
+  top: -5px;
+}
+.chip-index-2 {
+  top: -10px;
+}
+.chip-index-3 {
+  top: -15px;
+}
+
+.chip-index-4 {
+  top: -20px;
+}
+
+.chip-index-5 {
+  top: -25px;
+}
+
+.chip-index-6 {
+  top: -30px;
+}
+
+.chip-index-7 {
+  top: -35px;
+}
+
+.chip-index-8 {
+  top: -40px;
+}
+
+.chip-index-9 {
+  top: -45px;
+}
+/* Add more rules as needed */
+
+/* App.css */
+.chip-display {
+  position: relative; /* Change this to relative */
+  width: 60px; /* Adjust width to match chip size */
+  height: auto;
+  margin: 20px;
+}

@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 
 import apiCall from '../../../fetch/apiCall';
+import ChipDisplay from '../../Chips/ChipDisplay';
 
 type ActionsProps = {
   isMyTurn: boolean;
@@ -126,6 +127,7 @@ function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
           <button className="action-buttons" id="raise-action-button" aria-label="Bet" onClick={bet}>
             {allIn ? 'All In' : 'Bet'}
           </button>
+          <ChipDisplay totalValue={betAmount} />;
         </div>
       )}
     </div>
