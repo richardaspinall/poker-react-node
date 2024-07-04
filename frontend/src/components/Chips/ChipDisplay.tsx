@@ -1,6 +1,3 @@
-// ChipDisplay.tsx
-import React from 'react';
-
 import Chip from './Chip';
 
 interface ChipDisplayProps {
@@ -11,7 +8,7 @@ function ChipDisplay({ totalValue }: ChipDisplayProps) {
   const denominations = [10000, 5000, 1000, 500, 100, 10, 5, 1]; // Add more denominations as needed
 
   let remainingValue = totalValue;
-  const piles = [];
+  const piles: React.ReactElement[] = [];
   const maxChipsPerPile = 10; // Maximum number of chips per pile
 
   denominations.forEach((denom) => {
@@ -37,7 +34,12 @@ function ChipDisplay({ totalValue }: ChipDisplayProps) {
     }
   });
 
-  return <div className="chip-display">{piles}</div>;
+  return (
+    <div className="chip-display">
+      {piles}
+      <div className="chip-total-label">{totalValue}</div>
+    </div>
+  );
 }
 
 export default ChipDisplay;

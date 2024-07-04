@@ -1,4 +1,3 @@
-/* Chip.css */
 .chip {
   display: inline-block;
   width: 50px;
@@ -59,11 +58,21 @@
 .chip-display {
   width: 400px;
   position: absolute;
-  bottom: 100px;
+  bottom: 125px;
   display: flex;
   gap: 1px; /* Space between piles */
   flex-wrap: wrap;
   align-items: flex-end; /* Align chips at the bottom */
+}
+
+.chip-total-label {
+  text-align: right;
+  font-size: 24px;
+  background-color: white;
+  border: 4px solid;
+  border-color: black;
+  border-radius: 10px;
+  padding: 5px;
 }
 
 .chip-pile {
