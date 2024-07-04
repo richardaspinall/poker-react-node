@@ -4,6 +4,7 @@ import { Card as CardType } from '../../../../../backend/src/shared/game/types/C
 import { CardShortCode } from '../../../../../backend/src/shared/game/types/CardShortCode';
 import apiCall from '../../../fetch/apiCall';
 import { Card } from '../../Card/Card.tsx';
+import CountdownIndicator from '../../CountdownIndicator/CountdownIndicator.tsx';
 
 type SeatProps = {
   seatNumber: number;
@@ -66,14 +67,15 @@ export default function Seat({
 
   return (
     <div>
-      <button
-        className={`seat ${isActingSeat ? 'acting-seat' : ''}`}
-        id={`seat-${seatNumber}`}
-        data-chip-count={chipCount}
-        onClick={onPlayerSit}
-      >
+      <button className={'seat'} id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
         {renderSeatDisplay()}
+        {isActingSeat && (
+          <div className="countdown-indicator">
+            <CountdownIndicator initialCount={10} duration={10000} />
+          </div>
+        )}
       </button>
+
       {myUsername === seatUsername ? <button onClick={playerLeave}>Leave seat</button> : null}
     </div>
   );

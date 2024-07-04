@@ -412,3 +412,11 @@ body {
 
   border-radius: 100%;
 }
+
+.countdown-indicator {
+  width: 80%; /* Adjust as needed */
+  position: absolute;
+  bottom: -30px; /* Adjust as needed to position the indicator under the seat */
+  transform: translateX(-50%);
+  z-index: 1;
+}

@@ -1,0 +1,23 @@
+.countdown-container {
+  border: 1px solid #000;
+  width: 200px;
+  height: 30px;
+  position: absolute;
+  top: 10px;
+  left: -10px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.countdown-bar {
+  height: 100%;
+  background: linear-gradient(to right, #fe4f4f, #fefe00, #4caf50); /* Cool rib colors gradient */
+  transition:
+    width 1s linear,
+    clip-path 1s linear;
+  clip-path: inset(0 100% 0 0); /* Initially hide the whole bar */
+}
+
+.countdown-bar.visible {
+  clip-path: inset(0 0 0 0); /* Fully visible bar */
+}
