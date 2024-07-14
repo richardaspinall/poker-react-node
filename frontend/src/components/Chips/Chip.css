@@ -1,0 +1,83 @@
+.chip {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: relative; /* Change to relative for Flexbox */
+  text-align: center;
+  line-height: 50px;
+  font-weight: bold;
+  color: white;
+  border: 2px solid black; /* Add black border */
+  margin-top: -50px; /* Space between chips in a pile */
+  margin-bottom: 4px; /*  Space between chips in a pile */
+}
+
+.chip-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.chip-1 {
+  background-color: red;
+}
+
+.chip-5 {
+  background-color: blue;
+}
+
+.chip-10 {
+  background-color: green;
+}
+
+.chip-100 {
+  background-color: gold;
+}
+
+.chip-500 {
+  background-color: rgb(251, 0, 255);
+}
+
+.chip-1000 {
+  background-color: rgb(0, 217, 255);
+}
+
+.chip-5000 {
+  background-color: rgb(140, 0, 255);
+}
+
+.chip-10000 {
+  background-color: rgb(255, 0, 144);
+}
+
+/* Add more styles for other denominations if needed */
+
+/* App.css */
+.chip-display {
+  width: 400px;
+  position: absolute;
+  bottom: 125px;
+  display: flex;
+  gap: 1px; /* Space between piles */
+  flex-wrap: wrap;
+  align-items: flex-end; /* Align chips at the bottom */
+}
+
+.chip-total-label {
+  text-align: right;
+  font-size: 24px;
+  background-color: white;
+  border: 4px solid;
+  border-color: black;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.chip-pile {
+  position: relative;
+  width: 50px;
+  display: flex;
+  flex-direction: column; /* Stack chips from bottom to top */
+}
