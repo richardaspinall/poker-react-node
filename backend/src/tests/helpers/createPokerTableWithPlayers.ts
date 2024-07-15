@@ -17,7 +17,7 @@ export function createPokerTableWithPlayers(tableName: string, numberOfSeats: nu
 
     players.push(user);
     mockMySqlSelectSessionSuccess(user.getUsername());
-    const res = pokerTable.addPlayer(seatNumber, user);
+    const res = pokerTable.join(seatNumber, user);
 
     if (res.isError()) {
       throw new Error(res.getError().message);

@@ -29,7 +29,7 @@ export class GameLobbyService {
     if (room.isError()) {
       return new ResultError(new RoomNotCreatedError());
     }
-    const res = PokerTable.createPokerTable(name, numSeats);
+    const res = PokerTable.create(name, numSeats);
     if (res.isError()) {
       debug(res.getError().message);
       return Result.error(res.getError());

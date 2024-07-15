@@ -60,30 +60,31 @@ export class Dealer {
       return Result.error(new GameDoesNotExistError());
     }
 
-    const seats = pokerTable.getSeats();
-    for (const seat of seats) {
-      if (seat.getPlayer()?.getUserId() === userId) {
-        if (!(game.getGameState().getSeatToAct() === seat.getSeatNumber())) {
-          return Result.error(new NotPlayersTurnError());
-        }
-
-        const player = seat.getPlayer();
-        const playerCards = player?.getCards();
-        if (!(playerCards && playerCards.length > 0)) {
-          return Result.error(new PlayerAlreadyFoldedError());
-        }
-
-        if (!player) {
-          return Result.error(new PlayerNotFoundAtTableError());
-        }
-
-        player.foldCards();
-
-        GameEmitter.eventEmitter.emit('foldCards', pokerTable.getName(), player.getUsername(), seat.getSeatNumber());
-      }
+    const player = pokerTable.getPlayerByUserId(userId);
+    if (!player) {
+      return Result.error(new PlayerNotFoundAtTableError());
     }
 
-    if (pokerTable.playersRemaining()) {
+    const playerCards = player?.getCards();
+    if (!(playerCards && playerCards.length > 0)) {
+      return Result.error(new PlayerAlreadyFoldedError());
+    }
+
+    const seat = pokerTable.getSeatByUserId(userId);
+    if (!(game.getGameState().getSeatToAct() === seat?.getSeatNumber())) {
+      return Result.error(new NotPlayersTurnError());
+    }
+
+    player.foldCards();
+
+    GameEmitter.eventEmitter.emit(
+      'foldCards',
+      pokerTable.getName(),
+      player.getUsername(),
+      pokerTable.getSeatByUserId(userId)?.getSeatNumber(),
+    );
+
+    if (pokerTable.hasRemainingPlayers()) {
       Dealer.updateTurn(pokerTable);
     } else {
       Dealer.newGame(pokerTable);
@@ -99,9 +100,7 @@ export class Dealer {
     }
 
     const seatToAct = game.getGameState().getSeatToAct();
-    const seats = pokerTable.getSeats();
-
-    const seat = seats.find((seat) => seat.getSeatNumber() === seatToAct);
+    const seat = pokerTable.getSeatBySeatNumber(seatToAct);
 
     if (!seat) {
       throw new Error(`Seat not found: ${seatToAct}`);
@@ -116,11 +115,12 @@ export class Dealer {
       throw new Error('Game not found');
     }
 
-    const seats = pokerTable.getSeats();
     const currentSeatToAct = game.getGameState().getSeatToAct();
-    const nextSeatToAct = (currentSeatToAct % seats.length) + 1;
+    const nextSeatToAct = (currentSeatToAct % pokerTable.getSeatCount()) + 1;
+
     game.getGameState().updateSeatToAct(nextSeatToAct);
-    const seat = seats.find((seat) => seat.getSeatNumber() === nextSeatToAct);
+
+    const seat = pokerTable.getSeatBySeatNumber(nextSeatToAct);
     if (!seat) {
       throw new Error(`Seat not found: ${nextSeatToAct}`);
     }
@@ -129,12 +129,11 @@ export class Dealer {
   }
 
   public static getPlayersHoleCards(pokerTable: PokerTable, userId: number): Card[] {
-    const seats = pokerTable.getSeats();
-    for (const seat of seats) {
-      if (seat.getPlayer()?.getUserId() === userId) {
-        return seat.getPlayer()?.getCards() || [];
-      }
+    const player = pokerTable.getPlayerByUserId(userId);
+    if (player) {
+      return player.getCards();
     }
+
     return [];
   }
 }
