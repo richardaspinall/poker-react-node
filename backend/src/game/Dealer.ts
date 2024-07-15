@@ -89,14 +89,6 @@ export class Dealer {
     );
 
     return Result.success();
-
-    // if (pokerTable.hasRemainingPlayers()) {
-    //   Dealer.updateTurn(pokerTable);
-    // } else {
-    //   Dealer.newGame(pokerTable);
-    // }
-
-    // return Result.success();
   }
 
   public static startTurn(pokerTable: PokerTable) {
@@ -217,16 +209,12 @@ export class Dealer {
         break;
     }
 
-    // check for next player
-    if (pokerTable.playersRemaining() < 2) {
-      console.log(`End of game`);
+    if (!pokerTable.hasRemainingPlayers()) {
+      Dealer.newGame(pokerTable);
       return Result.success();
     }
-    // if next player action is not fold and game action is not matching then it is their turn
-    console.log(`current seat ${currentSeatToAct}`);
 
     const nextSeatNumberToAct = (currentSeatToAct % pokerTable.getSeatCount()) + 1;
-    console.log(`nextSeatToAct seat ${nextSeatNumberToAct}`);
 
     const nextSeatToAct = pokerTable.getSeatBySeatNumber(nextSeatNumberToAct);
     if (nextSeatToAct === undefined) {
@@ -238,9 +226,7 @@ export class Dealer {
     if (nextPlayerPreviousAction === undefined) {
       return Result.error(new PlayerActionUndefined());
     }
-    console.log(`next player action ${actionRank[nextPlayerPreviousAction]}`);
-    console.log(`currentAction ${actionRank[currentAction]}`);
-    console.log(`seat number ${nextSeatToAct.getSeatNumber()}`);
+
     if (actionRank[nextPlayerPreviousAction] === -1) {
       this.updateTurn(pokerTable, nextSeatNumberToAct);
       return Result.success();
