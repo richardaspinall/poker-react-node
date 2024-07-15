@@ -7,7 +7,7 @@ describe('createPokerTable', () => {
     const player2 = players[1];
 
     expect(pokerTable.getName()).toEqual('table_1');
-    expect(pokerTable.getAvailableSeats().length).toEqual(0);
+    expect(pokerTable.getAvailableSeatNumbers().length).toEqual(0);
     expect(player1.getUsername()).toEqual('a1');
     expect(player2.getUsername()).toEqual('a2');
   });

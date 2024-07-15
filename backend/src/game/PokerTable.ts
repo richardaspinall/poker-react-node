@@ -16,116 +16,121 @@ import { Seat } from './Seat';
 
 export class PokerTable {
   private name: string;
-  private seats: Seat[];
+  private seats: Map<number, Seat>;
+  private playerSeatMap: Map<number, number>;
   private dealerPosition: number;
   private game?: Game;
 
   private constructor(name: string, numberOfSeats: number) {
     this.name = name;
+    this.seats = new Map();
+    this.playerSeatMap = new Map();
 
-    const seatsArray = [];
     let seatNumber = 1;
     for (let i = 0; i < numberOfSeats; i++) {
       const newSeat = Seat.createSeat(seatNumber);
-      seatsArray.push(newSeat);
+      this.seats.set(seatNumber, newSeat);
       seatNumber++;
     }
-    this.seats = seatsArray;
 
     this.dealerPosition = Math.floor(Math.random() * numberOfSeats + 1);
   }
 
-  public static createPokerTable(pokerTableName: string, numberOfSeats: number): Result<PokerTable> {
+  // Factory method to create a new PokerTable
+  public static create(pokerTableName: string, numberOfSeats: number): Result<PokerTable> {
     const newPokerTable = new PokerTable(pokerTableName, numberOfSeats);
     return new ResultSuccess(newPokerTable);
   }
 
-  public addPlayer(seatNumber: number, player: Player): Result<void> {
-    for (const seat of this.seats) {
-      if (seat.getPlayer()?.getUsername() === player.getUsername()) {
-        return Result.error(new PlayerAlreadySeatedError());
-      }
+  // Add a player to a seat at the table
+  public join(seatNumber: number, player: Player): Result<void> {
+    if (this.playerSeatMap.has(player.getUserId())) {
+      return Result.error(new PlayerAlreadySeatedError());
     }
-    for (const seat of this.seats) {
-      if (seat.getSeatNumber() === seatNumber) {
-        if (seat.isSeatTaken()) {
-          return Result.error(new SeatTakenError());
-        } else {
-          seat.assignPlayer(player);
 
-          GameEmitter.eventEmitter.emit('playerJoined', this.getName(), player.getUsername(), seatNumber);
-
-          if (this.isPokerTableReady()) {
-            Dealer.newGame(this);
-          }
-          return Result.success();
-        }
-      }
+    if (this.seats.get(seatNumber)?.isSeatTaken()) {
+      return Result.error(new SeatTakenError());
     }
+
+    const seatToAssign = this.seats.get(seatNumber);
+    if (seatToAssign) {
+      seatToAssign.assignPlayer(player);
+      this.playerSeatMap.set(player.getUserId(), seatNumber);
+
+      GameEmitter.eventEmitter.emit('playerJoined', this.getName(), player.getUsername(), seatNumber);
+
+      if (this.isReadyToStartGame()) {
+        Dealer.newGame(this);
+      }
+      return Result.success();
+    }
+
     return Result.error(new SeatNotFoundError());
   }
 
-  public removePlayer(seatNumber: number, userId: number): Result<void> {
-    for (const seat of this.seats) {
-      if (seat.getPlayer()?.getUserId() === userId && seat.getSeatNumber() === seatNumber) {
-        seat.removePlayer();
-        return Result.success();
-      }
+  // Remove a player from a seat at the table
+  public leave(seatNumber: number, userId: number): Result<void> {
+    if (this.playerSeatMap.get(userId)) {
+      this.playerSeatMap.delete(userId);
+
+      this.seats.get(seatNumber)?.removePlayer();
+      return Result.success();
     }
 
     return Result.error(new PlayerNotFoundAtTableError());
   }
 
+  // Add a game to the table
   public addGame(game: Game): void {
     this.game = game;
     this.dealerPosition = game.getGameState().getDealerPosition();
   }
 
+  // Get the game at the table
   public getGame(): Game | undefined {
     return this.game;
   }
 
-  public getAvailableSeats(): Seat[] {
-    const availableSeats = [];
+  public getAvailableSeatNumbers(): number[] {
+    const availableSeats: number[] = [];
 
-    for (const seat of this.seats) {
-      if (seat.isSeatTaken() === false) {
-        availableSeats.push(seat);
+    this.seats.forEach((seat) => {
+      if (!seat.isSeatTaken()) {
+        availableSeats.push(seat.getSeatNumber());
       }
-    }
-    return availableSeats;
-  }
+    });
 
-  public getSeats(): Seat[] {
-    return this.seats;
+    return availableSeats;
   }
 
   public getName() {
     return this.name;
   }
 
-  public isPokerTableReady(): boolean {
-    for (const seat of this.seats) {
-      if (seat.getPlayer() === undefined) {
-        return false;
-      }
-    }
-    return true;
+  public getSeats(): Map<number, Seat> {
+    return this.seats;
   }
 
-  public playersRemaining(): boolean {
-    let count = 0;
-    for (const seat of this.seats) {
-      const playerCards = seat.getPlayer()?.getCards();
-      if (playerCards && playerCards.length > 0) {
-        count++;
-      }
-    }
-    if (count > 1) {
-      return true;
-    }
+  public getSeatBySeatNumber(seatNumber: number): Seat | undefined {
+    return this.seats.get(seatNumber);
+  }
 
-    return false;
+  public getSeatByUserId(userId: number): Seat | undefined {
+    const seatNumber = this.playerSeatMap.get(userId);
+    if (seatNumber) {
+      return this.seats.get(seatNumber);
+    }
+  }
+
+  public getPlayerByUserId(userId: number): Player | undefined {
+    const seat = this.getSeatByUserId(userId);
+    if (seat) {
+      return seat.getPlayer();
+    }
+  }
+
+  public getSeatCount(): number {
+    return this.seats.size;
   }
 
   public getDealerPosition(): number {
@@ -134,11 +139,39 @@ export class PokerTable {
 
   public getPlayerCount(): number {
     let count = 0;
-    for (const seat of this.seats) {
+
+    this.seats.forEach((seat) => {
       if (seat.isSeatTaken()) {
         count++;
       }
-    }
+    });
+
     return count;
+  }
+
+  public isReadyToStartGame(): boolean {
+    for (const seat of this.seats.values()) {
+      if (!seat.isSeatTaken()) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public hasRemainingPlayers(): boolean {
+    let count = 0;
+
+    this.seats.forEach((seat) => {
+      const playerCards = seat.getPlayer()?.getCards();
+      if (playerCards && playerCards.length > 0) {
+        count++;
+      }
+    });
+
+    if (count > 1) {
+      return true;
+    }
+
+    return false;
   }
 }

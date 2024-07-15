@@ -5,6 +5,6 @@ describe('createPokerTable', () => {
     const pokerTable = createPokerTable('table_1', 2);
 
     expect(pokerTable.getName()).toEqual('table_1');
-    expect(pokerTable.getAvailableSeats().length).toEqual(2);
+    expect(pokerTable.getAvailableSeatNumbers().length).toEqual(2);
   });
 });
