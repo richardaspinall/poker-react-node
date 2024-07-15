@@ -7,7 +7,7 @@ import { Player } from './Player';
 
 describe('PokerTable', () => {
   describe('addPlayer', () => {
-    it.only('should confirm a player has sat down', () => {
+    it('should confirm a player has sat down', () => {
       mockSendEventToRoomSuccess();
 
       const tableName = 'table_1';
