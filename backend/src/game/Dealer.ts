@@ -259,7 +259,7 @@ export class Dealer {
       }
     }
 
-    game.startNextRound();
+    game.startNextRound(); // TODO: currently just sets the round to the next round (doesn't do anything else)
     return Result.success();
   }
 }
