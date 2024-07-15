@@ -44,7 +44,7 @@ describe('Dealer', () => {
   });
 
   describe('foldPlayer', () => {
-    it.only('should return empty cards for folded player', () => {
+    it('should return empty cards for folded player', () => {
       let player;
       const game = newPokerTable.getGame() as Game;
       const seatToAct = game.getGameState().getSeatToAct();
