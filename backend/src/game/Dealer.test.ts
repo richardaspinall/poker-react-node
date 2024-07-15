@@ -182,13 +182,13 @@ describe('Dealer', () => {
 
     // it('', () => {});
 
-    it('should end turn when game and seat action is bet and no one has raised', () => {
+    it.only('should end turn when game and seat action is bet and no one has raised', () => {
       Dealer.newGame(newPokerTable);
       Dealer.dealCards(newPokerTable);
       let player;
       const game = newPokerTable.getGame() as Game;
       let seatToAct = game.getGameState().getSeatToAct();
-      let currentRound = game.getGameState().getRound();
+      const currentRound = game.getGameState().getRound();
       console.log(`cr ${currentRound}`);
       console.log(`cr seat ${seatToAct}`);
       const seats = newPokerTable.getSeats();
@@ -211,7 +211,7 @@ describe('Dealer', () => {
           }
         }
       });
-      let updatedCurrentRound = game.getGameState().getRound();
+      const updatedCurrentRound = game.getGameState().getRound();
       expect(updatedCurrentRound).toEqual('flop');
     });
   });

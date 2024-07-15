@@ -153,8 +153,8 @@ export class Dealer {
     }
 
     const lastRaisedBy = pokerTable.getGame()?.getGameState().getLastRaisedBy();
-    const seats = pokerTable.getSeats();
-    const seat = seats.find((seat) => seat.getPlayer()?.getUserId() === userid);
+
+    const seat = pokerTable.getSeatByUserId(userid);
     if (seat === undefined) {
       return Result.error(new SeatUndefined());
     }
@@ -166,7 +166,7 @@ export class Dealer {
 
     const player = seat.getPlayer();
 
-    let actionRank = {
+    const actionRank = {
       initial: -1,
       fold: 0,
       check: 1,
@@ -223,41 +223,42 @@ export class Dealer {
       return Result.success();
     }
     // if next player action is not fold and game action is not matching then it is their turn
-    for (let i = currentSeatToAct; i < seats.length; i++) {
-      console.log(`current seat ${currentSeatToAct}`);
-      let nextSeatToAct = (currentSeatToAct % seats.length) + 1;
-      console.log(`nextSeatToAct seat ${nextSeatToAct}`);
-      const seat = seats.find((seat) => seat.getSeatNumber() === nextSeatToAct);
-      if (seat === undefined) {
-        return Result.error(new SeatUndefined());
-      }
+    console.log(`current seat ${currentSeatToAct}`);
 
-      const nextPlayerToAct = seat.getPlayer();
-      const nextPlayerPreviousAction = nextPlayerToAct?.getPlayerAction();
-      if (nextPlayerPreviousAction === undefined) {
-        return Result.error(new PlayerActionUndefined());
-      }
-      console.log(`next player action ${actionRank[nextPlayerPreviousAction]}`);
-      console.log(`currentAction ${actionRank[currentAction]}`);
-      console.log(`seat number ${seat.getSeatNumber()}`);
-      if (actionRank[nextPlayerPreviousAction] === -1) {
-        this.updateTurn(pokerTable, nextSeatToAct);
+    const nextSeatNumberToAct = (currentSeatToAct % pokerTable.getSeatCount()) + 1;
+    console.log(`nextSeatToAct seat ${nextSeatNumberToAct}`);
+
+    const nextSeatToAct = pokerTable.getSeatBySeatNumber(nextSeatNumberToAct);
+    if (nextSeatToAct === undefined) {
+      return Result.error(new SeatUndefined());
+    }
+
+    const nextPlayerToAct = nextSeatToAct.getPlayer();
+    const nextPlayerPreviousAction = nextPlayerToAct?.getPlayerAction();
+    if (nextPlayerPreviousAction === undefined) {
+      return Result.error(new PlayerActionUndefined());
+    }
+    console.log(`next player action ${actionRank[nextPlayerPreviousAction]}`);
+    console.log(`currentAction ${actionRank[currentAction]}`);
+    console.log(`seat number ${nextSeatToAct.getSeatNumber()}`);
+    if (actionRank[nextPlayerPreviousAction] === -1) {
+      this.updateTurn(pokerTable, nextSeatNumberToAct);
+      return Result.success();
+    }
+
+    if (actionRank[nextPlayerPreviousAction] > 0) {
+      if (actionRank[nextPlayerPreviousAction] !== actionRank[currentAction]) {
+        this.updateTurn(pokerTable, nextSeatNumberToAct);
         return Result.success();
-      }
-
-      if (actionRank[nextPlayerPreviousAction] > 0) {
-        if (actionRank[nextPlayerPreviousAction] !== actionRank[currentAction]) {
-          this.updateTurn(pokerTable, nextSeatToAct);
+      } else {
+        // Handle multiple raises
+        if (playerAction === 'raise' && nextSeatToAct?.getSeatNumber() !== lastRaisedBy) {
+          this.updateTurn(pokerTable, nextSeatNumberToAct);
           return Result.success();
-        } else {
-          // Handle multiple raises
-          if (playerAction === 'raise' && seat?.getSeatNumber() !== lastRaisedBy) {
-            this.updateTurn(pokerTable, nextSeatToAct);
-            return Result.success();
-          }
         }
       }
     }
+
     game.startNextRound();
     return Result.success();
   }
