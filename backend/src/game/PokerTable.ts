@@ -80,13 +80,11 @@ export class PokerTable {
     return Result.error(new PlayerNotFoundAtTableError());
   }
 
-  // Add a game to the table
   public addGame(game: Game): void {
     this.game = game;
     this.dealerPosition = game.getGameState().getDealerPosition();
   }
 
-  // Get the game at the table
   public getGame(): Game | undefined {
     return this.game;
   }
