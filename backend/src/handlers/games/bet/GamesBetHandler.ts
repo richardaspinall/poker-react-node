@@ -1,19 +1,23 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { MethodNotImplementedError } from '@shared/api/BaseOutput';
 import { GamesBetOutput, GamesBetPayload } from '@shared/api/gen/games/types/GamesBet';
 
-import { GameDoesNotExistError } from '../errors/gen/GameDoesNotExistError';
-import { NotPlayersTurnError } from '../errors/gen/NotPlayersTurnError';
-import { PlayerNotFoundAtTableError } from '../errors/gen/PlayerNotFoundAtTableError';
+import { GameLobbyService } from '../../../game-lobby-service';
+import { Dealer } from '../../../game/Dealer';
 import { PokerTableDoesNotExistError } from '../errors/gen/PokerTableDoesNotExistError';
 import { AbstractGamesBetHandler } from './gen/AbstractGamesBetHandler';
 
 export class GamesBetHandler extends AbstractGamesBetHandler {
-  protected async getResult(payload: GamesBetPayload) {
-    return new ResultError(new MethodNotImplementedError());
+  protected async getResult(payload: GamesBetPayload, userId: number) {
+    const pokerTable = GameLobbyService.getPokerTable(payload.pokerTableName);
+    if (!pokerTable) {
+      return new ResultError(new PokerTableDoesNotExistError());
+    }
 
-    // 1. After generating the handler, create a PR returning the above
-    // 2. Then implement the handler when the above PR is merged and use the below
-    // return new ResultSuccess<GamesBetOutput>();
+    const foldPlayer = Dealer.actionHandler(pokerTable, 'bet', payload.amount, userId);
+    if (foldPlayer.isError()) {
+      return new ResultError(foldPlayer.getError());
+    }
+
+    return new ResultSuccess<GamesBetOutput>({ ok: true });
   }
 }

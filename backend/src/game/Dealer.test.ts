@@ -45,6 +45,8 @@ describe('Dealer', () => {
 
   describe('foldPlayer', () => {
     it('should return empty cards for folded player', () => {
+      Dealer.newGame(newPokerTable);
+      Dealer.dealCards(newPokerTable);
       let player;
       const game = newPokerTable.getGame() as Game;
       const seatToAct = game.getGameState().getSeatToAct();
@@ -63,6 +65,154 @@ describe('Dealer', () => {
           }
         }
       });
+    });
+  });
+
+  describe('actionHandler', () => {
+    it('should update the seat action when an action button is clicked', () => {
+      Dealer.newGame(newPokerTable);
+      Dealer.dealCards(newPokerTable);
+      let player;
+      const game = newPokerTable.getGame() as Game;
+      const seatToAct = game.getGameState().getSeatToAct();
+      const seats = newPokerTable.getSeats();
+
+      // should we look to create a function that gets the userid without looping through seats?
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+          }
+        }
+      });
+
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            const playerAction = player?.getPlayerAction();
+            if (playerAction) {
+              expect(playerAction).toEqual('call');
+            }
+          }
+        }
+      });
+    });
+
+    it('player bet should update current game bet', () => {
+      Dealer.newGame(newPokerTable);
+      Dealer.dealCards(newPokerTable);
+      let player;
+      const game = newPokerTable.getGame() as Game;
+      const seatToAct = game.getGameState().getSeatToAct();
+      const seats = newPokerTable.getSeats();
+
+      // should we look to create a function that gets the userid without looping through seats?
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            Dealer.actionHandler(newPokerTable, 'bet', 10, player.getUserId());
+          }
+        }
+      });
+
+      const currentGameBet = game.getGameState().getCurrentBet();
+      expect(currentGameBet).toEqual(10);
+    });
+
+    it('player raise should up last raised by ', () => {
+      Dealer.newGame(newPokerTable);
+      Dealer.dealCards(newPokerTable);
+      let player;
+      const game = newPokerTable.getGame() as Game;
+      let seatToAct = game.getGameState().getSeatToAct();
+      const seats = newPokerTable.getSeats();
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            Dealer.actionHandler(newPokerTable, 'bet', 100, player.getUserId());
+          }
+        }
+      });
+
+      seatToAct = game.getGameState().getSeatToAct();
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            Dealer.actionHandler(newPokerTable, 'raise', 200, player.getUserId());
+          }
+        }
+      });
+
+      const lastRaisedBy = game.getGameState().getLastRaisedBy();
+      expect(lastRaisedBy).toEqual(seatToAct);
+    });
+
+    it('should fail when invalid action sent to handler', () => {
+      Dealer.newGame(newPokerTable);
+      Dealer.dealCards(newPokerTable);
+      let player;
+      const game = newPokerTable.getGame() as Game;
+      let seatToAct = game.getGameState().getSeatToAct();
+      const seats = newPokerTable.getSeats();
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+          }
+        }
+      });
+
+      seatToAct = game.getGameState().getSeatToAct();
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            const resp = Dealer.actionHandler(newPokerTable, 'raise', 200, player.getUserId());
+            expect(resp.getError()?.code).toEqual('player_action_invalid');
+          }
+        }
+      });
+    });
+
+    // it('', () => {});
+
+    it('should end turn when game and seat action is bet and no one has raised', () => {
+      Dealer.newGame(newPokerTable);
+      Dealer.dealCards(newPokerTable);
+      let player;
+      const game = newPokerTable.getGame() as Game;
+      let seatToAct = game.getGameState().getSeatToAct();
+      let currentRound = game.getGameState().getRound();
+      console.log(`cr ${currentRound}`);
+      console.log(`cr seat ${seatToAct}`);
+      const seats = newPokerTable.getSeats();
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+          }
+        }
+      });
+
+      seatToAct = game.getGameState().getSeatToAct();
+      console.log(`cr seat ${seatToAct}`);
+      seats.forEach((seat) => {
+        if (seat.getSeatNumber() === seatToAct) {
+          player = seat.getPlayer();
+          if (player) {
+            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+          }
+        }
+      });
+      let updatedCurrentRound = game.getGameState().getRound();
+      expect(updatedCurrentRound).toEqual('flop');
     });
   });
 });

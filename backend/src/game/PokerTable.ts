@@ -156,7 +156,7 @@ export class PokerTable {
     return true;
   }
 
-  public hasRemainingPlayers(): boolean {
+  public playersRemaining(): number {
     let count = 0;
 
     this.seats.forEach((seat) => {
@@ -166,10 +166,6 @@ export class PokerTable {
       }
     });
 
-    if (count > 1) {
-      return true;
-    }
-
-    return false;
+    return count;
   }
 }
