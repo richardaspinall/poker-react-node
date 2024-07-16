@@ -1,7 +1,7 @@
 import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { GameState } from '../../../../backend/src/shared/game/types/GameState.ts';
-import { SeatToActEvent } from '../../../../backend/src/shared/websockets/game/types/GameEvents.ts';
+import { DealCardsEvent, SeatToActEvent } from '../../../../backend/src/shared/websockets/game/types/GameEvents.ts';
 import fetchGameState from '../../components/PokerTable/thunks/fetchGameState';
 
 interface GameStateSlice {
@@ -31,6 +31,14 @@ export const gameStateSlice = createSlice({
       }
       state.value.seatToAct = action.payload.seatToAct;
     },
+    setCommunityCards: (state, action: PayloadAction<DealCardsEvent>) => {
+      if (state.value === null) {
+        console.log('GameState is null, cannot set acting seat.');
+        // TODO: Maybe dispatch another action to handle the error?
+        return;
+      }
+      state.value.communityCards = action.payload.cards;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -48,6 +56,6 @@ export const gameStateSlice = createSlice({
   },
 });
 
-export const { setActingSeat } = gameStateSlice.actions;
+export const { setActingSeat, setCommunityCards } = gameStateSlice.actions;
 
 export default gameStateSlice.reducer;

@@ -1,3 +1,4 @@
+import { Logger } from '../utils/Logger';
 import { BaseError } from './BaseError';
 
 /**

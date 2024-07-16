@@ -6,10 +6,15 @@ export type PlayerAction = 'initial' | 'fold' | 'check' | 'call' | 'bet' | 'rais
 export class Player extends User {
   private cards: Card[] = [];
   private playerAction: PlayerAction;
+  private chipCount: number;
+  private currentBet: number;
+  private hadTurn: boolean = false;
 
   constructor(userId: number, username: string) {
     super(userId, username);
     this.playerAction = 'initial';
+    this.chipCount = 1000;
+    this.currentBet = 0;
   }
 
   public setCards(cards: Card[]): void {
@@ -20,6 +25,23 @@ export class Player extends User {
     return this.cards;
   }
 
+  public setCurrentBet(bet: number): void {
+    this.currentBet = bet;
+    this.chipCount -= bet;
+  }
+
+  public getCurrentBet(): number {
+    return this.currentBet;
+  }
+
+  public setHadTurn(): void {
+    this.hadTurn = true;
+  }
+
+  public hasHadTurn(): boolean {
+    return this.hadTurn;
+  }
+
   public foldCards(): void {
     this.cards = [];
   }
@@ -28,7 +50,13 @@ export class Player extends User {
     return this.playerAction;
   }
 
-  public updatePlayerAction(playerAction: PlayerAction) {
+  public setPlayerAction(playerAction: PlayerAction) {
     this.playerAction = playerAction;
+  }
+
+  public resetPlayer(): void {
+    this.playerAction = 'initial';
+    this.currentBet = 0;
+    this.hadTurn = false;
   }
 }

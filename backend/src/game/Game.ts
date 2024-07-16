@@ -30,6 +30,9 @@ export class Game {
       case Round.turn:
         this.gameState.updateRound(Round.river);
         break;
+      case Round.river:
+        this.gameState.updateRound(Round.endGame);
+        break;
     }
   }
 }

@@ -14,6 +14,7 @@ export class GamesBetHandler extends AbstractGamesBetHandler {
     }
 
     const foldPlayer = Dealer.actionHandler(pokerTable, 'bet', payload.amount, userId);
+
     if (foldPlayer.isError()) {
       return new ResultError(foldPlayer.getError());
     }

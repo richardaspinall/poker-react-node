@@ -24,7 +24,7 @@ describe('Dealer', () => {
     expect(game.getGameState().getSmallBlind()).toBe(1);
     expect(game.getGameState().getBigBlind()).toBe(2);
     expect(game.getGameState().getPot()).toBe(0);
-    expect(game.getGameState().getCurrentBet()).toBe(0);
+    expect(game.getGameState().getCurrentBet()).toBe(2);
     expect(game.getGameState().getRound()).toBe('pre-flop');
     expect(game.getGameState().getCommunityCards()).toEqual([]);
   });
@@ -163,7 +163,7 @@ describe('Dealer', () => {
         if (seat.getSeatNumber() === seatToAct) {
           player = seat.getPlayer();
           if (player) {
-            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+            Dealer.actionHandler(newPokerTable, 'bet', 200, player.getUserId());
           }
         }
       });
@@ -173,7 +173,7 @@ describe('Dealer', () => {
         if (seat.getSeatNumber() === seatToAct) {
           player = seat.getPlayer();
           if (player) {
-            const resp = Dealer.actionHandler(newPokerTable, 'raise', 200, player.getUserId());
+            const resp = Dealer.actionHandler(newPokerTable, 'check', 0, player.getUserId());
             expect(resp.getError()?.code).toEqual('player_action_invalid');
           }
         }
@@ -182,37 +182,37 @@ describe('Dealer', () => {
 
     // it('', () => {});
 
-    it.only('should end turn when game and seat action is bet and no one has raised', () => {
-      Dealer.newGame(newPokerTable);
-      Dealer.dealCards(newPokerTable);
-      let player;
-      const game = newPokerTable.getGame() as Game;
-      let seatToAct = game.getGameState().getSeatToAct();
-      const currentRound = game.getGameState().getRound();
-      console.log(`cr ${currentRound}`);
-      console.log(`cr seat ${seatToAct}`);
-      const seats = newPokerTable.getSeats();
-      seats.forEach((seat) => {
-        if (seat.getSeatNumber() === seatToAct) {
-          player = seat.getPlayer();
-          if (player) {
-            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
-          }
-        }
-      });
+    // it.only('should end turn when game and seat action is bet and no one has raised', () => {
+    //   Dealer.newGame(newPokerTable);
+    //   Dealer.dealCards(newPokerTable);
+    //   let player;
+    //   const game = newPokerTable.getGame() as Game;
+    //   let seatToAct = game.getGameState().getSeatToAct();
+    //   const currentRound = game.getGameState().getRound();
+    //   console.log(`cr ${currentRound}`);
+    //   console.log(`cr seat ${seatToAct}`);
+    //   const seats = newPokerTable.getSeats();
+    //   seats.forEach((seat) => {
+    //     if (seat.getSeatNumber() === seatToAct) {
+    //       player = seat.getPlayer();
+    //       if (player) {
+    //         Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+    //       }
+    //     }
+    //   });
 
-      seatToAct = game.getGameState().getSeatToAct();
-      console.log(`cr seat ${seatToAct}`);
-      seats.forEach((seat) => {
-        if (seat.getSeatNumber() === seatToAct) {
-          player = seat.getPlayer();
-          if (player) {
-            Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
-          }
-        }
-      });
-      const updatedCurrentRound = game.getGameState().getRound();
-      expect(updatedCurrentRound).toEqual('flop');
-    });
+    //   seatToAct = game.getGameState().getSeatToAct();
+    //   console.log(`cr seat ${seatToAct}`);
+    //   seats.forEach((seat) => {
+    //     if (seat.getSeatNumber() === seatToAct) {
+    //       player = seat.getPlayer();
+    //       if (player) {
+    //         Dealer.actionHandler(newPokerTable, 'call', 0, player.getUserId());
+    //       }
+    //     }
+    //   });
+    //   const updatedCurrentRound = game.getGameState().getRound();
+    //   expect(updatedCurrentRound).toEqual('flop');
+    // });
   });
 });

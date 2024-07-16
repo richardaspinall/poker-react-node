@@ -5,6 +5,7 @@ export enum Round {
   flop = 'flop',
   turn = 'turn',
   river = 'river',
+  endGame = 'end-game',
 }
 
 export type CurrentAction = 'initial' | 'fold' | 'check' | 'call' | 'bet' | 'raise';
@@ -56,11 +57,7 @@ export class GameState {
     this.seatToAct = seatToAct;
   }
 
-  public updateCurrentAction(currentAction: CurrentAction) {
-    this.currentAction = currentAction;
-  }
-
-  public updateLastRaisedBy(lastRaisedBy: number) {
+  public setLastRaisedBy(lastRaisedBy: number) {
     this.lastRaisedBy = lastRaisedBy;
   }
 
@@ -115,6 +112,10 @@ export class GameState {
 
   public getCurrentAction() {
     return this.currentAction;
+  }
+
+  public setCurrentAction(currentAction: CurrentAction) {
+    this.currentAction = currentAction;
   }
 
   public getLastRaisedBy() {

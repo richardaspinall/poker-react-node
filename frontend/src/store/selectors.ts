@@ -29,3 +29,10 @@ export const selectActingSeat = createSelector(
     return gameState?.seatToAct;
   },
 );
+
+export const selectCommunityCards = createSelector(
+  (state: RootState) => state.gameStateSlice.value,
+  (gameState) => {
+    return gameState?.communityCards;
+  },
+);
