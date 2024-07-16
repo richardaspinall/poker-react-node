@@ -333,12 +333,17 @@ export class Dealer {
 
     if (actionRank[nextPlayerPreviousAction] === -1 || !nextPlayerToAct?.hasHadTurn()) {
       this.updateTurn(pokerTable, nextSeatNumberToAct);
-
       return Result.success();
     }
 
     if (actionRank[nextPlayerPreviousAction] > 0) {
-      if (actionRank[nextPlayerPreviousAction] !== actionRank[currentAction]) {
+      console.log('nextPlayerPreviousAction', nextPlayerPreviousAction);
+      console.log('currentAction', currentAction);
+      if (
+        actionRank[nextPlayerPreviousAction] !== actionRank[currentAction] &&
+        player?.getPlayerAction() !== 'check' &&
+        currentSeatToAct !== seat.getSeatNumber()
+      ) {
         this.updateTurn(pokerTable, nextSeatNumberToAct);
         return Result.success();
       } else {
