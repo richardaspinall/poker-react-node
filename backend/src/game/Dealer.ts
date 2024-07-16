@@ -337,8 +337,6 @@ export class Dealer {
     }
 
     if (actionRank[nextPlayerPreviousAction] > 0) {
-      console.log('nextPlayerPreviousAction', nextPlayerPreviousAction);
-      console.log('currentAction', currentAction);
       if (
         actionRank[nextPlayerPreviousAction] !== actionRank[currentAction] &&
         player?.getPlayerAction() !== 'check' &&
@@ -352,6 +350,11 @@ export class Dealer {
           this.updateTurn(pokerTable, nextSeatNumberToAct);
           return Result.success();
         }
+
+        if (playerAction === 'bet' && actionRank[nextPlayerPreviousAction] !== 2) {
+          this.updateTurn(pokerTable, nextSeatNumberToAct);
+          return Result.success();
+        }
       }
     }
 
@@ -361,6 +364,7 @@ export class Dealer {
     if (round === 'flop') {
       Dealer.resetPlayersTurn(pokerTable);
       game.getGameState().setCurrentAction('check');
+      game.getGameState().setLastRaisedBy(0);
       Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
       Dealer.dealFlop(pokerTable);
       Dealer.startTurn(pokerTable);
@@ -369,6 +373,8 @@ export class Dealer {
     if (round === 'turn') {
       Dealer.resetPlayersTurn(pokerTable);
       game.getGameState().setCurrentAction('check');
+      game.getGameState().setLastRaisedBy(0);
+
       Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
       Dealer.dealTurn(pokerTable);
       Dealer.startTurn(pokerTable);
@@ -377,12 +383,14 @@ export class Dealer {
     if (round === 'river') {
       Dealer.resetPlayersTurn(pokerTable);
       game.getGameState().setCurrentAction('check');
+      game.getGameState().setLastRaisedBy(0);
       Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
       Dealer.dealRiver(pokerTable);
       Dealer.startTurn(pokerTable);
     }
 
     if (round === 'end-game') {
+      Dealer.resetPlayersTurn(pokerTable);
       Dealer.newGame(pokerTable);
     }
 
