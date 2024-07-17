@@ -10,6 +10,7 @@ import { Game } from './Game';
 import { PokerTable } from './PokerTable';
 import { CurrentActionUndefined } from './errors/CurrentActionUndefined';
 import { PlayerActionInvalid } from './errors/PlayerActionInvalid';
+import { PlayerBetInvalid } from './errors/PlayerBetInvalid';
 import { PlayerActionUndefined } from './errors/PlayerActionUndefined';
 import { SeatUndefined } from './errors/SeatUndefined';
 
@@ -334,6 +335,10 @@ export class Dealer {
         );
         break;
       case 'bet':
+        if (playerBet < currentGameBet){
+          return Result.error(new PlayerBetInvalid());
+        }
+
         pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
         pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
 
@@ -352,6 +357,11 @@ export class Dealer {
         if (actionRank[currentAction] < 3) {
           return Result.error(new PlayerActionInvalid());
         }
+
+        if (playerBet < currentGameBet){
+          return Result.error(new PlayerBetInvalid());
+        }
+
         pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
         pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
         pokerTable.getGame()?.getGameState().setLastRaisedBy(currentSeatToAct);
