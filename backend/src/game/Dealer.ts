@@ -10,8 +10,8 @@ import { Game } from './Game';
 import { PokerTable } from './PokerTable';
 import { CurrentActionUndefined } from './errors/CurrentActionUndefined';
 import { PlayerActionInvalid } from './errors/PlayerActionInvalid';
-import { PlayerBetInvalid } from './errors/PlayerBetInvalid';
 import { PlayerActionUndefined } from './errors/PlayerActionUndefined';
+import { PlayerBetInvalid } from './errors/PlayerBetInvalid';
 import { SeatUndefined } from './errors/SeatUndefined';
 
 type PlayersCurrentBets = { seatNumber: number; currentBet: number; chipCount: number };
@@ -322,6 +322,11 @@ export class Dealer {
         ) {
           return Result.error(new PlayerActionInvalid());
         }
+
+        if (player.getChipCount() < currentGameBet - playersCurrentBet) {
+          throw new Error('Player does not have enough chips to call');
+        }
+
         player?.setPlayerAction(playerAction);
         player?.setCurrentBet(currentGameBet);
         player?.updateChipCount(-(currentGameBet - playersCurrentBet));
@@ -335,13 +340,16 @@ export class Dealer {
         );
         break;
       case 'bet':
-        if (playerBet < currentGameBet){
+        if (playerBet < currentGameBet) {
           return Result.error(new PlayerBetInvalid());
         }
 
         pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
         pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
 
+        if (player.getChipCount() < playerBet - playersCurrentBet) {
+          throw new Error('Player does not have enough chips to bet');
+        }
         player?.setCurrentBet(playerBet);
         player?.updateChipCount(-playerBet);
         player?.setPlayerAction(playerAction);
@@ -358,7 +366,7 @@ export class Dealer {
           return Result.error(new PlayerActionInvalid());
         }
 
-        if (playerBet < currentGameBet){
+        if (playerBet < currentGameBet) {
           return Result.error(new PlayerBetInvalid());
         }
 
