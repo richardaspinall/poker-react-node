@@ -17,7 +17,7 @@ type PlayersCurrentBets = { seatNumber: number; currentBet: number; chipCount: n
 
 export class Dealer {
   public static newGame(pokerTable: PokerTable) {
-    const smallBlind = 1;
+    const smallBlind = 50;
     const bigBlind = smallBlind * 2;
 
     const nextSeatToAct = (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1;
@@ -322,7 +322,6 @@ export class Dealer {
           return Result.error(new PlayerActionInvalid());
         }
         player?.setPlayerAction(playerAction);
-
         player?.setCurrentBet(currentGameBet);
         player?.updateChipCount(-(currentGameBet - playersCurrentBet));
 
@@ -338,14 +337,14 @@ export class Dealer {
         pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
         pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
 
-        player?.setCurrentBet(playersCurrentBet + playerBet);
-        player?.updateChipCount(-(playersCurrentBet + playerBet));
+        player?.setCurrentBet(playerBet);
+        player?.updateChipCount(-playerBet);
         player?.setPlayerAction(playerAction);
         GameEmitter.eventEmitter.emit(
           'playerBet',
           pokerTable.getName(),
           seat.getSeatNumber(),
-          playersCurrentBet + playerBet,
+          playerBet,
           player.getChipCount(),
         );
         break;
@@ -353,19 +352,18 @@ export class Dealer {
         if (actionRank[currentAction] < 3) {
           return Result.error(new PlayerActionInvalid());
         }
-
         pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
         pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
         pokerTable.getGame()?.getGameState().setLastRaisedBy(currentSeatToAct);
 
-        player?.setCurrentBet(playersCurrentBet + playerBet);
-        player?.updateChipCount(-(playersCurrentBet + playerBet));
+        player?.setCurrentBet(playerBet);
+        player?.updateChipCount(-(playerBet - playersCurrentBet));
         player?.setPlayerAction(playerAction);
         GameEmitter.eventEmitter.emit(
           'playerBet',
           pokerTable.getName(),
           seat.getSeatNumber(),
-          playersCurrentBet + playerBet,
+          playerBet,
           player.getChipCount(),
         );
         break;
@@ -373,7 +371,28 @@ export class Dealer {
     player?.setHadTurn();
 
     if (!pokerTable.hasRemainingPlayers()) {
+      if (game.getGameState().getRound() === 'pre-flop') {
+        let pot = 0;
+        pokerTable.getSeats().forEach((seat) => {
+          const bet = seat.getPlayer()?.getCurrentBet();
+          if (bet) {
+            pot += bet;
+          }
+        });
+
+        game.getGameState().updatePot(pot);
+      }
+      pokerTable.getSeats().forEach((seat) => {
+        const playerCards = seat.getPlayer()?.getCards();
+        if (playerCards && playerCards.length > 0) {
+          const player = seat.getPlayer();
+          if (player) {
+            player.updateChipCount(game.getGameState().getPot());
+          }
+        }
+      });
       Dealer.newGame(pokerTable);
+
       return Result.success();
     }
 
@@ -424,11 +443,9 @@ export class Dealer {
     const round = game.getGameState().getRound();
 
     let pot = game.getGameState().getPot();
-    console.log('Pot:', pot);
 
     pokerTable.getSeats().forEach((seat) => {
       const bet = seat.getPlayer()?.getCurrentBet();
-      console.log(seat.getPlayer()?.getUsername(), bet);
       if (bet) {
         pot += bet;
       }
@@ -438,6 +455,7 @@ export class Dealer {
 
     GameEmitter.eventEmitter.emit('updatePot', pokerTable.getName(), pot);
     GameEmitter.eventEmitter.emit('resetBets', pokerTable.getName());
+
     if (round === 'flop') {
       Dealer.resetPlayersTurn(pokerTable);
       game.getGameState().setCurrentAction('check');

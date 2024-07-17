@@ -21,10 +21,10 @@ describe('Dealer', () => {
     const game = newPokerTable.getGame() as Game;
 
     expect(game).toBeInstanceOf(Game);
-    expect(game.getGameState().getSmallBlind()).toBe(1);
-    expect(game.getGameState().getBigBlind()).toBe(2);
+    expect(game.getGameState().getSmallBlind()).toBe(50);
+    expect(game.getGameState().getBigBlind()).toBe(100);
     expect(game.getGameState().getPot()).toBe(0);
-    expect(game.getGameState().getCurrentBet()).toBe(2);
+    expect(game.getGameState().getCurrentBet()).toBe(100);
     expect(game.getGameState().getRound()).toBe('pre-flop');
     expect(game.getGameState().getCommunityCards()).toEqual([]);
   });
