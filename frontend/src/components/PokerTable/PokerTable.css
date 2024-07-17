@@ -420,3 +420,13 @@ body {
   transform: translateX(-50%);
   z-index: 1;
 }
+
+.bet-amount {
+  position: absolute;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  font-size: large;
+  background-color: #ffffff;
+}

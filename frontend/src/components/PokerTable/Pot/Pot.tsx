@@ -1,8 +1,8 @@
-type PotProps = {};
+type PotProps = { pot: number };
 
-export default function Pot({}: PotProps) {
+export default function Pot({ pot }: PotProps) {
   return (
-    <div id="pot" data-chip-count="0">
+    <div id="pot" data-chip-count={pot}>
       Pot
     </div>
   );

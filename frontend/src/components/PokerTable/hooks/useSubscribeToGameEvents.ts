@@ -2,7 +2,13 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { useSocket } from '../../../hooks/useSocket';
-import { setActingSeat, setCommunityCards } from '../../../store/slices/gameStateSlice';
+import {
+  resetBets,
+  setActingSeat,
+  setCommunityCards,
+  setPlayerBet,
+  setPot,
+} from '../../../store/slices/gameStateSlice';
 import { setHoleCards } from '../../../store/slices/holeCardsSlice';
 import { addUser, removeUser } from '../../../store/slices/seatsSlice';
 import { AppDispatch } from '../../../store/store.tsx';
@@ -61,6 +67,23 @@ export function useSubscribeToGameEvents() {
       dispatch(setActingSeat(payload));
     });
 
+    const subscribeToUpdatePot = subscribeToEvent('update_pot', (payload) => {
+      console.log('Update pot');
+      console.log('payload', payload);
+      dispatch(setPot(payload));
+    });
+
+    const subscribePlayerBet = subscribeToEvent('player_bet', (payload) => {
+      console.log('Player bet');
+      console.log('payload', payload);
+      dispatch(setPlayerBet(payload));
+    });
+
+    const subscribeResetBets = subscribeToEvent('reset_bets', () => {
+      console.log('Reset pot');
+      dispatch(resetBets());
+    });
+
     return () => {
       subscribeToPlayerJoined();
       subscribeToPlayerLeft();
@@ -69,6 +92,9 @@ export function useSubscribeToGameEvents() {
       subscribeToFoldCards();
       subscribeToSeatToAct();
       subscribeToDealingCommunityCards();
+      subscribeToUpdatePot();
+      subscribePlayerBet();
+      subscribeResetBets();
     };
   }, [dispatch, subscribeToEvent]);
 }

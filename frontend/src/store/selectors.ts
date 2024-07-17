@@ -36,3 +36,17 @@ export const selectCommunityCards = createSelector(
     return gameState?.communityCards;
   },
 );
+
+export const selectPlayersCurrentBets = createSelector(
+  (state: RootState) => state.gameStateSlice.value,
+  (gameState) => {
+    return gameState?.playersCurrentBets;
+  },
+);
+
+export const selectPot = createSelector(
+  (state: RootState) => state.gameStateSlice.value,
+  (gameState) => {
+    return gameState?.pot;
+  },
+);

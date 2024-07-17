@@ -111,6 +111,19 @@
               ],
               "allowEmpty": true
             }
+          },
+          {
+            "name": "playersCurrentBets",
+            "type": "array",
+            "required": true,
+            "items": {
+              "type": "object",
+              "properties": [
+                { "name": "seatNumber", "type": "number", "required": true },
+                { "name": "currentBet", "type": "number", "required": true },
+                { "name": "chipCount", "type": "number", "required": true }
+              ]
+            }
           }
         ]
       }

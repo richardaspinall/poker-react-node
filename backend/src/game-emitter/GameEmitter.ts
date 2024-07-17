@@ -21,6 +21,9 @@ export class GameEmitter {
     GameEmitter.eventEmitter.on('dealFlop', GameEmitter.onDealCommunityCards);
     GameEmitter.eventEmitter.on('dealTurn', GameEmitter.onDealCommunityCards);
     GameEmitter.eventEmitter.on('dealRiver', GameEmitter.onDealCommunityCards);
+    GameEmitter.eventEmitter.on('updatePot', GameEmitter.onUpdatePot);
+    GameEmitter.eventEmitter.on('playerBet', GameEmitter.onPlayerBet);
+    GameEmitter.eventEmitter.on('resetBets', GameEmitter.onResetBets);
   }
 
   // Room events
@@ -86,6 +89,34 @@ export class GameEmitter {
     const payload = { cards };
 
     const sendEvents = Rooms.sendEventToRoom(pokerTableName, GameEvent.DEAL_COMMUNITY_CARDS, payload);
+
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
+    }
+  }
+
+  private static async onUpdatePot(pokerTableName: string, pot: number) {
+    const payload = { pot };
+
+    const sendEvents = Rooms.sendEventToRoom(pokerTableName, GameEvent.UPDATE_POT, payload);
+
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
+    }
+  }
+
+  private static async onPlayerBet(pokerTableName: string, seatNumber: number, betAmount: number, chipCount: number) {
+    const payload = { seatNumber, betAmount, chipCount };
+
+    const sendEvents = Rooms.sendEventToRoom(pokerTableName, GameEvent.PLAYER_BET, payload);
+
+    if (sendEvents.isError()) {
+      throw sendEvents.getError();
+    }
+  }
+
+  private static async onResetBets(pokerTableName: string) {
+    const sendEvents = Rooms.sendEventToRoom(pokerTableName, GameEvent.RESET_BETS, undefined);
 
     if (sendEvents.isError()) {
       throw sendEvents.getError();

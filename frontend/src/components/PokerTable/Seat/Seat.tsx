@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { Card as CardType } from '../../../../../backend/src/shared/game/types/Card';
 import { CardShortCode } from '../../../../../backend/src/shared/game/types/CardShortCode';
@@ -8,20 +8,20 @@ import CountdownIndicator from '../../CountdownIndicator/CountdownIndicator.tsx'
 
 type SeatProps = {
   seatNumber: number;
-  chipCount: number;
   myUsername?: string;
   seatUsername?: string;
   cards?: CardType[];
   isActingSeat?: boolean;
+  playersCurrentBets?: { currentBet: number; seatNumber: number; chipCount: number }[];
 };
 
 export default function Seat({
   seatNumber,
   myUsername,
   seatUsername,
-  chipCount,
   cards,
   isActingSeat,
+  playersCurrentBets,
 }: Readonly<SeatProps>) {
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber };
@@ -41,6 +41,14 @@ export default function Seat({
       console.log(result?.error);
     }
   }, [seatNumber]);
+
+  const betAmount = useMemo(() => {
+    return playersCurrentBets?.find((player) => player.seatNumber === seatNumber)?.currentBet;
+  }, [seatNumber, playersCurrentBets]);
+
+  const chipCount = useMemo(() => {
+    return playersCurrentBets?.find((player) => player.seatNumber === seatNumber)?.chipCount;
+  }, [seatNumber, playersCurrentBets]);
 
   // Define a function to render the cards if the user is in the hand
   // TODO: will need to update this to show the cards if the user is actually in the hand
@@ -74,6 +82,7 @@ export default function Seat({
             <CountdownIndicator initialCount={10} duration={10000} />
           </div>
         )}
+        <div className="bet-amount">{betAmount}</div>
       </button>
 
       {myUsername === seatUsername ? <button onClick={playerLeave}>Leave seat</button> : null}

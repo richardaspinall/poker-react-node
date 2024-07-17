@@ -1,7 +1,12 @@
 import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { GameState } from '../../../../backend/src/shared/game/types/GameState.ts';
-import { DealCardsEvent, SeatToActEvent } from '../../../../backend/src/shared/websockets/game/types/GameEvents.ts';
+import {
+  DealCardsEvent,
+  PlayerBetEvent,
+  SeatToActEvent,
+  UpdatePotEvent,
+} from '../../../../backend/src/shared/websockets/game/types/GameEvents.ts';
 import fetchGameState from '../../components/PokerTable/thunks/fetchGameState';
 
 interface GameStateSlice {
@@ -33,11 +38,36 @@ export const gameStateSlice = createSlice({
     },
     setCommunityCards: (state, action: PayloadAction<DealCardsEvent>) => {
       if (state.value === null) {
-        console.log('GameState is null, cannot set acting seat.');
-        // TODO: Maybe dispatch another action to handle the error?
         return;
       }
       state.value.communityCards = action.payload.cards;
+    },
+    setPot: (state, action: PayloadAction<UpdatePotEvent>) => {
+      if (state.value === null) {
+        return;
+      }
+      state.value.pot = action.payload.pot;
+    },
+    setPlayerBet: (state, action: PayloadAction<PlayerBetEvent>) => {
+      if (state.value === null) {
+        return;
+      }
+
+      state.value.playersCurrentBets = state.value.playersCurrentBets.map(
+        (player: { currentBet: number; seatNumber: number }) =>
+          player.seatNumber === action.payload.seatNumber
+            ? { ...player, currentBet: action.payload.betAmount, chipCount: action.payload.chipCount }
+            : player,
+      );
+    },
+    resetBets: (state) => {
+      if (state.value === null) {
+        return;
+      }
+
+      state.value.playersCurrentBets = state.value.playersCurrentBets.map(
+        (player: { currentBet: number; seatNumber: number }) => ({ ...player, currentBet: 0 }),
+      );
     },
   },
   extraReducers: (builder) => {
@@ -56,6 +86,6 @@ export const gameStateSlice = createSlice({
   },
 });
 
-export const { setActingSeat, setCommunityCards } = gameStateSlice.actions;
+export const { setActingSeat, setCommunityCards, setPot, setPlayerBet, resetBets } = gameStateSlice.actions;
 
 export default gameStateSlice.reducer;

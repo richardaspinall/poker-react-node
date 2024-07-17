@@ -27,7 +27,6 @@ export class Player extends User {
 
   public setCurrentBet(bet: number): void {
     this.currentBet = bet;
-    this.chipCount -= bet;
   }
 
   public getCurrentBet(): number {
@@ -58,5 +57,17 @@ export class Player extends User {
     this.playerAction = 'initial';
     this.currentBet = 0;
     this.hadTurn = false;
+  }
+
+  public getChipCount(): number {
+    return this.chipCount;
+  }
+
+  public setChipCount(chipCount: number): void {
+    this.chipCount = chipCount;
+  }
+
+  public updateChipCount(amount: number): void {
+    this.chipCount += amount;
   }
 }

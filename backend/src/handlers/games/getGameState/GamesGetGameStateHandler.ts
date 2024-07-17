@@ -23,11 +23,14 @@ export class GamesGetGameStateHandler extends AbstractGamesGetGameStateHandler {
     // TODO: perhaps in future we have own endpoint and make the getGameStateHandler not authentication needed
     const playersHoleCards = Dealer.getPlayersHoleCards(pokerTable, userId);
 
+    const playersCurrentBets = Dealer.getPlayersCurrentBets(pokerTable);
+
     const resp = {
       ok: true,
       payload: {
         ...gameState,
         playersHoleCards: playersHoleCards,
+        playersCurrentBets: playersCurrentBets,
       },
     };
 

@@ -6,6 +6,8 @@ import {
   selectCommunityCards,
   selectHoleCards,
   selectMyUsername,
+  selectPlayersCurrentBets,
+  selectPot,
   selectSeats,
 } from '../../store/selectors.ts';
 import { AppDispatch } from '../../store/store.tsx';
@@ -37,13 +39,15 @@ export function PokerTable() {
   const myUsername = useSelector(selectMyUsername);
 
   const communityCards = useSelector(selectCommunityCards);
+  const playersCurrentBets = useSelector(selectPlayersCurrentBets);
+  const pot = useSelector(selectPot);
 
   const isMyTurn = seats.value?.find((seat) => seat.seatNumber === actingSeat)?.username === myUsername;
 
   return (
     <>
       <div id="poker-table">
-        <Pot />
+        <Pot pot={pot} />
         <Board communityCards={communityCards} />
         {seats.value?.map((seat) => (
           <Seat
@@ -51,9 +55,9 @@ export function PokerTable() {
             seatNumber={seat.seatNumber}
             myUsername={myUsername}
             seatUsername={seat.username}
-            chipCount={1000}
             cards={holeCards.value}
             isActingSeat={seat.seatNumber === actingSeat}
+            playersCurrentBets={playersCurrentBets}
           />
         ))}
       </div>
