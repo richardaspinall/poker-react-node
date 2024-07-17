@@ -32,6 +32,10 @@
   background-color: green;
 }
 
+.chip-50 {
+  background-color: rgb(5, 160, 244);
+}
+
 .chip-100 {
   background-color: gold;
 }
@@ -56,13 +60,16 @@
 
 /* App.css */
 .chip-display {
-  width: 400px;
+  width: 450px;
   position: absolute;
-  bottom: 125px;
+  bottom: -125px;
+  left: 20%;
+  /* transform: translateX(-50%); */
   display: flex;
   gap: 1px; /* Space between piles */
   flex-wrap: wrap;
   align-items: flex-end; /* Align chips at the bottom */
+  z-index: 1;
 }
 
 .chip-total-label {

@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 
 import apiCall from '../../../fetch/apiCall';
-import ChipDisplay from '../../Chips/ChipDisplay';
 
 type ActionsProps = {
   isMyTurn: boolean;
@@ -12,7 +11,6 @@ const MAX_AMOUNT = 100000;
 
 function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
   const [betAmount, setBetAmount] = useState(bigBlind);
-  const [showChipDisplay, setShowChipDisplay] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [allIn, setAllIn] = useState(false);
 
@@ -56,8 +54,6 @@ function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
     }
     setErrorMessage('');
 
-    setShowChipDisplay(true);
-
     const payload = { pokerTableName: 'table_1', amount: betAmount };
 
     const result = await apiCall.post('games.bet', payload);
@@ -65,7 +61,7 @@ function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
       // Do something with the error
       console.log(result?.error);
     }
-  }, [betAmount]);
+  }, [bigBlind, betAmount]);
 
   const snapToNearest = (value: number, increment: number) => {
     return Math.round(value / increment) * increment;
@@ -130,7 +126,6 @@ function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
           <button className="action-buttons" id="raise-action-button" aria-label="Bet" onClick={bet}>
             {allIn ? 'All In' : 'Bet'}
           </button>
-          {showChipDisplay && <ChipDisplay totalValue={betAmount} />}
         </div>
       )}
     </div>

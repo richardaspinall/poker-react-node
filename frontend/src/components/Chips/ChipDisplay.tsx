@@ -5,7 +5,7 @@ interface ChipDisplayProps {
 }
 
 function ChipDisplay({ totalValue }: ChipDisplayProps) {
-  const denominations = [10000, 5000, 1000, 500, 100, 10, 5, 1]; // Add more denominations as needed
+  const denominations = [10000, 5000, 1000, 500, 100, 50, 10, 5, 1]; // Add more denominations as needed
 
   let remainingValue = totalValue;
   const piles: React.ReactElement[] = [];
