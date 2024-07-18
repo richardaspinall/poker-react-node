@@ -76,6 +76,7 @@ body {
 
   display: flex;
   align-items: center;
+  flex-direction: row;
 
   padding-left: 15px;
 
@@ -100,12 +101,15 @@ body {
 
 #flop-area {
   padding-right: 5px;
+  display: flex;
 }
 #turn-area {
+  margin-left: 5px;
   padding: 5px;
 }
 
 #river-area {
+  margin-left: 5px;
   padding: 5px;
 }
 

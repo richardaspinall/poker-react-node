@@ -9,10 +9,11 @@ type BoardProps = {
 function Board({ communityCards }: BoardProps) {
   return (
     <div id="board-area">
-      <div id="flop-area"></div>
-      {communityCards && communityCards[0] && <Card cardShortCode={communityCards[0].cardShortCode} />}
-      {communityCards && communityCards[1] && <Card cardShortCode={communityCards[1].cardShortCode} />}
-      {communityCards && communityCards[2] && <Card cardShortCode={communityCards[2].cardShortCode} />}
+      <div id="flop-area">
+        {communityCards && communityCards[0] && <Card cardShortCode={communityCards[0].cardShortCode} />}
+        {communityCards && communityCards[1] && <Card cardShortCode={communityCards[1].cardShortCode} />}
+        {communityCards && communityCards[2] && <Card cardShortCode={communityCards[2].cardShortCode} />}
+      </div>
 
       <div className="vl"></div>
       <div id="turn-area">

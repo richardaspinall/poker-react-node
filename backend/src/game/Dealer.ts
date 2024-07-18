@@ -296,7 +296,7 @@ export class Dealer {
     const playersCurrentBet = player.getCurrentBet();
     const currentGameBet = pokerTable.getGame()?.getGameState().getCurrentBet();
 
-    if (!currentGameBet) {
+    if (currentGameBet === undefined || currentGameBet === null) {
       throw new Error('Current bet is undefined');
     }
 
@@ -341,6 +341,8 @@ export class Dealer {
         break;
       case 'bet':
         if (playerBet < currentGameBet) {
+          console.log(playerBet);
+          console.log(currentGameBet);
           return Result.error(new PlayerBetInvalid());
         }
 
@@ -366,7 +368,12 @@ export class Dealer {
           return Result.error(new PlayerActionInvalid());
         }
 
-        if (playerBet < currentGameBet) {
+        if (player.getChipCount() < playerBet - playersCurrentBet) {
+          throw new Error('Player does not have enough chips to bet');
+        }
+
+        // TODO: for now we have just min raise doubled it but it actually is more complex IRL
+        if (playerBet < currentGameBet * 2) {
           return Result.error(new PlayerBetInvalid());
         }
 
@@ -478,6 +485,8 @@ export class Dealer {
       Dealer.resetPlayersTurn(pokerTable);
       game.getGameState().setCurrentAction('check');
       game.getGameState().setLastRaisedBy(0);
+      game.getGameState().updateCurrentBet(0);
+      console.log(game.getGameState().getCurrentBet());
       Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
       Dealer.dealFlop(pokerTable);
       Dealer.startTurn(pokerTable);
@@ -487,6 +496,7 @@ export class Dealer {
       Dealer.resetPlayersTurn(pokerTable);
       game.getGameState().setCurrentAction('check');
       game.getGameState().setLastRaisedBy(0);
+      game.getGameState().updateCurrentBet(0);
 
       Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
       Dealer.dealTurn(pokerTable);
@@ -497,6 +507,8 @@ export class Dealer {
       Dealer.resetPlayersTurn(pokerTable);
       game.getGameState().setCurrentAction('check');
       game.getGameState().setLastRaisedBy(0);
+      game.getGameState().updateCurrentBet(0);
+
       Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
       Dealer.dealRiver(pokerTable);
       Dealer.startTurn(pokerTable);

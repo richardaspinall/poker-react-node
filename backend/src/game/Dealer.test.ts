@@ -119,7 +119,7 @@ describe('Dealer', () => {
       });
 
       const currentGameBet = game.getGameState().getCurrentBet();
-      expect(currentGameBet).toEqual(10);
+      expect(currentGameBet).toEqual(100);
     });
 
     it('player raise should up last raised by ', () => {
