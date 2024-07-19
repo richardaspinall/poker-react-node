@@ -1,7 +1,11 @@
 import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { GameState } from '../../../../backend/src/shared/game/types/GameState.ts';
-import { SeatToActEvent } from '../../../../backend/src/shared/websockets/game/types/GameEvents.ts';
+import {
+  PlayerBetEvent,
+  SeatToActEvent,
+  UpdatePotEvent,
+} from '../../../../backend/src/shared/websockets/game/types/GameEvents.ts';
 import fetchGameState from '../../components/PokerTable/thunks/fetchGameState';
 
 interface GameStateSlice {
@@ -31,6 +35,33 @@ export const gameStateSlice = createSlice({
       }
       state.value.seatToAct = action.payload.seatToAct;
     },
+    setPot: (state, action: PayloadAction<UpdatePotEvent>) => {
+      if (state.value === null) {
+        return;
+      }
+      state.value.pot = action.payload.pot;
+    },
+    setPlayerBet: (state, action: PayloadAction<PlayerBetEvent>) => {
+      if (state.value === null) {
+        return;
+      }
+
+      state.value.playersCurrentBets = state.value.playersCurrentBets.map(
+        (player: { currentBet: number; seatNumber: number }) =>
+          player.seatNumber === action.payload.seatNumber
+            ? { ...player, currentBet: action.payload.betAmount, chipCount: action.payload.chipCount }
+            : player,
+      );
+    },
+    resetBets: (state) => {
+      if (state.value === null) {
+        return;
+      }
+
+      state.value.playersCurrentBets = state.value.playersCurrentBets.map(
+        (player: { currentBet: number; seatNumber: number }) => ({ ...player, currentBet: 0 }),
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -48,6 +79,6 @@ export const gameStateSlice = createSlice({
   },
 });
 
-export const { setActingSeat } = gameStateSlice.actions;
+export const { setActingSeat, setPot, setPlayerBet, resetBets } = gameStateSlice.actions;
 
 export default gameStateSlice.reducer;

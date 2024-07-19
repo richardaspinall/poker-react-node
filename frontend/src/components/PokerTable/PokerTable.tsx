@@ -1,7 +1,14 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { selectActingSeat, selectHoleCards, selectMyUsername, selectSeats } from '../../store/selectors.ts';
+import {
+  selectActingSeat,
+  selectHoleCards,
+  selectMyUsername,
+  selectPlayersCurrentBets,
+  selectPot,
+  selectSeats,
+} from '../../store/selectors.ts';
 import { AppDispatch } from '../../store/store.tsx';
 import Actions from './Actions/Actions';
 import Board from './Board/Board';
@@ -29,13 +36,15 @@ export function PokerTable() {
   const holeCards = useSelector(selectHoleCards);
   const actingSeat = useSelector(selectActingSeat);
   const myUsername = useSelector(selectMyUsername);
+  const playersCurrentBets = useSelector(selectPlayersCurrentBets);
+  const pot = useSelector(selectPot);
 
   const isMyTurn = seats.value?.find((seat) => seat.seatNumber === actingSeat)?.username === myUsername;
 
   return (
     <>
       <div id="poker-table">
-        <Pot />
+        <Pot pot={pot} />
         <Board />
         {seats.value?.map((seat) => (
           <Seat
@@ -46,6 +55,7 @@ export function PokerTable() {
             chipCount={1000}
             cards={holeCards.value}
             isActingSeat={seat.seatNumber === actingSeat}
+            playersCurrentBets={playersCurrentBets}
           />
         ))}
       </div>
