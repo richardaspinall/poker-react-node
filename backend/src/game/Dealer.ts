@@ -9,6 +9,8 @@ import { Result } from '../infra/Result';
 import { Game } from './Game';
 import { PokerTable } from './PokerTable';
 
+type PlayersCurrentBets = { seatNumber: number; currentBet: number; chipCount: number };
+
 export class Dealer {
   public static newGame(pokerTable: PokerTable) {
     const smallBlind = 1;
@@ -135,5 +137,21 @@ export class Dealer {
     }
 
     return [];
+  }
+
+  public static getCurrentBets(pokerTable: PokerTable): PlayersCurrentBets[] {
+    const playersCurrentBets: PlayersCurrentBets[] = [];
+    pokerTable.getSeats().forEach((seat) => {
+      const player = seat.getPlayer();
+      if (player) {
+        playersCurrentBets.push({
+          chipCount: player.getChipCount(),
+          seatNumber: seat.getSeatNumber(),
+          currentBet: player.getCurrentBet(),
+        });
+      }
+    });
+
+    return playersCurrentBets;
   }
 }
