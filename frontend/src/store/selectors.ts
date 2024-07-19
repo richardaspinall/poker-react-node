@@ -29,3 +29,17 @@ export const selectActingSeat = createSelector(
     return gameState?.seatToAct;
   },
 );
+
+export const selectPlayersCurrentBets = createSelector(
+  (state: RootState) => state.gameStateSlice.value,
+  (gameState) => {
+    return gameState?.playersCurrentBets;
+  },
+);
+
+export const selectPot = createSelector(
+  (state: RootState) => state.gameStateSlice.value,
+  (gameState) => {
+    return gameState?.pot;
+  },
+);
