@@ -43,3 +43,10 @@ export const selectPot = createSelector(
     return gameState?.pot;
   },
 );
+
+export const selectCommunityCards = createSelector(
+  (state: RootState) => state.gameStateSlice.value,
+  (gameState) => {
+    return gameState?.communityCards;
+  },
+);

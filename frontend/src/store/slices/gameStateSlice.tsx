@@ -2,6 +2,7 @@ import { PayloadAction, SerializedError, createSlice } from '@reduxjs/toolkit';
 
 import { GameState } from '../../../../backend/src/shared/game/types/GameState.ts';
 import {
+  DealCardsEvent,
   PlayerBetEvent,
   SeatToActEvent,
   UpdatePotEvent,
@@ -62,6 +63,12 @@ export const gameStateSlice = createSlice({
         (player: { currentBet: number; seatNumber: number }) => ({ ...player, currentBet: 0 }),
       );
     },
+    setCommunityCards: (state, action: PayloadAction<DealCardsEvent>) => {
+      if (state.value === null) {
+        return;
+      }
+      state.value.communityCards = action.payload.cards;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -79,6 +86,6 @@ export const gameStateSlice = createSlice({
   },
 });
 
-export const { setActingSeat, setPot, setPlayerBet, resetBets } = gameStateSlice.actions;
+export const { setActingSeat, setPot, setPlayerBet, resetBets, setCommunityCards } = gameStateSlice.actions;
 
 export default gameStateSlice.reducer;

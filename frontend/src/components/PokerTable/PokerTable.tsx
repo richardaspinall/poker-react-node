@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import {
   selectActingSeat,
+  selectCommunityCards,
   selectHoleCards,
   selectMyUsername,
   selectPlayersCurrentBets,
@@ -38,6 +39,7 @@ export function PokerTable() {
   const myUsername = useSelector(selectMyUsername);
   const playersCurrentBets = useSelector(selectPlayersCurrentBets);
   const pot = useSelector(selectPot);
+  const communityCards = useSelector(selectCommunityCards);
 
   const isMyTurn = seats.value?.find((seat) => seat.seatNumber === actingSeat)?.username === myUsername;
 
@@ -45,7 +47,7 @@ export function PokerTable() {
     <>
       <div id="poker-table">
         <Pot pot={pot} />
-        <Board />
+        <Board communityCards={communityCards} />
         {seats.value?.map((seat) => (
           <Seat
             key={seat.seatNumber}
