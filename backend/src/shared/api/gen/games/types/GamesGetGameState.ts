@@ -15,6 +15,11 @@ export interface GamesGetGameStateOutput extends BaseOutput {
     }[];
     currentBet: number;
     dealerPosition: number;
+    playersCurrentBets: {
+      chipCount: number;
+      currentBet: number;
+      seatNumber: number;
+    }[];
     playersHoleCards: {
       cardShortCode: string;
       rank: string;

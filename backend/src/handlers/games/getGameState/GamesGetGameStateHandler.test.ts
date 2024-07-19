@@ -14,7 +14,7 @@ describe('games.getGameState', () => {
     expect(res.body.error.errorCode).toBe('INVALID_REQUEST_PAYLOAD');
   });
 
-  it('should return method_not_implemented', async () => {
+  it('should return GAME_STATE_DOES_NOT_EXIST', async () => {
     mockMySqlSelectSessionSuccess('userone');
 
     const res = await apiTest('/api/games.getGameState', {

@@ -21,6 +21,15 @@ export const GamesGetGameStateOutputSchema = Joi.object<GamesGetGameStateOutput>
       .required(),
     currentBet: Joi.number().required(),
     dealerPosition: Joi.number().required(),
+    playersCurrentBets: Joi.array()
+      .items(
+        Joi.object({
+          chipCount: Joi.number().required(),
+          currentBet: Joi.number().required(),
+          seatNumber: Joi.number().required(),
+        }),
+      )
+      .required(),
     playersHoleCards: Joi.array()
       .items(
         Joi.object({
