@@ -26,8 +26,8 @@ class Logger {
     debugLog(message);
   }
 
-  static debugStack(error: IBaseError): string {
-    return formatError(error);
+  static debugStack(error: IBaseError): void {
+    console.log(formatError(error));
   }
 }
 

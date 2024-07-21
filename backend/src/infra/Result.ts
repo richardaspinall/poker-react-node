@@ -1,3 +1,4 @@
+import { Logger } from '../utils/Logger';
 import { BaseError } from './BaseError';
 
 /**
@@ -45,6 +46,7 @@ export class Result<T> {
   }
 
   static error(error: BaseError): Result<undefined> {
+    Logger.debugStack(error);
     return new Result(false, undefined, error);
   }
 
@@ -62,6 +64,7 @@ export class Result<T> {
  */
 export class ResultError<T> extends Result<T> {
   constructor(error: BaseError) {
+    Logger.debugStack(error);
     super(false, undefined, error);
   }
 }
