@@ -43,7 +43,7 @@ Logger.error('Some error');
 
 Logger.debug('Some debugging');
 
-Logger.debugStack('Debugging with stack strace');
+Logger.debugStack('Debugging with stack trace');
 ```
 
 ## Skipping husky (when commiting work):
