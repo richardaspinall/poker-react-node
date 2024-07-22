@@ -22,7 +22,7 @@ class Logger {
     errorLog(message);
   }
 
-  static debug(message: any): void {
+  static debug(message: string): void {
     debugLog(message);
   }
 
