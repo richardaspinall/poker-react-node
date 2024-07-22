@@ -39,7 +39,7 @@ function formatError(error: IBaseError): string {
   const stack = error.stack || 'No stack trace available'; // Fallback if stack is undefined
 
   // Concatenate parts with color formatting
-  return `${chalk.green(codeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.white(stack)}`;
+  return `${chalk.green(codeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.yellow(stack)}`;
 }
 
 export { Logger };
