@@ -57,6 +57,52 @@ export class Dealer {
     });
   }
 
+  public static dealFlop(pokerTable: PokerTable) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+
+    const deck = game.getDeck();
+    const communityCards = deck.draw(3);
+
+    game.getGameState().updateCommunityCards(communityCards);
+
+    GameEmitter.eventEmitter.emit('dealFlop', pokerTable.getName(), communityCards);
+  }
+
+  public static dealTurn(pokerTable: PokerTable) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+
+    const deck = game.getDeck();
+    const turn = deck.draw(1);
+
+    const currentCommunityCards = game.getGameState().getCommunityCards();
+    currentCommunityCards.push(turn[0]);
+    game.getGameState().updateCommunityCards(currentCommunityCards);
+
+    GameEmitter.eventEmitter.emit('dealTurn', pokerTable.getName(), currentCommunityCards);
+  }
+
+  public static dealRiver(pokerTable: PokerTable) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+
+    const deck = game.getDeck();
+    const river = deck.draw(1);
+
+    const currentCommunityCards = game.getGameState().getCommunityCards();
+    currentCommunityCards.push(river[0]);
+    game.getGameState().updateCommunityCards(currentCommunityCards);
+
+    GameEmitter.eventEmitter.emit('dealRiver', pokerTable.getName(), currentCommunityCards);
+  }
+
   public static takeBlinds(pokerTable: PokerTable) {
     const game = pokerTable.getGame();
     if (!game) {

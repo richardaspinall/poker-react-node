@@ -5,6 +5,7 @@ export enum Round {
   flop = 'flop',
   turn = 'turn',
   river = 'river',
+  endGame = 'end-game',
 }
 
 /*
