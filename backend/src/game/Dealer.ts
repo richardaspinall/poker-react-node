@@ -13,7 +13,7 @@ type PlayersCurrentBets = { seatNumber: number; currentBet: number; chipCount: n
 
 export class Dealer {
   public static newGame(pokerTable: PokerTable) {
-    const smallBlind = 1;
+    const smallBlind = 50;
     const bigBlind = smallBlind * 2;
 
     const nextSeatToAct = (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1;
@@ -33,6 +33,7 @@ export class Dealer {
 
     GameEmitter.eventEmitter.emit('startGame', pokerTable);
 
+    Dealer.takeBlinds(pokerTable);
     Dealer.dealCards(pokerTable);
     Dealer.startTurn(pokerTable);
   }
@@ -54,6 +55,45 @@ export class Dealer {
         GameEmitter.eventEmitter.emit('sendHoleCards', player.getUserId(), player.getCards());
       }
     });
+  }
+
+  public static takeBlinds(pokerTable: PokerTable) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      throw new Error('Game not found');
+    }
+
+    const smallBlind = game.getGameState().getSmallBlind();
+    const bigBlind = game.getGameState().getBigBlind();
+
+    const smallBlindSeat = pokerTable.getSeatBySeatNumber(game.getGameState().getSeatToAct());
+    if (!smallBlindSeat) {
+      throw new Error('Small blind seat not found');
+    }
+
+    const bigBlindSeat = pokerTable.getSeatBySeatNumber(
+      (game.getGameState().getSeatToAct() % pokerTable.getSeatCount()) + 1,
+    );
+    if (!bigBlindSeat) {
+      throw new Error('Big blind seat not found');
+    }
+
+    smallBlindSeat.getPlayer()?.setCurrentBet(smallBlind);
+    smallBlindSeat.getPlayer()?.updateChipCount(-smallBlind);
+    bigBlindSeat.getPlayer()?.setCurrentBet(bigBlind);
+    bigBlindSeat.getPlayer()?.updateChipCount(-bigBlind);
+    bigBlindSeat.getPlayer()?.setPlayerAction('bet');
+
+    game.getGameState().updateCurrentBet(bigBlind);
+    game.getGameState().setCurrentAction('bet');
+    game.getGameState().setLastRaisedBy(bigBlindSeat.getSeatNumber());
+
+    GameEmitter.eventEmitter.emit(
+      'takeBlinds',
+      pokerTable.getName(),
+      smallBlindSeat.getSeatNumber(),
+      bigBlindSeat.getSeatNumber(),
+    );
   }
 
   public static foldCards(pokerTable: PokerTable, userId: number) {
