@@ -8,6 +8,11 @@ import { PlayerNotFoundAtTableError } from '../handlers/poker-tables/errors/gen/
 import { Result } from '../infra/Result';
 import { Game } from './Game';
 import { PokerTable } from './PokerTable';
+import { CurrentActionUndefined } from './errors/CurrentActionUndefined';
+import { PlayerActionInvalid } from './errors/PlayerActionInvalid';
+import { PlayerActionUndefined } from './errors/PlayerActionUndefined';
+import { PlayerBetInvalid } from './errors/PlayerBetInvalid';
+import { SeatUndefined } from './errors/SeatUndefined';
 
 type PlayersCurrentBets = { seatNumber: number; currentBet: number; chipCount: number };
 
@@ -159,7 +164,7 @@ export class Dealer {
     }
 
     const seat = pokerTable.getSeatByUserId(userId);
-    if (!(game.getGameState().getSeatToAct() === seat?.getSeatNumber())) {
+    if (game.getGameState().getSeatToAct() !== seat?.getSeatNumber()) {
       return Result.error(new NotPlayersTurnError());
     }
 
@@ -171,12 +176,6 @@ export class Dealer {
       player.getUsername(),
       pokerTable.getSeatByUserId(userId)?.getSeatNumber(),
     );
-
-    if (pokerTable.hasRemainingPlayers()) {
-      Dealer.updateTurn(pokerTable);
-    } else {
-      Dealer.newGame(pokerTable);
-    }
 
     return Result.success();
   }
@@ -197,23 +196,44 @@ export class Dealer {
     GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
   }
 
-  public static updateTurn(pokerTable: PokerTable) {
+  public static getPlayersCurrentBets(pokerTable: PokerTable): PlayersCurrentBets[] {
+    const playersCurrentBets: PlayersCurrentBets[] = [];
+    pokerTable.getSeats().forEach((seat) => {
+      const player = seat.getPlayer();
+      if (player) {
+        playersCurrentBets.push({
+          chipCount: player.getChipCount(),
+          seatNumber: seat.getSeatNumber(),
+          currentBet: player.getCurrentBet(),
+        });
+      }
+    });
+
+    return playersCurrentBets;
+  }
+
+  public static updateTurn(pokerTable: PokerTable, nextSeatToAct: number) {
     const game = pokerTable.getGame();
     if (!game) {
-      throw new Error('Game not found');
+      return Result.error(new GameDoesNotExistError());
     }
-
-    const currentSeatToAct = game.getGameState().getSeatToAct();
-    const nextSeatToAct = (currentSeatToAct % pokerTable.getSeatCount()) + 1;
 
     game.getGameState().updateSeatToAct(nextSeatToAct);
 
     const seat = pokerTable.getSeatBySeatNumber(nextSeatToAct);
+
     if (!seat) {
       throw new Error(`Seat not found: ${nextSeatToAct}`);
     }
 
-    GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), seat.getSeatNumber());
+    const player = pokerTable.getPlayerBySeatNumber(nextSeatToAct);
+
+    if (!player) {
+      throw new Error(`Player not found: ${nextSeatToAct}`);
+    }
+
+    game.getGameState().updateSeatToAct(nextSeatToAct);
+    GameEmitter.eventEmitter.emit('notifyPlayerToAct', pokerTable.getName(), nextSeatToAct);
   }
 
   public static getPlayersHoleCards(pokerTable: PokerTable, userId: number): Card[] {
@@ -223,6 +243,281 @@ export class Dealer {
     }
 
     return [];
+  }
+
+  public static resetPlayersTurn(pokerTable: PokerTable) {
+    pokerTable.getSeats().forEach((seat) => {
+      const player = seat.getPlayer();
+      if (player) {
+        player.resetPlayer();
+      }
+    });
+  }
+
+  public static actionHandler(pokerTable: PokerTable, playerAction: string, playerBet: number, userid: number) {
+    const game = pokerTable.getGame();
+    if (!game) {
+      return Result.error(new GameDoesNotExistError());
+    }
+
+    const currentAction = pokerTable.getGame()?.getGameState().getCurrentAction();
+    if (currentAction === undefined) {
+      return Result.error(new CurrentActionUndefined());
+    }
+
+    const seat = pokerTable.getSeatByUserId(userid);
+    if (seat === undefined) {
+      return Result.error(new SeatUndefined());
+    }
+
+    const currentSeatToAct = game.getGameState().getSeatToAct();
+    if (currentSeatToAct !== seat.getSeatNumber()) {
+      return Result.error(new NotPlayersTurnError());
+    }
+
+    const player = seat.getPlayer();
+    if (player === undefined) {
+      return Result.error(new PlayerNotFoundAtTableError());
+    }
+
+    const actionRank = {
+      initial: -1,
+      fold: 0,
+      check: 1,
+      call: 2,
+      bet: 3,
+      raise: 4,
+    };
+
+    if (playerAction === 'bet' && (currentAction === 'bet' || currentAction === 'raise')) {
+      playerAction = 'raise';
+    }
+
+    const playersCurrentBet = player.getCurrentBet();
+    const currentGameBet = pokerTable.getGame()?.getGameState().getCurrentBet();
+
+    if (currentGameBet === undefined || currentGameBet === null) {
+      throw new Error('Current bet is undefined');
+    }
+
+    switch (playerAction) {
+      case 'fold':
+        this.foldCards(pokerTable, userid);
+        player?.setPlayerAction(playerAction);
+        break;
+      case 'check':
+        if (
+          actionRank[currentAction] > 2 &&
+          pokerTable.getGame()?.getGameState().getLastRaisedBy() !== currentSeatToAct
+        ) {
+          return Result.error(new PlayerActionInvalid());
+        }
+
+        player?.setPlayerAction(playerAction);
+        break;
+      case 'call':
+        if (
+          actionRank[currentAction] < 3 ||
+          pokerTable.getGame()?.getGameState().getLastRaisedBy() === currentSeatToAct
+        ) {
+          return Result.error(new PlayerActionInvalid());
+        }
+
+        if (player.getChipCount() < currentGameBet - playersCurrentBet) {
+          throw new Error('Player does not have enough chips to call');
+        }
+
+        player?.setPlayerAction(playerAction);
+        player?.setCurrentBet(currentGameBet);
+        player?.updateChipCount(-(currentGameBet - playersCurrentBet));
+
+        GameEmitter.eventEmitter.emit(
+          'playerBet',
+          pokerTable.getName(),
+          seat.getSeatNumber(),
+          currentGameBet,
+          player.getChipCount(),
+        );
+        break;
+      case 'bet':
+        if (playerBet < currentGameBet) {
+          return Result.error(new PlayerBetInvalid());
+        }
+
+        pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
+        pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
+
+        if (player.getChipCount() < playerBet - playersCurrentBet) {
+          throw new Error('Player does not have enough chips to bet');
+        }
+        player?.setCurrentBet(playerBet);
+        player?.updateChipCount(-playerBet);
+        player?.setPlayerAction(playerAction);
+        GameEmitter.eventEmitter.emit(
+          'playerBet',
+          pokerTable.getName(),
+          seat.getSeatNumber(),
+          playerBet,
+          player.getChipCount(),
+        );
+        break;
+      case 'raise':
+        if (actionRank[currentAction] < 3) {
+          return Result.error(new PlayerActionInvalid());
+        }
+
+        if (player.getChipCount() < playerBet - playersCurrentBet) {
+          throw new Error('Player does not have enough chips to bet');
+        }
+
+        // TODO: for now we have just min raise doubled it but it actually is more complex IRL
+        if (playerBet < currentGameBet * 2) {
+          return Result.error(new PlayerBetInvalid());
+        }
+
+        pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
+        pokerTable.getGame()?.getGameState().updateCurrentBet(playerBet);
+        pokerTable.getGame()?.getGameState().setLastRaisedBy(currentSeatToAct);
+
+        player?.setCurrentBet(playerBet);
+        player?.updateChipCount(-(playerBet - playersCurrentBet));
+        player?.setPlayerAction(playerAction);
+        GameEmitter.eventEmitter.emit(
+          'playerBet',
+          pokerTable.getName(),
+          seat.getSeatNumber(),
+          playerBet,
+          player.getChipCount(),
+        );
+        break;
+    }
+    player?.setHadTurn();
+
+    if (!pokerTable.hasRemainingPlayers()) {
+      if (game.getGameState().getRound() === 'pre-flop') {
+        let pot = 0;
+        pokerTable.getSeats().forEach((seat) => {
+          const bet = seat.getPlayer()?.getCurrentBet();
+          if (bet) {
+            pot += bet;
+          }
+        });
+
+        game.getGameState().updatePot(pot);
+      }
+      pokerTable.getSeats().forEach((seat) => {
+        const playerCards = seat.getPlayer()?.getCards();
+        if (playerCards && playerCards.length > 0) {
+          const player = seat.getPlayer();
+          if (player) {
+            player.updateChipCount(game.getGameState().getPot());
+          }
+        }
+      });
+      Dealer.newGame(pokerTable);
+
+      return Result.success();
+    }
+
+    const nextSeatNumberToAct = (currentSeatToAct % pokerTable.getSeatCount()) + 1;
+
+    const nextSeatToAct = pokerTable.getSeatBySeatNumber(nextSeatNumberToAct);
+    if (nextSeatToAct === undefined) {
+      return Result.error(new SeatUndefined());
+    }
+
+    const nextPlayerToAct = nextSeatToAct.getPlayer();
+    const nextPlayerPreviousAction = nextPlayerToAct?.getPlayerAction();
+
+    if (nextPlayerPreviousAction === undefined) {
+      return Result.error(new PlayerActionUndefined());
+    }
+
+    if (actionRank[nextPlayerPreviousAction] === -1 || !nextPlayerToAct?.hasHadTurn()) {
+      this.updateTurn(pokerTable, nextSeatNumberToAct);
+      return Result.success();
+    }
+
+    if (actionRank[nextPlayerPreviousAction] > 0) {
+      if (
+        actionRank[nextPlayerPreviousAction] !== actionRank[currentAction] &&
+        player?.getPlayerAction() !== 'check' &&
+        currentSeatToAct !== seat.getSeatNumber()
+      ) {
+        this.updateTurn(pokerTable, nextSeatNumberToAct);
+        return Result.success();
+      } else {
+        const lastRaisedBy = pokerTable.getGame()?.getGameState().getLastRaisedBy();
+        if (playerAction === 'raise' && nextSeatToAct?.getSeatNumber() !== lastRaisedBy) {
+          this.updateTurn(pokerTable, nextSeatNumberToAct);
+
+          return Result.success();
+        }
+
+        if (playerAction === 'bet' && actionRank[nextPlayerPreviousAction] !== 2) {
+          this.updateTurn(pokerTable, nextSeatNumberToAct);
+
+          return Result.success();
+        }
+      }
+    }
+
+    game.startNextRound();
+    const round = game.getGameState().getRound();
+
+    let pot = game.getGameState().getPot();
+
+    pokerTable.getSeats().forEach((seat) => {
+      const bet = seat.getPlayer()?.getCurrentBet();
+      if (bet) {
+        pot += bet;
+      }
+    });
+
+    game.getGameState().updatePot(pot);
+
+    GameEmitter.eventEmitter.emit('updatePot', pokerTable.getName(), pot);
+    GameEmitter.eventEmitter.emit('resetBets', pokerTable.getName());
+
+    if (round === 'flop') {
+      Dealer.resetPlayersTurn(pokerTable);
+      game.getGameState().setCurrentAction('check');
+      game.getGameState().setLastRaisedBy(0);
+      game.getGameState().updateCurrentBet(0);
+      console.log(game.getGameState().getCurrentBet());
+      Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
+      Dealer.dealFlop(pokerTable);
+      Dealer.startTurn(pokerTable);
+    }
+
+    if (round === 'turn') {
+      Dealer.resetPlayersTurn(pokerTable);
+      game.getGameState().setCurrentAction('check');
+      game.getGameState().setLastRaisedBy(0);
+      game.getGameState().updateCurrentBet(0);
+
+      Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
+      Dealer.dealTurn(pokerTable);
+      Dealer.startTurn(pokerTable);
+    }
+
+    if (round === 'river') {
+      Dealer.resetPlayersTurn(pokerTable);
+      game.getGameState().setCurrentAction('check');
+      game.getGameState().setLastRaisedBy(0);
+      game.getGameState().updateCurrentBet(0);
+
+      Dealer.updateTurn(pokerTable, (pokerTable.getDealerPosition() % pokerTable.getPlayerCount()) + 1);
+      Dealer.dealRiver(pokerTable);
+      Dealer.startTurn(pokerTable);
+    }
+
+    if (round === 'end-game') {
+      Dealer.resetPlayersTurn(pokerTable);
+      Dealer.newGame(pokerTable);
+    }
+
+    return Result.success();
   }
 
   public static getCurrentBets(pokerTable: PokerTable): PlayersCurrentBets[] {

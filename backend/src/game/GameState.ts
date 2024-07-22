@@ -8,6 +8,8 @@ export enum Round {
   endGame = 'end-game',
 }
 
+export type CurrentAction = 'initial' | 'fold' | 'check' | 'call' | 'bet' | 'raise';
+
 /*
  * GameState is responsible for the state of a poker game
  */
@@ -20,6 +22,8 @@ export class GameState {
   private seatToAct: number;
   private roundState: Round;
   private communityCards: Card[];
+  private currentAction: CurrentAction;
+  private lastRaisedBy: number;
 
   constructor(dealerPosition: number, smallBlind: number, bigBlind: number) {
     this.dealerPosition = dealerPosition;
@@ -31,6 +35,8 @@ export class GameState {
     this.seatToAct = 0;
     this.roundState = Round.preFlop;
     this.communityCards = [];
+    this.currentAction = 'initial';
+    this.lastRaisedBy = 0;
   }
 
   // Methods to update the game state
@@ -49,6 +55,10 @@ export class GameState {
 
   public updateSeatToAct(seatToAct: number) {
     this.seatToAct = seatToAct;
+  }
+
+  public setLastRaisedBy(lastRaisedBy: number) {
+    this.lastRaisedBy = lastRaisedBy;
   }
 
   public getRound() {
@@ -98,5 +108,17 @@ export class GameState {
       roundState: this.roundState,
       communityCards: this.communityCards,
     };
+  }
+
+  public getCurrentAction() {
+    return this.currentAction;
+  }
+
+  public setCurrentAction(currentAction: CurrentAction) {
+    this.currentAction = currentAction;
+  }
+
+  public getLastRaisedBy() {
+    return this.lastRaisedBy;
   }
 }
