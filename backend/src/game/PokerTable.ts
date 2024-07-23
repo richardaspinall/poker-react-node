@@ -127,6 +127,13 @@ export class PokerTable {
     }
   }
 
+  public getPlayerBySeatNumber(seatNumber: number): Player | undefined {
+    const seat = this.getSeatBySeatNumber(seatNumber);
+    if (seat) {
+      return seat.getPlayer();
+    }
+  }
+
   public getSeatCount(): number {
     return this.seats.size;
   }

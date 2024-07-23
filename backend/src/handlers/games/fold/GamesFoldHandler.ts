@@ -13,7 +13,7 @@ export class GamesFoldHandler extends AbstractGamesFoldHandler {
       return new ResultError(new PokerTableDoesNotExistError());
     }
 
-    const foldPlayer = Dealer.foldCards(pokerTable, userId);
+    const foldPlayer = Dealer.actionHandler(pokerTable, 'fold', 0, userId);
     if (foldPlayer.isError()) {
       return new ResultError(foldPlayer.getError());
     }
