@@ -9,6 +9,7 @@ Keep lower case with colon:
 | prefix    | description                                                                                                        |
 | --------- | ------------------------------------------------------------------------------------------------------------------ |
 | fix:      | Indicates a bug fix or correction of unexpected behavior.                                                          |
+| init:     | Set up / init / scaffold for future work                                                                           |
 | feat:     | Introduces a new feature or enhancement.                                                                           |
 | refactor: | Code changes that neither fix a bug nor add a feature but improve structure or readability.                        |
 | docs:     | Changes or additions to documentation only.                                                                        |
@@ -18,4 +19,4 @@ Keep lower case with colon:
 | perf:     | Performance improvements.                                                                                          |
 | ci:       | Changes to the continuous integration configuration files and scripts.                                             |
 | revert:   | Reverts a previous commit or PR.                                                                                   |
-| wip"      | Work in Progress, used when a PR is not ready for review.                                                          |
+| wip:      | Work in Progress, used when a PR is not ready for review.                                                          |
