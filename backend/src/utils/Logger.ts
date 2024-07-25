@@ -27,18 +27,14 @@ class Logger {
   }
 
   static stackTrace(error: IBaseError): void {
-    console.log(formatError(error));
+    const errorDetails = error.errorDetails ? JSON.stringify(error.errorDetails, null, 2) : null;
+    const codeAndDetails = `Code: ${error.code}` + (errorDetails ? `\nDetails: ${errorDetails}` : '');
+
+    const separator = '-----------------------------------STACK TRACE-----------------------------------';
+    const stack = error.stack || 'No stack trace available';
+
+    console.log(`${chalk.green(codeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.yellow(stack)}`);
   }
-}
-
-function formatError(error: IBaseError): string {
-  const errorDetails = error.errorDetails ? JSON.stringify(error.errorDetails, null, 2) : null;
-  const codeAndDetails = `Code: ${error.code}` + (errorDetails ? `\nDetails: ${errorDetails}` : '');
-  const separator = '-----------------------------------STACK TRACE-----------------------------------';
-  const stack = error.stack || 'No stack trace available'; // Fallback if stack is undefined
-
-  // Concatenate parts with color formatting
-  return `${chalk.green(codeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.yellow(stack)}`;
 }
 
 export { Logger };
