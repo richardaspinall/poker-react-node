@@ -8,11 +8,11 @@ import { PlayerNotFoundAtTableError } from '../handlers/poker-tables/errors/gen/
 import { Result } from '../infra/Result';
 import { Game } from './Game';
 import { PokerTable } from './PokerTable';
-import { CurrentActionUndefined } from './errors/CurrentActionUndefined';
-import { PlayerActionInvalid } from './errors/PlayerActionInvalid';
-import { PlayerActionUndefined } from './errors/PlayerActionUndefined';
-import { PlayerBetInvalid } from './errors/PlayerBetInvalid';
-import { SeatUndefined } from './errors/SeatUndefined';
+import { ActionInvalidError } from './errors/ActionInvalidError';
+import { ActionUndefinedError } from './errors/ActionUndefinedError';
+import { BetInvalidError } from './errors/BetInvalidError';
+import { CurrentActionUndefinedError } from './errors/CurrentActionUndefinedError';
+import { SeatUndefinedError } from './errors/SeatUndefinedError';
 
 type PlayersCurrentBets = { seatNumber: number; currentBet: number; chipCount: number };
 
@@ -262,12 +262,12 @@ export class Dealer {
 
     const currentAction = pokerTable.getGame()?.getGameState().getCurrentAction();
     if (currentAction === undefined) {
-      return Result.error(new CurrentActionUndefined());
+      return Result.error(new CurrentActionUndefinedError());
     }
 
     const seat = pokerTable.getSeatByUserId(userid);
     if (seat === undefined) {
-      return Result.error(new SeatUndefined());
+      return Result.error(new SeatUndefinedError());
     }
 
     const currentSeatToAct = game.getGameState().getSeatToAct();
@@ -310,7 +310,7 @@ export class Dealer {
           actionRank[currentAction] > 2 &&
           pokerTable.getGame()?.getGameState().getLastRaisedBy() !== currentSeatToAct
         ) {
-          return Result.error(new PlayerActionInvalid());
+          return Result.error(new ActionInvalidError());
         }
 
         player?.setPlayerAction(playerAction);
@@ -320,7 +320,7 @@ export class Dealer {
           actionRank[currentAction] < 3 ||
           pokerTable.getGame()?.getGameState().getLastRaisedBy() === currentSeatToAct
         ) {
-          return Result.error(new PlayerActionInvalid());
+          return Result.error(new ActionInvalidError());
         }
 
         if (player.getChipCount() < currentGameBet - playersCurrentBet) {
@@ -341,7 +341,7 @@ export class Dealer {
         break;
       case 'bet':
         if (playerBet < currentGameBet) {
-          return Result.error(new PlayerBetInvalid());
+          return Result.error(new BetInvalidError());
         }
 
         pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
@@ -363,7 +363,7 @@ export class Dealer {
         break;
       case 'raise':
         if (actionRank[currentAction] < 3) {
-          return Result.error(new PlayerActionInvalid());
+          return Result.error(new ActionInvalidError());
         }
 
         if (player.getChipCount() < playerBet - playersCurrentBet) {
@@ -372,7 +372,7 @@ export class Dealer {
 
         // TODO: for now we have just min raise doubled it but it actually is more complex IRL
         if (playerBet < currentGameBet * 2) {
-          return Result.error(new PlayerBetInvalid());
+          return Result.error(new BetInvalidError());
         }
 
         pokerTable.getGame()?.getGameState().setCurrentAction(playerAction);
@@ -423,14 +423,14 @@ export class Dealer {
 
     const nextSeatToAct = pokerTable.getSeatBySeatNumber(nextSeatNumberToAct);
     if (nextSeatToAct === undefined) {
-      return Result.error(new SeatUndefined());
+      return Result.error(new SeatUndefinedError());
     }
 
     const nextPlayerToAct = nextSeatToAct.getPlayer();
     const nextPlayerPreviousAction = nextPlayerToAct?.getPlayerAction();
 
     if (nextPlayerPreviousAction === undefined) {
-      return Result.error(new PlayerActionUndefined());
+      return Result.error(new ActionUndefinedError());
     }
 
     if (actionRank[nextPlayerPreviousAction] === -1 || !nextPlayerToAct?.hasHadTurn()) {
