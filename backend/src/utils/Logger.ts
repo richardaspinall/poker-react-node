@@ -27,13 +27,13 @@ class Logger {
   }
 
   static stackTrace(error: IBaseError): void {
-    const errorDetails = error.errorDetails ? JSON.stringify(error.errorDetails, null, 2) : null;
-    const codeAndDetails = `Code: ${error.code}` + (errorDetails ? `\nDetails: ${errorDetails}` : '');
+    const errorDetails = error.details ? JSON.stringify(error.details, null, 2) : null;
+    const errorCodeAndDetails = `Code: ${error.code}` + (errorDetails ? `\nDetails: ${errorDetails}` : '');
 
     const separator = '-----------------------------------STACK TRACE-----------------------------------';
     const stack = error.stack || 'No stack trace available';
 
-    console.log(`${chalk.green(codeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.yellow(stack)}`);
+    console.log(`${chalk.green(errorCodeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.yellow(stack)}`);
   }
 }
 

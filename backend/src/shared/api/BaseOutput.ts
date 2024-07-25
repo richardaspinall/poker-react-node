@@ -8,13 +8,13 @@ export type BaseOutput = {
 };
 
 export interface IAPIError {
-  errorCode: string;
-  errorMessage?: string;
-  errorDetails?: any;
+  code: string;
+  message?: string;
+  details?: string;
 }
 
 export enum BaseErrorCodes {
-  MethodNotImplemented = 'method_not_implemented',
+  MethodNotImplemented = 'METHOD_NOT_IMPLEMENTED',
 }
 
 export class MethodNotImplementedError extends BaseError {
@@ -25,6 +25,6 @@ export class MethodNotImplementedError extends BaseError {
 
 export class InternalError extends BaseError {
   constructor() {
-    super('internal_error', 'An internal error occurred');
+    super('INTERNAL_ERROR', 'An internal error occurred');
   }
 }

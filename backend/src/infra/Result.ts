@@ -31,7 +31,7 @@ export class Result<T> {
   }
 
   public getValue(): T {
-    if (this.error) throw new BaseError(this.error.code, this.error.message, this.error.errorDetails);
+    if (this.error) throw new BaseError(this.error.code, this.error.message, this.error.details);
     if (!this.value) throw new Error('Value is undefined');
     return this.value;
   }

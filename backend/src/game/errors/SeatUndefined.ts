@@ -2,6 +2,6 @@ import { BaseError } from '@infra/BaseError';
 
 export class SeatUndefined extends BaseError {
   constructor() {
-    super('seat_undefined', 'Seat undefined');
+    super('SEAT_UNDEFINED', 'Seat undefined');
   }
 }

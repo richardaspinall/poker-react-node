@@ -33,7 +33,7 @@ describe('signin', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('INVALID_REQUEST_PAYLOAD');
+    expect(res.body.error.code).toEqual('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should respond with a password_invalid error when signing in with a password that is invalid', async () => {
@@ -58,7 +58,7 @@ describe('signin', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('USERNAME_NOT_FOUND');
+    expect(res.body.error.code).toEqual('USERNAME_NOT_FOUND');
   });
 
   afterEach(() => {
