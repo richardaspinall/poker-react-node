@@ -3,7 +3,7 @@ import { CardShortCode } from '@shared/game/types/CardShortCode';
 import { Player, determineHandWinner } from './determineHandWinner';
 
 describe('determineHandWinner', () => {
-  it('returns the winning player(s)', async () => {
+  it('returns a tie)', async () => {
     const players: Player[] = [];
     const communityCards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
@@ -26,7 +26,7 @@ describe('determineHandWinner', () => {
     const winningPlayers = determineHandWinner(players, communityCards);
 
     expect(winningPlayers.length).toBe(2);
-    expect(winningPlayers[0].winningHand).toStrictEqual(['2C', '3C', '4C', '5C', '6C']);
-    expect(winningPlayers[1].winningHand).toStrictEqual(['2C', '3C', '4C', '5C', '6C']);
+    expect(winningPlayers[0].name).toBe('Player 1');
+    expect(winningPlayers[1].name).toBe('Player 2');
   });
 });
