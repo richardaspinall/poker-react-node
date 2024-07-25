@@ -47,7 +47,7 @@ export class Result<T> {
 
   static error(error: BaseError): Result<undefined> {
     if (!process.env.TEST_RUNNER || !!process.env.DEBUG) {
-      Logger.debugStack(error);
+      Logger.stackTrace(error);
     }
     return new Result(false, undefined, error);
   }
@@ -67,7 +67,7 @@ export class Result<T> {
 export class ResultError<T> extends Result<T> {
   constructor(error: BaseError) {
     if (!process.env.TEST_RUNNER || !!process.env.DEBUG) {
-      Logger.debugStack(error);
+      Logger.stackTrace(error);
     }
     super(false, undefined, error);
   }

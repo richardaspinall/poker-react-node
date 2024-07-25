@@ -29,7 +29,7 @@ class GlobalErrorHandler extends BaseErrorHandler {
     }
 
     if (!process.env.TEST_RUNNER || !!process.env.DEBUG) {
-      Logger.debugStack(error);
+      Logger.stackTrace(error);
     }
     return res.status(500).send({ ok: false, error: mapBaseErrorToAPIError(new InternalError()) });
   }

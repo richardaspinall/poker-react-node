@@ -26,7 +26,7 @@ class Logger {
     debugLog(message);
   }
 
-  static debugStack(error: IBaseError): void {
+  static stackTrace(error: IBaseError): void {
     console.log(formatError(error));
   }
 }
