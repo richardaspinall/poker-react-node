@@ -118,14 +118,64 @@ export function checkForFlush(cards: CardShortCode[]): boolean {
 }
 
 // TODO: should return the highest straight
-function checkForStraight(ranks: number[]): boolean {
+export function checkForStraight(ranks: number[]): boolean {
   // 1234589 return true
   // 1245689 return false
   // 1256789 return true
+  // 1234678 return false
+  //
   // A = 0 or 14
   //
-  // ranks[0] + 1 = ranks[1] if not, move to A[1] and repeat, if not A[2] and A[3] if not return false
+
+  let count = 1;
+  let hasStraight = false;
+  for (let index = 0; index < ranks.length; index++) {
+    const element = ranks[index];
+    const nextElement = ranks[index + 1];
+
+    console.log('current', element);
+    console.log('next', nextElement);
+
+    if (element + 1 === nextElement) {
+      count += 1;
+      console.log(count);
+    } else {
+      count = 1;
+      // TODO: maybe unnecessary: don't continue if index is 2 or greater and we have a count of 0 and they don't have a straight already
+      if (index >= 2 && !hasStraight) {
+        return false;
+      }
+    }
+
+    if (count >= 5) {
+      hasStraight = true;
+    }
+  }
+
+  return hasStraight;
 }
 
 // Count each rank
-function countRanks() {}
+export function countRanks(ranks: number[]) {
+  const rankCountMap: { [key: number]: number } = {
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+  };
+
+  ranks.forEach((rank) => {
+    rankCountMap[rank] += 1;
+  });
+
+  return rankCountMap;
+}
