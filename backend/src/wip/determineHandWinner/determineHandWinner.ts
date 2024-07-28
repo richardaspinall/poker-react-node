@@ -129,12 +129,11 @@ export function checkForStraight(ranks: number[]): boolean {
 
   let count = 1;
   let hasStraight = false;
+  ranks.sort((a, b) => a - b); // ensure its  been sorted
+
   for (let index = 0; index < ranks.length; index++) {
     const element = ranks[index];
     const nextElement = ranks[index + 1];
-
-    console.log('current', element);
-    console.log('next', nextElement);
 
     if (element + 1 === nextElement) {
       count += 1;
