@@ -19,7 +19,14 @@ type PlayerPokerHands = {
   onePair: boolean;
 };
 
-type Rank = 'C' | 'D' | 'H' | 'S';
+type Suit = 'C' | 'D' | 'H' | 'S';
+
+export type RankSuitSplit = {
+  rank: number;
+  suit: Suit;
+};
+
+export type RankCountMap = { [key: number]: number };
 
 const rankOrder: { [key: string]: number } = {
   '2': 2,
@@ -66,25 +73,16 @@ export function combineHand(holeCards: CardShortCode[], communityCards: CardShor
 }
 
 // Need to split '2C' so we can work and use logic against each character (`'2', 'C'`)
-export function getRanks(cards: CardShortCode[]) {
-  const ranks: string[] = [];
+export function splitAndRankShortCode(cards: CardShortCode[]): RankSuitSplit[] {
+  const rankSuitSplit: RankSuitSplit[] = [];
 
   cards.forEach((card) => {
-    ranks.push(card.charAt(0));
+    rankSuitSplit.push({ rank: rankOrder[card.charAt(0)], suit: card.charAt(1) as Suit });
   });
 
-  return ranks;
-}
+  rankSuitSplit.sort((a, b) => a.rank - b.rank);
 
-// Order ranks
-export function orderAndMapRanks(ranks: string[]): number[] {
-  const ranksMappedToNumbers: number[] = [];
-
-  ranks.forEach((rank) => {
-    ranksMappedToNumbers.push(rankOrder[rank]);
-  });
-
-  return ranksMappedToNumbers.sort((a, b) => a - b);
+  return rankSuitSplit;
 }
 
 // TODO: should return the highest flush
@@ -97,7 +95,7 @@ export function checkForFlush(cards: CardShortCode[]): boolean {
   };
 
   cards.forEach((card) => {
-    const rank = card.charAt(1) as Rank;
+    const rank = card.charAt(1) as Suit;
     switch (rank) {
       case 'C':
         suitsCount.C += 1;
@@ -118,7 +116,7 @@ export function checkForFlush(cards: CardShortCode[]): boolean {
 }
 
 // TODO: should return the highest straight
-export function checkForStraight(ranks: number[]): boolean {
+export function checkForStraight(rankSuitSplit: RankSuitSplit[]): boolean {
   // 1234589 return true
   // 1245689 return false
   // 1256789 return true
@@ -129,15 +127,14 @@ export function checkForStraight(ranks: number[]): boolean {
 
   let count = 1;
   let hasStraight = false;
-  ranks.sort((a, b) => a - b); // ensure its  been sorted
+  rankSuitSplit.sort((a, b) => a.rank - b.rank); // ensure its  been sorted
 
-  for (let index = 0; index < ranks.length; index++) {
-    const element = ranks[index];
-    const nextElement = ranks[index + 1];
+  for (let index = 0; index < rankSuitSplit.length; index++) {
+    const element = rankSuitSplit[index];
+    const nextElement = rankSuitSplit[index + 1];
 
-    if (element + 1 === nextElement) {
+    if (element.rank + 1 === nextElement?.rank) {
       count += 1;
-      console.log(count);
     } else {
       count = 1;
       // TODO: maybe unnecessary: don't continue if index is 2 or greater and we have a count of 0 and they don't have a straight already
@@ -155,8 +152,8 @@ export function checkForStraight(ranks: number[]): boolean {
 }
 
 // Count each rank
-export function countRanks(ranks: number[]) {
-  const rankCountMap: { [key: number]: number } = {
+export function countRanks(rankSuitSplit: RankSuitSplit[]): RankCountMap {
+  const rankCountMap: RankCountMap = {
     2: 0,
     3: 0,
     4: 0,
@@ -172,9 +169,44 @@ export function countRanks(ranks: number[]) {
     14: 0,
   };
 
-  ranks.forEach((rank) => {
-    rankCountMap[rank] += 1;
+  rankSuitSplit.forEach((rankSuit) => {
+    rankCountMap[rankSuit.rank] += 1;
   });
 
   return rankCountMap;
+}
+
+export function checkForFullHouse(rankCountMap: RankCountMap): boolean {
+  const threeOfAKind = Object.values(rankCountMap).some((count) => count === 3);
+  const pair = Object.values(rankCountMap).some((count) => count === 2);
+
+  if (threeOfAKind && pair) {
+    return true;
+  }
+  return false;
+}
+
+export function getFullHouse(rankCountMap: RankCountMap) {
+  const entries = Object.entries(rankCountMap);
+  const reversedEntries = entries.reverse();
+  const threeOfAKind = reversedEntries.find(([_key, value]) => value === 3)?.[0];
+  const twoOfAKind = reversedEntries.find(([_key, value]) => value === 2)?.[0];
+
+  const fullHouse = {
+    threeOfAKind: Number(threeOfAKind),
+    twoOfAKind: Number(twoOfAKind),
+  };
+
+  return fullHouse;
+}
+
+// TODO: not sure if we need these
+export function orderAndMapRanks(ranks: string[]): number[] {
+  const ranksMappedToNumbers: number[] = [];
+
+  ranks.forEach((rank) => {
+    ranksMappedToNumbers.push(rankOrder[rank]);
+  });
+
+  return ranksMappedToNumbers.sort((a, b) => a - b);
 }
