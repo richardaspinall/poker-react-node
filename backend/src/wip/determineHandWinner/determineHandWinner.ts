@@ -5,9 +5,10 @@ export type Player = {
   name: string;
   holeCards?: CardShortCode[];
   hand?: CardShortCode[];
+  hands: PlayerPokerHands;
 };
 
-type PlayerPokerHands = {
+export type PlayerPokerHands = {
   straightFlush: boolean;
   fourOfAKind: boolean;
   fullHouse: boolean; // Take highest three cards and highest two cards
@@ -64,7 +65,51 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
    * After each of the checks, check off PlayerPokerHands
    */
 
+  if (!players[0].holeCards || !players[1].holeCards) {
+    throw new Error('One or more of the players dont have cards to check');
+  }
+
+  const combinedHandOne = combineHand(players[0].holeCards, communityCards);
+
+  const handOneSplit = splitAndRankShortCode(combinedHandOne);
+
+  const playersHands = checkHands(combinedHandOne, handOneSplit);
   return winningPlayers;
+}
+
+export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSplit[]): PlayerPokerHands {
+  const playersHands: PlayerPokerHands = {
+    straightFlush: false,
+    fourOfAKind: false,
+    fullHouse: false,
+    flush: false,
+    straight: false,
+    threeOfAKind: false,
+    threePair: false,
+    twoPair: false,
+    onePair: false,
+  };
+
+  const flush = checkForFlush(combinedHand);
+
+  if (flush) {
+    playersHands.flush = true;
+  }
+
+  const straight = checkForStraight(handSplit);
+
+  if (straight) {
+    playersHands.straight = true;
+  }
+
+  const handOneRankCount = countRanks(handSplit);
+  const fullHouse = checkForFullHouse(handOneRankCount);
+
+  if (fullHouse) {
+    playersHands.fullHouse = true;
+  }
+
+  return playersHands;
 }
 
 // Combine players hole cards with community cards (7 cards)
@@ -114,6 +159,8 @@ export function checkForFlush(cards: CardShortCode[]): boolean {
 
   return Object.values(suitsCount).some((count) => count >= 5);
 }
+
+export function checkForStraightFlush(straight: RankSuitSplit[], flush: RankSuitSplit[]) {}
 
 export function getFlush(rankSuitSplit: RankSuitSplit[], suit: Suit): RankSuitSplit[] {
   const flush: RankSuitSplit[] = [];

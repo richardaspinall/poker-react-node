@@ -1,11 +1,13 @@
 import { CardShortCode } from '@shared/game/types/CardShortCode';
 
 import {
+  PlayerPokerHands,
   RankCountMap,
   RankSuitSplit,
   checkForFlush,
   checkForFullHouse,
   checkForStraight,
+  checkHands,
   combineHand,
   countRanks,
   getFlush,
@@ -80,7 +82,7 @@ describe('orderRanks', () => {
 });
 
 describe('checkForFlush', () => {
-  it('returns true for 5 clubs', async () => {
+  it('returns true for 6 clubs', async () => {
     // Arrange
     const cards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
@@ -90,6 +92,25 @@ describe('checkForFlush', () => {
       CardShortCode.KingOfHearts,
       CardShortCode.AceOfClubs,
       CardShortCode.SixOfClubs,
+    ];
+
+    // Act
+    const flush = checkForFlush(cards);
+
+    // Assert
+    expect(flush).toBe(true);
+  });
+
+  it('returns true for 5 clubs', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.TwoOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.FourOfClubs,
+      CardShortCode.FiveOfClubs,
+      CardShortCode.KingOfHearts,
+      CardShortCode.AceOfClubs,
+      CardShortCode.SixOfHearts,
     ];
 
     // Act
@@ -584,5 +605,47 @@ describe('getFullHouse', () => {
       threeOfAKind: 14,
       pair: 13,
     });
+  });
+});
+
+describe('checkHands', () => {
+  it('returns true for a straight ', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.TwoOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.FourOfDiamonds,
+      CardShortCode.FiveOfSpades,
+      CardShortCode.KingOfClubs,
+      CardShortCode.AceOfClubs,
+      CardShortCode.SixOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 6, suit: 'C' },
+      { rank: 13, suit: 'C' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    const expectedHands: PlayerPokerHands = {
+      straightFlush: false,
+      fourOfAKind: false,
+      fullHouse: false,
+      flush: true,
+      straight: true,
+      threeOfAKind: false,
+      threePair: false,
+      twoPair: false,
+      onePair: false,
+    };
+    expect(hands).toEqual(expectedHands);
   });
 });
