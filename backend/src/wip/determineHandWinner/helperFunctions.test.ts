@@ -8,6 +8,7 @@ import {
   checkForStraight,
   combineHand,
   countRanks,
+  getFlush,
   getFullHouse,
   orderAndMapRanks,
   splitAndRankShortCode,
@@ -118,6 +119,86 @@ describe('checkForFlush', () => {
   });
 });
 
+describe('getFlush', () => {
+  it('returns 5 clubs', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 6, suit: 'C' },
+      { rank: 9, suit: 'C' },
+      { rank: 10, suit: 'C' },
+    ];
+
+    // Act
+    const flush = getFlush(cards, 'C');
+
+    // Assert
+    const expectedCardss: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 3, suit: 'C' },
+      { rank: 6, suit: 'C' },
+      { rank: 9, suit: 'C' },
+      { rank: 10, suit: 'C' },
+    ];
+    expect(flush).toEqual(expectedCardss);
+  });
+
+  it('returns 5 highest diamonds when there are 6 diamonds', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'D' },
+      { rank: 3, suit: 'D' },
+      { rank: 4, suit: 'S' },
+      { rank: 5, suit: 'D' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'D' },
+      { rank: 13, suit: 'D' },
+    ];
+
+    // Act
+    const flush = getFlush(cards, 'D');
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 3, suit: 'D' },
+      { rank: 5, suit: 'D' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'D' },
+      { rank: 13, suit: 'D' },
+    ];
+    expect(flush).toEqual(expectedCards);
+  });
+
+  it('returns 5 highest spades when there are 7 spades', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'S' },
+      { rank: 3, suit: 'S' },
+      { rank: 4, suit: 'S' },
+      { rank: 5, suit: 'S' },
+      { rank: 11, suit: 'S' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'S' },
+    ];
+
+    // Act
+    const flush = getFlush(cards, 'S');
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 4, suit: 'S' },
+      { rank: 5, suit: 'S' },
+      { rank: 11, suit: 'S' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'S' },
+    ];
+    expect(flush).toEqual(expectedCards);
+  });
+});
+
 describe('checkForStraight', () => {
   it('returns true for 5 numbers in a row', async () => {
     // Arrange
@@ -135,8 +216,43 @@ describe('checkForStraight', () => {
     const straight = checkForStraight(cards);
 
     // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 2, suit: 'H' },
+      { rank: 3, suit: 'H' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 6, suit: 'H' },
+    ];
 
-    expect(straight).toBe(true);
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
+  });
+
+  it('returns true for 5 numbers in a row starting from position 2', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 4, suit: 'H' },
+      { rank: 5, suit: 'H' },
+      { rank: 6, suit: 'D' },
+      { rank: 7, suit: 'S' },
+      { rank: 8, suit: 'H' },
+      { rank: 11, suit: 'C' },
+    ];
+    // Act
+    const straight = checkForStraight(cards);
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 4, suit: 'H' },
+      { rank: 5, suit: 'H' },
+      { rank: 6, suit: 'D' },
+      { rank: 7, suit: 'S' },
+      { rank: 8, suit: 'H' },
+    ];
+
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
   });
 
   it('returns false for no 5 numbers in a row', async () => {
@@ -154,8 +270,7 @@ describe('checkForStraight', () => {
     const straight = checkForStraight(cards);
 
     // Assert
-
-    expect(straight).toBe(false);
+    expect(straight.hasStraight).toBe(false);
   });
 
   it('returns true for A(1) - 5', async () => {
@@ -174,8 +289,15 @@ describe('checkForStraight', () => {
     const straight = checkForStraight(cards);
 
     // Assert
-
-    expect(straight).toBe(true);
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 1, suit: 'C' },
+      { rank: 2, suit: 'H' },
+      { rank: 3, suit: 'H' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+    ];
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
   });
 
   it('returns true for 10 - A(14)', async () => {
@@ -194,8 +316,128 @@ describe('checkForStraight', () => {
     const straight = checkForStraight(cards);
 
     // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+      { rank: 14, suit: 'C' },
+    ];
 
-    expect(straight).toBe(true);
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
+  });
+
+  it('returns highest straight for 10 - A(14) given 6 cards in a straight', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 9, suit: 'H' },
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const straight = checkForStraight(cards);
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
+  });
+
+  it('returns highest straight for 9 - 13 given 6 cards in a straight', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 8, suit: 'C' },
+      { rank: 9, suit: 'H' },
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+      { rank: 2, suit: 'C' },
+    ];
+
+    // Act
+    const straight = checkForStraight(cards);
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 9, suit: 'H' },
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+    ];
+
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
+  });
+
+  it('returns highest straight for 9 - 13 given 5 cards in a straight', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 4, suit: 'C' },
+      { rank: 9, suit: 'H' },
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+      { rank: 2, suit: 'C' },
+    ];
+
+    // Act
+    const straight = checkForStraight(cards);
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 9, suit: 'H' },
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+    ];
+
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
+  });
+
+  it('returns highest straight for 10 - A(14) given 7 cards in a straight', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 8, suit: 'C' },
+      { rank: 9, suit: 'H' },
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const straight = checkForStraight(cards);
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 10, suit: 'H' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'H' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    expect(straight.hasStraight).toBe(true);
+    expect(straight.straight).toEqual(expectedCards);
   });
 });
 
@@ -340,7 +582,7 @@ describe('getFullHouse', () => {
     // Assert
     expect(fullHouse).toEqual({
       threeOfAKind: 14,
-      twoOfAKind: 13,
+      pair: 13,
     });
   });
 });

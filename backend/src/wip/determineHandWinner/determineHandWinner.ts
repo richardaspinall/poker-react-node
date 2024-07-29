@@ -115,8 +115,28 @@ export function checkForFlush(cards: CardShortCode[]): boolean {
   return Object.values(suitsCount).some((count) => count >= 5);
 }
 
+export function getFlush(rankSuitSplit: RankSuitSplit[], suit: Suit): RankSuitSplit[] {
+  const flush: RankSuitSplit[] = [];
+
+  rankSuitSplit.forEach((card) => {
+    if (card.suit === suit) {
+      flush.push(card);
+    }
+  });
+
+  // Take care of more than 5 cards of a flush (take highest)
+  if (flush.length === 6) {
+    return flush.splice(1, 6);
+  }
+  if (flush.length === 7) {
+    return flush.splice(2, 7);
+  }
+
+  return flush;
+}
+
 // TODO: should return the highest straight
-export function checkForStraight(rankSuitSplit: RankSuitSplit[]): boolean {
+export function checkForStraight(rankSuitSplit: RankSuitSplit[]): { hasStraight: boolean; straight?: RankSuitSplit[] } {
   // 1234589 return true
   // 1245689 return false
   // 1256789 return true
@@ -129,17 +149,39 @@ export function checkForStraight(rankSuitSplit: RankSuitSplit[]): boolean {
   let hasStraight = false;
   rankSuitSplit.sort((a, b) => a.rank - b.rank); // ensure its  been sorted
 
+  const straight: RankSuitSplit[] = [];
+
   for (let index = 0; index < rankSuitSplit.length; index++) {
     const element = rankSuitSplit[index];
     const nextElement = rankSuitSplit[index + 1];
 
+    // We have got our straight and it's not possible to have higher straight
+    if (hasStraight && element.rank + 1 != nextElement?.rank) {
+      straight.push(element);
+
+      if (straight.length === 6) {
+        straight.splice(0, 1);
+      }
+      if (straight.length === 7) {
+        straight.splice(0, 2);
+      }
+      return { hasStraight, straight };
+    }
+
     if (element.rank + 1 === nextElement?.rank) {
       count += 1;
+      straight.push(element);
+      console.log('add', element);
     } else {
       count = 1;
-      // TODO: maybe unnecessary: don't continue if index is 2 or greater and we have a count of 0 and they don't have a straight already
-      if (index >= 2 && !hasStraight) {
-        return false;
+
+      if (!hasStraight) {
+        straight.length = 0;
+
+        // TODO: maybe unnecessary: don't continue if index is 2 or greater and we have a count of 0 and they don't have a straight already
+        if (index >= 2) {
+          return { hasStraight, straight };
+        }
       }
     }
 
@@ -148,7 +190,7 @@ export function checkForStraight(rankSuitSplit: RankSuitSplit[]): boolean {
     }
   }
 
-  return hasStraight;
+  return { hasStraight, straight };
 }
 
 // Count each rank
@@ -189,12 +231,14 @@ export function checkForFullHouse(rankCountMap: RankCountMap): boolean {
 export function getFullHouse(rankCountMap: RankCountMap) {
   const entries = Object.entries(rankCountMap);
   const reversedEntries = entries.reverse();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const threeOfAKind = reversedEntries.find(([_key, value]) => value === 3)?.[0];
-  const twoOfAKind = reversedEntries.find(([_key, value]) => value === 2)?.[0];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const pair = reversedEntries.find(([_key, value]) => value === 2)?.[0];
 
   const fullHouse = {
     threeOfAKind: Number(threeOfAKind),
-    twoOfAKind: Number(twoOfAKind),
+    pair: Number(pair),
   };
 
   return fullHouse;
