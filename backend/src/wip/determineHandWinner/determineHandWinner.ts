@@ -20,6 +20,19 @@ export type PlayerPokerHands = {
   onePair: boolean;
 };
 
+export enum PokerHand {
+  StraightFlush = 'StraightFlush',
+  FourOfAKind = 'FourOfAKind',
+  FullHouse = ' FullHouse', // Take highest three cards and highest two cards
+  Flush = 'Flush',
+  Straight = 'Straight',
+  ThreeOfAKind = 'ThreeOfAKind',
+  ThreePair = 'ThreePair', // If three pair, take highest two and highest other card
+  TwoPair = 'TwoPair',
+  OnePair = 'OnePair',
+  HighCard = 'HighCard',
+}
+
 type Suit = 'C' | 'D' | 'H' | 'S';
 
 export type RankSuitSplit = {
@@ -73,43 +86,40 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
 
   const handOneSplit = splitAndRankShortCode(combinedHandOne);
 
-  const playersHands = checkHands(combinedHandOne, handOneSplit);
+  const playersHand = checkHands(combinedHandOne, handOneSplit);
   return winningPlayers;
 }
 
-export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSplit[]): PlayerPokerHands {
-  const playersHands: PlayerPokerHands = {
-    straightFlush: false,
-    fourOfAKind: false,
-    fullHouse: false,
-    flush: false,
-    straight: false,
-    threeOfAKind: false,
-    threePair: false,
-    twoPair: false,
-    onePair: false,
-  };
-
-  const flush = checkForFlush(combinedHand);
-
-  if (flush) {
-    playersHands.flush = true;
-  }
-
+// TODO: maybe return the hand here too seeing we already should have it?
+export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSplit[]): PokerHand {
+  const hasFlush = checkForFlush(combinedHand);
   const straight = checkForStraight(handSplit);
 
-  if (straight) {
-    playersHands.straight = true;
+  if (hasFlush && straight) {
+    const flush = getFlush(handSplit, hasFlush);
+    const straightFlush = checkForStraightFlush(flush);
+    console.log(flush, straightFlush);
+
+    if (straightFlush) {
+      return PokerHand.StraightFlush;
+    }
   }
 
   const handOneRankCount = countRanks(handSplit);
   const fullHouse = checkForFullHouse(handOneRankCount);
-
   if (fullHouse) {
-    playersHands.fullHouse = true;
+    return PokerHand.FullHouse;
   }
 
-  return playersHands;
+  if (hasFlush) {
+    return PokerHand.Flush;
+  }
+
+  if (straight) {
+    return PokerHand.Straight;
+  }
+
+  return PokerHand.HighCard;
 }
 
 // Combine players hole cards with community cards (7 cards)
@@ -131,7 +141,7 @@ export function splitAndRankShortCode(cards: CardShortCode[]): RankSuitSplit[] {
 }
 
 // TODO: should return the highest flush
-export function checkForFlush(cards: CardShortCode[]): boolean {
+export function checkForFlush(cards: CardShortCode[]): Suit | undefined {
   const suitsCount = {
     C: 0,
     D: 0,
@@ -157,10 +167,22 @@ export function checkForFlush(cards: CardShortCode[]): boolean {
     }
   });
 
-  return Object.values(suitsCount).some((count) => count >= 5);
+  let suitWithFiveOrMore: Suit | undefined = undefined;
+  Object.entries(suitsCount).forEach(([suit, count]) => {
+    if (count >= 5) {
+      suitWithFiveOrMore = suit as Suit;
+    }
+  });
+  return suitWithFiveOrMore;
 }
 
-export function checkForStraightFlush(straight: RankSuitSplit[], flush: RankSuitSplit[]) {}
+export function checkForStraightFlush(flush: RankSuitSplit[]): boolean {
+  const straight = checkForStraight(flush);
+
+  const isStraightFlush = straight.hasStraight;
+
+  return isStraightFlush;
+}
 
 export function getFlush(rankSuitSplit: RankSuitSplit[], suit: Suit): RankSuitSplit[] {
   const flush: RankSuitSplit[] = [];
@@ -218,7 +240,6 @@ export function checkForStraight(rankSuitSplit: RankSuitSplit[]): { hasStraight:
     if (element.rank + 1 === nextElement?.rank) {
       count += 1;
       straight.push(element);
-      console.log('add', element);
     } else {
       count = 1;
 

@@ -2,6 +2,7 @@ import { CardShortCode } from '@shared/game/types/CardShortCode';
 
 import {
   PlayerPokerHands,
+  PokerHand,
   RankCountMap,
   RankSuitSplit,
   checkForFlush,
@@ -99,7 +100,7 @@ describe('checkForFlush', () => {
     const flush = checkForFlush(cards);
 
     // Assert
-    expect(flush).toBe(true);
+    expect(flush).toBe('C');
   });
 
   it('returns true for 5 clubs', async () => {
@@ -118,10 +119,10 @@ describe('checkForFlush', () => {
     const flush = checkForFlush(cards);
 
     // Assert
-    expect(flush).toBe(true);
+    expect(flush).toBe('C');
   });
 
-  it('returns false for no flush', async () => {
+  it('returns undefined for no flush', async () => {
     // Arrange
     const cards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
@@ -137,7 +138,7 @@ describe('checkForFlush', () => {
     const flush = checkForFlush(cards);
 
     // Assert
-    expect(flush).toBe(false);
+    expect(flush).toBe(undefined);
   });
 });
 
@@ -610,16 +611,74 @@ describe('getFullHouse', () => {
 });
 
 describe('checkHands', () => {
-  it('returns true for a straight ', async () => {
+  it.only('returns a straight flush ', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.TwoOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.FourOfClubs,
+      CardShortCode.FiveOfClubs,
+      CardShortCode.SixOfClubs,
+      CardShortCode.AceOfDiamonds,
+      CardShortCode.AceOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'C' },
+      { rank: 5, suit: 'C' },
+      { rank: 6, suit: 'C' },
+      { rank: 14, suit: 'D' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    expect(hands).toEqual(PokerHand.StraightFlush);
+  });
+
+  it.only('returns a full house ', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.TwoOfClubs,
+      CardShortCode.TwoOfDiamonds,
+      CardShortCode.TwoOfSpades,
+      CardShortCode.FiveOfSpades,
+      CardShortCode.SixOfClubs,
+      CardShortCode.AceOfDiamonds,
+      CardShortCode.AceOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 2, suit: 'D' },
+      { rank: 2, suit: 'S' },
+      { rank: 5, suit: 'S' },
+      { rank: 6, suit: 'C' },
+      { rank: 14, suit: 'D' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    expect(hands).toEqual(PokerHand.FullHouse);
+  });
+
+  it.only('returns a flush ', async () => {
     // Arrange
     const cards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
       CardShortCode.ThreeOfClubs,
       CardShortCode.FourOfDiamonds,
       CardShortCode.FiveOfSpades,
+      CardShortCode.SixOfClubs,
       CardShortCode.KingOfClubs,
       CardShortCode.AceOfClubs,
-      CardShortCode.SixOfClubs,
     ];
 
     const cardsSplit: RankSuitSplit[] = [
@@ -636,23 +695,41 @@ describe('checkHands', () => {
     const hands = checkHands(cards, cardsSplit);
 
     // Assert
-    const expectedHands: PlayerPokerHands = {
-      straightFlush: false,
-      fourOfAKind: false,
-      fullHouse: false,
-      flush: true,
-      straight: true,
-      threeOfAKind: false,
-      threePair: false,
-      twoPair: false,
-      onePair: false,
-    };
-    expect(hands).toEqual(expectedHands);
+    expect(hands).toEqual(PokerHand.Flush);
+  });
+
+  it.only('returns a straight ', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.TwoOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.FourOfDiamonds,
+      CardShortCode.FiveOfSpades,
+      CardShortCode.SixOfClubs,
+      CardShortCode.KingOfDiamonds,
+      CardShortCode.AceOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 6, suit: 'C' },
+      { rank: 13, suit: 'D' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    expect(hands).toEqual(PokerHand.Straight);
   });
 });
 
 describe('compareHandStrength', () => {
-  it.only('returns true for hand1 winning', async () => {
+  it('returns true for hand1 winning', async () => {
     // Arrange
     const hand1: RankSuitSplit[] = [
       { rank: 2, suit: 'D' },
@@ -682,7 +759,7 @@ describe('compareHandStrength', () => {
     expect(winners.hand2.hasWon).toEqual(false);
   });
 
-  it.only('returns false for hand1 winning', async () => {
+  it('returns false for hand1 winning', async () => {
     // Arrange
     const hand1: RankSuitSplit[] = [
       { rank: 2, suit: 'H' },
@@ -712,7 +789,7 @@ describe('compareHandStrength', () => {
     expect(winners.hand2.hasWon).toEqual(true);
   });
 
-  it.only('returns both hands as winners', async () => {
+  it('returns both hands as winners', async () => {
     // Arrange
     const hand1: RankSuitSplit[] = [
       { rank: 2, suit: 'H' },
