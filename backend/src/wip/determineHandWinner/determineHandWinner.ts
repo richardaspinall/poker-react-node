@@ -291,6 +291,36 @@ export function getFullHouse(rankCountMap: RankCountMap) {
   return fullHouse;
 }
 
+type HandWinnersOnComparedStrength = {
+  hand1: {
+    hasWon: boolean;
+  };
+  hand2: {
+    hasWon: boolean;
+  };
+};
+
+export function compareHandStrength(hand1: RankSuitSplit[], hand2: RankSuitSplit[]): HandWinnersOnComparedStrength {
+  if (hand1.length !== hand2.length) {
+    throw new Error('Both sets must have the same length');
+  }
+
+  // Reverse the sets
+  const reversedHand1 = hand1.reverse();
+  const reversedHand2 = hand2.reverse();
+
+  for (let i = 0; i < reversedHand1.length; i++) {
+    if (reversedHand1[i].rank > reversedHand2[i].rank) {
+      return { hand1: { hasWon: true }, hand2: { hasWon: false } };
+    } else if (reversedHand1[i].rank < reversedHand2[i].rank) {
+      return { hand1: { hasWon: false }, hand2: { hasWon: true } };
+    }
+  }
+
+  // If all elements are equal
+  return { hand1: { hasWon: true }, hand2: { hasWon: true } };
+}
+
 // TODO: not sure if we need these
 export function orderAndMapRanks(ranks: string[]): number[] {
   const ranksMappedToNumbers: number[] = [];

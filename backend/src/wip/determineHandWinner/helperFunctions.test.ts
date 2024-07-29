@@ -9,6 +9,7 @@ import {
   checkForStraight,
   checkHands,
   combineHand,
+  compareHandStrength,
   countRanks,
   getFlush,
   getFullHouse,
@@ -647,5 +648,97 @@ describe('checkHands', () => {
       onePair: false,
     };
     expect(hands).toEqual(expectedHands);
+  });
+});
+
+describe('compareHandStrength', () => {
+  it.only('returns true for hand1 winning', async () => {
+    // Arrange
+    const hand1: RankSuitSplit[] = [
+      { rank: 2, suit: 'D' },
+      { rank: 3, suit: 'D' },
+      { rank: 4, suit: 'C' },
+      { rank: 5, suit: 'H' },
+      { rank: 8, suit: 'S' },
+      { rank: 13, suit: 'C' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    const hand2: RankSuitSplit[] = [
+      { rank: 2, suit: 'D' },
+      { rank: 3, suit: 'D' },
+      { rank: 4, suit: 'C' },
+      { rank: 5, suit: 'H' },
+      { rank: 8, suit: 'S' },
+      { rank: 9, suit: 'C' },
+      { rank: 13, suit: 'D' },
+    ];
+
+    // Act
+    const winners = compareHandStrength(hand1, hand2);
+
+    // Assert
+    expect(winners.hand1.hasWon).toEqual(true);
+    expect(winners.hand2.hasWon).toEqual(false);
+  });
+
+  it.only('returns false for hand1 winning', async () => {
+    // Arrange
+    const hand1: RankSuitSplit[] = [
+      { rank: 2, suit: 'H' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 7, suit: 'C' },
+      { rank: 9, suit: 'C' },
+      { rank: 13, suit: 'D' },
+    ];
+
+    const hand2: RankSuitSplit[] = [
+      { rank: 2, suit: 'H' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 7, suit: 'C' },
+      { rank: 13, suit: 'C' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const winners = compareHandStrength(hand1, hand2);
+
+    // Assert
+    expect(winners.hand1.hasWon).toEqual(false);
+    expect(winners.hand2.hasWon).toEqual(true);
+  });
+
+  it.only('returns both hands as winners', async () => {
+    // Arrange
+    const hand1: RankSuitSplit[] = [
+      { rank: 2, suit: 'H' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 7, suit: 'C' },
+      { rank: 13, suit: 'S' },
+      { rank: 14, suit: 'D' },
+    ];
+
+    const hand2: RankSuitSplit[] = [
+      { rank: 2, suit: 'H' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 5, suit: 'S' },
+      { rank: 7, suit: 'C' },
+      { rank: 13, suit: 'C' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const winners = compareHandStrength(hand1, hand2);
+
+    // Assert
+    expect(winners.hand1.hasWon).toEqual(true);
+    expect(winners.hand2.hasWon).toEqual(true);
   });
 });
