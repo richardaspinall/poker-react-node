@@ -1,7 +1,6 @@
 import { CardShortCode } from '@shared/game/types/CardShortCode';
 
 import {
-  PlayerPokerHands,
   PokerHand,
   RankCountMap,
   RankSuitSplit,
@@ -14,6 +13,7 @@ import {
   countRanks,
   getFlush,
   getFullHouse,
+  getHighestCards,
   orderAndMapRanks,
   splitAndRankShortCode,
 } from './determineHandWinner';
@@ -159,22 +159,23 @@ describe('getFlush', () => {
     const flush = getFlush(cards, 'C');
 
     // Assert
-    const expectedCardss: RankSuitSplit[] = [
+    const expectedCards: RankSuitSplit[] = [
       { rank: 2, suit: 'C' },
       { rank: 3, suit: 'C' },
       { rank: 6, suit: 'C' },
       { rank: 9, suit: 'C' },
       { rank: 10, suit: 'C' },
     ];
-    expect(flush).toEqual(expectedCardss);
+    expect(flush).toEqual(expectedCards);
   });
+});
 
+describe('getHighestCards', () => {
   it('returns 5 highest diamonds when there are 6 diamonds', async () => {
     // Arrange
     const cards: RankSuitSplit[] = [
       { rank: 2, suit: 'D' },
       { rank: 3, suit: 'D' },
-      { rank: 4, suit: 'S' },
       { rank: 5, suit: 'D' },
       { rank: 11, suit: 'D' },
       { rank: 12, suit: 'D' },
@@ -182,7 +183,7 @@ describe('getFlush', () => {
     ];
 
     // Act
-    const flush = getFlush(cards, 'D');
+    const flush = getHighestCards(cards);
 
     // Assert
     const expectedCards: RankSuitSplit[] = [
@@ -208,7 +209,7 @@ describe('getFlush', () => {
     ];
 
     // Act
-    const flush = getFlush(cards, 'S');
+    const flush = getHighestCards(cards);
 
     // Assert
     const expectedCards: RankSuitSplit[] = [
@@ -481,19 +482,19 @@ describe('countRanks', () => {
     const rankCountMap = countRanks(cards);
 
     // Assert
-    expect(rankCountMap[2]).toBe(2);
-    expect(rankCountMap[3]).toBe(0);
-    expect(rankCountMap[4]).toBe(2);
-    expect(rankCountMap[5]).toBe(1);
-    expect(rankCountMap[6]).toBe(1);
-    expect(rankCountMap[7]).toBe(0);
-    expect(rankCountMap[8]).toBe(0);
-    expect(rankCountMap[9]).toBe(1);
-    expect(rankCountMap[10]).toBe(0);
-    expect(rankCountMap[11]).toBe(0);
-    expect(rankCountMap[12]).toBe(0);
-    expect(rankCountMap[13]).toBe(0);
-    expect(rankCountMap[14]).toBe(0);
+    expect(rankCountMap.get(2)).toBe(2);
+    expect(rankCountMap.get(3)).toBe(0);
+    expect(rankCountMap.get(4)).toBe(2);
+    expect(rankCountMap.get(5)).toBe(1);
+    expect(rankCountMap.get(6)).toBe(1);
+    expect(rankCountMap.get(7)).toBe(0);
+    expect(rankCountMap.get(8)).toBe(0);
+    expect(rankCountMap.get(9)).toBe(1);
+    expect(rankCountMap.get(10)).toBe(0);
+    expect(rankCountMap.get(11)).toBe(0);
+    expect(rankCountMap.get(12)).toBe(0);
+    expect(rankCountMap.get(13)).toBe(0);
+    expect(rankCountMap.get(14)).toBe(0);
   });
 
   it('returns a map with three Aces (14) and two Kings (13)', async () => {
@@ -512,40 +513,40 @@ describe('countRanks', () => {
     const rankCountMap = countRanks(cards);
 
     // Assert
-    expect(rankCountMap[2]).toBe(0);
-    expect(rankCountMap[3]).toBe(1);
-    expect(rankCountMap[4]).toBe(0);
-    expect(rankCountMap[5]).toBe(0);
-    expect(rankCountMap[6]).toBe(0);
-    expect(rankCountMap[7]).toBe(1);
-    expect(rankCountMap[8]).toBe(0);
-    expect(rankCountMap[9]).toBe(0);
-    expect(rankCountMap[10]).toBe(0);
-    expect(rankCountMap[11]).toBe(0);
-    expect(rankCountMap[12]).toBe(0);
-    expect(rankCountMap[13]).toBe(2);
-    expect(rankCountMap[14]).toBe(3);
+    expect(rankCountMap.get(2)).toBe(0);
+    expect(rankCountMap.get(3)).toBe(1);
+    expect(rankCountMap.get(4)).toBe(0);
+    expect(rankCountMap.get(5)).toBe(0);
+    expect(rankCountMap.get(6)).toBe(0);
+    expect(rankCountMap.get(7)).toBe(1);
+    expect(rankCountMap.get(8)).toBe(0);
+    expect(rankCountMap.get(9)).toBe(0);
+    expect(rankCountMap.get(10)).toBe(0);
+    expect(rankCountMap.get(11)).toBe(0);
+    expect(rankCountMap.get(12)).toBe(0);
+    expect(rankCountMap.get(13)).toBe(2);
+    expect(rankCountMap.get(14)).toBe(3);
   });
 });
 
 describe('checkForFullHouse', () => {
   it('returns Aces full of Kings', async () => {
     // Arrange
-    const rankCountMap: RankCountMap = {
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
-      6: 0,
-      7: 0,
-      8: 0,
-      9: 1,
-      10: 1,
-      11: 0,
-      12: 0,
-      13: 2,
-      14: 3,
-    };
+    const rankCountMap: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 1],
+      [10, 1],
+      [11, 0],
+      [12, 0],
+      [13, 2],
+      [14, 3],
+    ]);
 
     // Act
     const fullHouse = checkForFullHouse(rankCountMap);
@@ -556,21 +557,21 @@ describe('checkForFullHouse', () => {
 
   it('returns false for no full house', async () => {
     // Arrange
-    const rankCountMap: RankCountMap = {
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 1,
-      6: 0,
-      7: 1,
-      8: 0,
-      9: 1,
-      10: 0,
-      11: 2,
-      12: 2,
-      13: 0,
-      14: 0,
-    };
+    const rankCountMap: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 1],
+      [6, 0],
+      [7, 1],
+      [8, 0],
+      [9, 1],
+      [10, 0],
+      [11, 2],
+      [12, 2],
+      [13, 0],
+      [14, 0],
+    ]);
 
     // Act
     const fullHouse = checkForFullHouse(rankCountMap);
@@ -583,21 +584,21 @@ describe('checkForFullHouse', () => {
 describe('getFullHouse', () => {
   it('returns Aces full of Kings ', async () => {
     // Arrange
-    const rankCountMap: RankCountMap = {
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
-      6: 0,
-      7: 0,
-      8: 0,
-      9: 1,
-      10: 1,
-      11: 0,
-      12: 0,
-      13: 2,
-      14: 3,
-    };
+    const rankCountMap: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 1],
+      [10, 1],
+      [11, 0],
+      [12, 0],
+      [13, 2],
+      [14, 3],
+    ]);
 
     // Act
     const fullHouse = getFullHouse(rankCountMap);
@@ -611,7 +612,7 @@ describe('getFullHouse', () => {
 });
 
 describe('checkHands', () => {
-  it.only('returns a straight flush ', async () => {
+  it('returns a straight flush ', async () => {
     // Arrange
     const cards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
@@ -640,7 +641,36 @@ describe('checkHands', () => {
     expect(hands).toEqual(PokerHand.StraightFlush);
   });
 
-  it.only('returns a full house ', async () => {
+  it('returns four of a kind ', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.ThreeOfDiamonds,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.ThreeOfHearts,
+      CardShortCode.ThreeOfSpades,
+      CardShortCode.SixOfClubs,
+      CardShortCode.KingOfDiamonds,
+      CardShortCode.AceOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 3, suit: 'D' },
+      { rank: 3, suit: 'C' },
+      { rank: 3, suit: 'H' },
+      { rank: 3, suit: 'S' },
+      { rank: 6, suit: 'C' },
+      { rank: 13, suit: 'D' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    expect(hands).toEqual(PokerHand.FourOfAKind);
+  });
+
+  it('returns a full house ', async () => {
     // Arrange
     const cards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
@@ -669,7 +699,7 @@ describe('checkHands', () => {
     expect(hands).toEqual(PokerHand.FullHouse);
   });
 
-  it.only('returns a flush ', async () => {
+  it('returns a flush ', async () => {
     // Arrange
     const cards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
@@ -698,7 +728,7 @@ describe('checkHands', () => {
     expect(hands).toEqual(PokerHand.Flush);
   });
 
-  it.only('returns a straight ', async () => {
+  it('returns a straight ', async () => {
     // Arrange
     const cards: CardShortCode[] = [
       CardShortCode.TwoOfClubs,
@@ -725,6 +755,35 @@ describe('checkHands', () => {
 
     // Assert
     expect(hands).toEqual(PokerHand.Straight);
+  });
+
+  it('returns three of a kind ', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.ThreeOfDiamonds,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.ThreeOfHearts,
+      CardShortCode.FiveOfSpades,
+      CardShortCode.SixOfClubs,
+      CardShortCode.KingOfDiamonds,
+      CardShortCode.AceOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 3, suit: 'D' },
+      { rank: 3, suit: 'C' },
+      { rank: 3, suit: 'H' },
+      { rank: 5, suit: 'S' },
+      { rank: 6, suit: 'C' },
+      { rank: 13, suit: 'D' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    expect(hands).toEqual(PokerHand.ThreeOfAKind);
   });
 });
 

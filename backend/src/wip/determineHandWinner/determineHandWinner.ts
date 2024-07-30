@@ -1,23 +1,10 @@
-import { Card } from '@shared/game/types/Card';
 import { CardShortCode } from '@shared/game/types/CardShortCode';
 
 export type Player = {
   name: string;
   holeCards?: CardShortCode[];
   hand?: CardShortCode[];
-  hands: PlayerPokerHands;
-};
-
-export type PlayerPokerHands = {
-  straightFlush: boolean;
-  fourOfAKind: boolean;
-  fullHouse: boolean; // Take highest three cards and highest two cards
-  flush: boolean;
-  straight: boolean;
-  threeOfAKind: boolean;
-  threePair: boolean; // If three pair, take highest two and highest other card
-  twoPair: boolean;
-  onePair: boolean;
+  handType: PokerHand;
 };
 
 export enum PokerHand {
@@ -35,12 +22,14 @@ export enum PokerHand {
 
 type Suit = 'C' | 'D' | 'H' | 'S';
 
+type Rank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
+
 export type RankSuitSplit = {
-  rank: number;
+  rank: Rank;
   suit: Suit;
 };
 
-export type RankCountMap = { [key: number]: number };
+export type RankCountMap = Map<Rank, number>;
 
 const rankOrder: { [key: string]: number } = {
   '2': 2,
@@ -98,7 +87,6 @@ export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSpl
   if (hasFlush && straight) {
     const flush = getFlush(handSplit, hasFlush);
     const straightFlush = checkForStraightFlush(flush);
-    console.log(flush, straightFlush);
 
     if (straightFlush) {
       return PokerHand.StraightFlush;
@@ -106,6 +94,13 @@ export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSpl
   }
 
   const handOneRankCount = countRanks(handSplit);
+
+  const fourOfAKind = checkForFourOfAKind(handOneRankCount);
+  console.log(fourOfAKind);
+  if (fourOfAKind) {
+    return PokerHand.FourOfAKind;
+  }
+
   const fullHouse = checkForFullHouse(handOneRankCount);
   if (fullHouse) {
     return PokerHand.FullHouse;
@@ -115,9 +110,24 @@ export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSpl
     return PokerHand.Flush;
   }
 
-  if (straight) {
+  if (straight.hasStraight) {
     return PokerHand.Straight;
   }
+
+  const threeOfAKind = checkForThreeOfAKind(handOneRankCount);
+  if (threeOfAKind) {
+    return PokerHand.ThreeOfAKind;
+  }
+
+  // const twoPair = checkForTwoPair();
+  // if (twoPair) {
+  //   return PokerHand.TwoPair;
+  // }
+
+  // const onePair = checkForOnePair();
+  // if (onePair) {
+  //   return PokerHand.OnePair;
+  // }
 
   return PokerHand.HighCard;
 }
@@ -132,7 +142,7 @@ export function splitAndRankShortCode(cards: CardShortCode[]): RankSuitSplit[] {
   const rankSuitSplit: RankSuitSplit[] = [];
 
   cards.forEach((card) => {
-    rankSuitSplit.push({ rank: rankOrder[card.charAt(0)], suit: card.charAt(1) as Suit });
+    rankSuitSplit.push({ rank: rankOrder[card.charAt(0)] as Rank, suit: card.charAt(1) as Suit });
   });
 
   rankSuitSplit.sort((a, b) => a.rank - b.rank);
@@ -193,15 +203,18 @@ export function getFlush(rankSuitSplit: RankSuitSplit[], suit: Suit): RankSuitSp
     }
   });
 
-  // Take care of more than 5 cards of a flush (take highest)
-  if (flush.length === 6) {
-    return flush.splice(1, 6);
+  return flush;
+}
+
+export function getHighestCards(cards: RankSuitSplit[]): RankSuitSplit[] {
+  if (cards.length === 6) {
+    return cards.splice(1, 6);
   }
-  if (flush.length === 7) {
-    return flush.splice(2, 7);
+  if (cards.length === 7) {
+    return cards.splice(2, 7);
   }
 
-  return flush;
+  return cards;
 }
 
 // TODO: should return the highest straight
@@ -263,50 +276,108 @@ export function checkForStraight(rankSuitSplit: RankSuitSplit[]): { hasStraight:
 
 // Count each rank
 export function countRanks(rankSuitSplit: RankSuitSplit[]): RankCountMap {
-  const rankCountMap: RankCountMap = {
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0,
-    11: 0,
-    12: 0,
-    13: 0,
-    14: 0,
-  };
+  const rankCountMap: RankCountMap = new Map([
+    [2, 0],
+    [3, 0],
+    [4, 0],
+    [5, 0],
+    [6, 0],
+    [7, 0],
+    [8, 0],
+    [9, 0],
+    [10, 0],
+    [11, 0],
+    [12, 0],
+    [13, 0],
+    [14, 0],
+  ]);
 
   rankSuitSplit.forEach((rankSuit) => {
-    rankCountMap[rankSuit.rank] += 1;
+    const currentRankValue = rankCountMap.get(rankSuit.rank);
+    if (currentRankValue != undefined) {
+      rankCountMap.set(rankSuit.rank, currentRankValue + 1);
+    }
   });
 
   return rankCountMap;
 }
 
 export function checkForFullHouse(rankCountMap: RankCountMap): boolean {
-  const threeOfAKind = Object.values(rankCountMap).some((count) => count === 3);
-  const pair = Object.values(rankCountMap).some((count) => count === 2);
+  let hasThreeOfAKind: boolean = false;
+  rankCountMap.forEach((value) => {
+    if (value === 3) {
+      hasThreeOfAKind = true;
+    }
+  });
 
-  if (threeOfAKind && pair) {
-    return true;
-  }
-  return false;
+  let hasPair: boolean = false;
+  rankCountMap.forEach((value) => {
+    if (value === 2) {
+      hasPair = true;
+    }
+  });
+
+  return hasThreeOfAKind && hasPair;
 }
 
+export function checkForFourOfAKind(rankCountMap: RankCountMap): boolean {
+  let hasFourOfAKind = false;
+  rankCountMap.forEach((value) => {
+    if (value === 4) {
+      hasFourOfAKind = true;
+    }
+  });
+
+  return hasFourOfAKind;
+}
+
+export function checkForThreeOfAKind(rankCountMap: RankCountMap): boolean {
+  let hasThreeOfAKind = false;
+  rankCountMap.forEach((value) => {
+    if (value === 3) {
+      hasThreeOfAKind = true;
+    }
+  });
+
+  return hasThreeOfAKind;
+}
+
+// export function checkForTwoPair(rankCountMap: RankCountMap): boolean {
+//   const twoPairs = Object.fromEntries(Object.entries(rankCountMap).filter(([_key, value]) => value === 2));
+
+//   if (threeOfAKind && pair) {
+//     return true;
+//   }
+//   return false;
+// }
+
+// export function checkForPair(rankCountMap: RankCountMap): boolean {
+//   const threeOfAKind = Object.values(rankCountMap).some((count) => count === 3);
+//   const pair = Object.values(rankCountMap).some((count) => count === 2);
+
+//   if (threeOfAKind && pair) {
+//     return true;
+//   }
+//   return false;
+// }
+
 export function getFullHouse(rankCountMap: RankCountMap) {
-  const entries = Object.entries(rankCountMap);
-  const reversedEntries = entries.reverse();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const threeOfAKind = reversedEntries.find(([_key, value]) => value === 3)?.[0];
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const pair = reversedEntries.find(([_key, value]) => value === 2)?.[0];
+  let highestThreeOfAKind: Rank | undefined = undefined;
+  let highestPair: Rank | undefined = undefined;
+
+  rankCountMap.forEach((value, key) => {
+    if (value === 3) {
+      highestThreeOfAKind = key;
+    }
+
+    if (value === 2) {
+      highestPair = key;
+    }
+  });
 
   const fullHouse = {
-    threeOfAKind: Number(threeOfAKind),
-    pair: Number(pair),
+    threeOfAKind: highestThreeOfAKind,
+    pair: highestPair,
   };
 
   return fullHouse;
