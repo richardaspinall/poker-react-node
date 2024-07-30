@@ -22,24 +22,19 @@ class Logger {
     errorLog(message);
   }
 
-  static debug(message: any): void {
+  static debug(message: string): void {
     debugLog(message);
   }
 
-  static debugStack(error: IBaseError): string {
-    return formatError(error);
+  static stackTrace(error: IBaseError): void {
+    const errorDetails = error.details ? JSON.stringify(error.details, null, 2) : null;
+    const errorCodeAndDetails = `Code: ${error.code}` + (errorDetails ? `\nDetails: ${errorDetails}` : '');
+
+    const separator = '-----------------------------------STACK TRACE-----------------------------------';
+    const stack = error.stack || 'No stack trace available';
+
+    console.log(`${chalk.green(errorCodeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.yellow(stack)}`);
   }
-}
-
-function formatError(error: IBaseError): string {
-  const codeAndDetails = `Code: ${error.code} \nDetails: ${
-    error.errorDetails ? JSON.stringify(error.errorDetails, null, 2) : null
-  }`;
-  const separator = '-----------------------------------STACK TRACE-----------------------------------';
-  const stack = error.stack || 'No stack trace available'; // Fallback if stack is undefined
-
-  // Concatenate parts with color formatting
-  return `${chalk.green(codeAndDetails)}\n${chalk.yellow(separator)}\n${chalk.white(stack)}`;
 }
 
 export { Logger };

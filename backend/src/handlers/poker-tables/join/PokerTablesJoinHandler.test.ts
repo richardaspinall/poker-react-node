@@ -20,7 +20,7 @@ describe('poker-tables.join', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toEqual('INVALID_REQUEST_PAYLOAD');
+    expect(res.body.error.code).toEqual('INVALID_REQUEST_PAYLOAD');
   });
 
   // TODO: will eventually need to add the table they are sitting at but this is hardcoded
@@ -60,7 +60,7 @@ describe('poker-tables.join', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorMessage).toEqual('Seat is taken');
+    expect(res.body.error.message).toEqual('Seat is taken');
   });
 
   // it('should error when the table doesnt exist', async () => {

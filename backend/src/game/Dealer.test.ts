@@ -174,7 +174,7 @@ describe('Dealer', () => {
           player = seat.getPlayer();
           if (player) {
             const resp = Dealer.actionHandler(newPokerTable, 'check', 0, player.getUserId());
-            expect(resp.getError()?.code).toEqual('player_action_invalid');
+            expect(resp.getError()?.code).toEqual('ACTION_INVALID');
           }
         }
       });

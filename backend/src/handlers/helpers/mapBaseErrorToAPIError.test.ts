@@ -5,15 +5,15 @@ describe('mapBaseErrorToAPIError', () => {
     const baseError = {
       code: 'code',
       message: 'message',
-      errorDetails: 'errorDetails',
+      details: 'details',
     };
 
     const result = mapBaseErrorToAPIError(baseError);
 
     expect(result).toEqual({
-      errorCode: 'code',
-      errorMessage: 'message',
-      errorDetails: 'errorDetails',
+      code: 'code',
+      message: 'message',
+      details: 'details',
     });
   });
 });

@@ -15,7 +15,7 @@ describe('poker-tables.getSeats', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toBe('INVALID_REQUEST_PAYLOAD');
+    expect(res.body.error.code).toBe('INVALID_REQUEST_PAYLOAD');
   });
 
   it('should return table_does_not_exist', async () => {
@@ -26,7 +26,7 @@ describe('poker-tables.getSeats', () => {
     });
 
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.errorCode).toBe('POKER_TABLE_DOES_NOT_EXIST');
+    expect(res.body.error.code).toBe('POKER_TABLE_DOES_NOT_EXIST');
   });
 
   it('should return all seats for a table', async () => {

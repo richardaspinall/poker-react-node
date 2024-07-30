@@ -60,7 +60,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
 
     if (payload.isError()) {
       const error = payload.getError();
-      return this.handleError(new InvalidRequestPayloadError(error), res);
+      return this.handleError(new InvalidRequestPayloadError(error.details), res);
     }
 
     const userParam = this.requiresAuthentication ? userId : undefined;
@@ -74,8 +74,7 @@ export abstract class BaseHandler<TPayload, TOutput extends BaseOutput> implemen
     const outputPayload = validatePayload<TOutput>(this.outputValidationSchema, output.getValue());
     if (outputPayload.isError()) {
       const error = outputPayload.getError();
-
-      return this.handleError(new InvalidResponsePayloadError(error), res);
+      return this.handleError(new InvalidResponsePayloadError(error.details), res);
     }
 
     return res.send(outputPayload.getValue());

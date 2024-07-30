@@ -23,15 +23,15 @@ describe('GlobalErrorHandler', () => {
     expect(res.send).toHaveBeenCalledWith({
       ok: false,
       error: {
-        errorCode: 'internal_error',
-        errorMessage: 'An internal error occurred',
+        code: 'INTERNAL_ERROR',
+        message: 'An internal error occurred',
       },
     });
   });
 
-  it('should send a method_not_implemented error', () => {
+  it('should send a METHOD_NOT_IMPLEMENTED error', () => {
     const error = {
-      code: 'method_not_implemented',
+      code: 'METHOD_NOT_IMPLEMENTED',
       message: 'error_message',
     };
 
@@ -40,8 +40,8 @@ describe('GlobalErrorHandler', () => {
     expect(res.send).toHaveBeenCalledWith({
       ok: false,
       error: {
-        errorCode: 'method_not_implemented',
-        errorMessage: 'error_message',
+        code: 'METHOD_NOT_IMPLEMENTED',
+        message: 'error_message',
       },
     });
   });

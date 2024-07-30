@@ -1,3 +1,4 @@
+import { Logger } from '../utils/Logger';
 import { BaseError } from './BaseError';
 
 /**
@@ -30,7 +31,7 @@ export class Result<T> {
   }
 
   public getValue(): T {
-    if (this.error) throw new BaseError(this.error.code, this.error.message, this.error.errorDetails);
+    if (this.error) throw new BaseError(this.error.code, this.error.message, this.error.details);
     if (!this.value) throw new Error('Value is undefined');
     return this.value;
   }
@@ -45,6 +46,9 @@ export class Result<T> {
   }
 
   static error(error: BaseError): Result<undefined> {
+    if (!process.env.TEST_RUNNER || !!process.env.DEBUG) {
+      Logger.stackTrace(error);
+    }
     return new Result(false, undefined, error);
   }
 
@@ -62,6 +66,9 @@ export class Result<T> {
  */
 export class ResultError<T> extends Result<T> {
   constructor(error: BaseError) {
+    if (!process.env.TEST_RUNNER || !!process.env.DEBUG) {
+      Logger.stackTrace(error);
+    }
     super(false, undefined, error);
   }
 }
