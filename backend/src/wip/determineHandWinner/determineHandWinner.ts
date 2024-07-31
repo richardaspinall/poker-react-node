@@ -205,7 +205,7 @@ export function getFlush(rankSuitSplit: RankSuitSplit[], suit: Suit): RankSuitSp
   return flush;
 }
 
-export function getHighestCards(cards: RankSuitSplit[]): RankSuitSplit[] {
+export function getHighCards(cards: RankSuitSplit[]): RankSuitSplit[] {
   if (cards.length === 6) {
     return cards.splice(1, 6);
   }
@@ -320,6 +320,28 @@ export function checkForFullHouse(rankCountMap: RankCountMap): boolean {
   return hasThreeOfAKind && hasPair;
 }
 
+export function getFullHouse(rankCountMap: RankCountMap) {
+  let highestThreeOfAKind: Rank | undefined = undefined;
+  let highestPair: Rank | undefined = undefined;
+
+  rankCountMap.forEach((value, key) => {
+    if (value === 3) {
+      highestThreeOfAKind = key;
+    }
+
+    if (value === 2) {
+      highestPair = key;
+    }
+  });
+
+  const fullHouse = {
+    threeOfAKind: highestThreeOfAKind,
+    pair: highestPair,
+  };
+
+  return fullHouse;
+}
+
 // TODO: add unit test
 export function checkForFourOfAKind(rankCountMap: RankCountMap): boolean {
   let hasFourOfAKind = false;
@@ -376,28 +398,6 @@ export function checkForOnePair(rankCountMap: RankCountMap): boolean {
   }
 
   return false;
-}
-
-export function getFullHouse(rankCountMap: RankCountMap) {
-  let highestThreeOfAKind: Rank | undefined = undefined;
-  let highestPair: Rank | undefined = undefined;
-
-  rankCountMap.forEach((value, key) => {
-    if (value === 3) {
-      highestThreeOfAKind = key;
-    }
-
-    if (value === 2) {
-      highestPair = key;
-    }
-  });
-
-  const fullHouse = {
-    threeOfAKind: highestThreeOfAKind,
-    pair: highestPair,
-  };
-
-  return fullHouse;
 }
 
 type HandWinnersOnComparedStrength = {
