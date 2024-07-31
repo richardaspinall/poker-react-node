@@ -165,7 +165,7 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
         );
         break;
     }
-    console.log(winner);
+
     if (winner.hand1.hasWon) {
       winningPlayers.push({ name: players[0].name, handType: player1Hand });
     }
@@ -174,6 +174,30 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
       winningPlayers.push({ name: players[1].name, handType: player2Hand });
     }
   }
+
+  // Get cards
+  //
+  // TODO: currently they are all returned in different formats so we need to either make
+  // TODO: them consistent or be able to convert them.
+  // TODO:
+  // TODO: for now to make it work, maybe we just convert them one at a time, then make it flex and right
+  // TODO: later
+  //
+  //
+  //
+  // Flush
+  // - getFlush -> getHighCards
+  //
+  // Straight
+  // - checkForStraight -> .straight
+  //
+  // Straight flush
+  //
+  // - getFlush -> checkForStraight -> .straight
+  //
+  // Fullhouse
+  //
+  // getFullHouse
 
   return winningPlayers;
 }
