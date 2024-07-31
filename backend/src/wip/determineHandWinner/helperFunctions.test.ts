@@ -7,9 +7,10 @@ import {
   checkForFlush,
   checkForFullHouse,
   checkForStraight,
+  checkForTwoPair,
   checkHands,
   combineHand,
-  compareHandStrength,
+  compareHandStrengthHighCards,
   countRanks,
   getFlush,
   getFullHouse,
@@ -80,6 +81,88 @@ describe('orderRanks', () => {
     // Assert
     const expectedRanks = [2, 3, 4, 7, 11, 13, 14];
     expect(ranks).toStrictEqual(expectedRanks);
+  });
+});
+
+describe('checkForFullHouse', () => {
+  it('returns Aces full of Kings', async () => {
+    // Arrange
+    const rankCountMap: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 1],
+      [10, 1],
+      [11, 0],
+      [12, 0],
+      [13, 2],
+      [14, 3],
+    ]);
+
+    // Act
+    const fullHouse = checkForFullHouse(rankCountMap);
+
+    // Assert
+    expect(fullHouse).toBe(true);
+  });
+
+  it('returns false for no full house', async () => {
+    // Arrange
+    const rankCountMap: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 1],
+      [6, 0],
+      [7, 1],
+      [8, 0],
+      [9, 1],
+      [10, 0],
+      [11, 2],
+      [12, 2],
+      [13, 0],
+      [14, 0],
+    ]);
+
+    // Act
+    const fullHouse = checkForFullHouse(rankCountMap);
+
+    // Assert
+    expect(fullHouse).toBe(false);
+  });
+});
+
+describe('getFullHouse', () => {
+  it('returns Aces full of Kings ', async () => {
+    // Arrange
+    const rankCountMap: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 1],
+      [10, 1],
+      [11, 0],
+      [12, 0],
+      [13, 2],
+      [14, 3],
+    ]);
+
+    // Act
+    const fullHouse = getFullHouse(rankCountMap);
+
+    // Assert
+    expect(fullHouse).toEqual({
+      threeOfAKind: 14,
+      pair: 13,
+    });
   });
 });
 
@@ -170,60 +253,7 @@ describe('getFlush', () => {
   });
 });
 
-describe('getHighestCards', () => {
-  it('returns 5 highest diamonds when there are 6 diamonds', async () => {
-    // Arrange
-    const cards: RankSuitSplit[] = [
-      { rank: 2, suit: 'D' },
-      { rank: 3, suit: 'D' },
-      { rank: 5, suit: 'D' },
-      { rank: 11, suit: 'D' },
-      { rank: 12, suit: 'D' },
-      { rank: 13, suit: 'D' },
-    ];
-
-    // Act
-    const flush = getHighestCards(cards);
-
-    // Assert
-    const expectedCards: RankSuitSplit[] = [
-      { rank: 3, suit: 'D' },
-      { rank: 5, suit: 'D' },
-      { rank: 11, suit: 'D' },
-      { rank: 12, suit: 'D' },
-      { rank: 13, suit: 'D' },
-    ];
-    expect(flush).toEqual(expectedCards);
-  });
-
-  it('returns 5 highest spades when there are 7 spades', async () => {
-    // Arrange
-    const cards: RankSuitSplit[] = [
-      { rank: 2, suit: 'S' },
-      { rank: 3, suit: 'S' },
-      { rank: 4, suit: 'S' },
-      { rank: 5, suit: 'S' },
-      { rank: 11, suit: 'S' },
-      { rank: 12, suit: 'S' },
-      { rank: 13, suit: 'S' },
-    ];
-
-    // Act
-    const flush = getHighestCards(cards);
-
-    // Assert
-    const expectedCards: RankSuitSplit[] = [
-      { rank: 4, suit: 'S' },
-      { rank: 5, suit: 'S' },
-      { rank: 11, suit: 'S' },
-      { rank: 12, suit: 'S' },
-      { rank: 13, suit: 'S' },
-    ];
-    expect(flush).toEqual(expectedCards);
-  });
-});
-
-describe('checkForStraight', () => {
+describe('checkAndGetStraight', () => {
   it('returns true for 5 numbers in a row', async () => {
     // Arrange
     const cards: RankSuitSplit[] = [
@@ -465,6 +495,59 @@ describe('checkForStraight', () => {
   });
 });
 
+describe('getHighestCards', () => {
+  it('returns 5 highest diamonds when there are 6 diamonds', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'D' },
+      { rank: 3, suit: 'D' },
+      { rank: 5, suit: 'D' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'D' },
+      { rank: 13, suit: 'D' },
+    ];
+
+    // Act
+    const flush = getHighestCards(cards);
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 3, suit: 'D' },
+      { rank: 5, suit: 'D' },
+      { rank: 11, suit: 'D' },
+      { rank: 12, suit: 'D' },
+      { rank: 13, suit: 'D' },
+    ];
+    expect(flush).toEqual(expectedCards);
+  });
+
+  it('returns 5 highest spades when there are 7 spades', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'S' },
+      { rank: 3, suit: 'S' },
+      { rank: 4, suit: 'S' },
+      { rank: 5, suit: 'S' },
+      { rank: 11, suit: 'S' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'S' },
+    ];
+
+    // Act
+    const flush = getHighestCards(cards);
+
+    // Assert
+    const expectedCards: RankSuitSplit[] = [
+      { rank: 4, suit: 'S' },
+      { rank: 5, suit: 'S' },
+      { rank: 11, suit: 'S' },
+      { rank: 12, suit: 'S' },
+      { rank: 13, suit: 'S' },
+    ];
+    expect(flush).toEqual(expectedCards);
+  });
+});
+
 describe('countRanks', () => {
   it('returns a map with two 2s and two 4s', async () => {
     // Arrange
@@ -526,88 +609,6 @@ describe('countRanks', () => {
     expect(rankCountMap.get(12)).toBe(0);
     expect(rankCountMap.get(13)).toBe(2);
     expect(rankCountMap.get(14)).toBe(3);
-  });
-});
-
-describe('checkForFullHouse', () => {
-  it('returns Aces full of Kings', async () => {
-    // Arrange
-    const rankCountMap: RankCountMap = new Map([
-      [2, 0],
-      [3, 0],
-      [4, 0],
-      [5, 0],
-      [6, 0],
-      [7, 0],
-      [8, 0],
-      [9, 1],
-      [10, 1],
-      [11, 0],
-      [12, 0],
-      [13, 2],
-      [14, 3],
-    ]);
-
-    // Act
-    const fullHouse = checkForFullHouse(rankCountMap);
-
-    // Assert
-    expect(fullHouse).toBe(true);
-  });
-
-  it('returns false for no full house', async () => {
-    // Arrange
-    const rankCountMap: RankCountMap = new Map([
-      [2, 0],
-      [3, 0],
-      [4, 0],
-      [5, 1],
-      [6, 0],
-      [7, 1],
-      [8, 0],
-      [9, 1],
-      [10, 0],
-      [11, 2],
-      [12, 2],
-      [13, 0],
-      [14, 0],
-    ]);
-
-    // Act
-    const fullHouse = checkForFullHouse(rankCountMap);
-
-    // Assert
-    expect(fullHouse).toBe(false);
-  });
-});
-
-describe('getFullHouse', () => {
-  it('returns Aces full of Kings ', async () => {
-    // Arrange
-    const rankCountMap: RankCountMap = new Map([
-      [2, 0],
-      [3, 0],
-      [4, 0],
-      [5, 0],
-      [6, 0],
-      [7, 0],
-      [8, 0],
-      [9, 1],
-      [10, 1],
-      [11, 0],
-      [12, 0],
-      [13, 2],
-      [14, 3],
-    ]);
-
-    // Act
-    const fullHouse = getFullHouse(rankCountMap);
-
-    // Assert
-    expect(fullHouse).toEqual({
-      threeOfAKind: 14,
-      pair: 13,
-    });
   });
 });
 
@@ -785,6 +786,64 @@ describe('checkHands', () => {
     // Assert
     expect(hands).toEqual(PokerHand.ThreeOfAKind);
   });
+
+  it('returns two pair', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.ThreeOfDiamonds,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.FourOfClubs,
+      CardShortCode.FiveOfSpades,
+      CardShortCode.SixOfClubs,
+      CardShortCode.AceOfDiamonds,
+      CardShortCode.AceOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 3, suit: 'D' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'C' },
+      { rank: 5, suit: 'S' },
+      { rank: 6, suit: 'C' },
+      { rank: 14, suit: 'D' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    expect(hands).toEqual(PokerHand.TwoPair);
+  });
+
+  it('returns one pair', async () => {
+    // Arrange
+    const cards: CardShortCode[] = [
+      CardShortCode.TwoOfHearts,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.FourOfClubs,
+      CardShortCode.FiveOfSpades,
+      CardShortCode.SevenOfClubs,
+      CardShortCode.AceOfDiamonds,
+      CardShortCode.AceOfClubs,
+    ];
+
+    const cardsSplit: RankSuitSplit[] = [
+      { rank: 2, suit: 'D' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'C' },
+      { rank: 5, suit: 'S' },
+      { rank: 7, suit: 'C' },
+      { rank: 14, suit: 'D' },
+      { rank: 14, suit: 'C' },
+    ];
+
+    // Act
+    const hands = checkHands(cards, cardsSplit);
+
+    // Assert
+    expect(hands).toEqual(PokerHand.OnePair);
+  });
 });
 
 describe('compareHandStrength', () => {
@@ -811,7 +870,7 @@ describe('compareHandStrength', () => {
     ];
 
     // Act
-    const winners = compareHandStrength(hand1, hand2);
+    const winners = compareHandStrengthHighCards(hand1, hand2);
 
     // Assert
     expect(winners.hand1.hasWon).toEqual(true);
@@ -841,7 +900,7 @@ describe('compareHandStrength', () => {
     ];
 
     // Act
-    const winners = compareHandStrength(hand1, hand2);
+    const winners = compareHandStrengthHighCards(hand1, hand2);
 
     // Assert
     expect(winners.hand1.hasWon).toEqual(false);
@@ -871,7 +930,7 @@ describe('compareHandStrength', () => {
     ];
 
     // Act
-    const winners = compareHandStrength(hand1, hand2);
+    const winners = compareHandStrengthHighCards(hand1, hand2);
 
     // Assert
     expect(winners.hand1.hasWon).toEqual(true);

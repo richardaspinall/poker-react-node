@@ -93,15 +93,14 @@ export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSpl
     }
   }
 
-  const handOneRankCount = countRanks(handSplit);
+  const handRankCount = countRanks(handSplit);
 
-  const fourOfAKind = checkForFourOfAKind(handOneRankCount);
-  console.log(fourOfAKind);
+  const fourOfAKind = checkForFourOfAKind(handRankCount);
   if (fourOfAKind) {
     return PokerHand.FourOfAKind;
   }
 
-  const fullHouse = checkForFullHouse(handOneRankCount);
+  const fullHouse = checkForFullHouse(handRankCount);
   if (fullHouse) {
     return PokerHand.FullHouse;
   }
@@ -114,20 +113,20 @@ export function checkHands(combinedHand: CardShortCode[], handSplit: RankSuitSpl
     return PokerHand.Straight;
   }
 
-  const threeOfAKind = checkForThreeOfAKind(handOneRankCount);
+  const threeOfAKind = checkForThreeOfAKind(handRankCount);
   if (threeOfAKind) {
     return PokerHand.ThreeOfAKind;
   }
 
-  // const twoPair = checkForTwoPair();
-  // if (twoPair) {
-  //   return PokerHand.TwoPair;
-  // }
+  const twoPair = checkForTwoPair(handRankCount);
+  if (twoPair) {
+    return PokerHand.TwoPair;
+  }
 
-  // const onePair = checkForOnePair();
-  // if (onePair) {
-  //   return PokerHand.OnePair;
-  // }
+  const onePair = checkForOnePair(handRankCount);
+  if (onePair) {
+    return PokerHand.OnePair;
+  }
 
   return PokerHand.HighCard;
 }
@@ -302,6 +301,7 @@ export function countRanks(rankSuitSplit: RankSuitSplit[]): RankCountMap {
   return rankCountMap;
 }
 
+// TODO: add unit test
 export function checkForFullHouse(rankCountMap: RankCountMap): boolean {
   let hasThreeOfAKind: boolean = false;
   rankCountMap.forEach((value) => {
@@ -320,6 +320,7 @@ export function checkForFullHouse(rankCountMap: RankCountMap): boolean {
   return hasThreeOfAKind && hasPair;
 }
 
+// TODO: add unit test
 export function checkForFourOfAKind(rankCountMap: RankCountMap): boolean {
   let hasFourOfAKind = false;
   rankCountMap.forEach((value) => {
@@ -331,6 +332,7 @@ export function checkForFourOfAKind(rankCountMap: RankCountMap): boolean {
   return hasFourOfAKind;
 }
 
+// TODO: add unit test
 export function checkForThreeOfAKind(rankCountMap: RankCountMap): boolean {
   let hasThreeOfAKind = false;
   rankCountMap.forEach((value) => {
@@ -342,24 +344,39 @@ export function checkForThreeOfAKind(rankCountMap: RankCountMap): boolean {
   return hasThreeOfAKind;
 }
 
-// export function checkForTwoPair(rankCountMap: RankCountMap): boolean {
-//   const twoPairs = Object.fromEntries(Object.entries(rankCountMap).filter(([_key, value]) => value === 2));
+// TODO: add unit test
+export function checkForTwoPair(rankCountMap: RankCountMap): boolean {
+  const pairs: Rank[] = [];
 
-//   if (threeOfAKind && pair) {
-//     return true;
-//   }
-//   return false;
-// }
+  rankCountMap.forEach((value, key) => {
+    if (value === 2) {
+      pairs.push(key);
+    }
+  });
 
-// export function checkForPair(rankCountMap: RankCountMap): boolean {
-//   const threeOfAKind = Object.values(rankCountMap).some((count) => count === 3);
-//   const pair = Object.values(rankCountMap).some((count) => count === 2);
+  if (pairs.length >= 2) {
+    return true;
+  }
 
-//   if (threeOfAKind && pair) {
-//     return true;
-//   }
-//   return false;
-// }
+  return false;
+}
+
+// TODO: add unit test
+export function checkForOnePair(rankCountMap: RankCountMap): boolean {
+  const pairs: Rank[] = [];
+
+  rankCountMap.forEach((value, key) => {
+    if (value === 2) {
+      pairs.push(key);
+    }
+  });
+
+  if (pairs.length === 1) {
+    return true;
+  }
+
+  return false;
+}
 
 export function getFullHouse(rankCountMap: RankCountMap) {
   let highestThreeOfAKind: Rank | undefined = undefined;
@@ -392,7 +409,10 @@ type HandWinnersOnComparedStrength = {
   };
 };
 
-export function compareHandStrength(hand1: RankSuitSplit[], hand2: RankSuitSplit[]): HandWinnersOnComparedStrength {
+export function compareHandStrengthHighCards(
+  hand1: RankSuitSplit[],
+  hand2: RankSuitSplit[],
+): HandWinnersOnComparedStrength {
   if (hand1.length !== hand2.length) {
     throw new Error('Both sets must have the same length');
   }
