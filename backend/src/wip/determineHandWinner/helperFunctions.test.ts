@@ -13,6 +13,7 @@ import {
   checkHands,
   combineHand,
   compareHandStrengthHighCards,
+  compareHandStrengthWhenMultiples,
   countRanks,
   getFlush,
   getFullHouse,
@@ -692,7 +693,7 @@ describe('getHighCards', () => {
     ];
 
     // Act
-    const flush = getHighestCards(cards);
+    const flush = getHighCards(cards);
 
     // Assert
     const expectedCards: RankSuitSplit[] = [
@@ -1089,6 +1090,176 @@ describe('compareHandStrength', () => {
 
     // Act
     const winners = compareHandStrengthHighCards(hand1, hand2);
+
+    // Assert
+    expect(winners.hand1.hasWon).toEqual(true);
+    expect(winners.hand2.hasWon).toEqual(true);
+  });
+});
+
+describe('compareHandStrengthWhenMultiples', () => {
+  it('returns true for hand1 winning with four of a kind aces', async () => {
+    // Arrange
+    const hand1: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 0],
+      [10, 1],
+      [11, 0],
+      [12, 2],
+      [13, 0],
+      [14, 4],
+    ]);
+
+    const hand2: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 1],
+      [9, 0],
+      [10, 0],
+      [11, 0],
+      [12, 2],
+      [13, 4],
+      [14, 0],
+    ]);
+
+    // Act
+    const winners = compareHandStrengthWhenMultiples(hand1, hand2, PokerHand.FourOfAKind);
+
+    // Assert
+    expect(winners.hand1.hasWon).toEqual(true);
+    expect(winners.hand2.hasWon).toEqual(false);
+  });
+
+  it('returns true for hand2 winning with four of a kind aces king kicker', async () => {
+    // Arrange
+    const hand1: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 0],
+      [10, 1],
+      [11, 0],
+      [12, 2],
+      [13, 0],
+      [14, 4],
+    ]);
+
+    const hand2: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 1],
+      [9, 0],
+      [10, 0],
+      [11, 0],
+      [12, 2],
+      [13, 1],
+      [14, 4],
+    ]);
+
+    // Act
+    const winners = compareHandStrengthWhenMultiples(hand1, hand2, PokerHand.FourOfAKind);
+
+    // Assert
+    expect(winners.hand1.hasWon).toEqual(false);
+    expect(winners.hand2.hasWon).toEqual(true);
+  });
+
+  it('returns true for hand2 winning with aces full of kings', async () => {
+    // Arrange
+    const hand1: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 0],
+      [10, 1],
+      [11, 0],
+      [12, 1],
+      [13, 3],
+      [14, 2],
+    ]);
+
+    const hand2: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 0],
+      [10, 0],
+      [11, 1],
+      [12, 1],
+      [13, 2],
+      [14, 3],
+    ]);
+
+    // Act
+    const winners = compareHandStrengthWhenMultiples(hand1, hand2, PokerHand.FullHouse);
+
+    // Assert
+    expect(winners.hand1.hasWon).toEqual(false);
+    expect(winners.hand2.hasWon).toEqual(true);
+  });
+
+  it('returns both hands true a tie for both hands winning with aces full of kings', async () => {
+    // Arrange
+    const hand1: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 0],
+      [10, 1],
+      [11, 0],
+      [12, 1],
+      [13, 2],
+      [14, 3],
+    ]);
+
+    const hand2: RankCountMap = new Map([
+      [2, 0],
+      [3, 0],
+      [4, 0],
+      [5, 0],
+      [6, 0],
+      [7, 0],
+      [8, 0],
+      [9, 0],
+      [10, 0],
+      [11, 1],
+      [12, 1],
+      [13, 2],
+      [14, 3],
+    ]);
+
+    // Act
+    const winners = compareHandStrengthWhenMultiples(hand1, hand2, PokerHand.FullHouse);
 
     // Assert
     expect(winners.hand1.hasWon).toEqual(true);
