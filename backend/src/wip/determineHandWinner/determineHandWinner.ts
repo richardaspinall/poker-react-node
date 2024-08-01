@@ -128,8 +128,8 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
       hasWon: false,
     },
   };
-  const p1hand = getShortCodes(handOneCombined, handOneSplit, player1Hand);
-  const p2hand = getShortCodes(handTwoCombined, handTwoSplit, player2Hand);
+  const p1hand = getShortCodes(handOneSplit, player1Hand, handOneCombined);
+  const p2hand = getShortCodes(handTwoSplit, player2Hand, handTwoCombined);
 
   if (player1HandRank > player2HandRank) {
     winningPlayers.push({ name: players[0].name, handType: player1Hand, hand: p1hand });
@@ -222,16 +222,16 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
 }
 
 export function getShortCodes(
-  combinedHand: CardShortCode[],
   handOneSplit: RankSuitSplit[],
   handType: PokerHand,
+  combinedHand?: CardShortCode[],
 ): CardShortCode[] {
   const fiveCardswinningHand: CardShortCode[] = [];
   const rankCountMap = countRanks(handOneSplit);
 
   switch (handType) {
     case 'StraightFlush': {
-      const suit = checkForFlush(combinedHand);
+      const suit = checkForFlush(combinedHand!);
 
       if (suit) {
         const flush = getFlush(handOneSplit, suit!);
@@ -258,7 +258,7 @@ export function getShortCodes(
       break;
     }
     case 'Flush': {
-      const suit = checkForFlush(combinedHand);
+      const suit = checkForFlush(combinedHand!);
 
       if (suit) {
         const flush = getFlush(handOneSplit, suit!);
@@ -528,28 +528,38 @@ export function getHighCards(cards: RankSuitSplit[]): RankSuitSplit[] {
   return cards.slice(0, 5);
 }
 
-// TODO: should return the highest straight
+// TODO: fix – if there are multiple of the same rank, then this fails
+// need to use rankOrder instead or get rid of duplicates
 export function checkForStraight(rankSuitSplit: RankSuitSplit[]): { hasStraight: boolean; straight?: RankSuitSplit[] } {
   // 1234589 return true
   // 1245689 return false
   // 1256789 return true
   // 1234678 return false
   //
-  // A = 0 or 14
+  // A = 1 or 14
   //
 
   let count = 1;
   let hasStraight = false;
-  rankSuitSplit.sort((a, b) => a.rank - b.rank); // ensure its  been sorted
+
+  const aces: RankSuitSplit[] = [];
+  rankSuitSplit.forEach((card) => {
+    if (card.rank === 14) {
+      aces.push({ rank: 1, suit: card.suit });
+    }
+  });
+
+  const rankSuitSplitWithAces = rankSuitSplit.concat(aces);
+  rankSuitSplitWithAces.sort((a, b) => a.rank - b.rank); // ensure its  been sorted
 
   const straight: RankSuitSplit[] = [];
 
-  for (let index = 0; index < rankSuitSplit.length; index++) {
-    const element = rankSuitSplit[index];
-    const nextElement = rankSuitSplit[index + 1];
+  for (let index = 0; index < rankSuitSplitWithAces.length; index++) {
+    const element = rankSuitSplitWithAces[index];
+    const nextElement = rankSuitSplitWithAces[index + 1];
 
     // We have got our straight and it's not possible to have higher straight
-    if (hasStraight && element.rank + 1 != nextElement?.rank) {
+    if (hasStraight && element.rank + 1 != nextElement?.rank && element.rank != nextElement?.rank) {
       straight.push(element);
 
       if (straight.length === 6) {
@@ -564,14 +574,16 @@ export function checkForStraight(rankSuitSplit: RankSuitSplit[]): { hasStraight:
     if (element.rank + 1 === nextElement?.rank) {
       count += 1;
       straight.push(element);
-    } else {
+
+      // make sure it's not the same rank (skip)
+    } else if (element.rank != nextElement?.rank) {
       count = 1;
 
       if (!hasStraight) {
         straight.length = 0;
 
-        // TODO: maybe unnecessary: don't continue if index is 2 or greater and we have a count of 0 and they don't have a straight already
-        if (index >= 2) {
+        // TODO: maybe unnecessary: don't continue if index is 3 or greater and we have a count of 0 and they don't have a straight already
+        if (index >= 3) {
           return { hasStraight, straight };
         }
       }
