@@ -35,6 +35,23 @@ type Suit = 'C' | 'D' | 'H' | 'S';
 
 type Rank = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
 
+const rankLookup: { [key in Rank]: string } = {
+  1: '1',
+  2: '2',
+  3: '3',
+  4: '4',
+  5: '5',
+  6: '6',
+  7: '7',
+  8: '8',
+  9: '9',
+  10: '10',
+  11: 'J',
+  12: 'Q',
+  13: 'K',
+  14: 'A',
+};
+
 export type RankSuitSplit = {
   rank: Rank;
   suit: Suit;
@@ -111,11 +128,13 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
       hasWon: false,
     },
   };
+  const p1hand = getShortCodes(handOneCombined, handOneSplit, player1Hand);
+  const p2hand = getShortCodes(handTwoCombined, handTwoSplit, player2Hand);
 
   if (player1HandRank > player2HandRank) {
-    winningPlayers.push({ name: players[0].name, handType: player1Hand });
+    winningPlayers.push({ name: players[0].name, handType: player1Hand, hand: p1hand });
   } else if (player1HandRank < player2HandRank) {
-    winningPlayers.push({ name: players[1].name, handType: player2Hand });
+    winningPlayers.push({ name: players[1].name, handType: player2Hand, hand: p2hand });
   } else {
     switch (player1Hand) {
       case 'StraightFlush':
@@ -167,11 +186,11 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
     }
 
     if (winner.hand1.hasWon) {
-      winningPlayers.push({ name: players[0].name, handType: player1Hand });
+      winningPlayers.push({ name: players[0].name, handType: player1Hand, hand: p1hand });
     }
 
     if (winner.hand2.hasWon) {
-      winningPlayers.push({ name: players[1].name, handType: player2Hand });
+      winningPlayers.push({ name: players[1].name, handType: player2Hand, hand: p2hand });
     }
   }
 
@@ -200,6 +219,170 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
   // getFullHouse
 
   return winningPlayers;
+}
+
+export function getShortCodes(
+  combinedHand: CardShortCode[],
+  handOneSplit: RankSuitSplit[],
+  handType: PokerHand,
+): CardShortCode[] {
+  const fiveCardswinningHand: CardShortCode[] = [];
+  const rankCountMap = countRanks(handOneSplit);
+
+  switch (handType) {
+    case 'StraightFlush': {
+      const suit = checkForFlush(combinedHand);
+
+      if (suit) {
+        const flush = getFlush(handOneSplit, suit!);
+        const straight = checkForStraight(flush).straight;
+
+        straight?.forEach((card) => {
+          const rank: string = rankLookup[card.rank];
+
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        });
+      } else {
+        throw new Error('checkForStraightFlush failed');
+      }
+      break;
+    }
+    case 'Straight': {
+      const straight = checkForStraight(handOneSplit).straight;
+
+      straight?.forEach((card) => {
+        const rank: string = rankLookup[card.rank];
+
+        fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+      });
+      break;
+    }
+    case 'Flush': {
+      const suit = checkForFlush(combinedHand);
+
+      if (suit) {
+        const flush = getFlush(handOneSplit, suit!);
+
+        flush.forEach((card) => {
+          const rank: string = rankLookup[card.rank];
+
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        });
+      } else {
+        throw new Error('checkForFlush failed');
+      }
+
+      break;
+    }
+    case 'FourOfAKind': {
+      const fourOfAKind = getFourOfAKind(rankCountMap);
+
+      handOneSplit.forEach((card) => {
+        const rank: string = rankLookup[card.rank];
+
+        if (card.rank === fourOfAKind.fourOfAKind) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === fourOfAKind.highestCard) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+      });
+      break;
+    }
+    case 'FullHouse': {
+      const fullHouse = getFullHouse(rankCountMap);
+
+      handOneSplit.forEach((card) => {
+        const rank: string = rankLookup[card.rank];
+
+        if (card.rank === fullHouse.threeOfAKind) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === fullHouse.pair) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+      });
+      break;
+    }
+    case 'ThreeOfAKind': {
+      const threeOfAKind = getThreeOfAKind(rankCountMap);
+
+      handOneSplit.forEach((card) => {
+        const rank: string = rankLookup[card.rank];
+
+        if (card.rank === threeOfAKind.threeOfAKind) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === threeOfAKind.highestCard) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === threeOfAKind.secondHighestCard) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+      });
+      break;
+    }
+    case 'TwoPair': {
+      const twoPair = getTwoPair(rankCountMap);
+
+      handOneSplit.forEach((card) => {
+        const rank: string = rankLookup[card.rank];
+
+        if (card.rank === twoPair.highestPair) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === twoPair.secondHighestPair) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === twoPair.highestCard) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+      });
+      break;
+    }
+    case 'OnePair': {
+      const onePair = getOnePair(rankCountMap);
+
+      handOneSplit.forEach((card) => {
+        const rank: string = rankLookup[card.rank];
+
+        if (card.rank === onePair.highestPair) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === onePair.highestCard) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === onePair.secondHighestCard) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+
+        if (card.rank === onePair.thirdHighestCard) {
+          fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+        }
+      });
+      break;
+    }
+    case 'HighCard': {
+      const highCards = getHighCards(handOneSplit);
+
+      highCards.forEach((card) => {
+        const rank: string = rankLookup[card.rank];
+
+        fiveCardswinningHand.push((rank + card.suit) as CardShortCode);
+      });
+      break;
+    }
+  }
+
+  return fiveCardswinningHand;
 }
 
 // TODO: maybe return the hand here too seeing we already should have it?
@@ -340,14 +523,9 @@ export function checkForStraightFlush(flush: RankSuitSplit[]): boolean {
 }
 
 export function getHighCards(cards: RankSuitSplit[]): RankSuitSplit[] {
-  if (cards.length === 6) {
-    return cards.splice(1, 6);
-  }
-  if (cards.length === 7) {
-    return cards.splice(2, 7);
-  }
+  cards.sort((a, b) => b.rank - a.rank);
 
-  return cards;
+  return cards.slice(0, 5);
 }
 
 // TODO: should return the highest straight
@@ -636,7 +814,7 @@ export function getOnePair(rankCountMap: RankCountMap) {
   otherCards.sort((a, b) => b - a);
   const highestCard = otherCards[0];
   const secondHighestCard = otherCards[1];
-  const thirdHighestCard = otherCards[1];
+  const thirdHighestCard = otherCards[2];
 
   const pair = {
     highestPair: highestPair,
@@ -677,23 +855,10 @@ export function compareHandStrengthWhenMultiples(
   hand2: RankCountMap,
   handType: PokerHand,
 ): HandWinnersOnComparedStrength {
-  const hand1FullHouse = getFullHouse(hand1);
-  const hand2FullHouse = getFullHouse(hand2);
-
-  const hand1FourOfAKind = getFourOfAKind(hand1);
-  const hand2FourOfAKind = getFourOfAKind(hand2);
-
-  const hand1ThreeOfAKind = getThreeOfAKind(hand1);
-  const hand2ThreeOfAKind = getThreeOfAKind(hand2);
-
-  const hand1TwoPair = getTwoPair(hand1);
-  const hand2TwoPair = getTwoPair(hand2);
-
-  const hand1Pair = getOnePair(hand1);
-  const hand2Pair = getOnePair(hand2);
-
   switch (handType) {
-    case 'FullHouse':
+    case 'FullHouse': {
+      const hand1FullHouse = getFullHouse(hand1);
+      const hand2FullHouse = getFullHouse(hand2);
       if (hand1FullHouse.threeOfAKind && hand2FullHouse.threeOfAKind) {
         if (hand1FullHouse.threeOfAKind > hand2FullHouse.threeOfAKind) {
           return { hand1: { hasWon: true }, hand2: { hasWon: false } };
@@ -703,6 +868,7 @@ export function compareHandStrengthWhenMultiples(
           return { hand1: { hasWon: false }, hand2: { hasWon: true } };
         }
       }
+
       if (hand1FullHouse.pair && hand2FullHouse.pair) {
         if (hand1FullHouse.pair > hand2FullHouse.pair) {
           return { hand1: { hasWon: true }, hand2: { hasWon: false } };
@@ -713,7 +879,11 @@ export function compareHandStrengthWhenMultiples(
         }
       }
       break;
-    case 'FourOfAKind':
+    }
+    case 'FourOfAKind': {
+      const hand1FourOfAKind = getFourOfAKind(hand1);
+      const hand2FourOfAKind = getFourOfAKind(hand2);
+
       if (hand1FourOfAKind.fourOfAKind && hand2FourOfAKind.fourOfAKind) {
         if (hand1FourOfAKind.fourOfAKind > hand2FourOfAKind.fourOfAKind) {
           return { hand1: { hasWon: true }, hand2: { hasWon: false } };
@@ -733,7 +903,10 @@ export function compareHandStrengthWhenMultiples(
         }
       }
       break;
-    case 'ThreeOfAKind':
+    }
+    case 'ThreeOfAKind': {
+      const hand1ThreeOfAKind = getThreeOfAKind(hand1);
+      const hand2ThreeOfAKind = getThreeOfAKind(hand2);
       if (hand1ThreeOfAKind.threeOfAKind && hand2ThreeOfAKind.threeOfAKind) {
         if (hand1ThreeOfAKind.threeOfAKind > hand2ThreeOfAKind.threeOfAKind) {
           return { hand1: { hasWon: true }, hand2: { hasWon: false } };
@@ -763,7 +936,11 @@ export function compareHandStrengthWhenMultiples(
         }
       }
       break;
-    case 'TwoPair':
+    }
+    case 'TwoPair': {
+      const hand1TwoPair = getTwoPair(hand1);
+      const hand2TwoPair = getTwoPair(hand2);
+
       if (hand1TwoPair.highestPair && hand2TwoPair.highestPair) {
         if (hand1TwoPair.highestPair > hand2TwoPair.highestPair) {
           return { hand1: { hasWon: true }, hand2: { hasWon: false } };
@@ -793,43 +970,50 @@ export function compareHandStrengthWhenMultiples(
         }
       }
       break;
+    }
     case 'OnePair':
-      if (hand1Pair.highestPair && hand2Pair.highestPair) {
-        if (hand1Pair.highestPair > hand2Pair.highestPair) {
-          return { hand1: { hasWon: true }, hand2: { hasWon: false } };
-        }
+      {
+        const hand1Pair = getOnePair(hand1);
+        const hand2Pair = getOnePair(hand2);
 
-        if (hand1Pair.highestPair < hand2Pair.highestPair) {
-          return { hand1: { hasWon: false }, hand2: { hasWon: true } };
+        if (hand1Pair.highestPair && hand2Pair.highestPair) {
+          if (hand1Pair.highestPair > hand2Pair.highestPair) {
+            return { hand1: { hasWon: true }, hand2: { hasWon: false } };
+          }
+
+          if (hand1Pair.highestPair < hand2Pair.highestPair) {
+            return { hand1: { hasWon: false }, hand2: { hasWon: true } };
+          }
+        }
+        if (hand1Pair.highestCard && hand2Pair.highestCard) {
+          if (hand1Pair.highestCard > hand2Pair.highestCard) {
+            return { hand1: { hasWon: true }, hand2: { hasWon: false } };
+          }
+
+          if (hand1Pair.highestCard < hand2Pair.highestCard) {
+            return { hand1: { hasWon: false }, hand2: { hasWon: true } };
+          }
+        }
+        if (hand1Pair.secondHighestCard && hand2Pair.secondHighestCard) {
+          if (hand1Pair.secondHighestCard > hand2Pair.secondHighestCard) {
+            return { hand1: { hasWon: true }, hand2: { hasWon: false } };
+          }
+
+          if (hand1Pair.secondHighestCard < hand2Pair.secondHighestCard) {
+            return { hand1: { hasWon: false }, hand2: { hasWon: true } };
+          }
+        }
+        if (hand1Pair.thirdHighestCard && hand2Pair.thirdHighestCard) {
+          if (hand1Pair.thirdHighestCard > hand2Pair.thirdHighestCard) {
+            return { hand1: { hasWon: true }, hand2: { hasWon: false } };
+          }
+
+          if (hand1Pair.thirdHighestCard < hand2Pair.thirdHighestCard) {
+            return { hand1: { hasWon: false }, hand2: { hasWon: true } };
+          }
         }
       }
-      if (hand1Pair.highestCard && hand2Pair.highestCard) {
-        if (hand1Pair.highestCard > hand2Pair.highestCard) {
-          return { hand1: { hasWon: true }, hand2: { hasWon: false } };
-        }
-
-        if (hand1Pair.highestCard < hand2Pair.highestCard) {
-          return { hand1: { hasWon: false }, hand2: { hasWon: true } };
-        }
-      }
-      if (hand1Pair.secondHighestCard && hand2Pair.secondHighestCard) {
-        if (hand1Pair.secondHighestCard > hand2Pair.secondHighestCard) {
-          return { hand1: { hasWon: true }, hand2: { hasWon: false } };
-        }
-
-        if (hand1Pair.secondHighestCard < hand2Pair.secondHighestCard) {
-          return { hand1: { hasWon: false }, hand2: { hasWon: true } };
-        }
-      }
-      if (hand1Pair.thirdHighestCard && hand2Pair.thirdHighestCard) {
-        if (hand1Pair.thirdHighestCard > hand2Pair.thirdHighestCard) {
-          return { hand1: { hasWon: true }, hand2: { hasWon: false } };
-        }
-
-        if (hand1Pair.thirdHighestCard < hand2Pair.thirdHighestCard) {
-          return { hand1: { hasWon: false }, hand2: { hasWon: true } };
-        }
-      }
+      break;
   }
 
   // If all elements are equal

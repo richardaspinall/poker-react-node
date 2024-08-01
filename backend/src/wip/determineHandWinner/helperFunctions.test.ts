@@ -18,6 +18,7 @@ import {
   getFlush,
   getFullHouse,
   getHighCards,
+  getShortCodes,
   orderAndMapRanks,
   splitAndRankShortCode,
 } from './determineHandWinner';
@@ -670,12 +671,13 @@ describe('getHighCards', () => {
     const flush = getHighCards(cards);
 
     // Assert
+    // TODO: does it need to be in reveresed order?
     const expectedCards: RankSuitSplit[] = [
-      { rank: 3, suit: 'D' },
-      { rank: 5, suit: 'D' },
-      { rank: 11, suit: 'D' },
-      { rank: 12, suit: 'D' },
       { rank: 13, suit: 'D' },
+      { rank: 12, suit: 'D' },
+      { rank: 11, suit: 'D' },
+      { rank: 5, suit: 'D' },
+      { rank: 3, suit: 'D' },
     ];
     expect(flush).toEqual(expectedCards);
   });
@@ -696,12 +698,13 @@ describe('getHighCards', () => {
     const flush = getHighCards(cards);
 
     // Assert
+    // TODO: does it need to be in reveresed order?
     const expectedCards: RankSuitSplit[] = [
-      { rank: 4, suit: 'S' },
-      { rank: 5, suit: 'S' },
-      { rank: 11, suit: 'S' },
-      { rank: 12, suit: 'S' },
       { rank: 13, suit: 'S' },
+      { rank: 12, suit: 'S' },
+      { rank: 11, suit: 'S' },
+      { rank: 5, suit: 'S' },
+      { rank: 4, suit: 'S' },
     ];
     expect(flush).toEqual(expectedCards);
   });
@@ -1264,5 +1267,33 @@ describe('compareHandStrengthWhenMultiples', () => {
     // Assert
     expect(winners.hand1.hasWon).toEqual(true);
     expect(winners.hand2.hasWon).toEqual(true);
+  });
+});
+
+describe('getShortCodes', () => {
+  it('returns four of a kind', async () => {
+    // Arrange
+    const cards: RankSuitSplit[] = [
+      { rank: 2, suit: 'C' },
+      { rank: 3, suit: 'C' },
+      { rank: 4, suit: 'D' },
+      { rank: 10, suit: 'S' },
+      { rank: 10, suit: 'H' },
+      { rank: 10, suit: 'D' },
+      { rank: 10, suit: 'C' },
+    ];
+
+    // Act
+    const fourOfAKind = getShortCodes(cards, PokerHand.FourOfAKind);
+
+    // Assert
+    const expectedCards: CardShortCode[] = [
+      CardShortCode.FourOfDiamonds,
+      CardShortCode.TenOfSpades,
+      CardShortCode.TenOfHearts,
+      CardShortCode.TenOfDiamonds,
+      CardShortCode.TenOfClubs,
+    ];
+    expect(fourOfAKind.sort()).toEqual(expectedCards.sort());
   });
 });

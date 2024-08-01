@@ -34,7 +34,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 1');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['2C', '3C', '4C', '5C', '6C'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['2C', '3C', '4C', '5C', '6C'].sort());
   });
 
   it('returns winner with four of a kind)', async () => {
@@ -55,7 +55,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 1');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '7D', '7H', '7S', 'KH'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '7D', '7H', '7S', 'KH'].sort());
   });
 
   it('returns winner with full house)', async () => {
@@ -76,7 +76,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 2');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['3S', '3C', 'KS', 'KH', 'KD'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['3S', '3C', 'KS', 'KH', 'KD'].sort());
   });
 
   it('returns winner with flush', async () => {
@@ -97,7 +97,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 2');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '3C', 'TC', 'AC', 'KC'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '3C', '10C', 'AC', 'KC'].sort());
   });
 
   it('returns winner with straight)', async () => {
@@ -118,7 +118,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 1');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['4C', '5D', '6S', '7C', '8H'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['4C', '5D', '6S', '7C', '8H'].sort());
   });
 
   it('returns winner with three of a kind)', async () => {
@@ -139,7 +139,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 1');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '7D', '7H', 'KH', '8S'].sort());s
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '7D', '7H', 'KH', '8S'].sort());
   });
 
   it('returns winner with two pair)', async () => {
@@ -160,7 +160,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 2');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '7D', 'KH', 'KD', 'AS'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '7D', 'KH', 'KD', 'QD'].sort());
   });
 
   it('returns winner with one pair)', async () => {
@@ -170,7 +170,7 @@ describe('determineHandWinner', () => {
       CardShortCode.JackOfHearts,
       CardShortCode.FourOfClubs,
       CardShortCode.ThreeOfSpades,
-      CardShortCode.AceOfHearts,
+      CardShortCode.AceOfSpades,
     ];
     players[0].holeCards = [CardShortCode.SixOfClubs, CardShortCode.EightOfSpades];
     players[1].holeCards = [CardShortCode.AceOfHearts, CardShortCode.NineOfDiamonds];
@@ -181,7 +181,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 2');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', 'JH', 'KH', 'AS', 'AH'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', 'JH', '9D', 'AS', 'AH'].sort());
   });
 
   it('returns winner with high card)', async () => {
@@ -202,7 +202,7 @@ describe('determineHandWinner', () => {
     // Assert
     expect(winningPlayers.length).toBe(1);
     expect(winningPlayers[0].name).toBe('Player 1');
-    // expect(winningPlayers[0].hand?.sort()).toStrictEqual(['AH', '9D', 'KH', 'JH', '7C'].sort());
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['AH', '9D', 'KH', 'JH', '7C'].sort());
   });
 
   it('returns a tie with straight flush)', async () => {
