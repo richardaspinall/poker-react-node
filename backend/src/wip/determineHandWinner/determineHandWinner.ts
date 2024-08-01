@@ -573,7 +573,11 @@ export function checkForStraight(rankSuitSplit: RankSuitSplit[]): { hasStraight:
 
     if (element.rank + 1 === nextElement?.rank) {
       count += 1;
-      straight.push(element);
+      if (element.rank === 1) {
+        straight.push({ rank: 14, suit: element.suit });
+      } else {
+        straight.push(element);
+      }
 
       // make sure it's not the same rank (skip)
     } else if (element.rank != nextElement?.rank) {

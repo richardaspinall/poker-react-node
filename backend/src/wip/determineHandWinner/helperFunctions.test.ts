@@ -334,7 +334,7 @@ describe('checkAndGetStraight', () => {
   it('returns true for A(1) - 5', async () => {
     // Arrange
     const cards: RankSuitSplit[] = [
-      { rank: 1, suit: 'C' },
+      { rank: 14, suit: 'C' },
       { rank: 2, suit: 'H' },
       { rank: 3, suit: 'H' },
       { rank: 4, suit: 'D' },
@@ -348,7 +348,7 @@ describe('checkAndGetStraight', () => {
 
     // Assert
     const expectedCards: RankSuitSplit[] = [
-      { rank: 1, suit: 'C' },
+      { rank: 14, suit: 'C' },
       { rank: 2, suit: 'H' },
       { rank: 3, suit: 'H' },
       { rank: 4, suit: 'D' },
