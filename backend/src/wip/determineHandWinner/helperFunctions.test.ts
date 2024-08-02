@@ -19,7 +19,6 @@ import {
   getFullHouse,
   getHighCards,
   getShortCodes,
-  orderAndMapRanks,
   splitAndRankShortCode,
 } from './determineHandWinner';
 
@@ -70,20 +69,6 @@ describe('getRanks', () => {
       { rank: 14, suit: 'C' },
     ].sort();
 
-    expect(ranks).toStrictEqual(expectedRanks);
-  });
-});
-
-describe('orderRanks', () => {
-  it('maps to a number and orders', async () => {
-    // Arrange
-    const cards: string[] = ['2', '4', '3', 'K', 'A', '7', 'J'];
-
-    // Act
-    const ranks = orderAndMapRanks(cards);
-
-    // Assert
-    const expectedRanks = [2, 3, 4, 7, 11, 13, 14];
     expect(ranks).toStrictEqual(expectedRanks);
   });
 });

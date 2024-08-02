@@ -1035,14 +1035,3 @@ export function compareHandStrengthWhenMultiples(
   // If all elements are equal
   return { hand1: { hasWon: true }, hand2: { hasWon: true } };
 }
-
-// TODO: not sure if we need these
-export function orderAndMapRanks(ranks: string[]): number[] {
-  const ranksMappedToNumbers: number[] = [];
-
-  ranks.forEach((rank) => {
-    ranksMappedToNumbers.push(rankOrder[rank]);
-  });
-
-  return ranksMappedToNumbers.sort((a, b) => a - b);
-}
