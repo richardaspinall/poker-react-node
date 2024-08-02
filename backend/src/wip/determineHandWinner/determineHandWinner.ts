@@ -137,14 +137,33 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
     winningPlayers.push({ name: players[1].name, handType: player2Hand, hand: p2hand });
   } else {
     switch (player1Hand) {
-      case 'StraightFlush':
+      case 'StraightFlush': {
+        const handOneSuit = checkForFlush(handOneCombined);
+        const handOneFlush = getFlush(handOneSplit, handOneSuit!);
+
+        const handTwoSuit = checkForFlush(handTwoCombined);
+        const handTwoFlush = getFlush(handTwoSplit, handTwoSuit!);
+        winner = compareHandStrengthHighCards(
+          checkForStraight(handOneFlush).straight!,
+          checkForStraight(handTwoFlush).straight!,
+        );
+        break;
+      }
       case 'Straight':
         winner = compareHandStrengthHighCards(
           checkForStraight(handOneSplit).straight!,
           checkForStraight(handTwoSplit).straight!,
         );
         break;
-      case 'Flush':
+      case 'Flush': {
+        const handOneSuit = checkForFlush(handOneCombined);
+        const handOneFlush = getFlush(handOneSplit, handOneSuit!);
+
+        const handTwoSuit = checkForFlush(handTwoCombined);
+        const handTwoFlush = getFlush(handTwoSplit, handTwoSuit!);
+        winner = compareHandStrengthHighCards(handOneFlush, handTwoFlush);
+        break;
+      }
       case 'HighCard':
         winner = compareHandStrengthHighCards(handOneSplit, handTwoSplit);
         break;

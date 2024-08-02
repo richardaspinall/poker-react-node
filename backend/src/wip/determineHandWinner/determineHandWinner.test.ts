@@ -37,6 +37,27 @@ describe('determineHandWinner', () => {
     expect(winningPlayers[0].hand?.sort()).toStrictEqual(['2C', '3C', '4C', '5C', '6C'].sort());
   });
 
+  it('returns winner with a higher straight flush)', async () => {
+    // Arrange
+    const communityCards: CardShortCode[] = [
+      CardShortCode.TwoOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.FourOfClubs,
+      CardShortCode.FiveOfClubs,
+      CardShortCode.KingOfHearts,
+    ];
+    players[0].holeCards = [CardShortCode.AceOfClubs, CardShortCode.SixOfHearts];
+    players[1].holeCards = [CardShortCode.AceOfDiamonds, CardShortCode.SixOfClubs];
+
+    // Act
+    const winningPlayers = determineHandWinner(players, communityCards);
+
+    // Assert
+    expect(winningPlayers.length).toBe(1);
+    expect(winningPlayers[0].name).toBe('Player 2');
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['2C', '3C', '4C', '5C', '6C'].sort());
+  });
+
   it('returns winner with a low straight flush)', async () => {
     // Arrange
     const communityCards: CardShortCode[] = [
@@ -100,6 +121,51 @@ describe('determineHandWinner', () => {
     expect(winningPlayers[0].hand?.sort()).toStrictEqual(['3S', '3C', 'KS', 'KH', 'KD'].sort());
   });
 
+  it('returns winner with better full house)', async () => {
+    // Arrange
+    const communityCards: CardShortCode[] = [
+      CardShortCode.ThreeOfSpades,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.KingOfSpades,
+      CardShortCode.EightOfDiamonds,
+      CardShortCode.KingOfHearts,
+    ];
+    players[0].holeCards = [CardShortCode.EightOfClubs, CardShortCode.KingOfDiamonds];
+    players[1].holeCards = [CardShortCode.EightOfSpades, CardShortCode.EightOfHearts];
+
+    // Act
+    const winningPlayers = determineHandWinner(players, communityCards);
+
+    // Assert
+    expect(winningPlayers.length).toBe(1);
+    expect(winningPlayers[0].name).toBe('Player 1');
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['8D', '8C', 'KS', 'KH', 'KD'].sort());
+  });
+
+  it('returns winner with same full house)', async () => {
+    // Arrange
+    const communityCards: CardShortCode[] = [
+      CardShortCode.ThreeOfSpades,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.KingOfSpades,
+      CardShortCode.EightOfDiamonds,
+      CardShortCode.KingOfHearts,
+    ];
+    players[0].holeCards = [CardShortCode.EightOfClubs, CardShortCode.KingOfDiamonds];
+    players[1].holeCards = [CardShortCode.EightOfSpades, CardShortCode.KingOfClubs];
+
+    // Act
+    const winningPlayers = determineHandWinner(players, communityCards);
+
+    // Assert
+    expect(winningPlayers.length).toBe(2);
+    expect(winningPlayers[0].name).toBe('Player 1');
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['8D', '8C', 'KS', 'KH', 'KD'].sort());
+
+    expect(winningPlayers[1].name).toBe('Player 2');
+    expect(winningPlayers[1].hand?.sort()).toStrictEqual(['8D', '8S', 'KS', 'KH', 'KC'].sort());
+  });
+
   it('returns winner with flush', async () => {
     // Arrange
     const communityCards: CardShortCode[] = [
@@ -121,6 +187,69 @@ describe('determineHandWinner', () => {
     expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '3C', '10C', 'AC', 'KC'].sort());
   });
 
+  it('returns winner with higher flush', async () => {
+    // Arrange
+    const communityCards: CardShortCode[] = [
+      CardShortCode.SevenOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.TenOfClubs,
+      CardShortCode.EightOfDiamonds,
+      CardShortCode.KingOfHearts,
+    ];
+    players[0].holeCards = [CardShortCode.EightOfClubs, CardShortCode.NineOfClubs];
+    players[1].holeCards = [CardShortCode.AceOfClubs, CardShortCode.KingOfClubs];
+
+    // Act
+    const winningPlayers = determineHandWinner(players, communityCards);
+
+    // Assert
+    expect(winningPlayers.length).toBe(1);
+    expect(winningPlayers[0].name).toBe('Player 2');
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '3C', '10C', 'AC', 'KC'].sort());
+  });
+
+  it('returns winner with higher flush with lower flush having a higher second rank in hole cards', async () => {
+    // Arrange
+    const communityCards: CardShortCode[] = [
+      CardShortCode.SevenOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.TenOfClubs,
+      CardShortCode.EightOfDiamonds,
+      CardShortCode.TwoOfClubs,
+    ];
+    players[0].holeCards = [CardShortCode.AceOfDiamonds, CardShortCode.NineOfClubs];
+    players[1].holeCards = [CardShortCode.AceOfClubs, CardShortCode.TwoOfDiamonds];
+
+    // Act
+    const winningPlayers = determineHandWinner(players, communityCards);
+
+    // Assert
+    expect(winningPlayers.length).toBe(1);
+    expect(winningPlayers[0].name).toBe('Player 2');
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['7C', '3C', '10C', 'AC', '2C'].sort());
+  });
+
+  it('returns winner with higher flush with lower flush having same second rank in hole cards', async () => {
+    // Arrange
+    const communityCards: CardShortCode[] = [
+      CardShortCode.SevenOfClubs,
+      CardShortCode.ThreeOfClubs,
+      CardShortCode.TenOfClubs,
+      CardShortCode.EightOfDiamonds,
+      CardShortCode.JackOfClubs,
+    ];
+    players[0].holeCards = [CardShortCode.AceOfDiamonds, CardShortCode.TwoOfClubs];
+    players[1].holeCards = [CardShortCode.AceOfClubs, CardShortCode.TwoOfDiamonds];
+
+    // Act
+    const winningPlayers = determineHandWinner(players, communityCards);
+
+    // Assert
+    expect(winningPlayers.length).toBe(1);
+    expect(winningPlayers[0].name).toBe('Player 2');
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['3C', '7C', '10C', 'JC', 'AC'].sort());
+  });
+
   it('returns winner with straight)', async () => {
     // Arrange
     const communityCards: CardShortCode[] = [
@@ -132,6 +261,27 @@ describe('determineHandWinner', () => {
     ];
     players[0].holeCards = [CardShortCode.SixOfSpades, CardShortCode.EightOfHearts];
     players[1].holeCards = [CardShortCode.AceOfClubs, CardShortCode.TwoOfClubs];
+
+    // Act
+    const winningPlayers = determineHandWinner(players, communityCards);
+
+    // Assert
+    expect(winningPlayers.length).toBe(1);
+    expect(winningPlayers[0].name).toBe('Player 1');
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual(['4C', '5D', '6S', '7C', '8H'].sort());
+  });
+
+  it('returns winner with higher straight)', async () => {
+    // Arrange
+    const communityCards: CardShortCode[] = [
+      CardShortCode.SevenOfClubs,
+      CardShortCode.AceOfSpades,
+      CardShortCode.FourOfClubs,
+      CardShortCode.FiveOfDiamonds,
+      CardShortCode.KingOfHearts,
+    ];
+    players[0].holeCards = [CardShortCode.SixOfSpades, CardShortCode.EightOfHearts];
+    players[1].holeCards = [CardShortCode.ThreeOfClubs, CardShortCode.SixOfDiamonds];
 
     // Act
     const winningPlayers = determineHandWinner(players, communityCards);
