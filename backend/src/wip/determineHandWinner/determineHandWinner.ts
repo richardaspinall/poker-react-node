@@ -87,23 +87,6 @@ type HandWinnersOnComparedStrength = {
 export function determineHandWinner(players: Player[], communityCards: CardShortCode[]): Player[] {
   const winningPlayers: Player[] = [];
 
-  // Determine the winning player(s) and add their full 5 card best hand to the player object
-  // – player.hand = ['2C', '3C', '4C', '5C', '6C'];
-  //
-  // Add them to the winningPlayers array and return
-  // – winningPlayers.push(player);
-
-  /*
-   * - Combine players hole cards with community cards (7 cards)
-   * - Order the cards
-   * - Check for flush (5 of same suit)
-   * - Check for straight (5 in a row)
-   * - Count each card (2 Aces, 3 Kings..)
-   * - Check for full house
-   *
-   * After each of the checks, check off PlayerPokerHands
-   */
-
   if (!players[0].holeCards || !players[1].holeCards) {
     throw new Error('One or more of the players dont have cards to check');
   }
@@ -212,31 +195,6 @@ export function determineHandWinner(players: Player[], communityCards: CardShort
       winningPlayers.push({ name: players[1].name, handType: player2Hand, hand: p2hand });
     }
   }
-
-  // Get cards
-  //
-  // TODO: currently they are all returned in different formats so we need to either make
-  // TODO: them consistent or be able to convert them.
-  // TODO:
-  // TODO: for now to make it work, maybe we just convert them one at a time, then make it flex and right
-  // TODO: later
-  //
-  //
-  //
-  // Flush
-  // - getFlush -> getHighCards
-  //
-  // Straight
-  // - checkForStraight -> .straight
-  //
-  // Straight flush
-  //
-  // - getFlush -> checkForStraight -> .straight
-  //
-  // Fullhouse
-  //
-  // getFullHouse
-
   return winningPlayers;
 }
 
