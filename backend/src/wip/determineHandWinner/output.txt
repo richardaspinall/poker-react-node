@@ -1,0 +1,604 @@
+
+> backend@1.0.0 wip_tests
+> TEST_RUNNER=true jest --config jest.config.wip.js --runInBand --detectOpenHandles $npm_config_file
+
+  console.log
+    Test 1    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2S', 'AC', 'AS', 'JC', 'JD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:36:13
+
+  console.log
+    Test 2    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7D', '7H', '7S', 'AS', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:58:13
+
+  console.log
+    Test 3    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7D', '7D', '7H', 'KD', 'KS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:88:13
+
+  console.log
+    Test 4    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2C', '3H', '4C', '5D', 'AC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:118:13
+
+  console.log
+    Test 5    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10S', '7C', '7S', 'JH', 'KS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:148:13
+
+  console.log
+    Test 6    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8D', '8S', 'KC', 'QD', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:178:13
+
+  console.log
+    Test 7    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5C', '5D', 'AC', 'AD', 'JD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:208:13
+
+  console.log
+    Test 8    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8S', 'AD', 'JC', 'JH', 'KH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:238:13
+
+  console.log
+    Test 9    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10D', '7H', '8D', 'AC', 'AH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:268:13
+
+  console.log
+    Test 10    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7C', '7D', '9H', '9S', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:298:13
+
+  console.log
+    Test 11    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4D', '4H', 'JD', 'QC', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:328:13
+
+  console.log
+    Test 12    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '6C', '6D', 'JH', 'JS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:358:13
+
+  console.log
+    Test 13    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3D', '3H', '5D', '5D', '8H' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:388:13
+
+  console.log
+    Test 14    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4D', '5S', '8D', '8S', 'JD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:418:13
+
+  console.log
+    Test 15    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '2H', '2S', '2S', 'JC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:448:13
+
+  console.log
+    Test 16    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7D', '7H', '8C', '9H', 'QD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:478:13
+
+  console.log
+    Test 17    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '9C', 'KC', 'KD', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:508:13
+
+  console.log
+    Test 18    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5D', '5H', '5S', 'AD', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:538:13
+
+  console.log
+    Test 19    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6H', '8C', 'KC', 'KD', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:568:13
+
+  console.log
+    Test 20    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10S', '4C', '4D', '4S', '9C' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:598:13
+
+  console.log
+    Test 21    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3H', '6D', '6S', '8C', '8D' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:628:13
+
+  console.log
+    Test 22    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '5C', '5H', 'AD', 'JD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:658:13
+
+  console.log
+    Test 23    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3C', '3S', 'KC', 'KD', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:688:13
+
+  console.log
+    Test 24    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3C', '3D', '8D', '8S', 'AC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:718:13
+
+  console.log
+    Test 25    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2H', '2S', 'AS', 'QH', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:748:13
+
+  console.log
+    Test 26    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '10D', '9H', 'QD', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:778:13
+
+  console.log
+    Test 27    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10H', '4H', '5H', 'AH', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:808:13
+
+  console.log
+    Test 28    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2C', '2C', '9D', 'JS', 'KC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:838:13
+
+  console.log
+    Test 29    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10H', '10S', '9C', 'QC', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:868:13
+
+  console.log
+    Test 30    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3C', '3S', 'QC', 'QD', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:898:13
+
+  console.log
+    Test 31    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4D', '4S', 'AS', 'KH', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:928:13
+
+  console.log
+    Test 32    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5D', '5H', '5S', 'AD', 'AD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:958:13
+
+  console.log
+    Test 33    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3D', '3S', '7D', '8D', 'JH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:988:13
+
+  console.log
+    Test 34    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10S', '6S', '6S', '9S', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1018:13
+
+  console.log
+    Test 35    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8C', '8H', 'AH', 'AS', 'KD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1048:13
+
+  console.log
+    Test 36    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8C', '8C', '8H', 'JC', 'KS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1078:13
+
+  console.log
+    Test 37    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2C', '2D', '8C', 'KS', 'QD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1108:13
+
+  console.log
+    Test 38    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4S', '7S', 'KS', 'QS', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1138:13
+
+  console.log
+    Test 39    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8D', 'AC', 'AD', 'AS', 'KD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1168:13
+
+  console.log
+    Test 40    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8C', '8H', 'AD', 'QC', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1198:13
+
+  console.log
+    Test 41    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7D', '7H', '9D', 'AH', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1228:13
+
+  console.log
+    Test 42    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6C', '7D', 'JH', 'KH', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1258:13
+
+  console.log
+    Test 43    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10H', '4D', '4H', '9S', 'AH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1288:13
+
+  console.log
+    Test 44    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3H', '3S', 'KD', 'KS', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1318:13
+
+  console.log
+    Test 45    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6H', '8C', '8H', '9D', 'JD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1348:13
+
+  console.log
+    Test 46    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5H', '5S', '6C', '6S', 'KC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1378:13
+
+  console.log
+    Test 47    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5D', '5H', '9H', 'AH', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1408:13
+
+  console.log
+    Test 48    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6D', '6S', '7D', '7H', 'JH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1438:13
+
+  console.log
+    Test 49    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2H', '5H', '5S', '7D', '7H' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1468:13
+
+  console.log
+    Test 50    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7S', '9C', 'KD', 'KS', 'KS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1498:13
+
+  console.log
+    Test 51    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7D', '7S', 'AD', 'KS', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1528:13
+
+  console.log
+    Test 52    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '9C', '9H', 'JC', 'JD', 'KC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1558:13
+
+  console.log
+    Test 53    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10D', '8D', '8H', 'AH', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1588:13
+
+  console.log
+    Test 54    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4C', '7C', '9C', 'AC', 'KC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1618:13
+
+  console.log
+    Test 55    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10H', '8H', '9D', '9S', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1648:13
+
+  console.log
+    Test 56    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6C', '7H', 'AC', 'KS', 'KS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1678:13
+
+  console.log
+    Test 57    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4C', '4D', 'KH', 'QC', 'QD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1708:13
+
+  console.log
+    Test 58    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2S', '2S', 'KD', 'KD', 'KH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1738:13
+
+  console.log
+    Test 59    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2C', '2S', '3C', '3S', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1768:13
+
+  console.log
+    Test 60    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10D', '10S', '10S', '8C', 'KC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1798:13
+
+  console.log
+    Test 61    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5D', '5D', '8D', 'JC', 'JS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1828:13
+
+  console.log
+    Test 62    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '9C', '9H', 'JD', 'KD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1858:13
+
+  console.log
+    Test 63    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5C', '5D', '5S', 'KS', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1888:13
+
+  console.log
+    Test 64    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10D', '9C', 'KD', 'KS', 'QD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1918:13
+
+  console.log
+    Test 65    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4H', '4S', '9C', 'AD', 'KD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1948:13
+
+  console.log
+    Test 66    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6H', '9D', 'KD', 'KS', 'KS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:1978:13
+
+  console.log
+    Test 67    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8C', 'AC', 'AS', 'JH', 'JS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2008:13
+
+  console.log
+    Test 68    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10D', '8S', 'AH', 'AS', 'JC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2038:13
+
+  console.log
+    Test 69    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7C', '8D', '8H', 'JD', 'KD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2068:13
+
+  console.log
+    Test 70    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3C', '3C', '9S', 'AD', 'KC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2098:13
+
+  console.log
+    Test 71    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10H', '5C', '5D', '6C', '6H' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2128:13
+
+  console.log
+    Test 72    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10H', '8H', '9H', '9H', 'JH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2158:13
+
+  console.log
+    Test 73    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '10D', '6H', '6S', '6S' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2188:13
+
+  console.log
+    Test 74    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7D', '7H', 'JD', 'JS', 'KS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2218:13
+
+  console.log
+    Test 75    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ 'AC', 'AD', 'AH', 'AH', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2248:13
+
+  console.log
+    Test 76    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3C', '3D', 'JD', 'KC', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2278:13
+
+  console.log
+    Test 77    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6D', '6H', '6H', 'AS', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2308:13
+
+  console.log
+    Test 78    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ 'AS', 'JC', 'JH', 'QD', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2338:13
+
+  console.log
+    Test 79    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3H', '3S', '8D', '8S', 'AS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2368:13
+
+  console.log
+    Test 80    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10H', '7C', '7C', '7D', 'KD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2398:13
+
+  console.log
+    Test 81    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8H', 'AC', 'AC', 'QD', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2428:13
+
+  console.log
+    Test 82    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2D', '2H', '3H', '3S', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2458:13
+
+  console.log
+    Test 83    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3H', '3H', '7D', 'JD', 'KH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2488:13
+
+  console.log
+    Test 84    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '9C', '9D', '9H', 'AC', 'AH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2518:13
+
+  console.log
+    Test 85    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10C', '10S', '8C', '8D', '9S' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2548:13
+
+  console.log
+    Test 86    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4D', '4H', 'AC', 'AS', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2578:13
+
+  console.log
+    Test 87    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '7H', '7H', 'AC', 'JH', 'QS' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2608:13
+
+  console.log
+    Test 88    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '10D', 'AC', 'JS', 'KH', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2638:13
+
+  console.log
+    Test 89    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3C', '4C', '5H', '6C', '7S' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2668:13
+
+  console.log
+    Test 90    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '2D', '2H', 'JD', 'QC', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2698:13
+
+  console.log
+    Test 91    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8D', 'AD', 'JC', 'JS', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2728:13
+
+  console.log
+    Test 92    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '8D', '9C', 'KD', 'KS', 'QD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2758:13
+
+  console.log
+    Test 93    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '5D', '5S', '8D', 'AH', 'KC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2788:13
+
+  console.log
+    Test 94    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4H', '4H', '6S', 'AH', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2818:13
+
+  console.log
+    Test 95    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3D', '3D', '3S', '9H', 'QH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2848:13
+
+  console.log
+    Test 96    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '3H', '3S', '8C', 'AC', 'JH' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2878:13
+
+  console.log
+    Test 97    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6D', '8S', 'AS', 'KD', 'QD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2908:13
+
+  console.log
+    Test 98    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '6H', 'AH', 'AS', 'KH', 'QD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2938:13
+
+  console.log
+    Test 99    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4C', '4S', '7C', '7H', 'AD' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2968:13
+
+  console.log
+    Test 100    
+    expect(winningPlayers[0].hand?.sort()).toStrictEqual([ '4D', '6S', '6S', '9C', 'QC' ].sort());
+
+      at src/wip/determineHandWinner/determineHandWinnerExtendedRandomCorrected.test.ts:2998:13
+
