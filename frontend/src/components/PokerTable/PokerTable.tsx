@@ -41,27 +41,49 @@ export function PokerTable() {
   const pot = useSelector(selectPot);
   const communityCards = useSelector(selectCommunityCards);
 
-  const isMyTurn = seats.value?.find((seat) => seat.seatNumber === actingSeat)?.username === myUsername;
+  const seatsByNumber = new Map((seats.value ?? []).map((seat) => [seat.seatNumber, seat]));
+  const baseDisplayedSeats = Array.from({ length: 9 }, (_, index) => {
+    const seatNumber = index + 1;
+    return {
+      seatNumber,
+      username: seatsByNumber.get(seatNumber)?.username,
+    };
+  });
+  const mySeatNumber = baseDisplayedSeats.find((seat) => seat.username === myUsername)?.seatNumber;
+  const focalSeatNumber = mySeatNumber ?? 5;
+  const displayedSeats = baseDisplayedSeats.map((seat) => ({
+    ...seat,
+    viewSlot: (seat.seatNumber - focalSeatNumber + 9) % 9,
+  }));
+
+  const actingSeatUsername = displayedSeats.find((seat) => seat.seatNumber === actingSeat)?.username;
+  const isMyTurn = Boolean(actingSeatUsername && actingSeatUsername === myUsername);
+  const myStack = playersCurrentBets?.find((player) => player.seatNumber === mySeatNumber)?.chipCount;
 
   return (
-    <>
+    <section className="poker-table-shell">
+      <div className="poker-table-info">
+        <p className="eyebrow">Table 1</p>
+        <h2>Live Hand</h2>
+        <p className="table-status">{isMyTurn ? 'Your turn to act' : 'Waiting for the active player'}</p>
+      </div>
       <div id="poker-table">
         <Pot pot={pot} />
         <Board communityCards={communityCards} />
-        {seats.value?.map((seat) => (
+        {displayedSeats.map((seat) => (
           <Seat
             key={seat.seatNumber}
             seatNumber={seat.seatNumber}
+            viewSlot={seat.viewSlot}
             myUsername={myUsername}
             seatUsername={seat.username}
-            chipCount={1000}
             cards={holeCards.value}
             isActingSeat={seat.seatNumber === actingSeat}
             playersCurrentBets={playersCurrentBets}
           />
         ))}
       </div>
-      <Actions isMyTurn={isMyTurn} />
-    </>
+      <Actions isMyTurn={isMyTurn} currentStack={myStack} />
+    </section>
   );
 }

@@ -3,8 +3,10 @@ import './CreateAccount.scss';
 
 export function CreateAccount() {
   return (
-    <div className="create-account">
-      <h2>Create Account</h2> <CreateAccountForm />
-    </div>
+    <section className="auth-page">
+      <p className="eyebrow">New Player</p>
+      <h1>Create Account</h1>
+      <CreateAccountForm />
+    </section>
   );
 }

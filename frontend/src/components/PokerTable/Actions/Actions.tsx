@@ -1,134 +1,161 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
+import { APIMethodMap } from '../../../../../backend/src/shared/api/gen/APIMethodMap';
 import apiCall from '../../../fetch/apiCall';
 
 type ActionsProps = {
   isMyTurn: boolean;
   bigBlind?: number;
+  currentStack?: number;
 };
 
-const MAX_AMOUNT = 100000;
+const FALLBACK_MAX_AMOUNT = 10000;
+type ActionRoute = 'games.fold' | 'games.check' | 'games.call' | 'games.bet';
 
-function Actions({ isMyTurn, bigBlind = 100 }: ActionsProps) {
+function Actions({ isMyTurn, bigBlind = 100, currentStack }: ActionsProps) {
   const [betAmount, setBetAmount] = useState(bigBlind);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [statusMessage, setStatusMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const [allIn, setAllIn] = useState(false);
+  const maxAmount = useMemo(() => {
+    const stackCap = typeof currentStack === 'number' ? currentStack : FALLBACK_MAX_AMOUNT;
+    return Math.max(bigBlind, stackCap);
+  }, [bigBlind, currentStack]);
+  const allIn = betAmount >= maxAmount;
+
+  const canAct = useMemo(() => isMyTurn && !isSubmitting, [isMyTurn, isSubmitting]);
+
+  const clampBetAmount = useCallback(
+    (value: number) => {
+      if (!Number.isFinite(value)) {
+        return bigBlind;
+      }
+
+      return Math.max(bigBlind, Math.min(maxAmount, value));
+    },
+    [bigBlind, maxAmount],
+  );
+
+  const snapToNearest = useCallback((value: number, increment: number) => {
+    return Math.round(value / increment) * increment;
+  }, []);
+
+  const executeAction = useCallback(
+    async <TRoute extends ActionRoute>(route: TRoute, payload: APIMethodMap[TRoute]['request'], successMessage: string) => {
+      setErrorMessage('');
+      setStatusMessage('');
+      setIsSubmitting(true);
+
+      const result = await apiCall.post(route, payload);
+      if (!result?.ok) {
+        setErrorMessage(result?.error?.message ?? 'Action failed. Please try again.');
+        setIsSubmitting(false);
+        return false;
+      }
+
+      setStatusMessage(successMessage);
+      setIsSubmitting(false);
+      return true;
+    },
+    [],
+  );
 
   const fold = useCallback(async () => {
-    const payload = { pokerTableName: 'table_1' };
-    const result = await apiCall.post('games.fold', payload);
-    if (!result?.ok) {
-      // Do something with the error
-      console.log(result?.error);
-    }
-  }, []);
+    await executeAction('games.fold', { pokerTableName: 'table_1' }, 'Folded');
+  }, [executeAction]);
 
   const check = useCallback(async () => {
-    const payload = { pokerTableName: 'table_1' };
-    const result = await apiCall.post('games.check', payload);
-    if (!result?.ok) {
-      // Do something with the error
-      console.log(result?.error);
-    }
-  }, []);
+    await executeAction('games.check', { pokerTableName: 'table_1' }, 'Checked');
+  }, [executeAction]);
 
   const call = useCallback(async () => {
-    const payload = { pokerTableName: 'table_1' };
-    const result = await apiCall.post('games.call', payload);
-    if (!result?.ok) {
-      // Do something with the error
-      console.log(result?.error);
-    }
-  }, []);
+    await executeAction('games.call', { pokerTableName: 'table_1' }, 'Called');
+  }, [executeAction]);
 
   const bet = useCallback(async () => {
     if (betAmount < bigBlind) {
-      // Do something with the error
       setErrorMessage(`Minimum bet amount is ${bigBlind}`);
       setBetAmount(bigBlind);
       return;
-    } else if (betAmount > MAX_AMOUNT) {
-      setErrorMessage(`Maximum bet amount is ${MAX_AMOUNT}`); // TODO: this will be all their chips
-      setBetAmount(MAX_AMOUNT);
+    }
+
+    if (betAmount > maxAmount) {
+      setErrorMessage(`Maximum bet amount is ${maxAmount}`);
+      setBetAmount(maxAmount);
       return;
     }
-    setErrorMessage('');
 
-    const payload = { pokerTableName: 'table_1', amount: betAmount };
+    await executeAction('games.bet', { pokerTableName: 'table_1', amount: betAmount }, allIn ? 'All in' : 'Bet placed');
+  }, [allIn, betAmount, bigBlind, executeAction, maxAmount]);
 
-    const result = await apiCall.post('games.bet', payload);
-    if (!result?.ok) {
-      // Do something with the error
-      console.log(result?.error);
-    }
-  }, [betAmount, bigBlind]);
-
-  const snapToNearest = (value: number, increment: number) => {
-    return Math.round(value / increment) * increment;
-  };
+  useEffect(() => {
+    setBetAmount((prev) => clampBetAmount(prev));
+  }, [clampBetAmount]);
 
   const handleBetInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     const snappedValue = snapToNearest(value, bigBlind);
+    const clampedValue = clampBetAmount(snappedValue);
 
-    if (snappedValue === MAX_AMOUNT) {
-      setAllIn(true);
-    } else {
-      setAllIn(false);
-    }
-
-    setBetAmount(snappedValue);
+    setBetAmount(clampedValue);
     setErrorMessage('');
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
-    setBetAmount(value);
-
-    if (value === MAX_AMOUNT) {
-      setAllIn(true);
-    } else {
-      setAllIn(false);
-    }
+    const clampedValue = clampBetAmount(value);
+    setBetAmount(clampedValue);
     setErrorMessage('');
   };
 
   return (
     <div id="player-actions">
-      {isMyTurn && (
-        <div>
-          <div className="slidecontainer">
-            <input
-              type="range"
-              min={bigBlind}
-              max="1000"
-              value={betAmount}
-              className="slider"
-              id="myRange"
-              onChange={handleBetInputChange}
-            ></input>
-            <input id="bet-input" min={bigBlind} max="10000" value={betAmount} onChange={handleInputChange}></input>
-          </div>
-          {errorMessage && (
-            <div className="error-message" style={{ color: 'red' }}>
-              {errorMessage}
-            </div>
-          )}
-          <button className="action-buttons" id="fold-action-button" aria-label="Fold" onClick={fold}>
-            Fold
-          </button>
-          <button className="action-buttons" id="check-action-button" aria-label="Check" onClick={check}>
-            Check
-          </button>
-          <button className="action-buttons" id="call-action-button" aria-label="Call" onClick={call}>
-            Call
-          </button>
-          <button className="action-buttons" id="raise-action-button" aria-label="Bet" onClick={bet}>
-            {allIn ? 'All In' : 'Bet'}
-          </button>
-        </div>
-      )}
+      <div className="action-status">{canAct ? 'Your turn' : 'Waiting for your turn'}</div>
+      <div className="slidecontainer">
+        <input
+          type="range"
+          min={bigBlind}
+          max={maxAmount}
+          step={bigBlind}
+          value={betAmount}
+          className="slider"
+          id="myRange"
+          onChange={handleBetInputChange}
+          disabled={!canAct}
+        />
+        <input
+          id="bet-input"
+          type="number"
+          min={bigBlind}
+          max={maxAmount}
+          step={bigBlind}
+          value={betAmount}
+          onChange={handleInputChange}
+          disabled={!canAct}
+        />
+      </div>
+
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      {statusMessage && !errorMessage && <div className="action-message">{statusMessage}</div>}
+
+      <div className="action-buttons-row">
+        <button className="action-buttons" id="fold-action-button" aria-label="Fold" onClick={fold} disabled={!canAct}>
+          Fold
+        </button>
+        <button className="action-buttons" id="check-action-button" aria-label="Check" onClick={check} disabled={!canAct}>
+          Check
+        </button>
+        <button className="action-buttons" id="call-action-button" aria-label="Call" onClick={call} disabled={!canAct}>
+          Call
+        </button>
+        <button className="action-buttons" id="raise-action-button" aria-label="Bet" onClick={bet} disabled={!canAct}>
+          {isSubmitting ? 'Sending...' : allIn ? 'All In' : 'Bet'}
+        </button>
+      </div>
+      <div className="bet-limits">
+        <span>Min {bigBlind}</span>
+        <span>Max {maxAmount}</span>
+      </div>
     </div>
   );
 }

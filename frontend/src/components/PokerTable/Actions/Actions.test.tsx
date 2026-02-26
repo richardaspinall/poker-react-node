@@ -12,7 +12,7 @@ describe('Actions Component', () => {
 
     it('renders Check button', () => {
       render(<Actions isMyTurn={true} />);
-      const checkButton = screen.getByRole('button', { name: 'Fold' });
+      const checkButton = screen.getByRole('button', { name: 'Check' });
       expect(checkButton).toBeVisible();
     });
 
@@ -29,28 +29,28 @@ describe('Actions Component', () => {
     });
   });
   describe('when not players turn', () => {
-    it('does not render Fold button', () => {
+    it('disables Fold button', () => {
       render(<Actions isMyTurn={false} />);
-      const foldButton = screen.queryByRole('button', { name: 'Fold' });
-      expect(foldButton).not.toBeInTheDocument();
+      const foldButton = screen.getByRole('button', { name: 'Fold' });
+      expect(foldButton).toBeDisabled();
     });
 
-    it('does not render Check button', () => {
+    it('disables Check button', () => {
       render(<Actions isMyTurn={false} />);
-      const checkButton = screen.queryByRole('button', { name: 'Check' });
-      expect(checkButton).not.toBeInTheDocument();
+      const checkButton = screen.getByRole('button', { name: 'Check' });
+      expect(checkButton).toBeDisabled();
     });
 
-    it('does not render Call button', () => {
+    it('disables Call button', () => {
       render(<Actions isMyTurn={false} />);
-      const callButton = screen.queryByRole('button', { name: 'Call' });
-      expect(callButton).not.toBeInTheDocument();
+      const callButton = screen.getByRole('button', { name: 'Call' });
+      expect(callButton).toBeDisabled();
     });
 
-    it('does not render Bet button', () => {
+    it('disables Bet button', () => {
       render(<Actions isMyTurn={false} />);
-      const betButton = screen.queryByRole('button', { name: 'Bet' });
-      expect(betButton).not.toBeInTheDocument();
+      const betButton = screen.getByRole('button', { name: 'Bet' });
+      expect(betButton).toBeDisabled();
     });
   });
 });

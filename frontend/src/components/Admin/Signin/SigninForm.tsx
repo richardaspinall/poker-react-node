@@ -13,7 +13,6 @@ interface FormData {
 
 export function SigninForm() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -64,7 +63,7 @@ export function SigninForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="auth-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="username">Username</label>
         <input
@@ -90,7 +89,7 @@ export function SigninForm() {
           className={!isValid('password') && touched.password ? 'invalid' : ''}
         />
       </div>
-      <button type="submit" disabled={isLoading}>
+      <button type="submit">
         Sign in
       </button>
     </form>

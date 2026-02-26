@@ -9,7 +9,7 @@ import CountdownIndicator from '../../CountdownIndicator/CountdownIndicator.tsx'
 
 type SeatProps = {
   seatNumber: number;
-  chipCount: number;
+  viewSlot: number;
   myUsername?: string;
   seatUsername?: string;
   cards?: CardType[];
@@ -19,12 +19,17 @@ type SeatProps = {
 
 export default function Seat({
   seatNumber,
+  viewSlot,
   myUsername,
   seatUsername,
   cards,
   isActingSeat,
   playersCurrentBets,
 }: Readonly<SeatProps>) {
+  const isOccupied = Boolean(seatUsername);
+  const isMySeat = Boolean(myUsername && seatUsername && myUsername === seatUsername);
+  const canJoin = !isOccupied;
+
   const onPlayerSit = useCallback(async () => {
     const payload = { selectedSeatNumber: seatNumber };
 
@@ -52,42 +57,58 @@ export default function Seat({
     return playersCurrentBets?.find((player) => player.seatNumber === seatNumber)?.chipCount;
   }, [seatNumber, playersCurrentBets]);
 
-  // Define a function to render the cards if the user is in the hand
-  // TODO: will need to update this to show the cards if the user is actually in the hand
-  const renderSeatDisplay = () => {
-    if (myUsername === seatUsername && cards?.[0]) {
+  const renderCards = () => {
+    if (!seatUsername || !cards?.[0]) {
+      return null;
+    }
+
+    if (isMySeat) {
       return (
-        <>
+        <div className="hole-cards">
           <Card cardShortCode={cards[0].cardShortCode} />
           <Card cardShortCode={cards[1].cardShortCode} />
-        </>
+        </div>
       );
-    } else if (seatUsername && cards?.[0]) {
-      return (
-        <>
-          <Card cardShortCode={CardShortCode.FaceDownCard} />
-          <Card cardShortCode={CardShortCode.FaceDownCard} />
-        </>
-      );
-    } else if (seatUsername) {
-      return seatUsername;
     }
-    return 'Empty';
+
+    return (
+      <div className="hole-cards">
+        <Card cardShortCode={CardShortCode.FaceDownCard} />
+        <Card cardShortCode={CardShortCode.FaceDownCard} />
+      </div>
+    );
   };
 
+  const handleSeatClick = isMySeat ? playerLeave : canJoin ? onPlayerSit : undefined;
+
   return (
-    <div>
-      <button className={'seat'} id={`seat-${seatNumber}`} data-chip-count={chipCount} onClick={onPlayerSit}>
-        {renderSeatDisplay()}
+    <div className={`seat-container view-slot-${viewSlot}`} id={`seat-${seatNumber}`}>
+      <button
+        className={`seat ${isActingSeat ? 'acting-seat' : ''} ${isMySeat ? 'my-seat' : ''}`}
+        onClick={handleSeatClick}
+        disabled={!canJoin && !isMySeat}
+        aria-label={isMySeat ? `Leave seat ${seatNumber}` : `Join seat ${seatNumber}`}
+      >
+        <div className="seat-cards-pop">{renderCards()}</div>
+        <span className="seat-cta">{isMySeat ? 'Leave seat' : canJoin ? 'Sit here' : 'Occupied'}</span>
+      </button>
+      <div className="seat-meta">
+        <div className="seat-meta-line seat-meta-name">
+          Seat {seatNumber} • {seatUsername ?? 'Open seat'}
+        </div>
+        <div className="seat-meta-line">
+          {typeof chipCount === 'number' ? `Stack ${chipCount}` : 'Stack -'}
+          {typeof betAmount === 'number' && betAmount > 0 ? ` • Bet ${betAmount}` : ''}
+        </div>
         {isActingSeat && (
           <div className="countdown-indicator">
             <CountdownIndicator initialCount={10} duration={10000} />
           </div>
         )}
-        {betAmount && <ChipDisplay totalValue={betAmount} />}
-      </button>
-
-      {myUsername === seatUsername ? <button onClick={playerLeave}>Leave seat</button> : null}
+      </div>
+      {typeof betAmount === 'number' && betAmount > 0 && (
+        <ChipDisplay totalValue={betAmount} className="seat-bet-chip-display" />
+      )}
     </div>
   );
 }

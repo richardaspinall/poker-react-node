@@ -1,5 +1,6 @@
 import { apiTestNoCookie } from '@tests/helpers/apiTest';
 import { shutDownServer } from '@tests/helpers/shutDownServer';
+import { mockMySqlInsertDuplicateError, mockMySqlInsertSuccess, mockMySqlSelectSuccess } from '@tests/mocks/dbMocks';
 
 describe('users.create', () => {
   it('should error when payload is invalid', async () => {
@@ -13,6 +14,21 @@ describe('users.create', () => {
   });
 
   it('should create a user', async () => {
+    mockMySqlInsertSuccess();
+    mockMySqlSelectSuccess();
+
+    const res = await apiTestNoCookie('/api/users.create', {
+      username: 'test',
+      password: 'abc123',
+    });
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.ok).toEqual(true);
+  });
+
+  it('should error when username is already taken', async () => {
+    mockMySqlInsertDuplicateError('users');
+
     const res = await apiTestNoCookie('/api/users.create', {
       username: 'test',
       password: 'abc123',
@@ -20,7 +36,7 @@ describe('users.create', () => {
 
     expect(res.statusCode).toEqual(200);
     expect(res.body.ok).toEqual(false);
-    expect(res.body.error.code).toEqual('METHOD_NOT_IMPLEMENTED');
+    expect(res.body.error.code).toEqual('USERNAME_TAKEN');
   });
 
   afterEach(() => {

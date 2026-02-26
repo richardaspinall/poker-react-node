@@ -1,7 +1,7 @@
 import { ResultError, ResultSuccess } from '@infra/Result';
-import { MethodNotImplementedError } from '@shared/api/BaseOutput';
-import { UsersCreatePayload } from '@shared/api/gen/users/types/UsersCreate';
+import { UsersCreateOutput, UsersCreatePayload } from '@shared/api/gen/users/types/UsersCreate';
 
+import { UserRepository } from '../../../users/UserRepository';
 import { UsernameTakenError } from '../errors/gen/UsernameTakenError';
 import { UsersCreateError } from '../errors/gen/UsersCreateError';
 import { AbstractUsersCreateHandler } from './gen/AbstractUsersCreateHandler';
@@ -14,7 +14,17 @@ class UsersCreateHandler extends AbstractUsersCreateHandler {
     const username = payload.username;
     const password = payload.password;
 
-    return new ResultError(new MethodNotImplementedError());
+    const createUserOrError = await UserRepository.createUser({ username, password });
+    if (createUserOrError.isError()) {
+      const error = createUserOrError.getError();
+      if (error.code === 'DUPLICATE_ENTRY') {
+        return new ResultError(new UsernameTakenError());
+      }
+
+      return new ResultError(new UsersCreateError());
+    }
+
+    return new ResultSuccess<UsersCreateOutput>({ ok: true });
   }
 }
 

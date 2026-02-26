@@ -12,7 +12,6 @@ interface FormData {
 
 export function CreateAccountForm() {
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -53,7 +52,7 @@ export function CreateAccountForm() {
     if (result.ok) {
       console.log(result.payload);
       console.log('success');
-      navigate('/login');
+      navigate('/signin');
     } else {
       console.log('error');
       console.log(result.error);
@@ -61,7 +60,7 @@ export function CreateAccountForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="auth-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="username">Username</label>
         <input
@@ -87,7 +86,7 @@ export function CreateAccountForm() {
           className={!isValid('password') && touched.password ? 'invalid' : ''}
         />
       </div>
-      <button type="submit" disabled={isLoading}>
+      <button type="submit">
         Create Account
       </button>
     </form>

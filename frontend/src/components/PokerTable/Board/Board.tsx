@@ -6,23 +6,18 @@ type BoardProps = {
 };
 
 function Board({ communityCards }: BoardProps) {
+  const boardSlots = Array.from({ length: 5 }, (_, index) => {
+    const boardCard = communityCards?.[index];
+    return (
+      <div className="board-slot" key={`board-slot-${index}`}>
+        {boardCard ? <Card cardShortCode={boardCard.cardShortCode} /> : null}
+      </div>
+    );
+  });
+
   return (
     <div id="board-area">
-      <div id="flop-area">
-        {communityCards && communityCards[0] && <Card cardShortCode={communityCards[0].cardShortCode} />}
-        {communityCards && communityCards[1] && <Card cardShortCode={communityCards[1].cardShortCode} />}
-        {communityCards && communityCards[2] && <Card cardShortCode={communityCards[2].cardShortCode} />}
-      </div>
-
-      <div className="vl"></div>
-      <div id="turn-area">
-        {communityCards && communityCards[3] && <Card cardShortCode={communityCards[3].cardShortCode} />}
-      </div>
-
-      <div className="vl"></div>
-      <div id="river-area">
-        {communityCards && communityCards[4] && <Card cardShortCode={communityCards[4].cardShortCode} />}
-      </div>
+      <div className="board-cards">{boardSlots}</div>
     </div>
   );
 }

@@ -3,8 +3,10 @@ import './CreateAccount.scss';
 
 export function Signin() {
   return (
-    <div className="create-account">
-      <h2>Sign in</h2> <SigninForm />
-    </div>
+    <section className="auth-page">
+      <p className="eyebrow">Welcome Back</p>
+      <h1>Sign in</h1>
+      <SigninForm />
+    </section>
   );
 }

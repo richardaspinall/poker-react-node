@@ -1,0 +1,235 @@
+:root {
+  --bg: #f7f3ea;
+  --bg-deep: #ece4d4;
+  --surface: #fffefb;
+  --ink: #1c1f24;
+  --ink-soft: #4f5b66;
+  --line: #d9cfbc;
+  --accent: #c24f2f;
+  --accent-deep: #8e3118;
+  --mint: #3e6b5a;
+  --shadow: 0 14px 40px rgba(77, 52, 28, 0.12);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: 'Avenir Next', 'Trebuchet MS', 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(194, 79, 47, 0.14), transparent 36%),
+    radial-gradient(circle at 88% 24%, rgba(62, 107, 90, 0.14), transparent 28%),
+    linear-gradient(160deg, var(--bg), var(--bg-deep));
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
+
+.site-header {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 22px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand {
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  text-decoration: none;
+  padding: 10px 13px;
+  border-radius: 999px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  transition: 180ms ease;
+}
+
+.site-nav a:hover {
+  color: var(--ink);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.site-nav .cta-link {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+}
+
+.site-nav .cta-link:hover {
+  color: #fff;
+  background: linear-gradient(135deg, #cc5938, #962f15);
+}
+
+.page-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px 22px 40px;
+}
+
+.connection-badge {
+  margin: 0 auto;
+  max-width: 1100px;
+  padding: 8px 22px 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.connection-badge.is-online {
+  color: var(--mint);
+}
+
+.connection-badge.is-offline {
+  color: #9c2a2a;
+}
+
+.connection-actions {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 8px 22px 4px;
+  display: flex;
+  gap: 8px;
+}
+
+.connection-actions button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 11px;
+  background-color: var(--surface);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.connection-actions button:hover {
+  background-color: #f3ecde;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--mint);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  font-size: 0.75rem;
+}
+
+.home-page {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  padding: clamp(22px, 5vw, 44px);
+}
+
+.home-page h1 {
+  margin: 10px 0 14px;
+  line-height: 1.12;
+  font-size: clamp(1.9rem, 5.8vw, 3.3rem);
+  max-width: 16ch;
+}
+
+.home-page .intro {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  line-height: 1.52;
+}
+
+.home-actions {
+  margin-top: 24px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.button-primary,
+.button-secondary {
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 11px 16px;
+  font-weight: 700;
+}
+
+.button-primary {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+}
+
+.button-secondary {
+  color: var(--ink);
+  border: 1px solid var(--line);
+  background-color: #fff;
+}
+
+.feature-grid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.feature-grid article {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background-color: #fff;
+  padding: 14px;
+}
+
+.feature-grid h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.feature-grid p {
+  margin: 8px 0 0;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  font-size: 0.92rem;
+}
+
+.play-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.play-header h1 {
+  margin: 6px 0 0;
+}
+
+@media (max-width: 900px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .site-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
